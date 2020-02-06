@@ -13,10 +13,9 @@ dataManager::~dataManager()
 std::vector<std::vector<char>>* dataManager::nextRoom()
 {
 	std::string directory;
-	std::ifstream newRoom;
 	std::string line;
+	std::ifstream newRoom;
 
-	int counter = 0;
 	int row = 0;
 
 	//switch (roomType)
@@ -45,24 +44,24 @@ std::vector<std::vector<char>>* dataManager::nextRoom()
 	std::vector<std::vector<char>>* temp;
 	temp = new std::vector<std::vector<char>>;
 
-//  directory = ROOM_DEFAULT;
+  directory = ROOM_DEFAULT;
+  newRoom.open(directory);
 
-  directory = "docs/DATA/rooms/default.txt";
-
-	newRoom.open(directory);
 
 	if (newRoom.is_open())
 	{
 		while (getline(newRoom, line))
 		{
-			temp->push_back(std::vector<char>());
-			for (unsigned int i = 0; i < line.length(); i++)
+			(*temp).push_back(std::vector<char>());
+			for (auto it : line)
 			{
-				temp[row][i].push_back(line[i]);
+				(*temp)[row].push_back(it);
 			}
 			row++;
 		}
 		newRoom.close();
 	}
+
+
 	return temp;
 }

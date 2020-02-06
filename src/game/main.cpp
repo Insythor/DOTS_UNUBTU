@@ -13,9 +13,12 @@ int main()
 	screen myScreen;
   dataManager data;
 
+//  std::cout << (*data.nextRoom()).size() << std::endl;
+
 	myScreen.addToScreen(data.nextRoom(), 0, 0);
 
 	myScreen.print();
+
 
 	return 0;
 }

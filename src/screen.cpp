@@ -47,13 +47,13 @@ void screen::print()
 	}
 }
 
-void screen::addToScreen(const std::vector<std::vector<char>>* toAdd, int startX, int startY)
+void screen::addToScreen(std::vector<std::vector<char>>* toAdd, int startX, int startY)
 {
-//	std::cout << (*toAdd).size() << "  " << toAdd[0].size() << "\n";
+	//std::cout << (*toAdd).size() << "  " << toAdd[0].size() << "\n";
 
 	for (unsigned int row = 0; row < (*toAdd).size(); row++)
 	{
-		for (unsigned int col = 0; col < toAdd[0].size(); col++)
+		for (unsigned int col = 0; col < (*toAdd)[0].size(); col++)
 		{
 			toRender[row + startY][col + startX] = (*toAdd)[row][col];
 		}
