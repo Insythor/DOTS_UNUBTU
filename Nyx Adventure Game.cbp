@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Nyx Adventure Game" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Nyx Adventure Game" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Nyx Adventure Game" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add option="-fexceptions" />
+			<Add directory="include" />
+		</Compiler>
+		<Unit filename="include/Dice.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/baseCharacter.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/dataManager.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/levelManager.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/room.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/screen.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/shapeMaker.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="include/weapon.h">
+			<Option compile="1" />
+		</Unit>
+		<Unit filename="src/Dice.cpp" />
+		<Unit filename="src/baseCharacter.cpp" />
+		<Unit filename="src/dataManager.cpp" />
+		<Unit filename="src/game/main.cpp">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/levelManager.cpp" />
+		<Unit filename="src/room.cpp" />
+		<Unit filename="src/screen.cpp" />
+		<Unit filename="src/shapeMaker.cpp" />
+		<Unit filename="src/weapon.cpp" />
+		<Unit filename="test/main.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

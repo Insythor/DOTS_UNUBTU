@@ -1,0 +1,8 @@
+*.layout
+*.depend
+*.bak
+*.gch
+
+bin/
+obj/
+
