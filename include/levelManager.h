@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LEVELMANAGER_H
+#define LEVELMANAGER_H
+
 
 
 #include <vector>
@@ -20,4 +22,4 @@ private:
 
 
 };
-
+#endif // LEVELMANAGER_H

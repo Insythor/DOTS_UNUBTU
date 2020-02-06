@@ -2,9 +2,7 @@
 #include "screen.h"
 #include "shapeMaker.h"
 #include "dataManager.h"
-
-#include <iostream>
-#include <vector>
+#include "dice.h"
 
 
 
@@ -13,12 +11,13 @@ int main()
 	screen myScreen;
   dataManager data;
 
-//  std::cout << (*data.nextRoom()).size() << std::endl;
-
 	myScreen.addToScreen(data.nextRoom(), 0, 0);
 
 	myScreen.print();
 
+	dice myDice;
+
+  std::cout << myDice.roll();
 
 	return 0;
 }

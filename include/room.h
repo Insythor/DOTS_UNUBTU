@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ROOM_H
+#define ROOM_H
+
 
 #include <vector>
 
@@ -15,3 +17,4 @@ private:
 
 };
 
+#endif // ROOM_H

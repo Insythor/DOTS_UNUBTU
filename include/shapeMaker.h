@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SHAPEMAKER_H
+#define SHAPEMAKER_H
+
 
 #include <string>
 #include <vector>
@@ -17,7 +19,7 @@ public:
 	~shapeMaker();
 
 	// Select a shape to be drawn on the screen, and how big it is
-	// Centre of the shape == ((height / 2) + 1))  
+	// Centre of the shape == ((height / 2) + 1))
 
 	const std::vector<std::vector<char>>* makeShape(char makeShape, int w, int h);
 
@@ -42,3 +44,5 @@ private:
 
 	std::vector<std::vector<char>>* shapeInfo;
 };
+
+#endif // SHAPEMAKER_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SCREEN_H
+#define SCREEN_H
+
 
 #include <iostream>
 #include <iomanip>
@@ -21,6 +23,11 @@ public:
 	~screen();
 
 	void print();
+	/**
+    @brief  Add a vector<vector<char>> to the screen, starting at an X-Y location
+            This function draws the shape from top-left -> bottom-right
+
+   */
 	void addToScreen(std::vector<std::vector<char>>* toAdd, int startX, int startZ);
 
 
@@ -37,4 +44,4 @@ private:
 	char brush;
 	char fill;
 };
-
+#endif // SCREEN_H

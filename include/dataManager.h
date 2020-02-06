@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DATAMANAGER_H
+#define DATAMANAGER_H
 
 #include "room.h"
 
@@ -28,3 +29,4 @@ private:
 
 };
 
+#endif // DATAMANAGER_H
