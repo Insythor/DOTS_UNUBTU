@@ -1,0 +1,49 @@
+stages:
+   - compile
+   - test
+   - quality
+   - docs
+
+compile:
+   stage: compile
+   script:
+      - make tests
+   artifacts:
+      paths:
+         - testGoFish
+   only:
+      - master
+
+test:
+   dependencies:
+      - compile
+   stage: test
+   script:
+      - testGoFish
+   only:
+      - master
+
+staticAnalysis:
+   stage: quality
+   script:
+      - make static
+   only:
+      - master
+      
+styleChecking:
+   stage: quality
+   script:
+      - make style
+   only:
+      - master
+     
+documentation:
+   stage: docs
+   script:
+      - make docs
+   artifacts:
+      paths:
+         - docs
+      expire_in: 14 days
+   only:
+      - master
