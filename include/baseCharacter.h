@@ -18,8 +18,27 @@ public:
   int takeDamage(int damage);
   int dealDamage();
 
+  std::string getName();
+  std::string getRace();
 
-private:
+  int getCurrentHealth();
+  int getMaxHealth();
+
+  int getLevel();
+
+  int getStrength();
+  int getDexterity();
+  int getIntellect();
+  int getSpeed();
+  int getDamagePower();
+  int getAbilityPower();
+
+  int getGold();
+
+  std::vector<item> getInventory();
+  std::vector<ability> getActiveAbilities();
+
+protected:
   std::string name;
   std::string race;
 
@@ -34,7 +53,6 @@ private:
   int speed;
   int damagePower;
   int abilityPower;
-
 
   int gold;
   std::vector<item> inventory;

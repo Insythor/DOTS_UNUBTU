@@ -9,3 +9,7 @@ comsumable::~comsumable()
 {
   //dtor
 }
+void comsumable::use(player& p)
+{
+
+}
