@@ -8,9 +8,10 @@ class random
     random();
     virtual ~random();
 
-  protected:
 
   private:
+    unsigned int* seed;
+
 };
 
 #endif // RANDOM_H

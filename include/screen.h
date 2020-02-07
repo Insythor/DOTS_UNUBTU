@@ -24,7 +24,7 @@ public:
 
 	void print();
 	/**
-    @brief  Add a vector<vector<char>> to the screen, starting at an X-Y location
+  @brief  Add a vector<vector<char>> to the screen, starting at an X-Y location
             This function draws the shape from top-left -> bottom-right
 
    */
@@ -37,7 +37,6 @@ private:
 	std::vector<std::vector<char>> blankScreen;
 
 	int width;
-
 	int height;
 	int spacing;
 

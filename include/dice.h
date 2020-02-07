@@ -1,6 +1,7 @@
 #ifndef DICE_H
 #define DICE_H
 
+#include "random.h"
 
 #include <cstdlib>
 #include <time.h>
@@ -21,7 +22,7 @@ public:
 private:
 	int sides;
 
-	unsigned int* seed;
+
 };
 
 #endif // DICE_H
