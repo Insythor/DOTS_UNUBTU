@@ -1,6 +1,6 @@
-PROJECT_DIR = GoFish
-PROGRAM_TEST = testGoFish
-PROGRAM_GAME = playGoFish
+PROJECT_DIR = Nyx
+PROGRAM_TEST = testDiscipleOfTheSpire
+PROGRAM_GAME = playDiscipleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage

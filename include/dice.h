@@ -1,7 +1,7 @@
 #ifndef DICE_H
 #define DICE_H
 
-#include "random.h"
+
 
 #include <cstdlib>
 #include <time.h>
