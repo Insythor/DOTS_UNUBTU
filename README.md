@@ -19,12 +19,12 @@ Victor Besson
 
 *```docs/code``` -  
 
-   *```DATA/``` -
+    *```DATA/``` -
 
-   *```design/``` -
+    *```design/``` -
 
-   *```team/``` -
+    *```team/``` -
 
-   *```testing/``` -
+    *```testing/``` -
 
 # Files
