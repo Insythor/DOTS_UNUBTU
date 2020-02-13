@@ -1,10 +1,10 @@
-#Project Overview
+# Project Overview
 Disciple Of The Spire
 (DOTS)
 
-Don Castillo
-Tyler Justinen-Teite
-Victor Besson
+* Don Castillo
+* Tyler Justinen-Teite
+* Victor Besson
 
 
 
