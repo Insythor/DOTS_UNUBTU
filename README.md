@@ -1,5 +1,6 @@
 # Project Overview
-Disciple Of The Spire
+
+### Disciple Of The Spire
 (DOTS)
 
 * Don Castillo
@@ -7,36 +8,36 @@ Disciple Of The Spire
 * Victor Besson
 
 
-
 # Folders
 
-*```include/``` - Contains all required header files.
+* ```include/``` - Contains all required header files.
 
-*```src/``` - Contains all .cpp files needed to play DOTS.
+* ```src/``` - Contains all .cpp files needed to play DOTS.
 
-*```src/game``` - Main.cpp for playing DOTS can be found here.
+* ```src/game``` - Main.cpp for playing DOTS can be found here.
 
-*```test/``` - Unit testing files can be found here.   
+* ```test/``` - Unit testing files can be found here.   
 
-*```docs/``` - Parent directory of all documentation for DOTS.
+* ```docs/``` - Parent directory of all documentation for DOTS.
 
-*```docs/code``` -  Doxygen.
+* ```docs/code``` -  Doxygen.
 
-*```docs/DATA/``` - Data files required to run DOTS, including room txt files, save games, and csv's.
+* ```docs/DATA/``` - Data files required to run DOTS, including room txt files, save games, and csv's.
 
-*```docs/design/``` - UML diagrams.
+* ```docs/design/``` - UML diagrams.
 
-*```docs/team/``` - Documentation needed for the team, such as milestone requirements.
+* ```docs/team/``` - Documentation needed for the team, such as milestone requirements.
 
-*```docs/testing/``` - 
+* ```docs/testing/``` - 
 
 # Files
-*```.gitignore``` - gitignore file to stop temp/undeeded files from being pushed to the repository.
 
-*```Makefile``` - Configuration file for compiling, creating documentation, static, memory, style checks.
+* ```.gitignore``` - gitignore file to stop temp/undeeded files from being pushed to the repository.
 
-*```CPPLINT.cfg``` - Configuration file for CPP lint.
+* ```Makefile``` - Configuration file for compiling, creating documentation, static, memory, style checks.
 
-*```.gitlab-ci.yml``` - Continous integration file for GitLab.
+* ```CPPLINT.cfg``` - Configuration file for CPP lint.
 
-*```README.md``` - This file.
+* ```.gitlab-ci.yml``` - Continous integration file for GitLab.
+
+* ```README.md``` - This file.
