@@ -51,5 +51,17 @@ void screen::addToScreen(std::vector<std::vector<char>>* toAdd,
 			toRender[row + startY][col + startX] = (*toAdd)[row][col];
 		}
 	}
-	delete toAdd;
+//	delete toAdd;
+}
+
+void screen::addToScreen(std::vector<std::vector<char>>* toAdd)
+{
+	for (unsigned int row = 0; row < (*toAdd).size(); row++)
+	{
+		for (unsigned int col = 0; col < (*toAdd)[0].size(); col++)
+		{
+			toRender[row][col] = (*toAdd)[row][col];
+		}
+	}
+//	delete toAdd;
 }
