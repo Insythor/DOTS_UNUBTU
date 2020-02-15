@@ -17,56 +17,57 @@ roomManager::~roomManager()
 void roomManager::readInRooms()
 {
   std::ifstream toRead;
-
-
-
   // for each [t]ype of room
-    for(int t = 0; t < 5; t++)
+    for(int t = 0; t < 4; t++)
     {
     // for each [i]ndex of that [t]ype
     for(int i = 0; i < 3; i ++)
     {
       std::string room = roomDir;
-      char ct = t;
-      char ci = i;
-      room.append(ct).append(forrmatRoomType(t)).append(ci);
+
+      room.append(formatRoomType(t, i));
       toRead.open(room);
 
-      std::cout << room << std::endl;
-
-      while(!toRead.eof())
+      std::string line;
+      while(getline(toRead, line))
       {
-        std::string line;
-        toRead >> line;
-        for(int y = 0; y < DEFAULT_HEIGHT; y++)
         {
-            allRooms[t][i].push_back(std::vector<char>());
+          allRooms[t][i].push_back(std::vector<char>());
 
-            for (int x = 0; x < DEFAULT_WIDTH; x++)
-            {
-              allRooms[t][i][y].push_back(line[x]);
-            }
+          for (int x = 0; x < DEFAULT_WIDTH; x++)
+          {
+            allRooms[t][i][allRooms[t][i].size()-1].push_back(line[x]);
           }
         }
-        toRead.close();
       }
+
+      toRead.close();
     }
   }
+}
 
 
-std::string roomManager::formatRoomType(int type)
+std::string roomManager::formatRoomType(int type, int index)
 {
   std::string temp;
+  char ct = '0' + type;
+  char ci = '1' + index;
+
+  temp += ct;
+
   if(type == 0)
-    temp = "boss";
+    temp += "boss";
   else if(type == 1)
-    temp = "chest";
+    temp += "chest";
   else if(type == 2)
-    temp = "monster";
+    temp += "monster";
   else if(type == 3)
-    temp = "shop";
+    temp += "shop";
   else if(type == 4)
-    temp = "default";
+    temp += "default";
+
+    temp += ci;
+    temp += DEFAULT_FILE;
 
     return temp;
 }
@@ -85,10 +86,5 @@ void roomManager::allocateMemory()
   for(int y = 0; y < 5; y++)
   {
     allRooms[y] = new std::vector<std::vector<char>> [3];
-
-  //  for(int x = 0; x < 3; x++)
-    {
-//      allRooms[y][x] = new std::vector<std::vector<char>>;
-    }
   }
 }

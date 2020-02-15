@@ -3,10 +3,11 @@
 
 #define roomDir "docs/DATA/rooms/"
 #define DEFAULT_WIDTH 79
-#define DEFAULT_HEIGHT 21
+#define DEFAULT_HEIGHT 15
+#define DEFAULT_FILE ".txt"
 
 #include <fstream>
-
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -37,7 +38,7 @@ private:
   */
   std::vector<std::vector<char>>** allRooms;
 
-  std::string formatRoomType(int type);
+  std::string formatRoomType(int type, int index);
 
   void allocateMemory();
 

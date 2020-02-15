@@ -23,18 +23,14 @@ int main()
 
     if(checkRoomIndex(type, index))
     {
-    myScreen.addToScreen(myRoom.renderRoom(type, index));
-    myScreen.print();
+      myScreen.addToScreen(myRoom.renderRoom(type, index));
+      myScreen.print();
 
-    std::cout <<
-      "\n" << formatRoomType(type) << " room: " << index
-    << std::endl;
+      std::cout <<
+        "\n" << formatRoomType(type) << " room: " << index
+      << std::endl;
     }
-
-
-
   }
-
 	return 0;
 }
 
@@ -57,7 +53,7 @@ std::string formatRoomType(int type)
 
 bool checkRoomIndex(int type, int index)
 {
-  if(type < 5 && type >= 0)
+  if(type < 4 && type >= 0)
     return true;
   else
     std::cout << "invalid room type\n";
