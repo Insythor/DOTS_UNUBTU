@@ -29,7 +29,7 @@ public:
 
    */
 	void addToScreen(std::vector<std::vector<char>>* toAdd, int startX, int startZ);
-
+	void addToScreen(std::vector<std::vector<char>>* toAdd);
 
 private:
 
