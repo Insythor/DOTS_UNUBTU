@@ -16,6 +16,7 @@ class item
     int getSellValue();
 
   private:
+  protected:
     std::string name;
     std::string description;
 

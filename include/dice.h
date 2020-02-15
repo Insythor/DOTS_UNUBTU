@@ -1,11 +1,8 @@
 #ifndef DICE_H
 #define DICE_H
 
-
-
-#include <cstdlib>
+#include <random>
 #include <time.h>
-
 
 class dice
 {
@@ -15,9 +12,17 @@ public:
 	dice(int nSides);
 
 	~dice();
-
+  /**
+    @brief Roll the dice a single time
+    @param[out] int roll = rand(1, sides)
+  */
 	int roll();
-
+	/**
+    @brief Roll the dice n time(s).
+    @param[in] int how many times the die is being rolled.
+    @param[out] int roll = rand(1, sides).
+  */
+  int roll(int nRolls);
 
 private:
 	int sides;

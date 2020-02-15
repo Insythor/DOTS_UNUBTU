@@ -1,11 +1,22 @@
-#include "gameManager.h"
+/**
+  DEBUGGING MAIN CURRENTLY IN USE BY TYLER FOR TESTING THINGS
 
+
+*/
+
+#include "gameManager.h"
 #include "screen.h"
 #include "roomManager.h"
+#include "dice.h"
+#include "weapon.h"
+
+// For sleep
+#include <unistd.h>
 
 #include <iostream>
 #include <string>
 
+// Prototypes for temp functions
 std::string formatRoomType(int type);
 bool checkRoomIndex(int type, int index);
 
@@ -13,24 +24,61 @@ int main()
 {
   screen myScreen;
   roomManager myRoom;
+  dice myDice;
+  weapon myWeapon;
 
   bool play = true;
   int type, index = 0;
+  char command;
 
   while(play)
   {
-    std::cin >> type >> index;
+    std::cin >> command;
 
-    if(checkRoomIndex(type, index))
+    switch (command)
     {
-      myScreen.addToScreen(myRoom.renderRoom(type, index));
-      myScreen.print();
+    case 'r':
+      std::cin >> type >> index;
 
-      std::cout <<
-        "\n" << formatRoomType(type) << " room: " << index
-      << std::endl;
+      if(checkRoomIndex(type, index))
+      {
+        myScreen.addToScreen(myRoom.renderRoom(type, index));
+        myScreen.print();
+
+        std::cout <<
+          "\n" << formatRoomType(type) << " room: " << index
+        << std::endl;
+      }
+      break;
+
+    case 'd':
+        std::cin >> type;
+        std::cout << myDice.roll(type) << std::endl;
+    break;
+    /// generate a bunch of weapons for testing
+    case 'w':
+      for( int i = 1; i <= 5; i ++)
+      {
+        for(int asdf = 0; asdf < 50; asdf++)
+        {
+          myWeapon.generateWeapon(i);
+          std::cout << "Level " << i << " : " << myWeapon;
+        }
+      }
+    break;
+
+    /// Quit
+    case 'q':
+      play = false;
+      break;
+
+    default:
+      std::cout << "invalid command" << std::endl;
+      break;
     }
   }
+
+
 	return 0;
 }
 
@@ -70,8 +118,6 @@ bool checkRoomIndex(int t, int i)
     std::cout << "invalid room type index\n";
     validIndex = false;
   }
-
-
     return validIndex;
 }
 

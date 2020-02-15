@@ -29,7 +29,7 @@ private:
 
   int currentLevel;
 
-///  roomManager* currentRoom;
+  roomManager* currentRoom;
 
   void characterCreation();
 

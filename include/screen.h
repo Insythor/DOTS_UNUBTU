@@ -24,11 +24,15 @@ public:
 
 	void print();
 	/**
-  @brief  Add a vector<vector<char>> to the screen, starting at an X-Y location
-            This function draws the shape from top-left -> bottom-right
-
-   */
+    @brief  Add a vector<vector<char>> to the screen, starting at an X-Y location
+            This function draws the shape from top-left -> bottom-right.
+    @param[in] startX: Which column will the image begin at
+    @param[in] startY: Which row will the image begin on
+  */
 	void addToScreen(std::vector<std::vector<char>>* toAdd, int startX, int startZ);
+	/**
+    @brief  Add a vector<vector<char>> to the screen starting at (0,0).
+  */
 	void addToScreen(std::vector<std::vector<char>>* toAdd);
 
 private:

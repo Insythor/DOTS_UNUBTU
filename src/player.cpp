@@ -31,7 +31,9 @@ void player::addExperience(int toAdd)
   currentExperience += toAdd;
 
   if(currentExperience >= maxExperience)
+  {
     levelUp();
+  }
 
 }
 

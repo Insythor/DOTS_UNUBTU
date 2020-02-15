@@ -8,6 +8,7 @@ class player : private baseCharacter
 {
 public:
     player();
+
     virtual ~player();
 
     void levelUp();

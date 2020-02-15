@@ -2,6 +2,7 @@
 *.depend
 *.bak
 *.gch
+*.cbp
 
 bin/
 obj/
