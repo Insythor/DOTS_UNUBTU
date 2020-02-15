@@ -56,9 +56,9 @@ void screen::addToScreen(std::vector<std::vector<char>>* toAdd,
 
 void screen::addToScreen(std::vector<std::vector<char>>* toAdd)
 {
-	for (unsigned int row = 0; row < (*toAdd).size(); row++)
+	for (unsigned int row = 0; row < height; row++)
 	{
-		for (unsigned int col = 0; col < (*toAdd)[0].size(); col++)
+		for (unsigned int col = 0; col < width; col++)
 		{
 			toRender[row][col] = (*toAdd)[row][col];
 		}

@@ -10,7 +10,7 @@
 
 //	Declarations of screen dimensions
 #define DEFAULT_WIDTH 79
-#define DEFAULT_HEIGHT 21
+#define DEFAULT_HEIGHT 16
 //	Width between each "pixel"
 #define DEFAULT_SPACING 4
 

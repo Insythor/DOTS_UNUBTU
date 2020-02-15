@@ -3,7 +3,7 @@
 
 #define roomDir "docs/DATA/rooms/"
 #define DEFAULT_WIDTH 79
-#define DEFAULT_HEIGHT 15
+#define DEFAULT_HEIGHT 16
 #define DEFAULT_FILE ".txt"
 
 #include <fstream>

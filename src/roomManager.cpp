@@ -11,7 +11,8 @@ roomManager::roomManager()
 
 roomManager::~roomManager()
 {
-
+  delete toRender;
+  delete[] allRooms;
 }
 
 void roomManager::readInRooms()
@@ -31,20 +32,19 @@ void roomManager::readInRooms()
       std::string line;
       while(getline(toRead, line))
       {
+        allRooms[t][i].push_back(std::vector<char>());
+
+        for (int x = 0; x < DEFAULT_WIDTH; x++)
         {
-          allRooms[t][i].push_back(std::vector<char>());
-
-          for (int x = 0; x < DEFAULT_WIDTH; x++)
-          {
-            allRooms[t][i][allRooms[t][i].size()-1].push_back(line[x]);
-          }
+           allRooms[t][i][allRooms[t][i].size()-1].push_back(line[x]);
         }
-      }
 
+      }
       toRead.close();
     }
   }
 }
+
 
 
 std::string roomManager::formatRoomType(int type, int index)

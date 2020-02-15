@@ -1,7 +1,7 @@
 // Superclass of the player/monsters
 
 #ifndef BASECHARACTER_H
-#define BASECHARACTER_h
+#define BASECHARACTER_H
 
 #include "item.h"
 #include "ability.h"

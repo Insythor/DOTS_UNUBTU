@@ -9,22 +9,22 @@ item::~item()
 {
   //dtor
 }
-string item::getName()
+std::string item::getName()
 {
-
+  return name;
 }
 
-string item::getDescription()
+std::string item::getDescription()
 {
-
+  return description;
 }
 
 int item::getCost()
 {
-
+  return cost;
 }
 
 int item::getSellValue()
 {
-
+  return sellValue;
 }

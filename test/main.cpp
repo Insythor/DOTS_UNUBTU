@@ -51,18 +51,28 @@ std::string formatRoomType(int type)
     return temp;
 }
 
-bool checkRoomIndex(int type, int index)
+bool checkRoomIndex(int t, int i)
 {
-  if(type < 4 && type >= 0)
-    return true;
+  bool validIndex;
+
+  if(t < 4 && t >= 0)
+    validIndex = true;
   else
+  {
     std::cout << "invalid room type\n";
-    return false;
-  if(index < 3 && index >= 0)
-    return true;
+    validIndex = false;
+  }
+
+  if(i < 3 && i >= 0)
+    validIndex = true;
   else
+  {
     std::cout << "invalid room type index\n";
-    return false;
+    validIndex = false;
+  }
+
+
+    return validIndex;
 }
 
 
