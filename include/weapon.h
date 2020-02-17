@@ -9,7 +9,9 @@
 #include <iostream>
 #include <fstream>
 #include <time.h>
+#include <random>
 #include <vector>
+#include <string>
 
 class weapon : public item
 {
@@ -30,7 +32,7 @@ class weapon : public item
     friend std::ostream& operator << (std::ostream& out, weapon &toRender);
     friend std::ostream& operator >> (std::ostream& out, weapon& readIn);
 
-    weapon generateWeapon(int level);
+    void generateWeapon(int level);
 
   private:
      int diceRolls;
@@ -39,8 +41,10 @@ class weapon : public item
     // stat type, stat amount, level
     std::vector<int> statRequirements;
 
-    std::string* allNames;
+    std::vector<std::string>* allNames;
 
+    void readInNames();
+    std::string addType(int dSize);
 };
 
 #endif // WEAPON_H
