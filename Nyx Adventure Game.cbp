@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -37,29 +39,31 @@
 		</Compiler>
 		<Unit filename="include/ability.h" />
 		<Unit filename="include/baseCharacter.h" />
+		<Unit filename="include/chest.h" />
 		<Unit filename="include/combatManager.h" />
-		<Unit filename="include/comsumable.h" />
+		<Unit filename="include/consumable.h" />
 		<Unit filename="include/dice.h" />
 		<Unit filename="include/gameManager.h" />
+		<Unit filename="include/inventory.h" />
 		<Unit filename="include/item.h" />
 		<Unit filename="include/monster.h" />
-		<Unit filename="include/outputManager.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/roomManager.h" />
 		<Unit filename="include/screen.h" />
 		<Unit filename="include/weapon.h" />
 		<Unit filename="src/ability.cpp" />
 		<Unit filename="src/baseCharacter.cpp" />
+		<Unit filename="src/chest.cpp" />
 		<Unit filename="src/combatManager.cpp" />
-		<Unit filename="src/comsumable.cpp" />
+		<Unit filename="src/consumable.cpp" />
 		<Unit filename="src/dice.cpp" />
 		<Unit filename="src/game/main.cpp">
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/gameManager.cpp" />
+		<Unit filename="src/inventory.cpp" />
 		<Unit filename="src/item.cpp" />
 		<Unit filename="src/monster.cpp" />
-		<Unit filename="src/outputManager.cpp" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/roomManager.cpp" />
 		<Unit filename="src/screen.cpp" />

@@ -3,21 +3,20 @@
 
 #include <item.h>
 #include "player.h"
-
-class comsumable : public item
+#include "string"
+class consumable : public item
 {
   public:
-    comsumable();
+    comsumable(int level, int type);
     virtual ~comsumable();
-
     void use(player &p);
 
   private:
+    int id;
     int statToAdd;
     int statValue;
-
     bool isPerminant;
-
+    std::string description;
 };
 
 #endif // COMSUMABLE_H

@@ -1,10 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
-#include <baseCharacter.h>
-
-
-class player : private baseCharacter
+#include "baseCharacter.h"
+class player : public baseCharacter
 {
 public:
     player();
@@ -13,8 +10,6 @@ public:
 
     void levelUp();
     void swapAbilities();
-
-    void addGold(int toAdd);
     void addExperience (int toAdd);
     //  strength, dexterity, intellect, speed
     void addToStats(std::vector<int> toAdd);
@@ -23,8 +18,6 @@ public:
 private:
     int currentExperience;
     int maxExperience;
-
-    int inventorySize;
 
     std::vector<ability> storedAbilities;
 

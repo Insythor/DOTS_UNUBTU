@@ -21,10 +21,6 @@ void player::swapAbilities()
 
 }
 
-void player::addGold(int toAdd)
-{
-  gold += toAdd;
-}
 
 void player::addExperience(int toAdd)
 {
@@ -39,9 +35,9 @@ void player::addExperience(int toAdd)
 
 void player::addToStats(std::vector<int> toAdd)
 {
-  strength += toAdd[0];
-  dexterity += toAdd[1];
-  intellect += toAdd[2];
+  mainStats[0] += toAdd[0];
+  mainStats[1] += toAdd[1];
+  mainStats[2] += toAdd[2];
   speed += toAdd[3];
 }
 

@@ -14,11 +14,6 @@ std::string item::getName()
   return name;
 }
 
-std::string item::getDescription()
-{
-  return description;
-}
-
 int item::getCost()
 {
   return cost;

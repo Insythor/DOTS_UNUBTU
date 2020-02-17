@@ -42,39 +42,32 @@ int baseCharacter::takeDamage(int damage)
   {
     return level;
   }
-  int baseCharacter::getStrength()
-  {
-    return strength;
-  }
-  int baseCharacter::getDexterity()
-  {
-    return dexterity;
-  }
-  int baseCharacter::getIntellect()
-  {
-    return intellect;
-  }
   int baseCharacter::getSpeed()
   {
     return speed;
   }
   int baseCharacter::getDamagePower()
   {
-    return damagePower;
+    return 0;
   }
-  int baseCharacter::getAbilityPower()
+  int baseCharacter::dealDamage()
   {
-    return abilityPower;
+
+  }
+  void basetakeDamage(int toTake)
+  {
+
+  }
+  bool baseCharacter::isDead()
+  {
+
+  }
+
+  void baseCharacter::setGold(int g)
+  {
+    gold += g;
   }
   int baseCharacter::getGold()
   {
     return gold;
-  }
-  std::vector<item> baseCharacter::getInventory()
-  {
-    return inventory;
-  }
-  std::vector<ability> baseCharacter::getActiveAbilities()
-  {
-    return activeAbilities;
   }

@@ -10,21 +10,14 @@ class item
     virtual ~item();
 
     std::string getName();
-    std::string getDescription();
-
     int getCost();
     int getSellValue();
 
   private:
   protected:
     std::string name;
-    std::string description;
-
     int cost;
     int sellValue;
-
-
-
 };
 
 #endif // ITEM_H

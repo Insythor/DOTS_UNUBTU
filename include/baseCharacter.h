@@ -8,7 +8,7 @@
 
 #include <string>
 #include <vector>
-
+#include "Inventory.h"
 class baseCharacter
 {
 public:
@@ -23,39 +23,26 @@ public:
 
   int getCurrentHealth();
   int getMaxHealth();
-
+  bool isDead();
   int getLevel();
-
-  int getStrength();
-  int getDexterity();
-  int getIntellect();
+  int[3] getStats();
   int getSpeed();
   int getDamagePower();
-  int getAbilityPower();
-
   int getGold();
-
-  std::vector<item> getInventory();
+  void setGold(int g);
+  inventory* getInventory();
   std::vector<ability> getActiveAbilities();
 
 protected:
   std::string name;
   std::string race;
-
   int currentHealth;
   int maxHealth;
-
   int level;
-
-  int strength;
-  int dexterity;
-  int intellect;
+  int mainStats[3];
   int speed;
-  int damagePower;
-  int abilityPower;
-
   int gold;
-  std::vector<item> inventory;
+  inventory cInventory;
   std::vector<ability> activeAbilities;
 
 
