@@ -1,5 +1,5 @@
-#ifndef COMSUMABLE_H
-#define COMSUMABLE_H
+#ifndef CONSUMABLE_H
+#define CONSUMABLE_H
 
 #include <item.h>
 #include "player.h"
@@ -7,16 +7,19 @@
 class consumable : public item
 {
   public:
-    comsumable(int level, int type);
-    virtual ~comsumable();
+    consumable(int level, int type);
+    virtual ~consumable();
+
+    int getID();
     void use(player &p);
+    std::string viewConsumable();
+
 
   private:
     int id;
     int statToAdd;
     int statValue;
     bool isPerminant;
-    std::string description;
 };
 
-#endif // COMSUMABLE_H
+#endif // CONSUMABLE_H

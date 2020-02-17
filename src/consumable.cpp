@@ -1,6 +1,6 @@
 #include "consumable.h"
 
-consumable::consumable(int id, int type)
+consumable::consumable(int level, int type)
 {
   //ctor
 }
@@ -11,11 +11,6 @@ consumable::~consumable()
 }
 
 std::string consumable::viewConsumable()
-{
-
-}
-
-std::string consumable::getDescription()
 {
 
 }
