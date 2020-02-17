@@ -1,4 +1,4 @@
-#include "Inventory.h"
+#include "inventory.h"
 
 inventory::inventory(std::vector<weapon*> wpnsToAdd, std::vector<std::stack<consumable*>> consToAdd)
 {
@@ -65,7 +65,7 @@ weapon* inventory::removeWeapon(int index)
 
 }
 
-void inventory::addWeapon(wpnToAdd* weapon)
+void inventory::addWeapon(weapon* wpnToAdd)
 {
 
 }

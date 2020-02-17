@@ -1,6 +1,6 @@
 #include "player.h"
 
-player::player()
+player::player(std::string name, std::string race, std::vector<int> mainstats, int speed)
 {
 
 }

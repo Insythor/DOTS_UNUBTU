@@ -1,10 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "baseCharacter.h"
+#include <string>
+#include <vector>
 class player : public baseCharacter
 {
 public:
-    player();
+    player(std::string name, std::string race, std::vector<int> mainstats, int speed);
 
     virtual ~player();
 
