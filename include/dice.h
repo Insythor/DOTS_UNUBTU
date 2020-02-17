@@ -23,7 +23,7 @@ public:
     @param[out] int roll = rand(1, sides).
   */
   int roll(int nRolls);
-
+  int getSides();
 private:
 	int sides;
 

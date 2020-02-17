@@ -4,7 +4,7 @@
 #define DIR_WEAPON "docs/DATA/weaponNames.txt"
 
 #include "item.h"
-
+#include "dice.h"
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +17,7 @@ class weapon : public item
 {
   public:
     weapon();
+    weapon(int l);
     virtual ~weapon();
 
      int getDiceRolls();
@@ -31,8 +32,17 @@ class weapon : public item
     */
     friend std::ostream& operator << (std::ostream& out, weapon &toRender);
     friend std::ostream& operator >> (std::ostream& out, weapon& readIn);
+    /**
+      @brief Spawn a random weapon based, stats and damage increased
 
+    */
     void generateWeapon(int level);
+    /**
+      @brief Iterate through all of the dice rolls and return the total value
+             of all the rolls
+      @param[out]
+    */
+    int dealDamage();
 
   private:
      int diceRolls;
@@ -41,10 +51,15 @@ class weapon : public item
     // stat type, stat amount, level
     std::vector<int> statRequirements;
 
+
+    std::vector<dice>* weaponDice;
     std::vector<std::string>* allNames;
 
+    std::string addType(int dSize, int sType);
+
     void readInNames();
-    std::string addType(int dSize);
+
+
 };
 
 #endif // WEAPON_H
