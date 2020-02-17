@@ -1,6 +1,6 @@
 #include "consumable.h"
 
-consumable::consumable(int id, int type)
+consumable::consumable(int level, int type)
 {
   //ctor
 }
@@ -19,13 +19,12 @@ std::string consumable::getDescription()
 {
 
 }
-
 int consumable::getID()
 {
 
 }
 
-void consumable::use(player& p)
+void consumable::use(player* p)
 {
 
 }

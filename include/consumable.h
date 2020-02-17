@@ -1,22 +1,25 @@
-#ifndef COMSUMABLE_H
-#define COMSUMABLE_H
+#ifndef CONSUMABLE_H
+#define CONSUMABLE_H
 
-#include <item.h>
+#include "item.h"
 #include "player.h"
 #include "string"
 class consumable : public item
 {
   public:
     consumable(int level, int type);
+    virtual ~consumable();
     ~consumable();
     void use(player* p);
-
+    int getID();
+    std::string viewConsumable();
+    std::string getDescription();
   private:
     int id;
     int statToAdd;
     int statValue;
     bool isPerminant;
-    std::string description;
+    string description;
 };
 
-#endif // COMSUMABLE_H
+#endif // CONSUMABLE_H
