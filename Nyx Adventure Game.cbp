@@ -33,41 +33,36 @@
 			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 			<Add directory="include" />
+			<Add directory="./include" />
 		</Compiler>
-		<Unit filename="include/Dice.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/baseCharacter.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/dataManager.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/levelManager.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/room.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/screen.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/shapeMaker.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="include/weapon.h">
-			<Option compile="1" />
-		</Unit>
-		<Unit filename="src/Dice.cpp" />
+		<Unit filename="include/ability.h" />
+		<Unit filename="include/baseCharacter.h" />
+		<Unit filename="include/combatManager.h" />
+		<Unit filename="include/comsumable.h" />
+		<Unit filename="include/dice.h" />
+		<Unit filename="include/gameManager.h" />
+		<Unit filename="include/item.h" />
+		<Unit filename="include/monster.h" />
+		<Unit filename="include/outputManager.h" />
+		<Unit filename="include/player.h" />
+		<Unit filename="include/roomManager.h" />
+		<Unit filename="include/screen.h" />
+		<Unit filename="include/weapon.h" />
+		<Unit filename="src/ability.cpp" />
 		<Unit filename="src/baseCharacter.cpp" />
-		<Unit filename="src/dataManager.cpp" />
+		<Unit filename="src/combatManager.cpp" />
+		<Unit filename="src/comsumable.cpp" />
+		<Unit filename="src/dice.cpp" />
 		<Unit filename="src/game/main.cpp">
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/levelManager.cpp" />
-		<Unit filename="src/room.cpp" />
+		<Unit filename="src/gameManager.cpp" />
+		<Unit filename="src/item.cpp" />
+		<Unit filename="src/monster.cpp" />
+		<Unit filename="src/outputManager.cpp" />
+		<Unit filename="src/player.cpp" />
+		<Unit filename="src/roomManager.cpp" />
 		<Unit filename="src/screen.cpp" />
-		<Unit filename="src/shapeMaker.cpp" />
 		<Unit filename="src/weapon.cpp" />
 		<Unit filename="test/main.cpp">
 			<Option target="Debug" />
