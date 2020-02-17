@@ -2,7 +2,7 @@
 
 gameManager::gameManager()
 {
-  playerPtr = new player;
+
 }
 
 gameManager::~gameManager()

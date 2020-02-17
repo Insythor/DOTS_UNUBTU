@@ -8,7 +8,7 @@ class ability
 {
   public:
     ability(int level);
-    ability(int level, stat int);
+    ability(int level, int stat);
     ~ability();
     std::string getName();
     std::string getDescription();

@@ -7,8 +7,8 @@
 class monster : public baseCharacter
 {
   public:
-    monster();
-    virtual ~monster();
+    monster(int lvl);
+    ~monster();
 
   private:
     bool isBoss;

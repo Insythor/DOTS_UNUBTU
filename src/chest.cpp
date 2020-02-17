@@ -1,11 +1,31 @@
 #include "chest.h"
 
-chest::chest()
+chest::chest(int level)
 {
-  //ctor
+
 }
 
 chest::~chest()
 {
   //dtor
+}
+
+bool chest::getIsOpen()
+{
+
+}
+
+int chest::lootGold()
+{
+
+}
+
+void chest::open()
+{
+
+}
+
+inventory* chest::getInventory()
+{
+
 }

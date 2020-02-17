@@ -4,7 +4,7 @@
 #include "weapon.h"
 #include <stack>
 #include <vector>
-class Inventory
+class inventory
 {
   public:
     inventory(std::vector<weapon*> wpnsToAdd, std::vector<std::stack<consumable*>> consToAdd);
@@ -12,9 +12,9 @@ class Inventory
     void deleteConsumable(int index, int amount);
     void deleteWeapon(int index);
     void addConsumable(std::stack<consumable*> consumableStack);
-    void removeConsumable(int index, int amount);
-    void removeWeapon(int index);
-    void addWeapon(wpnToAdd weapon*);
+    std::stack<consumable*> removeConsumable(int index, int amount);
+    weapon* removeWeapon(int index);
+    void addWeapon(weapon* wpnToAdd);
     int getInventorySize();
     void viewInventory();
     void increaseInventorySize();

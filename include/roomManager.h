@@ -10,7 +10,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+#include "chest.h"
 class roomManager
 {
 public:
@@ -29,12 +29,13 @@ public:
 
 private:
   int puzzleRoomCounter = 0;
-
-  int nextRoom[];
+  int type;
+  bool roomComplete;
+  int numChests;
+  std::vector<chest> chests;
+  std::vector<int> nextRooms;
   int roomLevel;
-
-  bool shop;
-
+  std::string description;
   /**
       @brief Pointer to the next room which will be rendered on the screen
   */
@@ -49,7 +50,12 @@ private:
     @brief Helper function which allocates memory for the 2D array of rooms
   */
   void allocateMemory();
-
+  void changeRoom(int nextRoom);
+  std::string getDescription();
+  bool getRoomComplete();
+  chest* getChest(int index);
+  int getLevel();
+  int getType();
 };
 
 #endif // ROOM_H

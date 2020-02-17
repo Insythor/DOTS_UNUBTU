@@ -7,9 +7,9 @@
 class consumable : public item
 {
   public:
-    comsumable(int level, int type);
-    virtual ~comsumable();
-    void use(player &p);
+    consumable(int level, int type);
+    ~consumable();
+    void use(player* p);
 
   private:
     int id;

@@ -1,8 +1,9 @@
 #include "monster.h"
 
-monster::monster()
+monster::monster(int lvl)
 {
   //ctor
+
 }
 
 monster::~monster()

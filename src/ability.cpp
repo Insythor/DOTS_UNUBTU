@@ -1,10 +1,5 @@
 #include "ability.h"
 
-ability::ability()
-{
-  //ctor
-}
-
 ability::~ability()
 {
   //dtor
@@ -14,7 +9,7 @@ ability::ability(int level)
 
 }
 
-ability::ability(int level, stat int)
+ability::ability(int level, int stat)
 {
 
 }
