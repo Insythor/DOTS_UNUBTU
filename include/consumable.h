@@ -19,7 +19,7 @@ class consumable : public item
     int statToAdd;
     int statValue;
     bool isPerminant;
-    string description;
+    std::string description;
 };
 
 #endif // CONSUMABLE_H
