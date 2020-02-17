@@ -3,7 +3,10 @@
 *.bak
 *.gch
 *.cbp
+*.dia.autosave
+*.dia~
 
+docs/code/html
 bin/
 obj/
 
