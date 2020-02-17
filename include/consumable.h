@@ -9,7 +9,6 @@ class consumable : public item
   public:
     consumable(int level, int type);
     virtual ~consumable();
-    ~consumable();
     void use(player* p);
     int getID();
     std::string viewConsumable();
@@ -19,7 +18,7 @@ class consumable : public item
     int statToAdd;
     int statValue;
     bool isPerminant;
-    string description;
+    std::string description;
 };
 
 #endif // CONSUMABLE_H
