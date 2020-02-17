@@ -22,9 +22,29 @@ weapon weapon::generateWeapon(int level)
     diceRolls = 4;
   }
 
+  // Base + 4, then add + 0->4
   diceSize = level/2 + 4 + (rand() % 5);
 
-  name = "N/A";
+  std::ifstream weaponNames;
+  weaponNames.open(DIR_WEAPON);
+  std::string line;
+
+ // srand(time(NULL));
+  int randLineNumber = rand() % 11;
+  int lineCounter = 1;
+
+  while(getline(weaponNames, line))
+  {
+    if(lineCounter % randLineNumber == 0)
+    {
+      name = line;
+
+      return (*this);
+    }
+    lineCounter++;
+  }
+
+  //name = "N/A";
 
   return (*this);
 }

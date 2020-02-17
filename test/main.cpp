@@ -59,7 +59,7 @@ int main()
     case 'w':
       for( int i = 1; i <= 5; i ++)
       {
-        for(int asdf = 0; asdf < 50; asdf++)
+     //   for(int asdf = 0; asdf < 50; asdf++)
         {
           myWeapon.generateWeapon(i);
           std::cout << "Level " << i << " : " << myWeapon;
