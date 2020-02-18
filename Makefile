@@ -35,7 +35,7 @@ all: $(PROGRAM_TEST) memcheck coverage docs static style
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o \
+	rm -rf *~ $(SRC)/*.o $(SRC_INCLUDE)/*.h.gch    \
 	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
 	*.bak ???*/*.bak $(PROGRAM_GAME) \
 	???*/*~ ???*/???*/*~ $(COVERAGE_RESULTS) \

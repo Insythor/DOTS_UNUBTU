@@ -1,5 +1,5 @@
-#ifndef PLAYERCHARACTER_H
-#define PLAYERCHARACTER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "baseCharacter.h"
 
@@ -14,4 +14,4 @@ class player : public baseCharacter
   private:
 };
 
-#endif // PLAYERCHARACTER_H
+#endif // PLAYER_H
