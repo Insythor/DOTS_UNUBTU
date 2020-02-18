@@ -6,6 +6,7 @@ class shopManager
 {
   public:
     shopManager(int level);
+    shopManager();
     ~shopManager();
     inventory* getInventory();
     int getGold();

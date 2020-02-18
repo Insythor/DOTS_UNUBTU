@@ -17,7 +17,10 @@ void baseCharacter::takeDamage(int damage)
     currentHealth -= damage;
 }
 
+//inventory* baseCharacter::getInventory()
+//{
 
+//}
 
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()

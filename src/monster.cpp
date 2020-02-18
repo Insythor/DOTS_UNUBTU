@@ -2,7 +2,7 @@
 
 monster::monster(int lvl)
 {
-  //ctor
+  lvl = NULL;
 
 }
 

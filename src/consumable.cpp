@@ -23,6 +23,7 @@ int consumable::getID()
 2 intellect   mainStats[2]
 3 speed
 */
+/*
 void consumable::use(player* p)
 {
   std::vector<int>stats;
@@ -36,10 +37,10 @@ void consumable::use(player* p)
       stats.push_back(0);
   }
   //add stats to player
-  p.addToStats(stats);
+  p->addToStats(stats);
   //destroyConsumable(p);
 }
-
+*/
 
 
 

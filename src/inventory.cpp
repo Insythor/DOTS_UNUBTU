@@ -29,8 +29,8 @@ void inventory::viewInventory()
   {
     if(!j.empty())
     {
-      std::cout << j << std::endl;
-      std::cout << " x" + j.size() << std::endl;
+//      std::cout << j << std::endl;
+//      std::cout << " x" + j.size() << std::endl;
     }
   }
 
@@ -101,7 +101,7 @@ bool inventory::deleteWeapon(int index)
   }
 }
 
-void inventory::addConsumable(std::vector<consumable*>consumableStack)
+void inventory::addConsumable(std::vector<consumable*> consumableStack)
 {
   if(consumableStack.size() > 0)
   {

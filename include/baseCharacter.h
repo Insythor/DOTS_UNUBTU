@@ -2,6 +2,7 @@
 
 #ifndef BASECHARACTER_H
 #define BASECHARACTER_H
+
 #include "weapon.h"
 #include "ability.h"
 #include "inventory.h"
@@ -30,7 +31,7 @@ public:
   int getDamagePower();
   int getGold();
   void setGold(int g);
-  inventory* getInventory();
+ // inventory* getInventory();
   std::vector<ability> getActiveAbilities();
 
 protected:
@@ -42,7 +43,7 @@ protected:
   std::vector<int> mainStats;
   int speed;
   int gold;
-  inventory* cInventory;
+//  inventory* cInventory;
   weapon* equippedWeapon;
   std::vector<ability> activeAbilities;
 };
