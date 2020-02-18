@@ -53,7 +53,6 @@ std::string roomManager::formatRoomType(int type, int index)
   char ct = '0' + type;
   char ci = '1' + index;
 
-
   temp += ct;
 
   if(type == 0)
@@ -101,6 +100,7 @@ int roomManager::getType()
 {
 
 }
+
 std::vector<std::vector<char>>* roomManager::renderRoom(int type, int index)
 {
   toRender = &allRooms[type][index];

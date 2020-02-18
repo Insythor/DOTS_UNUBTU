@@ -17,6 +17,11 @@ dice::~dice()
 
 }
 
+int dice::getSides()
+{
+  return sides;
+}
+
 int dice::roll()
 {
   srand(time(NULL));

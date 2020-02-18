@@ -1,8 +1,10 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+
 #include "player.h"
 #include "monster.h"
+#include "chest.h"
 
 #include "outputManager.h"
 #include "combatManager.h"
@@ -16,11 +18,23 @@
 class gameManager
 {
 public:
+	struct raceData
+	{
+	  int index;
+	  std::string race;
+	  int health;
+	  int strength;
+	  int dexterity;
+	  int intelligence;
+	  int speed;
+	  std::string description;
+
+	};
+
 	gameManager();
 	~gameManager();
 
 	void startGame();
-
 
 private:
   player* playerPtr;
@@ -30,6 +44,8 @@ private:
   int currentLevel;
 
   roomManager* currentRoom;
+
+
 
   void characterCreation();
 

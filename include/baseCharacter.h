@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+
 class baseCharacter
 {
 public:
@@ -24,7 +25,7 @@ public:
   int getMaxHealth();
   bool isDead();
   int getLevel();
-  std::vector<int> getStats();
+  int[3] getStats();
   int getSpeed();
   int getDamagePower();
   int getGold();
@@ -38,7 +39,7 @@ protected:
   int currentHealth;
   int maxHealth;
   int level;
-  std::vector<int> mainStats;
+  int mainStats[3];
   int speed;
   int gold;
   inventory* cInventory;

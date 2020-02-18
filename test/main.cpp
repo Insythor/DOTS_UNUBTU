@@ -4,7 +4,7 @@
 
 */
 
-#include "gameManager.h"
+//#include "gameManager.h"
 #include "screen.h"
 #include "roomManager.h"
 #include "dice.h"
@@ -25,7 +25,6 @@ int main()
   screen myScreen;
   roomManager myRoom;
   dice myDice;
-  weapon myWeapon;
 
   bool play = true;
   int type, index = 0;
@@ -57,10 +56,11 @@ int main()
     break;
     /// generate a bunch of weapons for testing
     case 'w':
-      for( int i = 1; i <= 5; i ++)
+      for( int i = 1; i <= 10; i ++)
       {
-        myWeapon.generateWeapon(i);
-        std::cout << "Level " << i << " : " << myWeapon;
+        //sleep(1);
+        weapon tempWeapon(i);
+        std::cout << "Level " << i << " : " << tempWeapon;
       }
     break;
 
@@ -74,14 +74,14 @@ int main()
       break;
     }
   }
-
-
 	return 0;
 }
 
 std::string formatRoomType(int type)
 {
   std::string temp;
+
+
   if(type == 0)
     temp = "boss";
   else if(type == 1)
