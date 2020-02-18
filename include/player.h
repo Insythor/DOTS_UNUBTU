@@ -16,7 +16,7 @@ public:
     //  strength, dexterity, intellect, speed
     void addToStats(std::vector<int> toAdd);
     void applyStatusAffect(std::vector<int> toAdd);
-
+    void swapWeapons(int index);
 private:
     int currentExperience;
     int maxExperience;

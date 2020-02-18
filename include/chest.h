@@ -14,7 +14,7 @@ class chest
   private:
     bool isOpen;
     int gold;
-    inventory cinventory;
+    inventory* cinventory;
 };
 
 #endif // CHEST_H

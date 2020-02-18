@@ -10,6 +10,10 @@ player::~player()
   //dtor
 }
 
+void player::swapWeapons(int index)
+{
+
+}
 void player::levelUp()
 {
 
