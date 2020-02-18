@@ -52,35 +52,6 @@ std::string roomManager::formatRoomType(int type, int index)
   std::string temp;
   char ct = '0' + type;
   char ci = '1' + index;
-  void roomManager::changeRoom(int nextRoom)
-  {
-
-  }
-
-  std::string roomManager::getDescription()
-  {
-
-  }
-
-  bool roomManager::getRoomComplete()
-  {
-
-  }
-
-  chest* roomManager::getChest(int index)
-  {
-
-  }
-
-  int roomManager::getLevel()
-  {
-
-  }
-
-  int roomManager::getType()
-  {
-
-  }
 
   temp += ct;
 
@@ -100,6 +71,7 @@ std::string roomManager::formatRoomType(int type, int index)
 
     return temp;
 }
+
 
 std::vector<std::vector<char>>* roomManager::renderRoom(int type, int index)
 {

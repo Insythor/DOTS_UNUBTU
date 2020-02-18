@@ -26,12 +26,12 @@ public:
   int getMaxHealth();
   bool isDead();
   int getLevel();
-  int[3] getStats();
+//  int[3] getStats();
   int getSpeed();
   int getDamagePower();
   int getGold();
   void setGold(int g);
-  inventory* getInventory();
+//  inventory* getInventory();
   std::vector<ability> getActiveAbilities();
 
 protected:
@@ -43,7 +43,7 @@ protected:
   int mainStats[3];
   int speed;
   int gold;
-  inventory cInventory;
+//  inventory cInventory;
   std::vector<ability> activeAbilities;
 
 

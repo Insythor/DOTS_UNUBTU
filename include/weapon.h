@@ -40,7 +40,7 @@ class weapon : public item
     /**
       @brief Iterate through all of the dice rolls and return the total value
              of all the rolls
-      @param[out]
+      @param[out] int sum of damage
     */
     int dealDamage();
 
