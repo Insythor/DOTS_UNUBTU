@@ -1,6 +1,6 @@
 #include "combatManager.h"
 
-combatManager::combatManager(player* p, monster* m)
+combatManager::combatManager(monster* m)
 {
 
 }

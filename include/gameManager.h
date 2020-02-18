@@ -2,7 +2,7 @@
 #define GAMEMANAGER_H
 
 
-#include "player.h"
+
 #include "monster.h"
 #include "chest.h"
 
@@ -37,7 +37,7 @@ public:
 	void startGame();
 
 private:
-  player* playerPtr;
+
 
   monster* monsterPtr;
 

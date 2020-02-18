@@ -3,10 +3,10 @@
 
 #include "item.h"
 
-#include "player.h"
+
 
 #include "inventory.h"
-#include "string"
+#include <string>
 
 class consumable : public item
 {

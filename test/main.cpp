@@ -9,7 +9,7 @@
 #include "roomManager.h"
 #include "dice.h"
 #include "weapon.h"
-#include "player.h"
+
 
 // For sleep
 #include <unistd.h>
@@ -30,9 +30,9 @@ int main()
   int type, index = 0;
   char command;
 
-  player* temp = new player;
 
-  temp->getCurrentHealth();
+
+
 
   while(play)
   {

@@ -4,7 +4,7 @@
 #define BASECHARACTER_H
 
 #include "weapon.h"
-#include "ability.h"
+//#include "ability.h"
 #include "inventory.h"
 
 #include <string>
@@ -14,7 +14,7 @@ class baseCharacter
 {
 public:
   baseCharacter();
-  ~baseCharacter();
+  virtual ~baseCharacter();
 
   void takeDamage(int damage);
   int dealDamage();
@@ -31,8 +31,8 @@ public:
   int getDamagePower();
   int getGold();
   void setGold(int g);
- // inventory* getInventory();
-  std::vector<ability> getActiveAbilities();
+//  inventory getInventory();
+//  std::vector<ability> getActiveAbilities();
 
 protected:
   std::string name;
@@ -45,7 +45,7 @@ protected:
   int gold;
 //  inventory* cInventory;
   weapon* equippedWeapon;
-  std::vector<ability> activeAbilities;
+//  std::vector<ability> activeAbilities;
 };
 
 #endif // BASECHARACTER_H

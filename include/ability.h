@@ -1,9 +1,10 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
+#include "dice.h"
 #include <string>
 #include <vector>
-#include "dice.h"
+
 class ability
 {
   public:

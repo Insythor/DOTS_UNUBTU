@@ -1,5 +1,6 @@
 #ifndef SHOPMANAGER_H
 #define SHOPMANAGER_H
+
 #include "inventory.h"
 
 class shopManager

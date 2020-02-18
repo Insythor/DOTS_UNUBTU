@@ -73,32 +73,32 @@ std::string roomManager::formatRoomType(int type, int index)
 }
 void roomManager::changeRoom(int nextRoom)
 {
-
+  nextRoom *= -1;
 }
 
 std::string roomManager::getDescription()
 {
-
+  return "n/a";
 }
 
 bool roomManager::getRoomComplete()
 {
-
+  return false;
 }
 
-chest* roomManager::getChest(int index)
-{
+//chest* roomManager::getChest(int index)
+//{
 
-}
+//}
 
 int roomManager::getLevel()
 {
-
+  return -1;
 }
 
 int roomManager::getType()
 {
-
+  return -1;
 }
 
 std::vector<std::vector<char>>* roomManager::renderRoom(int type, int index)

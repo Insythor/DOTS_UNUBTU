@@ -1,16 +1,18 @@
 #ifndef PUZZLEMANAGER_H
 #define PUZZLEMANAGER_H
-#include "player.h"
+
+
 #include <vector>
+
+
 class puzzleManager
 {
   public:
-    puzzleManager(myPlayer player*);
+    puzzleManager();
     ~puzzleManager();
-    void
+
   private:
-    player* myPlayer;
-    static vector<int> puzzlesLeft;
+    static std::vector<int> puzzlesLeft;
 };
 
 #endif // PUZZLEMANAGER_H

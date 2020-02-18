@@ -36,6 +36,7 @@ void inventory::viewInventory()
 
 }
 
+
 void inventory::increaseInventorySize(int amount)
 {
   inventorySize += amount;
@@ -101,12 +102,12 @@ bool inventory::deleteWeapon(int index)
   }
 }
 
-void inventory::addConsumable(std::vector<consumable*> consumableStack)
+void inventory::addConsumable(std::vector<consumable> conStack)
 {
-  if(consumableStack.size() > 0)
+  if(conStack.size() > 0)
   {
-    int index = consumableStack[0]->getID();
-    for(consumable* con : consumableStack)
+    int index = conStack[0]->getID();
+    for(consumable* con : conStack)
     {
       if(con != nullptr)
       {
@@ -115,6 +116,7 @@ void inventory::addConsumable(std::vector<consumable*> consumableStack)
     }
   }
 }
+
 
 std::vector<consumable*> inventory::removeConsumable(int index, int amount)
 {
@@ -133,6 +135,7 @@ std::vector<consumable*> inventory::removeConsumable(int index, int amount)
   }
   return tempvector;
 }
+
 
 weapon* inventory::removeWeapon(int index)
 {

@@ -2,15 +2,16 @@
 #define COMBATMANAGER_H
 
 #include "monster.h"
-#include "player.h"
+
 #include "baseCharacter.h"
+
 
 #include <string>
 
 class combatManager
 {
   public:
-    combatManager(player* p, monster* m);
+    combatManager(monster* m);
     ~combatManager();
 
   void startFight();

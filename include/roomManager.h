@@ -6,11 +6,14 @@
 #define DEFAULT_HEIGHT 16
 #define DEFAULT_FILE ".txt"
 
+//#include "chest.h"
+
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include "chest.h"
+
+
 class roomManager
 {
 public:
@@ -32,7 +35,7 @@ private:
   int type;
   bool roomComplete;
   int numChests;
-  std::vector<chest> chests;
+//  std::vector<chest> chests;
   std::vector<int> nextRooms;
   int roomLevel;
   std::string description;
@@ -53,7 +56,7 @@ private:
   void changeRoom(int nextRoom);
   std::string getDescription();
   bool getRoomComplete();
-  chest* getChest(int index);
+//  chest* getChest(int index);
   int getLevel();
   int getType();
 };
