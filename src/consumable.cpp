@@ -17,14 +17,6 @@ int consumable::getID()
   return id;
 }
 
-
-void consumable::destroyConsumable(player *p)
-{
-  /*if(isPerminant == 0)
-    p.cInventory.removeConsumable(id, 1);
-  */
-}
-
 /*
 0 strength    mainStats[0]
 1 dexterity   mainStats[1]

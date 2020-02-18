@@ -20,7 +20,6 @@ class consumable : public item
     int statToAdd;
     int statValue;
     bool isPerminant;
-    void destroyConsumable(player* p);
 };
 
 #endif // CONSUMABLE_H

@@ -12,11 +12,9 @@ baseCharacter::~baseCharacter()
 
 }
 
-int baseCharacter::takeDamage(int damage)
+void baseCharacter::takeDamage(int damage)
 {
     currentHealth -= damage;
-
-    return currentHealth;
 }
 
 
@@ -54,10 +52,7 @@ int baseCharacter::takeDamage(int damage)
   {
 
   }
-  void basetakeDamage(int toTake)
-  {
 
-  }
   bool baseCharacter::isDead()
   {
 
@@ -66,6 +61,11 @@ int baseCharacter::takeDamage(int damage)
   void baseCharacter::setGold(int g)
   {
     gold += g;
+  }
+
+  std::vector<int> baseCharacter::getStats()
+  {
+
   }
   int baseCharacter::getGold()
   {

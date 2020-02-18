@@ -15,7 +15,7 @@ public:
   baseCharacter();
   ~baseCharacter();
 
-  int takeDamage(int damage);
+  void takeDamage(int damage);
   int dealDamage();
 
   std::string getName();
@@ -25,7 +25,7 @@ public:
   int getMaxHealth();
   bool isDead();
   int getLevel();
-  int[3] getStats();
+  std::vector<int> getStats();
   int getSpeed();
   int getDamagePower();
   int getGold();
@@ -39,7 +39,7 @@ protected:
   int currentHealth;
   int maxHealth;
   int level;
-  int mainStats[3];
+  std::vector<int> mainStats;
   int speed;
   int gold;
   inventory* cInventory;
