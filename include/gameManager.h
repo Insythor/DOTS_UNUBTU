@@ -1,11 +1,11 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#define DIR_RACE "../docs/DATA/raceData.csv"
 
-
+#include "player.h"
 #include "monster.h"
 #include "chest.h"
-
 #include "outputManager.h"
 #include "combatManager.h"
 #include "roomManager.h"
@@ -13,23 +13,14 @@
 
 #include <vector>
 #include <string>
-
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 class gameManager
 {
 public:
-	struct raceData
-	{
-	  int index;
-	  std::string race;
-	  int health;
-	  int strength;
-	  int dexterity;
-	  int intelligence;
-	  int speed;
-	  std::string description;
 
-	};
 
 	gameManager();
 	~gameManager();
@@ -37,14 +28,22 @@ public:
 	void startGame();
 
 private:
+  struct raceData
+  {
+    int index;
+    std::string race;
+    int maxHP;
+    std::vector<int> mStats;
+    std::string description;
+  };
 
+  std::vector<raceData>* allRaces;
 
+  player* playerPtr;
   monster* monsterPtr;
-
-  int currentLevel;
-
   roomManager* currentRoom;
 
+  int currentLevel;
 
 
   void characterCreation();
@@ -59,6 +58,9 @@ private:
 
   void chooseNextRoom();
 
+  void readInRaceData();
+
+  void printRaces();
 
 };
 #endif // GAMEMANAGER_H

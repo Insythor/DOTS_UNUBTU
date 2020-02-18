@@ -11,17 +11,14 @@ shopManager::~shopManager()
 }
 shopManager::shopManager(int level)
 {
-
+  level *= -1;
 }
 
-inventory* shopManager::getInventory()
-{
 
-}
 
 int shopManager::getGold()
 {
-
+  return gold;
 }
 
 void shopManager::setGold()

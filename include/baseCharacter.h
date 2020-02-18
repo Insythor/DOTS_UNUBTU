@@ -35,13 +35,17 @@ public:
 //  std::vector<ability> getActiveAbilities();
 
 protected:
-  std::string name;
+
+
   std::string race;
+  std::string name;
+
   int currentHealth;
   int maxHealth;
-  int level;
+  // 0 = strength 1 = dex 2 = int 3 = speed
   std::vector<int> mainStats;
-  int speed;
+
+  int level;
   int gold;
 //  inventory* cInventory;
   weapon* equippedWeapon;

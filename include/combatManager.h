@@ -2,23 +2,22 @@
 #define COMBATMANAGER_H
 
 #include "monster.h"
-
-#include "baseCharacter.h"
-
+#include "player.h"
 
 #include <string>
 
 class combatManager
 {
   public:
-    combatManager(monster* m);
+    combatManager(player* p, monster* m);
     ~combatManager();
 
   void startFight();
 
 
   private:
-    baseCharacter* fightOrder;
+    // Currently player is 0 and monster is 1
+    baseCharacter* fightOrder[];
 
     std::string selectAction(int type, int subType);
     std::string endFight();

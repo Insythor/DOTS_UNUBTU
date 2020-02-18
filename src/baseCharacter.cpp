@@ -19,9 +19,6 @@ void baseCharacter::takeDamage(int damage)
 
 
 
-
-
-
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()
   {
@@ -50,22 +47,22 @@ void baseCharacter::takeDamage(int damage)
 
   int baseCharacter::getSpeed()
   {
-    return speed;
+    return mainStats[3];
   }
 
   int baseCharacter::getDamagePower()
   {
-    return 0;
+    return -1;
   }
 
   int baseCharacter::dealDamage()
   {
-
+    return -1;
   }
 
   bool baseCharacter::isDead()
   {
-
+    return false;
   }
 
   void baseCharacter::setGold(int g)
@@ -75,7 +72,7 @@ void baseCharacter::takeDamage(int damage)
 
   std::vector<int> baseCharacter::getStats()
   {
-
+    return mainStats;
   }
   int baseCharacter::getGold()
   {
