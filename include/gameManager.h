@@ -61,8 +61,14 @@ private:
 
   int currentLevel;
 
+  // Helper functions for main loop
+  std::string formatRoomType(int type);
+  bool checkRoomIndex(int t, int i);
+  int formatCommand(std::string command);
 
-  void characterCreation();
+  player* characterCreation();
+  player* characterCreation(int index);
+  player* characterCreation(std::string race);
 
   void mainMenu();
 
@@ -81,8 +87,10 @@ private:
 
   void readInWeapons();
 
+  monster* generateMonster(int l);
+  monster* generateMonster(int l, int index);
   monster* generateMonster(int l, int index, std::string tName);
-
+  
 };
 #endif // GAMEMANAGER_H
 

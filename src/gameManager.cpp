@@ -8,6 +8,9 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
 
+  currentLevel = 1;
+  playerPtr = characterCreation(1);
+  
  // mainMenu();
 }
 
@@ -107,13 +110,147 @@ void gameManager::printRaces()
   }
 }
 
+// Main loop
 void gameManager::startGame()
 {
 
+    bool play = true;
+    
+    std::string command;
+    int input0, input1;
+
+    while (play)
+    {
+  
+
+        std::cin >> command;
+   //     std::cout << std::endl << command << "  " << formatCommand(command) << std::endl;
+
+        switch (formatCommand(command))
+        {
+            // Printing functions
+            // printPlayer, pp
+        case 10:
+            printRaces();
+            break;
+            // printWeapon, pw
+        case 11:
+            std::cout << playerPtr->getWeapon();
+            break;
+            // printPlayer, pp
+        case 12:
+            std::cout << (*playerPtr);
+            break;
+            // makeWeapon,  mw
+        case 20:
+            playerPtr->spawnWeapon(currentLevel, allWeaponNames);
+            break;
+            // makePlayer, mp
+
+        case 21:
+            std::cin >> input0;
+            playerPtr = characterCreation(input0);
+            std::cout << (*playerPtr);
+            break;
+
+        case 210:
+            playerPtr->levelUp();
+            break;
+            // makeMonster, mm
+        case 22:
+
+         //   generateMonster();
+            break;
+
+        case 0:
+            play = false;
+            break;
+
+        default:
+            std::cout << "invalid command" << std::endl;
+            break;
+        }
+    }
 }
 
-void gameManager::characterCreation()
+std::string gameManager::formatRoomType(int type)
 {
+    std::string temp;
+
+
+    if (type == 0)
+        temp = "boss";
+    else if (type == 1)
+        temp = "chest";
+    else if (type == 2)
+        temp = "monster";
+    else if (type == 3)
+        temp = "shop";
+    else if (type == 4)
+        temp = "default";
+
+    return temp;
+}
+
+bool gameManager::checkRoomIndex(int t, int i)
+{
+    bool validIndex;
+
+    if (t < 4 && t >= 0)
+        validIndex = true;
+    else
+    {
+        std::cout << "invalid room type\n";
+        validIndex = false;
+    }
+
+    if (i < 3 && i >= 0)
+        validIndex = true;
+    else
+    {
+        std::cout << "invalid room type index\n";
+        validIndex = false;
+    }
+    return validIndex;
+}
+
+int gameManager::formatCommand(std::string command)
+{
+    int temp = -1;
+    // Print functions are prefixed with 1
+    if (command == "pRace" || command == "pr")
+        temp = 10;
+
+    else if (command == "pWeapon" || command == "pw")
+        temp = 11;
+
+    else if (command == "pPlayer" || command == "pp")
+        temp = 12;
+    // Create object prefixed with 2
+    else if (command == "makeWeapon" || command == "mk")
+        temp = 20;
+
+    else if (command == "makePlayer" || command == "mp")
+        temp = 21;
+    else if (command == "levelUp" || command == "lvl")
+       temp = 210;
+
+    else if (command == "makeMonster" || command == "mm")
+        temp = 22;
+
+
+
+
+
+    else if (command == "exit" || command == "quit" || command == "end")
+        temp = 0;
+
+    return temp;
+}
+// Default characterCreation(), has cout and cin
+player* gameManager::characterCreation()
+{
+    player* temp;
   int tempRaceIndex;
   std::string tempName;
 
@@ -154,12 +291,51 @@ void gameManager::characterCreation()
 
 
 
-   playerPtr = new player(tempName,
+   temp = new player(tempName,
                           allRaces->at(tempRaceIndex).race,
                           allRaces->at(tempRaceIndex).maxHP,
                           allRaces->at(tempRaceIndex).mStats);
+   
+   temp->spawnWeapon(currentLevel, allWeaponNames);
+
+   return temp;
 
 //  system("clear");
+}
+// Overloaded characterCreation(), generates a player at given race index
+player* gameManager::characterCreation(int index)
+{
+    if (playerPtr != nullptr)
+        delete playerPtr;
+
+    player* temp = new player("Temp Hero",
+        allRaces->at(index).race,
+        allRaces->at(index).maxHP,
+        allRaces->at(index).mStats);
+    temp->spawnWeapon(currentLevel, allWeaponNames);
+
+    return temp;
+}
+// Overloaded characterCreation() generates a player with given race
+player* gameManager::characterCreation(std::string race)
+{
+    player* temp = nullptr;
+    for (auto i : (*allRaces))
+    {
+        if (i.race == race)
+        {
+            temp = new player("Temp Hero",
+                allRaces->at(i.index).race,
+                allRaces->at(i.index).maxHP,
+                allRaces->at(i.index).mStats);
+            temp->spawnWeapon(currentLevel, allWeaponNames);
+            return temp;
+        
+        }
+    }
+    
+    delete temp;
+    return nullptr;
 }
 
 void gameManager::mainMenu()
@@ -206,16 +382,42 @@ void gameManager::chooseNextRoom()
 
 }
 
-monster* gameManager::generateMonster(int l, int index, std::string tName)
+monster* gameManager::generateMonster(int l)
 {
-    monster* temp = new monster(tName,
-                                 allRaces->at(index).race,
-                                 allRaces->at(index).maxHP,
-                                 allRaces->at(index).mStats, 
-                                 l );
+    int index = rand() % allRaces->size();
+
+    monster* temp = new monster("Temp Monster",
+        allRaces->at(index).race,
+        allRaces->at(index).maxHP,
+        allRaces->at(index).mStats,
+        l);
 
     return temp;
 }
+
+monster* gameManager::generateMonster(int l, int index)
+{
+    monster* temp = new monster("Temp Monster",
+        allRaces->at(index).race,
+        allRaces->at(index).maxHP,
+        allRaces->at(index).mStats,
+        l);
+
+    return temp;
+}
+
+monster* gameManager::generateMonster(int l, int index, std::string tName)
+{
+    monster* temp = new monster(tName,
+        allRaces->at(index).race,
+        allRaces->at(index).maxHP,
+        allRaces->at(index).mStats, 
+        l );
+
+    return temp;
+}
+
+
 
 std::vector<std::string>* gameManager::getWeaponNames()
 {

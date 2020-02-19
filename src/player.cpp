@@ -2,7 +2,19 @@
 
 player::player()
 {
-  //ctor
+    name = "temp";
+    race = "n/a";
+
+    maxHealth = 0;
+    currentHealth = maxHealth;
+
+    equippedWeapon = nullptr;
+
+    currentExperience = 0;
+    maxExperience = 100;
+
+    level = 0;
+    gold = 0;
 }
 
 player::~player()
@@ -21,7 +33,44 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   mainStats = tStat;
 
-  equippedWeapon = new weapon;
+  currentExperience = 0;
+  maxExperience = 100;
+
+  level = 0;
+  gold = 0;
+
+}
+
+std::ostream& operator << (std::ostream& out, player& toRender)
+{
+    int nameSpacer = 15 - toRender.getName().length();
+    int raceSpacer = 13 - toRender.getRace().length();
+    int levelSpacer = 8 - std::to_string(toRender.getLevel()).length();
+    int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
+    int goldSpacer = 10 - std::to_string(toRender.getGold()).length();
+    int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
+
+    out <<
+
+        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
+        << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
+        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
+        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
+        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << "\n" << std::setfill('.')
+
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
+        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << "\n"
+        << "2.Int" << std::setw(5) << toRender.getStats()[2] << "\n"
+        << "3.Spd" << std::setw(5) << toRender.getStats()[3]
+        << std::setfill(' ')
+
+    << std::endl;
+
+   
+
+    return out;
 }
 
 void player::swapAbilities()
@@ -31,17 +80,94 @@ void player::swapAbilities()
 
 void player::addExperience(int toAdd)
 {
-  toAdd *= -1;
+    currentExperience += toAdd;
+    if (currentExperience >= maxExperience)
+        levelUp();
 }
 
-void player::leveUp()
+void player::levelUp()
 {
+    int statIn;
+    int statAmountIn;
+    std::vector<int> tempStats(3);
+
+    int availablePoints;
+    if (level == 0)
+        availablePoints = 6;
+    else
+        availablePoints = 2;
+
+    level += 1;
+    // IF the player has more experience than the max experience, carry over that amount,
+    // else set the current experience to 0
+    if (currentExperience > maxExperience)
+        currentExperience -= maxExperience;
+    else
+        currentExperience = 0;
+    // Increase the experience needed for the next level by %150 of the current max experience
+    maxExperience += maxExperience/2;
+
+    std::cout << (*this);
+
+    std::cout <<
+        "Place your stat points by choosing a stat, then typing the amount of points to add."
+        << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
+        << "Available points: " << availablePoints << "\n";
+    
+    while (availablePoints > 0)
+    {
+        std::cin >> statIn >> statAmountIn;
+
+        if (statIn < 3 && availablePoints - statAmountIn >= 0)
+        {
+           
+            tempStats[statIn] += statAmountIn;
+            availablePoints -= statAmountIn;
+
+            switch (statIn)
+            {
+            case 0:
+                std::cout << 
+                    statAmountIn << " point(s) added to Strength. " << availablePoints << " points remaining."
+                    << std::endl;
+                break;
+
+            case 1:
+                std::cout << 
+                    statAmountIn << " point(s) added to Dexterity. " << availablePoints << " points remaining."
+                    << std::endl;
+                break;
+
+            case 2:
+                std::cout << 
+                    statAmountIn << " point(s) added to Intellect. " << availablePoints << " points remaining."
+                    << std::endl;
+                break;
+            }
+        }
+        else
+        {
+            std::cout << "Invalid stat type" << std::endl;
+        }
+        if (availablePoints == 0)
+        {
+            std::cout << "Would you like to commit\n"
+                << "Strength  + " << tempStats[0] << "\n"
+                << "Dexterity + " << tempStats[1] << "\n"
+                << "Intellect + " << tempStats[2] << "\n"
+            << std::endl;
+                
+        }
+    }
+
 
 }
 
 void player::addToStats(std::vector<int>toAdd)
 {
-  toAdd.clear();
+    for(unsigned int i = 0; i < mainStats.size(); i++)
+        mainStats[i] += toAdd[i];
+    checkStatBonuses();
 }
 
 void player::applyStatusEffect(std::vector<int>toApply)
@@ -49,7 +175,12 @@ void player::applyStatusEffect(std::vector<int>toApply)
   toApply.clear();
 }
 
-void player::spawnWeapons(int index)
+void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
 {
-  index *= -1;
+    // If there is a weapon already equipped
+    //if (equippedWeapon != nullptr)
+    //    delete equippedWeapon;
+    if(this != nullptr)
+        equippedWeapon = new weapon(level, weaponNames);
 }
+
