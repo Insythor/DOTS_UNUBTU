@@ -7,10 +7,12 @@ class chest
   public:
     chest(int level);
     ~chest();
+
     bool getIsOpen();
     int lootGold();
     void open();
     inventory* getInventory();
+
   private:
     bool isOpen;
     int gold;

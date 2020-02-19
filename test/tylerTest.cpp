@@ -23,10 +23,12 @@ bool checkRoomIndex(int type, int index);
 
 int main()
 {
+
   screen myScreen;
   roomManager myRoom;
   dice myDice;
   gameManager myManager;
+
 
   bool play = true;
   int type, index = 0;
@@ -62,8 +64,10 @@ int main()
       for( int i = 1; i <= 10; i ++)
       {
         //sleep(1);
-        weapon tempWeapon(i);
+        weapon tempWeapon(i, myManager.getWeaponNames());
+          // tempWeapon.generateWeapon(i);
         std::cout << "Level " << i << " : " << tempWeapon;
+
       }
     break;
 

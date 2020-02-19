@@ -2,7 +2,7 @@
 
 chest::chest(int level)
 {
-
+  level *= -1;
 }
 
 chest::~chest()
@@ -12,12 +12,12 @@ chest::~chest()
 
 bool chest::getIsOpen()
 {
-
+  return isOpen;
 }
 
 int chest::lootGold()
 {
-
+  return gold;
 }
 
 void chest::open()
@@ -27,5 +27,5 @@ void chest::open()
 
 inventory* chest::getInventory()
 {
-
+  return cinventory;
 }

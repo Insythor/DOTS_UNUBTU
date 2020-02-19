@@ -1,7 +1,7 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#define DIR_WEAPON "docs/DATA/weaponNames.txt"
+
 
 #include "item.h"
 #include "dice.h"
@@ -12,12 +12,13 @@
 #include <random>
 #include <vector>
 #include <string>
+#include <memory>
 
 class weapon : public item
 {
   public:
     weapon();
-    weapon(int l);
+    weapon(int l, std::vector<std::string>* nameDicPtr);
     virtual ~weapon();
 
      int getDiceRolls();
@@ -56,8 +57,6 @@ class weapon : public item
     std::vector<std::string>* allNames;
 
     std::string addType(int dSize, int sType);
-
-    void readInNames();
 
 
 };

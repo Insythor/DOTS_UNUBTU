@@ -2,13 +2,12 @@
 #define INVENTORY_H
 
 #include "consumable.h"
-
 #include "weapon.h"
 
 #include <vector>
 #include <iostream>
 
-
+class consumable;
 
 class inventory
 {
@@ -17,13 +16,14 @@ class inventory
    ~inventory();
 
     bool deleteConsumable(int index, int amount);
-    bool deleteWeapon(int index);
+    bool deleteWeapon(unsigned int index);
 
-//    void addConsumable(std::vector<consumable> conStack);
+    void addConsumable(std::vector<consumable> conStack);
 
-//    std::vector<consumable*> removeConsumable(int index, int amount);
+    std::vector<consumable> removeConsumable(unsigned int index, unsigned int amount);
+    std::vector<std::vector<consumable>> removeAllConsumables();
 
-    weapon* removeWeapon(int index);
+    weapon* removeWeapon(unsigned int index);
 
     void addWeapon(weapon* wpnToAdd);
     int getInventorySize();
@@ -33,7 +33,7 @@ class inventory
     std::vector<weapon*> removeAllWeapons();
     bool checkForRoom(int amountToAdd);
   private:
-//    std::vector<std::vector<consumable*>> consumableStacks;
+    std::vector<std::vector<consumable>> consumableStacks;
     std::vector<weapon*> weapons;
     int inventorySize;
 };

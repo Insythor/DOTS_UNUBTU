@@ -2,49 +2,23 @@
 
 weapon::weapon()
 {
-  srand(time(NULL));
   weaponDice = new std::vector<dice>;
-  allNames = new std::vector<std::string>;
-  readInNames();
-
+  allNames = nullptr;
 }
 
-weapon::weapon(int l)
+weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 {
   srand(time(NULL));
-
+//  std::cout << "constructed" << std::endl;
   weaponDice = new std::vector<dice>;
-  allNames = new std::vector<std::string>;
-  readInNames();
+  allNames = nameDicPtr;
+
   generateWeapon(l);
 }
 
 weapon::~weapon()
 {
 
-}
-
-void weapon::readInNames()
-{
-
-  std::ifstream weaponNames;
-  weaponNames.open(DIR_WEAPON);
-  std::string line;
-
-  while(getline(weaponNames, line))
-  {
-    allNames->push_back(line);
-  }
-
-  weaponNames.close();
-
-  allNames->shrink_to_fit();
-/**
-  for(auto i : (*allNames))
-  {
-    std::cout << i << std::endl;
-  }
-  */
 }
 
 void weapon::generateWeapon(int level)
@@ -61,8 +35,9 @@ void weapon::generateWeapon(int level)
 
   if(allNames != nullptr)
   {
-//    std::cout << rand() % allNames->size() << std::endl;
-    name = allNames->at(rand() % allNames->size());
+    int tempIndex = rand() % allNames->size();
+    name = allNames->at(tempIndex);
+    allNames->erase(allNames->begin() + tempIndex);
     name.append(addType(diceSize, statType));
   }
   else
