@@ -8,7 +8,7 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
 
-  mainMenu();
+ // mainMenu();
 }
 
 gameManager::~gameManager()
@@ -131,12 +131,12 @@ void gameManager::characterCreation()
 
   for(int i = 0; i < 3; i++)
   {
-    sleep(1);
+    //sleep(1);
     std::cout << "\n..." << std::endl;
   }
 
-  sleep(1);
-  system("clear");
+  //sleep(1);
+  //system("clear");
 
   std::cout <<
         "Finally! Your hero has arrived!\nWhat shall we call this one then?" <<
@@ -194,14 +194,27 @@ void gameManager::enterRoom()
 
 }
 
-void gameManager::beginCombat()
+void gameManager::beginCombat(int l, int index)
 {
+    std::string tName = "Cheeky McGee";
+    monsterPtr = generateMonster(l, index, tName);
 
 }
 
 void gameManager::chooseNextRoom()
 {
 
+}
+
+monster* gameManager::generateMonster(int l, int index, std::string tName)
+{
+    monster* temp = new monster(tName,
+                                 allRaces->at(index).race,
+                                 allRaces->at(index).maxHP,
+                                 allRaces->at(index).mStats, 
+                                 l );
+
+    return temp;
 }
 
 std::vector<std::string>* gameManager::getWeaponNames()

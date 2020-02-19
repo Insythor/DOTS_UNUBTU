@@ -7,12 +7,17 @@
 class monster : public baseCharacter
 {
   public:
-    monster(int lvl);
+    monster(std::string tName, std::string tRace, int tMaxHP, std::vector<int> tmMStats, int l);
     ~monster();
 
   private:
-    bool isBoss;
 
+    bool isBoss;
+    int level;
+
+    void generateMonster();
+
+    
 };
 
 #endif // MONSTER_H

@@ -7,12 +7,16 @@
 //#include "ability.h"
 #include "inventory.h"
 
+
 #include <string>
 #include <vector>
 
 class baseCharacter
 {
 public:
+
+
+
   baseCharacter();
   virtual ~baseCharacter();
 
@@ -35,7 +39,6 @@ public:
 //  std::vector<ability> getActiveAbilities();
 
 protected:
-
 
   std::string race;
   std::string name;

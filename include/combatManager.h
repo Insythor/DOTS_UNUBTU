@@ -17,7 +17,7 @@ class combatManager
 
   private:
     // Currently player is 0 and monster is 1
-    baseCharacter* fightOrder[];
+    baseCharacter* fightOrder[2];
 
     std::string selectAction(int type, int subType);
     std::string endFight();
