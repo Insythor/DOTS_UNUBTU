@@ -5,6 +5,7 @@
 #include "ability.h"
 #include "inventory.h"
 
+
 #include <string>
 #include <vector>
 
@@ -14,6 +15,9 @@ class inventory;
 class baseCharacter
 {
 public:
+
+
+
   baseCharacter();
   virtual ~baseCharacter();
 
@@ -36,7 +40,6 @@ public:
   int dealDamage();
 
 protected:
-
 
   std::string race;
   std::string name;

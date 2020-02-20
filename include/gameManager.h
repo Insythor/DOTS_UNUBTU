@@ -1,10 +1,12 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
-#define DIR_RACE "../docs/DATA/raceData.csv"
-#define DIR_WEAPON "../docs/DATA/weaponNames.txt"
-#define DIR_INTRO "../docs/DATA/introStory.txt"
+/// UPDATE 
+#define DIR_RACE "../../docs/DATA/raceData.csv"
+#define DIR_WEAPON "../../docs/DATA/weaponNames.txt"
+#define DIR_INTRO "../../docs/DATA/introStory.txt"
 
+#include "baseCharacter.h"
 #include "player.h"
 #include "monster.h"
 #include "chest.h"
@@ -23,7 +25,8 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-#include <unistd.h>
+//#include "unistd.h"
+
 #include <time.h>
 
 class gameManager
@@ -37,17 +40,16 @@ public:
 	void startGame();
 	std::vector<std::string>* getWeaponNames();
 
+
 private:
-
-
-  struct raceData
-  {
-    int index;
-    std::string race;
-    int maxHP;
-    std::vector<int> mStats;
-    std::string description;
-  };
+    struct raceData
+    {
+        int index;
+        std::string race;
+        int maxHP;
+        std::vector<int> mStats;
+        std::string description;
+    };
 
   std::vector<raceData>* allRaces;
 
@@ -67,8 +69,9 @@ private:
   void loadGame();
 
   void enterRoom();
-
-  void beginCombat();
+  // We'll have to start each room description with an index so we know what 
+  // type of monster to spawn
+  void beginCombat(int l, int index);
 
   void chooseNextRoom();
 
@@ -77,6 +80,8 @@ private:
   void printRaces();  // debugging
 
   void readInWeapons();
+
+  monster* generateMonster(int l, int index, std::string tName);
 
 };
 #endif // GAMEMANAGER_H

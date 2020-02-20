@@ -146,7 +146,7 @@ std::vector<consumable*> inventory::removeConsumable(unsigned int index, unsigne
 
 weapon* inventory::removeWeapon(unsigned int index)
 {
-  weapon* tempweapon;
+  weapon* tempweapon = new weapon;
   if(weapons.size() > index)
   {
     tempweapon = weapons[index];
