@@ -2,22 +2,19 @@
 #define CONSUMABLE_H
 
 #include "item.h"
-
-
-
-#include "inventory.h"
 #include <string>
 
 class consumable : public item
 {
   public:
-    consumable(int tid);
-    virtual ~consumable();
-
+    consumable();
+    consumable(int cid);
+    ~consumable();
+    friend std::ostream& operator << (std::ostream& out, consumable &toRender);
     int getID();
-//    void use(player* p);
-
-
+    int getStatToAdd();
+    int getStatValue();
+    bool getIsPerminant();
   private:
     int id;
     int statToAdd;

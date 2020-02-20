@@ -25,12 +25,12 @@ void inventory::viewInventory()
   }
   std::cout << "Consumable's\n";
   std::cout << "-----------------------------------\n";
-  for(std::vector<consumable> j : consumableStacks)
+  for(std::vector<consumable*> j : consumableStacks)
   {
     if(!j.empty())
     {
-//      std::cout << j << std::endl;
-//      std::cout << " x" + j.size() << std::endl;
+      std::cout << j.front() << std::endl;
+      std::cout << " x" + j.size() << std::endl;
     }
   }
 
@@ -42,11 +42,11 @@ void inventory::increaseInventorySize(int amount)
   inventorySize += amount;
 }
 
-std::vector<std::vector<consumable>> inventory::removeAllConsumables()
+std::vector<std::vector<consumable*>> inventory::removeAllConsumables()
 {
-  std::vector<std::vector <consumable>> tempvector = consumableStacks;
+  std::vector<std::vector <consumable*>> tempvector = consumableStacks;
 
-  for(std::vector<consumable> i : consumableStacks)
+  for(std::vector<consumable*> i : consumableStacks)
   {
     i.clear();
   }
@@ -59,17 +59,11 @@ std::vector<weapon*> inventory::removeAllWeapons()
   weapons.clear();
   return tmpvector;
 }
-//void inventory::addConsumable(std::vector<consumable*> conStack)
-//{
-//
-//}
 
-bool inventory::checkForRoom(int amountToAdd)
+bool inventory::checkForRoom(unsigned int amountToAdd)
 {
-  amountToAdd *= -1;
-  int counter = 0;
-
-  for(std::vector<consumable> i : consumableStacks)
+  int counter = amountToAdd;
+  for(std::vector<consumable*> i : consumableStacks)
   {
     counter += i.size();
   }
@@ -84,23 +78,22 @@ bool inventory::checkForRoom(int amountToAdd)
   }
 }
 
-bool inventory::deleteConsumable(int index, int amount)
+bool inventory::deleteConsumable(unsigned int index, unsigned int amount)
 {
   // to stop the compiler from giving warning
-  index *= -1;
-  amount *= -1;
-//  if(consumableStacks.size() > index)
-//    {
-//      if(consumableStacks[index].size() < amount)
-//      {
-//       amount = consumableStacks[index].size();
-//      }
-//      for(int i = amount; i <= 0; i--)
-//      {
-//        delete consumableStacks[index][0];
-//        consumableStacks[index].erase(consumableStacks[index].begin());
-//      }
-//    }
+if(consumableStacks.size() > index)
+{
+    if(consumableStacks[index].size() < amount)
+    {
+        amount = consumableStacks[index].size();
+    }
+    for(int i = amount; i <= 0; i--)
+    {
+        delete consumableStacks[index].front();
+        consumableStacks[index].erase(consumableStacks[index].begin());
+    }
+    return true;
+}
 return false;
 }
 
@@ -110,31 +103,31 @@ bool inventory::deleteWeapon(unsigned int index)
   {
     delete weapons[index];
     weapons.erase(weapons.begin() + index);
+    return true;
   }
   /// temp
   return false;
 }
 
-void inventory::addConsumable(std::vector<consumable> conStack)
+void inventory::addConsumable(std::vector<consumable*> conStack)
 {
-  if(conStack.size() > 0)
-  {
-    int index = conStack[0].getID();
-
-    for(consumable con : conStack)
+    if(conStack.size() > 0)
     {
-//      if(con != nullptr)
-      {
-        consumableStacks[index].push_back(con);
-      }
+        int index = conStack[0]->getID();
+        for(consumable* con : conStack)
+        {
+            if(con != nullptr)
+            {
+                consumableStacks[index].push_back(con);
+            }
+        }
     }
-  }
 }
 
 
-std::vector<consumable> inventory::removeConsumable(unsigned int index, unsigned int amount)
+std::vector<consumable*> inventory::removeConsumable(unsigned int index, unsigned int amount)
 {
-  std::vector<consumable> tempvector;
+  std::vector<consumable*> tempvector;
   if(consumableStacks.size() > index)
   {
     if(consumableStacks[index].size() < amount)
@@ -143,7 +136,7 @@ std::vector<consumable> inventory::removeConsumable(unsigned int index, unsigned
     }
     for(int i = amount; i <= 0; i--)
     {
-      tempvector.push_back(consumableStacks[index][0]);
+      tempvector.push_back(consumableStacks[index].front());
       consumableStacks[index].erase(consumableStacks[index].begin());
     }
   }

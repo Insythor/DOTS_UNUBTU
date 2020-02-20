@@ -1,10 +1,8 @@
 // Superclass of the player/monsters
-
 #ifndef BASECHARACTER_H
 #define BASECHARACTER_H
 
-#include "weapon.h"
-//#include "ability.h"
+#include "ability.h"
 #include "inventory.h"
 
 #include <iostream>
@@ -12,31 +10,41 @@
 #include <string>
 #include <vector>
 
+class ability;
+class inventory;
+
 class baseCharacter
 {
 public:
   baseCharacter();
   virtual ~baseCharacter();
 
-  void takeDamage(int damage);
-  int dealDamage();
-
   std::string getName();
   std::string getRace();
-
   int getCurrentHealth();
   int getMaxHealth();
-  bool isDead();
   int getLevel();
-  std::vector<int> getStats();
   int getSpeed();
   int getDamagePower();
+<<<<<<< HEAD
   int getGold();
   weapon* getWeapon();
 
   void setGold(int g);
 //  inventory getInventory();
 //  std::vector<ability> getActiveAbilities();
+=======
+  int getGold();
+  std::vector<int> getStats();
+  inventory* getInventory();
+  std::vector<ability*> getActiveAbilities();
+
+  void setGold(int g);
+
+  bool isDead();
+  void takeDamage(int damage);
+  int dealDamage();
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 
 protected:
 
@@ -53,11 +61,15 @@ protected:
   std::vector<int> statBonuses;
   
   int gold;
-//  inventory* cInventory;
+  inventory* cInventory;
   weapon* equippedWeapon;
+<<<<<<< HEAD
 //  std::vector<ability> activeAbilities;
 
   void checkStatBonuses();
+=======
+  std::vector<ability*> activeAbilities;
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 };
 
 #endif // BASECHARACTER_H

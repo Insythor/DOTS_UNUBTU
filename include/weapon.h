@@ -19,7 +19,7 @@ class weapon : public item
   public:
     weapon();
     weapon(int l, std::vector<std::string>* nameDicPtr);
-    virtual ~weapon();
+    ~weapon();
 
      int getDiceRolls();
      int getDiceSize();

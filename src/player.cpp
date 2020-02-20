@@ -1,4 +1,5 @@
 #include "player.h"
+<<<<<<< HEAD
 
 player::player()
 {
@@ -22,6 +23,8 @@ player::~player()
   //dtor
 }
 
+=======
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
 {
@@ -33,6 +36,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   mainStats = tStat;
 
+<<<<<<< HEAD
   currentExperience = 0;
   maxExperience = 100;
 
@@ -71,7 +75,17 @@ std::ostream& operator << (std::ostream& out, player& toRender)
    
 
     return out;
+=======
+  equippedWeapon = new weapon;
 }
+
+player::~player()
+{
+  //dtor
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+}
+
+
 
 void player::swapAbilities()
 {
@@ -80,11 +94,28 @@ void player::swapAbilities()
 
 void player::addExperience(int toAdd)
 {
+<<<<<<< HEAD
     currentExperience += toAdd;
     if (currentExperience >= maxExperience)
         levelUp();
+=======
+  currentExperience += toAdd;
+  checkForLevelUp();
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 }
 
+void player::checkForLevelUp()
+{
+ if(currentExperience >= maxExperience)
+  {
+      int difference = currentExperience - maxExperience;
+      leveUp();
+      currentExperience = difference;
+      checkForLevelUp(); //recursion for if you gain more than one level
+  }
+}
+
+<<<<<<< HEAD
 void player::levelUp()
 {
     int statIn;
@@ -161,6 +192,13 @@ void player::levelUp()
     }
 
 
+=======
+void player::leveUp()
+{
+    level++;
+    //osrs multiplier;
+    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 }
 
 void player::addToStats(std::vector<int>toAdd)
@@ -183,4 +221,49 @@ void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
     if(this != nullptr)
         equippedWeapon = new weapon(level, weaponNames);
 }
+<<<<<<< HEAD
 
+=======
+void player::useConsumable(unsigned int index)
+{
+    std::vector<consumable*> tempC = cInventory->removeConsumable(index, 1);
+    if(tempC.size() > 0)
+    {
+        int stat = tempC.front()->getStatToAdd();
+        int amount = tempC.front()->getStatValue();
+        if(tempC.front()->getIsPerminant())
+        {
+            switch(stat)
+            {
+            case 1: mainStats[0] += amount;
+                    break;
+            case 2: mainStats[1] += amount;
+                    break;
+            case 3: mainStats[2] += amount;
+                    break;
+            case 4: mainStats[3] += amount;
+                    break;
+            case 5: maxHealth += amount;
+                    currentHealth += amount;
+                    break;
+            }
+        }
+        else
+        {
+            switch(stat)
+            {
+            case 1: statusEffect[0] += amount;
+                    break;
+            case 2: statusEffect[1] += amount;
+                    break;
+            case 3: statusEffect[2] += amount;
+                    break;
+            case 4: statusEffect[3] += amount;
+                    break;
+            }
+        }
+        delete tempC.front();
+        tempC.clear();
+    }
+}
+>>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
