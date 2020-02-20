@@ -5,7 +5,8 @@
 #include "ability.h"
 #include "inventory.h"
 
-
+#include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 
@@ -15,9 +16,6 @@ class inventory;
 class baseCharacter
 {
 public:
-
-
-
   baseCharacter();
   virtual ~baseCharacter();
 
@@ -28,7 +26,11 @@ public:
   int getLevel();
   int getSpeed();
   int getDamagePower();
+
   int getGold();
+  weapon* getWeapon();
+
+
   std::vector<int> getStats();
   inventory* getInventory();
   std::vector<ability*> getActiveAbilities();
@@ -39,6 +41,7 @@ public:
   void takeDamage(int damage);
   int dealDamage();
 
+
 protected:
 
   std::string race;
@@ -46,14 +49,23 @@ protected:
 
   int currentHealth;
   int maxHealth;
-  // 0 = strength 1 = dex 2 = int 3 = speed
-  std::vector<int> mainStats;
 
   int level;
+  // 0 = strength 1 = dex 2 = int 3 = speed
+  std::vector<int> mainStats;
+  // How much of a benafit do your stats give you
+  std::vector<int> statBonuses;
+  
   int gold;
   inventory* cInventory;
   weapon* equippedWeapon;
+
+//  std::vector<ability> activeAbilities;
+
+  void checkStatBonuses();
+
   std::vector<ability*> activeAbilities;
+
 };
 
 #endif // BASECHARACTER_H

@@ -138,7 +138,7 @@ std::ostream& operator << (std::ostream &out, weapon &toRender)
   out <<
         toRender.getName() << ", " << toRender.getDiceRolls()
         << "d" << toRender.getDiceSize() <<
-         "  Damage: " << toRender.dealDamage()
+        "  Damage: " << toRender.dealDamage()
   << std::endl;
 
   return out;
