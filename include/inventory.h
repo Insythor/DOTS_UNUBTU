@@ -7,33 +7,26 @@
 #include <vector>
 #include <iostream>
 
-class consumable;
-
 class inventory
 {
   public:
     inventory();
    ~inventory();
-
-    bool deleteConsumable(int index, int amount);
+    bool deleteConsumable(unsigned int index, unsigned int amount);
     bool deleteWeapon(unsigned int index);
-
-    void addConsumable(std::vector<consumable> conStack);
-
-    std::vector<consumable> removeConsumable(unsigned int index, unsigned int amount);
-    std::vector<std::vector<consumable>> removeAllConsumables();
-
+    void addConsumable(std::vector<consumable*> conStack);
+    std::vector<consumable*> removeConsumable(unsigned int index, unsigned int amount);
+    std::vector<std::vector<consumable*>> removeAllConsumables();
     weapon* removeWeapon(unsigned int index);
-
     void addWeapon(weapon* wpnToAdd);
     int getInventorySize();
     void viewInventory();
     void increaseInventorySize(int amount);
-//    std::vector<std::vector<consumable*>> removeAllConsumables();
     std::vector<weapon*> removeAllWeapons();
-    bool checkForRoom(int amountToAdd);
+    bool checkForRoom(unsigned int amountToAdd);
+
   private:
-    std::vector<std::vector<consumable>> consumableStacks;
+    std::vector<std::vector<consumable*>> consumableStacks;
     std::vector<weapon*> weapons;
     int inventorySize;
 };

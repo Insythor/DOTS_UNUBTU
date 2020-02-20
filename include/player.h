@@ -6,10 +6,9 @@
 class player : public baseCharacter
 {
   public:
-    player();
     player(std::string tName, std::string tRace, int tMaxHP,
                   std::vector<int> tStat);
-    virtual ~player();
+    ~player();
     /**
       @brief
     */
@@ -21,6 +20,10 @@ class player : public baseCharacter
     void addExperience(int toAdd);
     /**
       @brief
+    */
+    void checkForLevelUp();
+    /**
+        @brief
     */
     void leveUp();
     /**
@@ -38,16 +41,15 @@ class player : public baseCharacter
       @param [in] int
     */
     void spawnWeapons(int index);
-
+    void useConsumable(unsigned int index);
 
   private:
 
     int currentExperience;
     int maxExperience;
+    std::vector<ability*> storedAbilities;
 
-  //  std::vector<ability> storedAbilities;
-
-  std::vector<int> statusEffect;
+    std::vector<int> statusEffect;
 };
 
 #endif // PLAYER_H

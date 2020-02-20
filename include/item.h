@@ -13,7 +13,6 @@ class item
     int getCost();
     int getSellValue();
 
-  private:
   protected:
     std::string name;
     int cost;

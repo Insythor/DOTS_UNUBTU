@@ -1,14 +1,15 @@
 // Superclass of the player/monsters
-
 #ifndef BASECHARACTER_H
 #define BASECHARACTER_H
 
-#include "weapon.h"
-//#include "ability.h"
+#include "ability.h"
 #include "inventory.h"
 
 #include <string>
 #include <vector>
+
+class ability;
+class inventory;
 
 class baseCharacter
 {
@@ -16,23 +17,23 @@ public:
   baseCharacter();
   virtual ~baseCharacter();
 
-  void takeDamage(int damage);
-  int dealDamage();
-
   std::string getName();
   std::string getRace();
-
   int getCurrentHealth();
   int getMaxHealth();
-  bool isDead();
   int getLevel();
-  std::vector<int> getStats();
   int getSpeed();
   int getDamagePower();
   int getGold();
+  std::vector<int> getStats();
+  inventory* getInventory();
+  std::vector<ability*> getActiveAbilities();
+
   void setGold(int g);
-//  inventory getInventory();
-//  std::vector<ability> getActiveAbilities();
+
+  bool isDead();
+  void takeDamage(int damage);
+  int dealDamage();
 
 protected:
 
@@ -47,9 +48,9 @@ protected:
 
   int level;
   int gold;
-//  inventory* cInventory;
+  inventory* cInventory;
   weapon* equippedWeapon;
-//  std::vector<ability> activeAbilities;
+  std::vector<ability*> activeAbilities;
 };
 
 #endif // BASECHARACTER_H
