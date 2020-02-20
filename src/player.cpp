@@ -1,5 +1,5 @@
 #include "player.h"
-<<<<<<< HEAD
+
 
 player::player()
 {
@@ -23,8 +23,7 @@ player::~player()
   //dtor
 }
 
-=======
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
 {
@@ -36,7 +35,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   mainStats = tStat;
 
-<<<<<<< HEAD
+
   currentExperience = 0;
   maxExperience = 100;
 
@@ -70,22 +69,12 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         << std::setfill(' ')
 
-    << std::endl;
+        << std::endl;
 
-   
+
 
     return out;
-=======
-  equippedWeapon = new weapon;
 }
-
-player::~player()
-{
-  //dtor
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
-}
-
-
 
 void player::swapAbilities()
 {
@@ -94,14 +83,13 @@ void player::swapAbilities()
 
 void player::addExperience(int toAdd)
 {
-<<<<<<< HEAD
+
     currentExperience += toAdd;
     if (currentExperience >= maxExperience)
         levelUp();
-=======
+
   currentExperience += toAdd;
-  checkForLevelUp();
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
 }
 
 void player::checkForLevelUp()
@@ -109,13 +97,13 @@ void player::checkForLevelUp()
  if(currentExperience >= maxExperience)
   {
       int difference = currentExperience - maxExperience;
-      leveUp();
+      levelUp();
       currentExperience = difference;
       checkForLevelUp(); //recursion for if you gain more than one level
   }
 }
 
-<<<<<<< HEAD
+
 void player::levelUp()
 {
     int statIn;
@@ -136,7 +124,7 @@ void player::levelUp()
     else
         currentExperience = 0;
     // Increase the experience needed for the next level by %150 of the current max experience
-    maxExperience += maxExperience/2;
+    maxExperience += maxExperience / 2;
 
     std::cout << (*this);
 
@@ -144,33 +132,33 @@ void player::levelUp()
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
-    
+
     while (availablePoints > 0)
     {
         std::cin >> statIn >> statAmountIn;
 
         if (statIn < 3 && availablePoints - statAmountIn >= 0)
         {
-           
+
             tempStats[statIn] += statAmountIn;
             availablePoints -= statAmountIn;
 
             switch (statIn)
             {
             case 0:
-                std::cout << 
+                std::cout <<
                     statAmountIn << " point(s) added to Strength. " << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 1:
-                std::cout << 
+                std::cout <<
                     statAmountIn << " point(s) added to Dexterity. " << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 2:
-                std::cout << 
+                std::cout <<
                     statAmountIn << " point(s) added to Intellect. " << availablePoints << " points remaining."
                     << std::endl;
                 break;
@@ -186,20 +174,20 @@ void player::levelUp()
                 << "Strength  + " << tempStats[0] << "\n"
                 << "Dexterity + " << tempStats[1] << "\n"
                 << "Intellect + " << tempStats[2] << "\n"
-            << std::endl;
-                
+                << std::endl;
+
         }
     }
-
-
-=======
-void player::leveUp()
-{
-    level++;
-    //osrs multiplier;
-    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
 }
+
+
+//void player::levelUp()
+//{
+//    level++;
+//    //osrs multiplier;
+//    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
+//
+//}
 
 void player::addToStats(std::vector<int>toAdd)
 {
@@ -221,9 +209,7 @@ void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
     if(this != nullptr)
         equippedWeapon = new weapon(level, weaponNames);
 }
-<<<<<<< HEAD
 
-=======
 void player::useConsumable(unsigned int index)
 {
     std::vector<consumable*> tempC = cInventory->removeConsumable(index, 1);
@@ -266,4 +252,4 @@ void player::useConsumable(unsigned int index)
         tempC.clear();
     }
 }
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+

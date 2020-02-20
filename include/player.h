@@ -6,16 +6,16 @@
 class player : public baseCharacter
 {
   public:
+     player();
     player(std::string tName, std::string tRace, int tMaxHP,
                   std::vector<int> tStat);
-<<<<<<< HEAD
+
 
     friend std::ostream& operator << (std::ostream& out, player& toRender);
 
-    virtual ~player();
-=======
+
     ~player();
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
     /**
       @brief
     */
@@ -47,13 +47,13 @@ class player : public baseCharacter
       @brief Overwrites the players equiped weapon with a new weapon at random
       @param [in] int for level of weapon to generate
     */
-<<<<<<< HEAD
+
     void spawnWeapon(int level, std::vector<std::string>* weaponNames);
 
-=======
+
     void spawnWeapons(int index);
     void useConsumable(unsigned int index);
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
 
   private:
 

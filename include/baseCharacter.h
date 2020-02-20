@@ -26,15 +26,11 @@ public:
   int getLevel();
   int getSpeed();
   int getDamagePower();
-<<<<<<< HEAD
+
   int getGold();
   weapon* getWeapon();
 
-  void setGold(int g);
-//  inventory getInventory();
-//  std::vector<ability> getActiveAbilities();
-=======
-  int getGold();
+
   std::vector<int> getStats();
   inventory* getInventory();
   std::vector<ability*> getActiveAbilities();
@@ -44,7 +40,7 @@ public:
   bool isDead();
   void takeDamage(int damage);
   int dealDamage();
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
 
 protected:
 
@@ -63,13 +59,13 @@ protected:
   int gold;
   inventory* cInventory;
   weapon* equippedWeapon;
-<<<<<<< HEAD
+
 //  std::vector<ability> activeAbilities;
 
   void checkStatBonuses();
-=======
+
   std::vector<ability*> activeAbilities;
->>>>>>> 2273b378aa816a2b7feccc5c0cbc62879c97e27d
+
 };
 
 #endif // BASECHARACTER_H
