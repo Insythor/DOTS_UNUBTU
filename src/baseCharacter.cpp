@@ -102,3 +102,4 @@ void baseCharacter::checkStatBonuses()
   {
     return gold;
   }
+  

@@ -21,13 +21,15 @@ class player : public baseCharacter
     */
     void swapAbilities();
     /**
-      @brief
+      @brief Adds the given amount of experience to the players current experience,
+             then checks if the player has enough experience to level up, and call levelup()
       @param [in] int how much experience is to be added
     */
     void addExperience(int toAdd);
     /**
       @brief
     */
+    // Why do we need to check to level up outside of the addExperience function()
     void checkForLevelUp();
     /**
         @brief
@@ -35,7 +37,7 @@ class player : public baseCharacter
     void levelUp();
     /**
       @brief
-      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int [3] Speed
+      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int 
     */
     void addToStats(std::vector<int> toAdd);
     /**
@@ -53,6 +55,8 @@ class player : public baseCharacter
 
     void spawnWeapons(int index);
     void useConsumable(unsigned int index);
+
+    std::vector<int> getExperience();
 
 
   private:

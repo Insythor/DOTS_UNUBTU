@@ -26,8 +26,8 @@ public:
   int getLevel();
   int getSpeed();
   int getDamagePower();
-
   int getGold();
+
   weapon* getWeapon();
 
 

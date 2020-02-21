@@ -46,28 +46,35 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
-    int nameSpacer = 15 - toRender.getName().length();
-    int raceSpacer = 13 - toRender.getRace().length();
-    int levelSpacer = 8 - std::to_string(toRender.getLevel()).length();
+    // Figure out the widths for each section of the player output stream
+    int nameSpacer = 20 - toRender.getName().length();
+    int raceSpacer = 20 - toRender.getRace().length();
+    int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
+    int currentXpSpacer = std::to_string(toRender.getExperience()[0]).length();
+    int maxXpScacer = 5 + std::to_string(toRender.getExperience()[1]).length();
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
     int goldSpacer = 10 - std::to_string(toRender.getGold()).length();
     int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
 
-    out <<
+    // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
+    out << "\n" <<
 
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
+        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / " 
+                << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
         << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
         << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
         << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
         << "\n" << std::setfill('.')
-
+        // Print out the players stats
         << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << "\n"
         << "2.Int" << std::setw(5) << toRender.getStats()[2] << "\n"
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
-        << std::setfill(' ')
+        // reset the fill back to empty space
+        << std::setfill(' ') << "\n"
 
         << std::endl;
 
@@ -83,39 +90,41 @@ void player::swapAbilities()
 
 void player::addExperience(int toAdd)
 {
-
     currentExperience += toAdd;
+
     if (currentExperience >= maxExperience)
         levelUp();
-
-  currentExperience += toAdd;
-
 }
 
+// when is this being called?? Why do we need to check the player for leveling up
+// other than when the player gains experience?
 void player::checkForLevelUp()
 {
- if(currentExperience >= maxExperience)
-  {
-      int difference = currentExperience - maxExperience;
-      levelUp();
-      currentExperience = difference;
-      checkForLevelUp(); //recursion for if you gain more than one level
-  }
+    if(currentExperience >= maxExperience)
+    {
+        levelUp();
+    }
 }
 
 
 void player::levelUp()
 {
+    // temp variables used to for input
     int statIn;
     int statAmountIn;
-    std::vector<int> tempStats(3);
-
+    std::string command;
+    // Stats the user has chosen to upgrade
+    std::vector<int> tempStats(4);
+    // how many stat points the player can add to their hero
     int availablePoints;
+    // When you create your character you get more points
     if (level == 0)
         availablePoints = 6;
     else
         availablePoints = 2;
-
+    // stored amout of available points incase the user does not want to commit their changes
+    int backupAvailPoints = availablePoints;
+    // ding!
     level += 1;
     // IF the player has more experience than the max experience, carry over that amount,
     // else set the current experience to 0
@@ -123,15 +132,16 @@ void player::levelUp()
         currentExperience -= maxExperience;
     else
         currentExperience = 0;
-    // Increase the experience needed for the next level by %150 of the current max experience
-    maxExperience += maxExperience / 2;
+    // Increase max experience needed to level up again
+    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
 
-    std::cout << (*this);
 
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
+
+    std::cout << (*this);
 
     while (availablePoints > 0)
     {
@@ -139,10 +149,11 @@ void player::levelUp()
 
         if (statIn < 3 && availablePoints - statAmountIn >= 0)
         {
-
+            // Add the stats input by the player to the tempStats vector
             tempStats[statIn] += statAmountIn;
+            // reduce the available points by the amount of points the player just spent
             availablePoints -= statAmountIn;
-
+            // Print what the user just did so they know whats up
             switch (statIn)
             {
             case 0:
@@ -164,10 +175,12 @@ void player::levelUp()
                 break;
             }
         }
+        // Tell the user if they entered an invalid command / stat amount
         else
         {
-            std::cout << "Invalid stat type" << std::endl;
+            std::cout << "Invalid stat type or amount" << std::endl;
         }
+        // If all the available points are spent, show the user what they have selected so far
         if (availablePoints == 0)
         {
             std::cout << "Would you like to commit\n"
@@ -176,23 +189,51 @@ void player::levelUp()
                 << "Intellect + " << tempStats[2] << "\n"
                 << std::endl;
 
+            std::cin >> command;
+           // add the chosen stats from the player to the main stats vector
+            // break for the while loop
+            if (command == "yes" || command == "Yes" || command == "y")
+            {
+                addToStats(tempStats);
+                // Positive reinforcement is a key value of the Spire...
+                std::cout << "Good Choice Adventurer!" << std::endl;
+                break;
+            }
+                    
+
+            // reset the available points and tempStats vector which essentially restarts the loop
+            else if (command == "no" || command == "No" || command == "n")
+            {
+                availablePoints = backupAvailPoints;
+                tempStats.clear();
+                tempStats.resize(4);
+
+                std::cout <<
+                    "Place your stat points by choosing a stat, then typing the amount of points to add."
+                    << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
+                    << "Available points: " << availablePoints << "\n";
+            }
         }
     }
+
+    // Add 50% of the players strength to their HP
+    // Arbitrary and needs to be replaced with actual value
+    maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+    currentHealth = maxHealth;
+
+    // Print out the player so the user can see their changes
+    std::cout << (*this);
+
+    // Check if the player has enough experience to levelup again
+    addExperience(0);
 }
 
-
-//void player::levelUp()
-//{
-//    level++;
-//    //osrs multiplier;
-//    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
-//
-//}
 
 void player::addToStats(std::vector<int>toAdd)
 {
     for(unsigned int i = 0; i < mainStats.size(); i++)
         mainStats[i] += toAdd[i];
+
     checkStatBonuses();
 }
 
@@ -253,3 +294,12 @@ void player::useConsumable(unsigned int index)
     }
 }
 
+std::vector<int> player::getExperience()
+{
+    std::vector<int> temp;
+
+    temp.push_back(currentExperience);
+    temp.push_back(maxExperience);
+
+    return temp;
+}

@@ -162,6 +162,10 @@ void gameManager::startGame()
          //   generateMonster();
             break;
 
+        case 90:
+            system("clear");
+            break;
+
         case 0:
             play = false;
             break;
@@ -233,12 +237,13 @@ int gameManager::formatCommand(std::string command)
     else if (command == "makePlayer" || command == "mp")
         temp = 21;
     else if (command == "levelUp" || command == "lvl")
-       temp = 210;
+        temp = 210;
 
     else if (command == "makeMonster" || command == "mm")
         temp = 22;
 
-
+    else if (command == "clear")
+        return 90;
 
 
 
