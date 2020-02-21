@@ -2,7 +2,9 @@
 #define CONSUMABLE_H
 
 #include "item.h"
+
 #include <string>
+#include <iostream>
 
 class consumable : public item
 {

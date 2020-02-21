@@ -6,7 +6,7 @@
 class player : public baseCharacter
 {
   public:
-     player();
+    player();
     player(std::string tName, std::string tRace, int tMaxHP,
                   std::vector<int> tStat);
 
@@ -59,7 +59,6 @@ class player : public baseCharacter
 
     int currentExperience;
     int maxExperience;
-    std::vector<ability*> storedAbilities;
 
     std::vector<int> statusEffect;
 };

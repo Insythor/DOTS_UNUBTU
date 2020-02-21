@@ -7,7 +7,24 @@ inventory::inventory()
 
 inventory::~inventory()
 {
-
+    for(std::vector<consumable*> i : consumableStacks)
+    {
+        for(consumable* j : i)
+        {
+            delete j;
+        }
+        i.clear();
+    }
+    for(weapon* i : weapons)
+    {
+        delete i;
+    }
+    weapons.clear();
+    for(ability* i : abilities)
+    {
+        delete i;
+    }
+    abilities.clear();
 }
 
 int inventory::getInventorySize()
@@ -33,7 +50,12 @@ void inventory::viewInventory()
       std::cout << " x" + j.size() << std::endl;
     }
   }
-
+  std::cout << "Stored Abilities\n";
+  std::cout << "-----------------------------------\n";
+  for(ability* k : abilities)
+  {
+      std::cout << k << std::endl;
+  }
 }
 
 
@@ -78,7 +100,7 @@ bool inventory::checkForRoom(unsigned int amountToAdd)
   }
 }
 
-bool inventory::deleteConsumable(unsigned int index, unsigned int amount)
+bool inventory::deleteConsumables(unsigned int index, unsigned int amount)
 {
   // to stop the compiler from giving warning
 if(consumableStacks.size() > index)
@@ -109,7 +131,7 @@ bool inventory::deleteWeapon(unsigned int index)
   return false;
 }
 
-void inventory::addConsumable(std::vector<consumable*> conStack)
+void inventory::addConsumables(std::vector<consumable*> conStack)
 {
     if(conStack.size() > 0)
     {
@@ -125,7 +147,7 @@ void inventory::addConsumable(std::vector<consumable*> conStack)
 }
 
 
-std::vector<consumable*> inventory::removeConsumable(unsigned int index, unsigned int amount)
+std::vector<consumable*> inventory::removeConsumables(unsigned int index, unsigned int amount)
 {
   std::vector<consumable*> tempvector;
   if(consumableStacks.size() > index)
@@ -161,4 +183,23 @@ void inventory::addWeapon(weapon* wpnToAdd)
   {
     weapons.push_back(wpnToAdd);
   }
+}
+
+void inventory::addAbility(ability* abilityToAdd)
+{
+    if(abilityToAdd != nullptr)
+    {
+        abilities.push_back(abilityToAdd);
+    }
+}
+
+ability* inventory::removeAbility(unsigned int index)
+{
+    ability* tempability = new ability;
+    if(abilities.size() > index)
+    {
+        tempability = abilities[index];
+        abilities.erase(abilities.begin() + index);
+    }
+    return tempability;
 }

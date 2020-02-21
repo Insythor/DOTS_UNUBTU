@@ -9,7 +9,13 @@ baseCharacter::baseCharacter()
 
 baseCharacter::~baseCharacter()
 {
-
+    for(ability* i : activeAbilities)
+    {
+        delete i;
+    }
+    activeAbilities.clear();
+    delete cInventory;
+    delete equippedWeapon;
 }
 
 void baseCharacter::takeDamage(int damage)
@@ -34,9 +40,22 @@ void baseCharacter::checkStatBonuses()
     }
     for (auto i : mainStats)
         std::cout << "\n" << i << std::endl;
-    
+
 }
 
+
+
+int baseCharacter::useAbility(unsigned int index)
+{
+    if(activeAbilities.size() > index)
+    {
+        return activeAbilities[index]->dealDamage(mainStats);
+    }
+    else
+    {
+        return 0; //if 0 cout where called ability on cooldown.
+    }
+}
 
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()
@@ -82,6 +101,16 @@ void baseCharacter::checkStatBonuses()
   bool baseCharacter::isDead()
   {
     return false;
+  }
+
+  inventory* baseCharacter::getInventory()
+  {
+    return cInventory;
+  }
+
+  std::vector<ability*> baseCharacter::getActiveAbilities()
+  {
+    return activeAbilities;
   }
 
   void baseCharacter::setGold(int g)

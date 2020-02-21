@@ -85,10 +85,7 @@ void player::addExperience(int toAdd)
 {
 
     currentExperience += toAdd;
-    if (currentExperience >= maxExperience)
-        levelUp();
-
-  currentExperience += toAdd;
+    checkForLevelUp();
 
 }
 
@@ -96,9 +93,7 @@ void player::checkForLevelUp()
 {
  if(currentExperience >= maxExperience)
   {
-      int difference = currentExperience - maxExperience;
       levelUp();
-      currentExperience = difference;
       checkForLevelUp(); //recursion for if you gain more than one level
   }
 }
@@ -117,12 +112,7 @@ void player::levelUp()
         availablePoints = 2;
 
     level += 1;
-    // IF the player has more experience than the max experience, carry over that amount,
-    // else set the current experience to 0
-    if (currentExperience > maxExperience)
-        currentExperience -= maxExperience;
-    else
-        currentExperience = 0;
+    currentExperience -= maxExperience;
     // Increase the experience needed for the next level by %150 of the current max experience
     maxExperience += maxExperience / 2;
 
@@ -180,25 +170,11 @@ void player::levelUp()
     }
 }
 
-
-//void player::levelUp()
-//{
-//    level++;
-//    //osrs multiplier;
-//    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
-//
-//}
-
 void player::addToStats(std::vector<int>toAdd)
 {
     for(unsigned int i = 0; i < mainStats.size(); i++)
         mainStats[i] += toAdd[i];
     checkStatBonuses();
-}
-
-void player::applyStatusEffect(std::vector<int>toApply)
-{
-  toApply.clear();
 }
 
 void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
@@ -212,7 +188,7 @@ void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
 
 void player::useConsumable(unsigned int index)
 {
-    std::vector<consumable*> tempC = cInventory->removeConsumable(index, 1);
+    std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
         int stat = tempC.front()->getStatToAdd();

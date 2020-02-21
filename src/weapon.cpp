@@ -18,7 +18,7 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 
 weapon::~weapon()
 {
-
+    delete weaponDice;
 }
 
 void weapon::generateWeapon(int level)

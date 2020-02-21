@@ -3,7 +3,7 @@
 
 #include "consumable.h"
 #include "weapon.h"
-
+#include "ability.h"
 #include <vector>
 #include <iostream>
 
@@ -12,10 +12,12 @@ class inventory
   public:
     inventory();
    ~inventory();
-    bool deleteConsumable(unsigned int index, unsigned int amount);
+    bool deleteConsumables(unsigned int index, unsigned int amount);
     bool deleteWeapon(unsigned int index);
-    void addConsumable(std::vector<consumable*> conStack);
-    std::vector<consumable*> removeConsumable(unsigned int index, unsigned int amount);
+    void addConsumables(std::vector<consumable*> conStack);
+    void addAbility(ability* abilityToAdd);
+    ability* removeAbility(unsigned int index);
+    std::vector<consumable*> removeConsumables(unsigned int index, unsigned int amount);
     std::vector<std::vector<consumable*>> removeAllConsumables();
     weapon* removeWeapon(unsigned int index);
     void addWeapon(weapon* wpnToAdd);
@@ -28,6 +30,7 @@ class inventory
   private:
     std::vector<std::vector<consumable*>> consumableStacks;
     std::vector<weapon*> weapons;
+    std::vector<ability*> abilities;
     int inventorySize;
 };
 

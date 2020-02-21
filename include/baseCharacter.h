@@ -40,7 +40,7 @@ public:
   bool isDead();
   void takeDamage(int damage);
   int dealDamage();
-
+  int useAbility(unsigned int index);
 
 protected:
 
@@ -55,12 +55,11 @@ protected:
   std::vector<int> mainStats;
   // How much of a benafit do your stats give you
   std::vector<int> statBonuses;
-  
+
   int gold;
   inventory* cInventory;
   weapon* equippedWeapon;
 
-//  std::vector<ability> activeAbilities;
 
   void checkStatBonuses();
 
