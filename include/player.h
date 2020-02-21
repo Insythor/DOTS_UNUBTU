@@ -1,6 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#define DIR_PLAYERSAVE "../../docs/DATA/save"
+#define PLAYERSAVE_EXT ".csv"
+
 #include "baseCharacter.h"
 
 class player : public baseCharacter
@@ -55,8 +58,14 @@ class player : public baseCharacter
 
     void spawnWeapons(int index);
     void useConsumable(unsigned int index);
-
+    /**
+        @brief return the players currentExperience and the experience they need
+        to level up
+        @param[out] std::vector<int> [0] = currentExperience [1] = maxExperience 
+    */
     std::vector<int> getExperience();
+
+    void save();
 
 
   private:

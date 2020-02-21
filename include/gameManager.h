@@ -72,6 +72,7 @@ private:
 
   void mainMenu();
 
+  void saveGame();
   void loadGame();
 
   void enterRoom();

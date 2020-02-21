@@ -58,13 +58,21 @@ protected:
   
   int gold;
   inventory* cInventory;
+
+  int damagePower;
   weapon* equippedWeapon;
 
-//  std::vector<ability> activeAbilities;
-
-  void checkStatBonuses();
 
   std::vector<ability*> activeAbilities;
+
+  void checkStatBonuses();
+  /**
+    @brief Check if the equipped weapon gain a bonus to damage 
+           based on the type of weapon it is and the players stats
+           so use this weapon
+  */
+  void updateDamagePower();
+  
 
 };
 

@@ -16,9 +16,27 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
   generateWeapon(l);
 }
 
+weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
+{
+    allNames = nullptr;
+    
+    name = nam;
+    diceSize = dSize;
+    diceRolls = dRolls;
+    statRequirements = sReq;
+    weaponDice = new std::vector<dice>;
+
+    for (int i = 0; i < diceRolls; i++)
+    {
+        weaponDice->push_back(diceSize);
+    }
+    
+    weaponDice->shrink_to_fit();
+}
+
 weapon::~weapon()
 {
-
+    delete weaponDice;
 }
 
 void weapon::generateWeapon(int level)
@@ -155,6 +173,7 @@ int weapon::dealDamage()
   return tempDamage;
 }
 
+
 /** *****************  Getters *****************  */
 int weapon::getDiceRolls()
 {
@@ -171,7 +190,10 @@ std::vector<int> weapon::getStatRequirements()
   return statRequirements;
 }
 
-
+std::string weapon::getName()
+{
+    return name;
+}
 
 
 

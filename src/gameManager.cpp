@@ -365,6 +365,11 @@ void gameManager::mainMenu()
 
 }
 
+void gameManager::saveGame()
+{
+    playerPtr->save();
+}
+
 void gameManager::loadGame()
 {
 

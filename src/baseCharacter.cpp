@@ -22,22 +22,33 @@ void baseCharacter::checkStatBonuses()
 {
     statBonuses.clear();
     statBonuses.resize(4);
+
     for (int i = 0; i < 3; i ++)
     {
         if (mainStats[i] > 10)
             statBonuses[i] += (mainStats[i] / 2) - 5;
+
         if (i == 1 && statBonuses[1] > 0 && mainStats[3] - statBonuses[1] > 0)
         {
             mainStats[3] += mainStats[3] - statBonuses[1];
         }
-
     }
+
     for (auto i : mainStats)
         std::cout << "\n" << i << std::endl;
-    
 }
 
 
+void baseCharacter::updateDamagePower()
+{  
+   damagePower = (mainStats[equippedWeapon->getStatRequirements()[0]] - 10) / 2; 
+}
+
+
+int baseCharacter::dealDamage()
+{
+    return equippedWeapon->dealDamage() + damagePower;
+}
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()
   {
@@ -71,17 +82,17 @@ void baseCharacter::checkStatBonuses()
 
   int baseCharacter::getDamagePower()
   {
-    return -1;
+    return damagePower;
   }
 
-  int baseCharacter::dealDamage()
-  {
-    return -1;
-  }
+
 
   bool baseCharacter::isDead()
   {
-    return false;
+      if (currentHealth <= 0)
+          return true;
+      else
+          return false;
   }
 
   void baseCharacter::setGold(int g)

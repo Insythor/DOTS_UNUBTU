@@ -55,6 +55,15 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
     int goldSpacer = 10 - std::to_string(toRender.getGold()).length();
     int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
+    // Formatting variables for the damage bonus the player recieves
+    // from using their current weapon based on their stats
+    int dmgBonus = abs(toRender.getDamagePower());
+    std::string dmgBonusSign;
+    // Change the operation after the weapon damage to +/- based on the players stats
+    if (toRender.getDamagePower() >= 0)
+        dmgBonusSign = " + ";
+    else 
+        dmgBonusSign = " - ";
 
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
@@ -67,6 +76,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
         << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << dmgBonusSign << dmgBonus
         << "\n" << std::setfill('.')
         // Print out the players stats
         << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
@@ -247,8 +257,11 @@ void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
     // If there is a weapon already equipped
     //if (equippedWeapon != nullptr)
     //    delete equippedWeapon;
-    if(this != nullptr)
+    if (this != nullptr)
+    {
         equippedWeapon = new weapon(level, weaponNames);
+        updateDamagePower();
+    }
 }
 
 void player::useConsumable(unsigned int index)
@@ -292,6 +305,8 @@ void player::useConsumable(unsigned int index)
         delete tempC.front();
         tempC.clear();
     }
+    // Check if updating the players stats changes their damage
+    updateDamagePower();
 }
 
 std::vector<int> player::getExperience()
@@ -302,4 +317,29 @@ std::vector<int> player::getExperience()
     temp.push_back(maxExperience);
 
     return temp;
+}
+
+void player::save()
+{
+    /*
+        player:
+            Name
+            Race
+            Level
+            currentHealth
+            Max Health
+            current HP
+            maxHP
+            gold
+            damagePower
+        
+        weapon:
+            dice Size
+            dice rolls
+            name
+            statRequirements
+        
+    
+   
+    */
 }
