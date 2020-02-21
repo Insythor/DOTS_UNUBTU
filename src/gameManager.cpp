@@ -128,6 +128,7 @@ void gameManager::startGame()
 
         switch (formatCommand(command))
         {
+            /**     print commands                    */
             // Printing functions
             // printPlayer, pp
         case 10:
@@ -141,6 +142,12 @@ void gameManager::startGame()
         case 12:
             std::cout << (*playerPtr);
             break;
+            // pMonster, pm
+        case 13:
+            std::cout << (*monsterPtr);
+            break;
+
+            /**        make commands                    */
             // makeWeapon,  mw
         case 20:
             playerPtr->spawnWeapon(currentLevel, allWeaponNames);
@@ -152,18 +159,31 @@ void gameManager::startGame()
             playerPtr = characterCreation(input0);
             std::cout << (*playerPtr);
             break;
-
+            // levelUp, lvl
         case 210:
             playerPtr->levelUp();
             break;
             // makeMonster, mm
         case 22:
-
-         //   generateMonster();
+            // input0 = level, input1 = raceIndex
+            std::cin >> input0 >> input1;
+            generateMonster(input0, input1);
             break;
 
+            /**             debugging commands            */
+            // Clear the terminal window of all text
+            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ONE! */
         case 90:
-            system("clear");
+            // WINDOWS
+            system("cls");
+            // Linux
+            // system("clear");
+            break;
+
+        case 91:
+            std::cin >> input0;
+            playerPtr->addExperience(input0);
+            //std::cout << (*playerPtr);
             break;
 
         case 0:
@@ -230,6 +250,10 @@ int gameManager::formatCommand(std::string command)
 
     else if (command == "pPlayer" || command == "pp")
         temp = 12;
+
+    else if (command == "pMonster" || command == "pm")
+        temp = 13;
+
     // Create object prefixed with 2
     else if (command == "makeWeapon" || command == "mk")
         temp = 20;
@@ -242,9 +266,14 @@ int gameManager::formatCommand(std::string command)
     else if (command == "makeMonster" || command == "mm")
         temp = 22;
 
+
+
+    // debugging gets a prefix of 9
     else if (command == "clear")
         return 90;
-
+    // add x to the players current experience
+    else if (command == "addExperience" || command == "xp")
+        return 91;
 
 
     else if (command == "exit" || command == "quit" || command == "end")

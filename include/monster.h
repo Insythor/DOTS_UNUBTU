@@ -17,7 +17,7 @@ class monster : public baseCharacter
     bool isBoss;
     
 
-    void generateMonster();
+    void initMonster();
 
     
 };

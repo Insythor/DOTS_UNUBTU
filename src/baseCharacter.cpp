@@ -4,7 +4,6 @@ baseCharacter::baseCharacter()
 {
     mainStats.resize(4);
     statBonuses.resize(4);
-
 }
 
 baseCharacter::~baseCharacter()
@@ -25,17 +24,15 @@ void baseCharacter::checkStatBonuses()
 
     for (int i = 0; i < 3; i ++)
     {
-        if (mainStats[i] > 10)
-            statBonuses[i] += (mainStats[i] / 2) - 5;
-
-        if (i == 1 && statBonuses[1] > 0 && mainStats[3] - statBonuses[1] > 0)
+        statBonuses[i] = (mainStats[i] - 10) / 2;
+        // Every 4 points of dexterity increases the players speed by 1
+        // I figure this way dex grants a bonus to speed, but since it also increases
+        // damage, it needs to have some balance
+        if (i == 1 && statBonuses[1] > 0 && statBonuses[1] - mainStats[3] > 1)
         {
-            mainStats[3] += mainStats[3] - statBonuses[1];
+            mainStats[3] += 1;
         }
     }
-
-    for (auto i : mainStats)
-        std::cout << "\n" << i << std::endl;
 }
 
 
@@ -85,7 +82,10 @@ int baseCharacter::dealDamage()
     return damagePower;
   }
 
-
+  std::vector<int> baseCharacter::getStatBonuses()
+  {
+      return statBonuses;
+  }
 
   bool baseCharacter::isDead()
   {

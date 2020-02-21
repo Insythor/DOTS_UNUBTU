@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+// Temp for random weapon generation
 #include <time.h>
 #include <random>
 #include <memory>

@@ -16,6 +16,8 @@ player::player()
 
     level = 0;
     gold = 0;
+
+    checkStatBonuses();
 }
 
 player::~player()
@@ -34,7 +36,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   currentHealth = maxHealth;
 
   mainStats = tStat;
-
+  checkStatBonuses();
 
   currentExperience = 0;
   maxExperience = 100;
@@ -55,6 +57,9 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
     int goldSpacer = 10 - std::to_string(toRender.getGold()).length();
     int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
+    std::string strBonus;
+    std::string dexBonus;
+    std::string intBonus;
     // Formatting variables for the damage bonus the player recieves
     // from using their current weapon based on their stats
     int dmgBonus = abs(toRender.getDamagePower());
@@ -65,6 +70,20 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     else 
         dmgBonusSign = " - ";
 
+    if (toRender.getStatBonuses()[0] >= 0)
+        strBonus = " + ";
+    else
+        strBonus = " - ";
+    
+    if (toRender.getStatBonuses()[1] >= 0)
+        dexBonus = " + ";
+    else
+        dexBonus = " - ";
+    
+    if (toRender.getStatBonuses()[2] >= 0)
+        intBonus = " + ";
+    else
+        intBonus = " - ";
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
 
@@ -79,9 +98,12 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << dmgBonusSign << dmgBonus
         << "\n" << std::setfill('.')
         // Print out the players stats
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
-        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << "\n"
-        << "2.Int" << std::setw(5) << toRender.getStats()[2] << "\n"
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
+                         << abs(toRender.getStatBonuses()[0]) << "\n"
+        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
+                         << abs(toRender.getStatBonuses()[1]) << "\n"
+        << "2.Int" << std::setw(5) << toRender.getStats()[2] << intBonus 
+                         << abs(toRender.getStatBonuses()[2]) << "\n"
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
@@ -131,26 +153,28 @@ void player::levelUp()
     if (level == 0)
         availablePoints = 6;
     else
+    {
+        // If the player has more experience than the max experience, carry over that amount,
+        // else set the current experience to 0
+        if (currentExperience > maxExperience)
+            currentExperience -= maxExperience;
+        else
+            currentExperience = 0;
+
+        // Don't increase the max experience required for level 1 as it is set by default in the constructor
+        maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
+    }
     // stored amout of available points incase the user does not want to commit their changes
     int backupAvailPoints = availablePoints;
     // ding!
     level += 1;
-    // IF the player has more experience than the max experience, carry over that amount,
-    // else set the current experience to 0
-    if (currentExperience > maxExperience)
-        currentExperience -= maxExperience;
-    else
-        currentExperience = 0;
-    // Increase max experience needed to level up again
-    maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
-
 
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
-
+    // Print out the current player before they level up so they have a reference
     std::cout << (*this);
 
     while (availablePoints > 0)
@@ -193,7 +217,7 @@ void player::levelUp()
         // If all the available points are spent, show the user what they have selected so far
         if (availablePoints == 0)
         {
-            std::cout << "Would you like to commit\n"
+            std::cout << "Would you like to commit?\n"
                 << "Strength  + " << tempStats[0] << "\n"
                 << "Dexterity + " << tempStats[1] << "\n"
                 << "Intellect + " << tempStats[2] << "\n"
@@ -209,8 +233,7 @@ void player::levelUp()
                 std::cout << "Good Choice Adventurer!" << std::endl;
                 break;
             }
-                    
-
+                  
             // reset the available points and tempStats vector which essentially restarts the loop
             else if (command == "no" || command == "No" || command == "n")
             {
@@ -229,6 +252,7 @@ void player::levelUp()
     // Add 50% of the players strength to their HP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+    // Give the player back full HP when they level up because we're not mean
     currentHealth = maxHealth;
 
     // Print out the player so the user can see their changes

@@ -25,6 +25,7 @@ public:
   int getMaxHealth();
   int getLevel();
   int getSpeed();
+  std::vector<int> getStatBonuses();
   int getDamagePower();
   int getGold();
 

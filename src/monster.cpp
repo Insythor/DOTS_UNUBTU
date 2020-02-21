@@ -4,7 +4,7 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP, std::vector<i
 {
 
     level = l;
-    if (level % 5 == 0)
+    if (level % 6 == 0)
         isBoss = true;
     else
         isBoss = false;
@@ -14,10 +14,11 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP, std::vector<i
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
+    checkStatBonuses();
     level = l;
 
 
-    generateMonster();
+    initMonster();
 }
 
 monster::~monster()
@@ -25,17 +26,24 @@ monster::~monster()
   //dtor
 }
 
-void monster::generateMonster()
+void monster::initMonster()
 {
-    // 1 = 20
+    int tMainStat = 0;
+    int tMainStatIndex;
+ 
 
-    // 2 = 50
-
-    // 3 = 125
-
-    // 4 = 200
-
-    // 5 = 400
-
-    // 6 = 550
+    for (int i = 0; i < level; i++)
+    {
+        if (mainStats[i] > tMainStat)
+        {
+            tMainStat = mainStats[i];
+            tMainStatIndex = i;
+        }
+        if (i == 2 && mainStats[i] > tMainStat && mainStats[0] < mainStats[i])
+        {
+            tMainStat = mainStats[i];
+            tMainStatIndex = i;
+        }
+    }
+    std::cout << "monster main stat: " << tMainStatIndex << std::endl;
 }
