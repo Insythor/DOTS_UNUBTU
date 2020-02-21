@@ -86,8 +86,8 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         intBonus = " - ";
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
-
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / " 
                 << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)

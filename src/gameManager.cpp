@@ -8,9 +8,10 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
 
-  currentLevel = 1;
+  currentLevel = 0;
   playerPtr = characterCreation(1);
-  
+  monsterPtr = nullptr;
+
  // mainMenu();
 }
 
@@ -167,7 +168,7 @@ void gameManager::startGame()
         case 22:
             // input0 = level, input1 = raceIndex
             std::cin >> input0 >> input1;
-            generateMonster(input0, input1);
+            monsterPtr = generateMonster(input0, input1);
             break;
 
             /**             debugging commands            */
