@@ -169,6 +169,7 @@ void gameManager::startGame()
             // input0 = level, input1 = raceIndex
             std::cin >> input0 >> input1;
             monsterPtr = generateMonster(input0, input1);
+            std::cout << (*monsterPtr);
             break;
 
             /**             debugging commands            */

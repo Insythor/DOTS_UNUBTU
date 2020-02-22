@@ -2,9 +2,9 @@
 #define GAMEMANAGER_H
 
 /// UPDATE 
-#define DIR_RACE "../../docs/DATA/raceData.csv"
-#define DIR_WEAPON "../../docs/DATA/weaponNames.txt"
-#define DIR_INTRO "../../docs/DATA/introStory.txt"
+#define DIR_RACE "../docs/DATA/raceData.csv"
+#define DIR_WEAPON "../docs/DATA/weaponNames.txt"
+#define DIR_INTRO "../docs/DATA/introStory.txt"
 
 #include "baseCharacter.h"
 #include "player.h"
