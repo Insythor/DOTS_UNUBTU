@@ -62,7 +62,9 @@ private:
   player* playerPtr;
   monster* monsterPtr;
   roomManager* currentRoom;
-
+  /**
+    @brief Dictionary of all weapon names
+  */
   std::vector<std::string>* allWeaponNames;
 
   int currentLevel;
@@ -106,14 +108,28 @@ private:
   void readInRaceData();
 
   void printRaces();  // debugging
-
+  /**
+    @brief Read in all of the weapon names from docs/DATA/weaponNames
+  */
   void readInWeapons();
 
   /**
-    @brief 
+    @brief generate a random monster at a given level
+    @@param [in] int level
   */
   monster* generateMonster(int l);
+  /**
+    @brief generate a monster with a given race at a given level
+    @param[in] int level 
+    @param[in] int race index
+  */
   monster* generateMonster(int l, int index);
+  /**
+    @brief generate a monster with a given race at a given level, with a given name
+    @param[in] int level
+    @param[in] int race index
+    @param[in] std::string name
+  */
   monster* generateMonster(int l, int index, std::string tName);
   
 };

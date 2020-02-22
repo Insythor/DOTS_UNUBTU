@@ -29,7 +29,7 @@ void gameManager::readInWeapons()
   std::ifstream weaponNames;
   weaponNames.open(DIR_WEAPON);
   std::string line;
-
+  // Store each line (name) in a dictionary of weaponNames
   while(getline(weaponNames, line))
   {
     allWeaponNames->push_back(line);
@@ -84,6 +84,7 @@ void gameManager::printRaces()
 {
   for(auto i : (*allRaces))
   {
+    // Spacers for formating race data
     int wName = 13 - i.race.length();
     int wHP = 4;
     int wStr = 4;
@@ -116,7 +117,7 @@ void gameManager::startGame()
 {
 
     bool play = true;
-    
+    // Temp variables used for comsuming input stream
     std::string command;
     int input0, input1;
 
@@ -154,7 +155,6 @@ void gameManager::startGame()
             playerPtr->spawnWeapon(currentLevel, allWeaponNames);
             break;
             // makePlayer, mp
-
         case 21:
             std::cin >> input0;
             playerPtr = characterCreation(input0);
@@ -322,11 +322,7 @@ player* gameManager::characterCreation()
         << " \nNo ones ever done that combo before I'm sure... Anyways! " <<
         "\nONWARD TO STAT SELECTION!"
   << std::endl;
-
-
-
-
-
+  // Set the temp player to what the user has selected, and genereate their hero
    temp = new player(tempName,
                           allRaces->at(tempRaceIndex).race,
                           allRaces->at(tempRaceIndex).maxHP,
