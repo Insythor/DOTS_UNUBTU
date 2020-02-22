@@ -1,6 +1,7 @@
 #include "monster.h"
 
-monster::monster(std::string tName, std::string tRace, int tMaxHP, std::vector<int> tMStats, int l)
+monster::monster(std::string tName, std::string tRace, int tMaxHP, 
+                                        std::vector<int> tMStats, int l)
 {
 
     level = l;

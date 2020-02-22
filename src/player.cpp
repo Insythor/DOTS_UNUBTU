@@ -45,7 +45,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   gold = 0;
 
 }
-
+// Print 
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
     // Figure out the widths for each section of the player output stream
@@ -126,16 +126,6 @@ void player::addExperience(int toAdd)
 
     if (currentExperience >= maxExperience)
         levelUp();
-}
-
-// when is this being called?? Why do we need to check the player for leveling up
-// other than when the player gains experience?
-void player::checkForLevelUp()
-{
-    if(currentExperience >= maxExperience)
-    {
-        levelUp();
-    }
 }
 
 
@@ -249,10 +239,10 @@ void player::levelUp()
         }
     }
 
-    // Add 50% of the players strength to their HP
+    // Add 10% of the players current hp an 50% of the players strength to their maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
-    // Give the player back full HP when they level up because we're not mean
+    // Give the player back full HP when they level up because we're not savages ;P
     currentHealth = maxHealth;
 
     // Print out the player so the user can see their changes
