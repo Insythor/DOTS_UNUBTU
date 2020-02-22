@@ -1,17 +1,15 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-
-
 #include "item.h"
 #include "dice.h"
 
 #include <iostream>
-#include <fstream>
-#include <time.h>
-#include <random>
 #include <vector>
 #include <string>
+// Temp for random weapon generation
+#include <time.h>
+#include <random>
 #include <memory>
 
 class weapon : public item
@@ -19,7 +17,10 @@ class weapon : public item
   public:
     weapon();
     weapon(int l, std::vector<std::string>* nameDicPtr);
+    weapon(std::string name, int dSize, int dRolls, std::vector<int> sReq);
     ~weapon();
+
+    std::string getName();
 
      int getDiceRolls();
      int getDiceSize();
@@ -38,6 +39,7 @@ class weapon : public item
 
     */
     void generateWeapon(int level);
+    
     /**
       @brief Iterate through all of the dice rolls and return the total value
              of all the rolls
@@ -46,8 +48,11 @@ class weapon : public item
     int dealDamage();
 
   private:
+     std::string name;
+     
      int diceRolls;
      int diceSize;
+
 
     // stat type, stat amount, level
     std::vector<int> statRequirements;

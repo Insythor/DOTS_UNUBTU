@@ -3,7 +3,7 @@
 dice::dice()
 {
 	sides = 6;
-
+    srand(time(NULL));
 }
 
 dice::dice(int nSides)
@@ -24,7 +24,7 @@ int dice::getSides()
 
 int dice::roll()
 {
-  srand(time(NULL));
+
   int temp = rand() % sides;
   temp++;
 
@@ -34,7 +34,7 @@ int dice::roll()
 int dice::roll(int nRolls)
 {
   int carry = 0;
-  srand(time(NULL));
+
 
   for(int i = 0; i < nRolls; i++)
   {
