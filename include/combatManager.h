@@ -17,12 +17,14 @@ class combatManager
 
   private:
     // Currently player is 0 and monster is 1
-    baseCharacter* fightOrder[2];
+    baseCharacter** fightOrder;
+    bool playersTurn;
 
     std::string selectAction(int type, int subType);
     std::string endFight();
     std::string monsterAction();
 
+    bool checkCombatDone();
 };
 
 #endif // COMBATMANAGER_H

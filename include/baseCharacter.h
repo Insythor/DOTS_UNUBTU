@@ -10,36 +10,98 @@
 #include <string>
 #include <vector>
 
-class ability;
-class inventory;
+//class ability;
+//class inventory;
 
 class baseCharacter
 {
 public:
   baseCharacter();
   virtual ~baseCharacter();
-
+  /**
+    @brief  
+    @param[out]
+  */
   std::string getName();
+  /**
+    @brief
+    @param[out]
+  */
   std::string getRace();
+  /**
+    @brief
+    @param[out]
+  */
   int getCurrentHealth();
+  /**
+    @brief
+    @param[out]
+  */
   int getMaxHealth();
+  /**
+    @brief
+    @param[out]
+  */
   int getLevel();
+  /**
+    @brief
+    @param[out]
+  */
   int getSpeed();
+  /**
+    @brief
+    @param[out]
+  */
   std::vector<int> getStatBonuses();
+  /**
+    @brief
+    @param[out]
+  */
   int getDamagePower();
+  /**
+    @brief
+    @param[out]
+  */
   int getGold();
-
+  /**
+    @brief
+    @param[out]
+  */
   weapon* getWeapon();
-
-
+  /**
+      @brief
+      @param[out]
+    */
   std::vector<int> getStats();
+  /**
+    @brief
+    @param[out]
+  */
   inventory* getInventory();
+  /**
+    @brief
+    @param[out]
+  */
   std::vector<ability*> getActiveAbilities();
-
+  /**
+    @brief
+    @param[out]
+  */
   void setGold(int g);
-
+  /**
+    @brief
+    @param[out]
+  */
   bool isDead();
+  /**
+    @brief
+    @param[out]
+  */
   void takeDamage(int damage);
+  /**
+    @brief
+    @param[out]
+  */
   int dealDamage();
 
 
