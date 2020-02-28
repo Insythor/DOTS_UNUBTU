@@ -39,9 +39,9 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
 
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " 
-                                         << toRender.getMaxHealth()
-        
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / "
+        << toRender.getMaxHealth()
+
         << "\n" << std::setfill('.')
         // Print out the players stats
         << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
@@ -50,7 +50,6 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
-
 
     << std::endl;
 

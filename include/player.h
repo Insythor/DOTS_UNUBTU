@@ -19,7 +19,9 @@ class player : public baseCharacter
     player(std::string tName, std::string tRace, int tMaxHP,
                   std::vector<int> tStat);
 
-    ~player();
+   virtual ~player();
+
+    player* getSelf();
 
     /**
         @brief Overloaded class operator to add & format player information,
@@ -36,7 +38,6 @@ class player : public baseCharacter
       @param [in] int how much experience is to be added
     */
     void addExperience(int toAdd);
-
     /**
         @brief  Set currentExperience to current - maxExperience, allow the user
                 to select which stats they would like to add, and check if the 
@@ -54,8 +55,6 @@ class player : public baseCharacter
       @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int [3] Speed
     */
     void applyStatusEffect(std::vector<int> toApply);
-
-
     /**
         @brief 
         @param[in] 

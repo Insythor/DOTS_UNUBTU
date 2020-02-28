@@ -1,6 +1,7 @@
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
 
+#include "baseCharacter.h"
 #include "monster.h"
 #include "player.h"
 

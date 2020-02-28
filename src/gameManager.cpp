@@ -121,6 +121,8 @@ void gameManager::printWeapons()
         std::cout << i << std::endl;
 }
 
+#include<map>
+
 // Main loop
 void gameManager::startGame()
 {
@@ -133,12 +135,7 @@ void gameManager::startGame()
 
     combatManager* thisFight = nullptr;
 
-   
-    //baseCharacter** testArray = new baseCharacter * [2];
-    //testArray[0] = monsterPtr;
-    //testArray[1] = playerPtr;
 
-    //std::cout << static_cast<player*> (*testArray)[1];
 
     while (play)
     {
@@ -166,7 +163,7 @@ void gameManager::startGame()
             break;
             // pPlayerWeapon, ppw
         case 120:
-            std::cout << playerPtr->getWeapon()->getName() << std::endl;
+            std::cout << (*playerPtr->getWeapon()) << std::endl;
             break;
             // pMonster, pm
         case 13:
@@ -209,7 +206,7 @@ void gameManager::startGame()
 
             /**             debugging commands            */
             // Clear the terminal window of all text
-            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ONE! */
+            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
             // WINDOWS
             system("cls");
@@ -221,6 +218,9 @@ void gameManager::startGame()
             std::cin >> input0;
             playerPtr->addExperience(input0);
             //std::cout << (*playerPtr);
+            break;
+        case 92:
+          //  std::cout << testList.front()->dealDamage() << std::endl;
             break;
 
         case 0:
@@ -312,10 +312,13 @@ int gameManager::formatCommand(std::string command)
 
     // debugging gets a prefix of 9
     else if (command == "clear")
-        return 90;
+        temp = 90;
     // add x to the players current experience
     else if (command == "addExperience" || command == "xp")
-        return 91;
+        temp = 91;
+    // print the damage done from a normal weapon attack by the player
+    else if (command == "atk")
+        temp = 92;
 
 
     else if (command == "exit" || command == "quit" || command == "end")
@@ -377,7 +380,7 @@ player* gameManager::characterCreation()
 // Overloaded characterCreation(), generates a player at given race index
 player* gameManager::characterCreation(int index)
 {
-    player* temp = new player("Temp Hero",
+    player* temp = new player("TempHero",
         allRaces->at(index).race,
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats);

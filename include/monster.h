@@ -18,8 +18,6 @@ class monster : public baseCharacter
     
 
     void initMonster();
-
-    
 };
 
 #endif // MONSTER_H

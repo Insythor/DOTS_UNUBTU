@@ -16,7 +16,7 @@
 class baseCharacter
 {
 
-    friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
+  //  friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
 public:
   baseCharacter();
   virtual ~baseCharacter();

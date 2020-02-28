@@ -12,7 +12,7 @@ combatManager::combatManager(player* p, monster* m)
     fightOrder[0] = m;
     fightOrder[1] = p;
 
-    std::cout << (*fightOrder)[1];
+   
 }
 
 combatManager::~combatManager()
@@ -48,6 +48,7 @@ void combatManager::startFight()
 
         if (playersTurn)
         {
+
             std::cin >> command;
             input = formatCommand(command);
 
@@ -64,19 +65,23 @@ void combatManager::startFight()
         {
         // Attack with base weapon
         case 0:
-            tempDamage = (*fightOrder)[playersTurn].dealDamage();
+            tempDamage = fightOrder[playersTurn]->dealDamage();
             (*fightOrder)[!playersTurn].takeDamage(tempDamage);
 
             std::cout << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
                 << " to " << fightOrder[!playersTurn]->getName() <<std::endl;
             break;
 
-
+        // pp, printPlayer
         case 12:
-            std::cout << dynamic_cast<player*>(*fightOrder)[1];
+            std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl;
+            playersTurn = !playersTurn;
             break;
+        // pm, printMonster
         case 13:
-            std::cout << dynamic_cast<monster*>(*fightOrder)[0];
+            std::cout << *dynamic_cast<monster*> (fightOrder[0]) << std::endl;
+            // So printing won't cost you the turn
+            playersTurn = !playersTurn;
             break;
 
         default:
@@ -111,13 +116,15 @@ std::vector<int> combatManager::formatCommand(std::string command)
     else if (tempCommand[0] == "pMonster" || tempCommand[0] == "pm")
         temp.push_back(13);
 
-
+    else
+        temp.push_back(-1);
+   
     // Get rid of the command string once it's been formatted
-    tempCommand.erase(tempCommand.begin());
+  //  tempCommand.erase(tempCommand.begin());
 
     // Push back all the type numbers that the player entered in their command
-    for (auto i : tempCommand)
-        temp.push_back(std::stoi(i));
+    //for (auto i : tempCommand)
+    //    temp.push_back(std::stoi(i));
 
     return temp;
 }
@@ -141,10 +148,8 @@ std::string combatManager::monsterAction()
 
 bool combatManager::checkCombatDone()
 {
-    if ((*fightOrder)[0].isDead() || (*fightOrder)[1].isDead())
+    if ((*fightOrder + 0)->isDead() || (*fightOrder + 1)->isDead())
     {
-        
-        //delete dynamic_cast<monster*>((*fightOrder));
         return true;
     }
 

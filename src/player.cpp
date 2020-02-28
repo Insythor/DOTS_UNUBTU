@@ -9,7 +9,7 @@ player::player()
     maxHealth = 0;
     currentHealth = maxHealth;
 
-    equippedWeapon = nullptr;
+    // equippedWeapon = nullptr;
 
     currentExperience = 0;
     maxExperience = 100;
@@ -45,6 +45,9 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   gold = 0;
 
 }
+
+player* player::getSelf() { return this; }
+
 // Print 
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
@@ -84,6 +87,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         intBonus = " + ";
     else
         intBonus = " - ";
+    // WILL BE CLEANED UP! Just had some weird bugs that needed to be tracked down
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer);

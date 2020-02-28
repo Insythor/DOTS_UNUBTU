@@ -1,5 +1,18 @@
 #include "baseCharacter.h"
 
+
+
+
+
+//std::ostream& operator << (std::ostream& out, baseCharacter& toRender) 
+//{
+//    out << "balls" << std::endl;
+//    return out;
+//}
+
+
+
+
 baseCharacter::baseCharacter()
 {
     mainStats.resize(4);
@@ -17,16 +30,19 @@ baseCharacter::~baseCharacter()
     delete equippedWeapon;
 }
 
-std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
+void baseCharacter::spawnWeapon(int level, std::vector<std::string>* weaponNames)
 {
-    return out;
-}
 
-void baseCharacter::takeDamage(int damage)
-{
-    currentHealth -= damage;
-}
+    if (equippedWeapon != nullptr)
+        delete equippedWeapon;
 
+    if (this != nullptr)
+    {
+        equippedWeapon = new weapon(level, weaponNames);
+        checkStatBonuses();
+
+    }
+}
 
 void baseCharacter::checkStatBonuses()
 {
@@ -47,6 +63,10 @@ void baseCharacter::checkStatBonuses()
     updateDamagePower();
 }
 
+void baseCharacter::updateDamagePower()
+{
+    damagePower = statBonuses[0];
+}
 
 
 int baseCharacter::useAbility(unsigned int index)
@@ -61,30 +81,20 @@ int baseCharacter::useAbility(unsigned int index)
     }
 }
 
-void baseCharacter::updateDamagePower()
-{  
-   damagePower = statBonuses[0]; 
-}
-
 
 int baseCharacter::dealDamage()
 {
     return equippedWeapon->dealDamage() + damagePower;
 }
 
-void baseCharacter::spawnWeapon(int level, std::vector<std::string>* weaponNames)
+void baseCharacter::takeDamage(int damage)
 {
-   
-    if (equippedWeapon != nullptr)
-        delete equippedWeapon;
-   
-    if (this != nullptr)
-    {
-        equippedWeapon = new weapon(level, weaponNames);
-        checkStatBonuses();
-        
-    }
+    currentHealth -= damage;
+    isDead();
 }
+
+
+
 
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()
