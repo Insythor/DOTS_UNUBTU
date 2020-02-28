@@ -113,6 +113,8 @@ private:
   */
   void readInWeapons();
 
+  void printWeapons();
+
   /**
     @brief generate a random monster at a given level
     @@param [in] int level

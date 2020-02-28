@@ -16,6 +16,13 @@ consumable::~consumable()
 
 }
 
+std::ostream& operator << (std::ostream& out, consumable& toRender)
+{
+ out <<
+ std::endl;
+ return out;
+}
+
 int consumable::getID()
 {
   return id;

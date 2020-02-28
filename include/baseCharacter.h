@@ -15,6 +15,8 @@
 
 class baseCharacter
 {
+
+    friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
 public:
   baseCharacter();
   virtual ~baseCharacter();
@@ -103,7 +105,9 @@ public:
     @param[out]
   */
   int dealDamage();
+  int useAbility(unsigned int index);
 
+  void spawnWeapon(int level, std::vector<std::string>* weaponNames);
 
 protected:
 
@@ -118,12 +122,14 @@ protected:
   std::vector<int> mainStats;
   // How much of a benafit do your stats give you
   std::vector<int> statBonuses;
-  
+
   int gold;
   inventory* cInventory;
 
+
   int damagePower;
   weapon* equippedWeapon;
+
 
 
   std::vector<ability*> activeAbilities;

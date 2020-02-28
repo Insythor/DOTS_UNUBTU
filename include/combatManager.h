@@ -5,6 +5,10 @@
 #include "player.h"
 
 #include <string>
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 
 class combatManager
 {
@@ -25,6 +29,9 @@ class combatManager
     std::string monsterAction();
 
     bool checkCombatDone();
+
+    // [0] switch, [1] type, [2] subType
+    std::vector<int> formatCommand(std::string command);
 };
 
 #endif // COMBATMANAGER_H

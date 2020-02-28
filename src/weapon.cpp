@@ -18,6 +18,7 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 
 weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 {
+
     allNames = nullptr;
     
     name = nam;
@@ -36,6 +37,7 @@ weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 
 weapon::~weapon()
 {
+
     delete weaponDice;
 }
 
@@ -165,7 +167,7 @@ std::ostream& operator << (std::ostream &out, weapon &toRender)
 int weapon::dealDamage()
 {
   int tempDamage = 0;
-  for(auto i : (*weaponDice))
+  for(auto i : *weaponDice)
   {
     tempDamage += i.roll();
   }

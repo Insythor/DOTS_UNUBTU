@@ -86,19 +86,19 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         intBonus = " - ";
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
-        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
-        << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
-        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / " 
-                << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
-        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
-        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
-        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
-        << dmgBonusSign << dmgBonus
-        << "\n" << std::setfill('.')
+        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer);
+    out << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth();
+    out << "Level: " << toRender.getLevel() << std::setw(levelSpacer);
+        out << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / ";
+     out   << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer);
+        out << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth();
+        out << std::setw(goldSpacer) << "Gold: " << toRender.getGold();
+        out << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3);
+        out << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize();
+        out << dmgBonusSign << dmgBonus;
+        out << "\n" << std::setfill('.');
         // Print out the players stats
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
+ out       << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
@@ -159,6 +159,13 @@ void player::levelUp()
     int backupAvailPoints = availablePoints;
     // ding!
     level += 1;
+
+    currentExperience -= maxExperience;
+    // Increase the experience needed for the next level by %150 of the current max experience
+    maxExperience += maxExperience / 2;
+
+    std::cout << (*this);
+
 
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
@@ -239,6 +246,7 @@ void player::levelUp()
         }
     }
 
+
     // Add 10% of the players current hp an 50% of the players strength to their maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
@@ -261,26 +269,11 @@ void player::addToStats(std::vector<int>toAdd)
     checkStatBonuses();
 }
 
-void player::applyStatusEffect(std::vector<int>toApply)
-{
-  toApply.clear();
-}
 
-void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
-{
-    // If there is a weapon already equipped
-    //if (equippedWeapon != nullptr)
-    //    delete equippedWeapon;
-    if (this != nullptr)
-    {
-        equippedWeapon = new weapon(level, weaponNames);
-        updateDamagePower();
-    }
-}
 
 void player::useConsumable(unsigned int index)
 {
-    std::vector<consumable*> tempC = cInventory->removeConsumable(index, 1);
+    std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
         int stat = tempC.front()->getStatToAdd();

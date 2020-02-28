@@ -8,7 +8,18 @@ baseCharacter::baseCharacter()
 
 baseCharacter::~baseCharacter()
 {
+    for(ability* i : activeAbilities)
+    {
+        delete i;
+    }
+    activeAbilities.clear();
+    delete cInventory;
+    delete equippedWeapon;
+}
 
+std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
+{
+    return out;
 }
 
 void baseCharacter::takeDamage(int damage)
@@ -33,12 +44,26 @@ void baseCharacter::checkStatBonuses()
             mainStats[3] += 1;
         }
     }
+    updateDamagePower();
 }
 
 
+
+int baseCharacter::useAbility(unsigned int index)
+{
+    if(activeAbilities.size() > index)
+    {
+        return activeAbilities[index]->dealDamage(mainStats);
+    }
+    else
+    {
+        return 0; //if 0 cout where called ability on cooldown.
+    }
+}
+
 void baseCharacter::updateDamagePower()
 {  
-   damagePower = (mainStats[equippedWeapon->getStatRequirements()[0]] - 10) / 2; 
+   damagePower = statBonuses[0]; 
 }
 
 
@@ -46,6 +71,21 @@ int baseCharacter::dealDamage()
 {
     return equippedWeapon->dealDamage() + damagePower;
 }
+
+void baseCharacter::spawnWeapon(int level, std::vector<std::string>* weaponNames)
+{
+   
+    if (equippedWeapon != nullptr)
+        delete equippedWeapon;
+   
+    if (this != nullptr)
+    {
+        equippedWeapon = new weapon(level, weaponNames);
+        checkStatBonuses();
+        
+    }
+}
+
 /** *****************  Getters *****************  */
   std::string baseCharacter::getName()
   {
@@ -93,6 +133,16 @@ int baseCharacter::dealDamage()
           return true;
       else
           return false;
+  }
+
+  inventory* baseCharacter::getInventory()
+  {
+    return cInventory;
+  }
+
+  std::vector<ability*> baseCharacter::getActiveAbilities()
+  {
+    return activeAbilities;
   }
 
   void baseCharacter::setGold(int g)

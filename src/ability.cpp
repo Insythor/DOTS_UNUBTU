@@ -1,6 +1,11 @@
 #include "ability.h"
 
-ability::ability(int l)
+ability::ability()
+{
+
+}
+
+ability::ability(int level)
 {
 
 }
@@ -15,14 +20,36 @@ ability::~ability()
   //dtor
 }
 
+std::ostream& operator << (std::ostream& out, ability& toRender)
+{
+ out <<
+ std::endl;
+ return out;
+}
+
 std::string ability::getName()
 {
-  return "n/a";
+  return name;
 }
 
 std::string ability::getDescription()
 {
-  return "n/a";
+  return description;
+}
+
+int ability::getDiceRolls()
+{
+    return abilityDice->size();
+}
+
+int ability::getDiceSize()
+{
+    return abilityDice->front().getSides();
+}
+
+int ability::getCurrentCooldown()
+{
+    return currentCooldown;
 }
 
 std::string ability::viewAbilityCombat()
@@ -30,17 +57,33 @@ std::string ability::viewAbilityCombat()
   return "n/a";
 }
 
-std::string ability::viewAbility()
-{
-  return "n/a";
-}
-
 void ability::reduceCoolddown()
 {
-
+    if(onCooldown)
+    {
+        currentCooldown--;
+        if(currentCooldown <= 0)
+        {
+            onCooldown = false;
+        }
+    }
 }
 
-int ability::use(std::vector<int>playerStats)
+int ability::dealDamage(std::vector<int>playerStats)
 {
-  return 0;
+    if(!onCooldown)
+    {
+        onCooldown = true;
+        currentCooldown = cooldown;
+        int tempDamage = 0;
+        for(dice i : *abilityDice)
+        {
+            tempDamage += i.roll();
+        }
+        return tempDamage;
+    }
+    else
+    {
+        return 0;
+    }
 }
