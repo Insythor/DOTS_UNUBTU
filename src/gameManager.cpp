@@ -201,7 +201,7 @@ void gameManager::startGame()
             monsterPtr = generateMonster(currentLevel);
             thisFight =  new combatManager(playerPtr, monsterPtr);
             thisFight->startFight();
-           // delete thisFight;
+            delete thisFight;
             break;
 
             /**             debugging commands            */

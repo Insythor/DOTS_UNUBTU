@@ -21,8 +21,6 @@ class player : public baseCharacter
 
    virtual ~player();
 
-    player* getSelf();
-
     /**
         @brief Overloaded class operator to add & format player information,
                then add it to the output stream
@@ -43,6 +41,12 @@ class player : public baseCharacter
                 to select which stats they would like to add, and check if the 
                 added stats will give the player an increase to their stat bonuses
                 , finally, increase the players HP.
+        @param Level 1: 100
+        @param Level 2: 175
+        @param Level 3: 250
+        @param Level 4: 325
+        @param Level 5: 401
+        @param Level 6: 477
     */
     void levelUp();
     /**

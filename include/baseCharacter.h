@@ -15,29 +15,34 @@
 
 class baseCharacter
 {
-
+    /**
+        @brief Default output operator overload for baseCharacter. This is essentially 
+               a reduced version of the overloads in the player and monster class.
+        @param[out] Name, HealthPoints, Level, Weapon
+    */
+    friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
   //  friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
 public:
   baseCharacter();
   virtual ~baseCharacter();
   /**
-    @brief  
-    @param[out]
+    @brief  return the name of the character
+    @param[out] std::string name
   */
   std::string getName();
   /**
-    @brief
-    @param[out]
+    @brief return the race of the character
+    @param[out] std::string race
   */
   std::string getRace();
   /**
-    @brief
-    @param[out]
+    @brief  return the remaining health that the character has
+    @param[out] int currentHP
   */
   int getCurrentHealth();
   /**
-    @brief
-    @param[out]
+    @brief  return the maximum health points that the character has
+    @param[out] int maxHP
   */
   int getMaxHealth();
   /**
@@ -129,8 +134,6 @@ protected:
 
   int damagePower;
   weapon* equippedWeapon;
-
-
 
   std::vector<ability*> activeAbilities;
 

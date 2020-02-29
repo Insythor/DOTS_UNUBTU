@@ -34,6 +34,33 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
     int raceSpacer = 15 - toRender.getRace().length();
     int levelSpacer = 5;
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
+    std::string strBonus;
+    std::string dexBonus;
+    std::string intBonus;
+    // Formatting variables for the damage bonus the player recieves
+    // from using their current weapon based on their stats
+    int dmgBonus = abs(toRender.getDamagePower());
+    std::string dmgBonusSign;
+    // Change the operation after the weapon damage to +/- based on the players stats
+    if (toRender.getDamagePower() >= 0)
+        dmgBonusSign = " + ";
+    else
+        dmgBonusSign = " - ";
+
+    if (toRender.getStatBonuses()[0] >= 0)
+        strBonus = " + ";
+    else
+        strBonus = " - ";
+
+    if (toRender.getStatBonuses()[1] >= 0)
+        dexBonus = " + ";
+    else
+        dexBonus = " - ";
+
+    if (toRender.getStatBonuses()[2] >= 0)
+        intBonus = " + ";
+    else
+        intBonus = " - ";
 
     out <<
 
@@ -44,9 +71,12 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
 
         << "\n" << std::setfill('.')
         // Print out the players stats
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << "\n"
-        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << "\n"
-        << "2.Int" << std::setw(5) << toRender.getStats()[2] << "\n"
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus 
+                         << abs(toRender.getStatBonuses()[0]) << "\n"
+        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
+                         << abs(toRender.getStatBonuses()[1]) << "\n"
+        << "2.Int" << std::setw(5) << toRender.getStats()[2] << intBonus
+                         << abs(toRender.getStatBonuses()[2]) << "\n"
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"

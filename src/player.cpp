@@ -43,17 +43,14 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   level = 0;
   gold = 0;
-
 }
-
-player* player::getSelf() { return this; }
 
 // Print 
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
     // Figure out the widths for each section of the player output stream
-    int nameSpacer = 20 - toRender.getName().length();
-    int raceSpacer = 20 - toRender.getRace().length();
+    int nameSpacer = 15 - toRender.getName().length();
+    int raceSpacer = 12 - toRender.getRace().length();
     int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
     int currentXpSpacer = std::to_string(toRender.getExperience()[0]).length();
     int maxXpScacer = 5 + std::to_string(toRender.getExperience()[1]).length();
@@ -87,22 +84,21 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         intBonus = " + ";
     else
         intBonus = " - ";
-    // WILL BE CLEANED UP! Just had some weird bugs that needed to be tracked down
+
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
-        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer);
-    out << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth();
-    out << "Level: " << toRender.getLevel() << std::setw(levelSpacer);
-        out << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / ";
-     out   << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer);
-        out << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth();
-        out << std::setw(goldSpacer) << "Gold: " << toRender.getGold();
-        out << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3);
-        out << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize();
-        out << dmgBonusSign << dmgBonus;
-        out << "\n" << std::setfill('.');
+        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth() << std::setw(9)
+        << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
+        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / "
+               << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
+        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
+        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
+        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << dmgBonusSign << dmgBonus
+        << "\n" << std::setfill('.')
         // Print out the players stats
- out       << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
@@ -154,7 +150,7 @@ void player::levelUp()
             currentExperience -= maxExperience;
         else
             currentExperience = 0;
-
+        
         // Don't increase the max experience required for level 1 as it is set by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
@@ -164,19 +160,14 @@ void player::levelUp()
     // ding!
     level += 1;
 
-    currentExperience -= maxExperience;
-    // Increase the experience needed for the next level by %150 of the current max experience
-    maxExperience += maxExperience / 2;
-
     std::cout << (*this);
-
 
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
     // Print out the current player before they level up so they have a reference
-    std::cout << (*this);
+
 
     while (availablePoints > 0)
     {

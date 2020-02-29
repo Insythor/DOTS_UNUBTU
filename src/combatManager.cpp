@@ -37,9 +37,9 @@ void combatManager::startFight()
         firstAttacker = "The " + fightOrder[!playersTurn]->getRace() + " is already attacking you!!! ";
         std::cout << "\nCOMBAT HAS BEGUN!!!\n" << firstAttacker << std::endl;
     }
-
-
-    while (!checkCombatDone())
+    
+    bool forceQuit = true;
+    while (!checkCombatDone() && forceQuit)
     {
        
 
@@ -48,14 +48,16 @@ void combatManager::startFight()
 
         if (playersTurn)
         {
-
+            // Print basic character information
+           // std::cout << *fightOrder[playersTurn] << std::endl;
+            
             std::cin >> command;
             input = formatCommand(command);
 
         }
         else
         {
-            input.push_back(0);
+            input.push_back(1);
         }
 
         /*for (auto i : input)
@@ -64,9 +66,9 @@ void combatManager::startFight()
         switch (input[0])
         {
         // Attack with base weapon
-        case 0:
+        case 1:
             tempDamage = fightOrder[playersTurn]->dealDamage();
-            (*fightOrder)[!playersTurn].takeDamage(tempDamage);
+            fightOrder[!playersTurn]->takeDamage(tempDamage);
 
             std::cout << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
                 << " to " << fightOrder[!playersTurn]->getName() <<std::endl;
@@ -74,23 +76,35 @@ void combatManager::startFight()
 
         // pp, printPlayer
         case 12:
-            std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl;
+            // Print the basic character information for the player
+            std::cout << *fightOrder[1] << std::endl;  
+            //  std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl; // detailed
+            // So printing won't cost you the turn
             playersTurn = !playersTurn;
             break;
         // pm, printMonster
         case 13:
-            std::cout << *dynamic_cast<monster*> (fightOrder[0]) << std::endl;
-            // So printing won't cost you the turn
+            // Print the basic character information for the monster
+            std::cout << *fightOrder[0] << std::endl;
+            // std::cout << *dynamic_cast<monster*> (fightOrder[0]) << std::endl; // detailed
             playersTurn = !playersTurn;
             break;
 
+        case 0:
+            forceQuit = false;
+            break;
+            
+
         default:
-            std::cout << "Invalid command. Type 'Help' for all available commands" << std::endl;;
+            std::cout << "Invalid command. Type 'Help' for all available commands\n" << std::endl;;
             break;
         }
-        
+        // Flip-Flop turns
         playersTurn = !playersTurn;
     }
+    // Set the turn back to who the winner of the fight was
+    playersTurn = !playersTurn;
+    endFight();
 }
 
 std::vector<int> combatManager::formatCommand(std::string command)
@@ -106,7 +120,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
     }
     
     if (tempCommand[0] == "attack" || tempCommand[0] == "atk")
-        temp.push_back(0);
+        temp.push_back(1);
 
 
     // Print the player
@@ -115,6 +129,9 @@ std::vector<int> combatManager::formatCommand(std::string command)
     // Print the monster
     else if (tempCommand[0] == "pMonster" || tempCommand[0] == "pm")
         temp.push_back(13);
+
+    else if (tempCommand[0] == "exit")
+        temp.push_back(0);
 
     else
         temp.push_back(-1);
@@ -138,6 +155,14 @@ std::string combatManager::selectAction(int type, int subType)
 
 std::string combatManager::endFight()
 {
+    if (playersTurn)
+    {
+        std::cout << "Congratulations " + fightOrder[playersTurn]->getName() + " you were victorious over the "
+            << fightOrder[!playersTurn]->getName()
+
+            << std::endl;
+    }
+
   return "n\a";
 }
 
@@ -148,7 +173,7 @@ std::string combatManager::monsterAction()
 
 bool combatManager::checkCombatDone()
 {
-    if ((*fightOrder + 0)->isDead() || (*fightOrder + 1)->isDead())
+    if (fightOrder[0]->isDead() || fightOrder[1]->isDead())
     {
         return true;
     }

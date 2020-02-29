@@ -1,7 +1,7 @@
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
 
-#include "baseCharacter.h"
+
 #include "monster.h"
 #include "player.h"
 
@@ -21,8 +21,10 @@ class combatManager
 
 
   private:
-    // Currently player is 0 and monster is 1
+    // [0] = monster : [1] = player
     baseCharacter** fightOrder;
+    // Because player is always in fightOrder[1], when it is the players turn, 
+    // we get the 1st (true) index
     bool playersTurn;
 
     std::string selectAction(int type, int subType);

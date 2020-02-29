@@ -2,17 +2,6 @@
 
 
 
-
-
-//std::ostream& operator << (std::ostream& out, baseCharacter& toRender) 
-//{
-//    out << "balls" << std::endl;
-//    return out;
-//}
-
-
-
-
 baseCharacter::baseCharacter()
 {
     mainStats.resize(4);
@@ -28,6 +17,37 @@ baseCharacter::~baseCharacter()
     activeAbilities.clear();
     delete cInventory;
     delete equippedWeapon;
+}
+
+
+std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
+{
+    int nameSpacer = 18 - toRender.getName().length();
+    int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
+    int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
+
+    int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
+
+    // from using their current weapon based on their stats
+    int dmgBonus = abs(toRender.getDamagePower());
+    std::string dmgBonusSign;
+    // Change the operation after the weapon damage to +/- based on the players stats
+    if (toRender.getDamagePower() >= 0)
+        dmgBonusSign = " + ";
+    else
+        dmgBonusSign = " - ";
+
+    out << "\n"
+        << toRender.getName() << std::setw(nameSpacer)
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth() << std::setw(9)
+        << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
+        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
+        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << dmgBonusSign << dmgBonus
+        
+        << std::endl;
+
+    return out;
 }
 
 void baseCharacter::spawnWeapon(int level, std::vector<std::string>* weaponNames)
@@ -65,7 +85,12 @@ void baseCharacter::checkStatBonuses()
 
 void baseCharacter::updateDamagePower()
 {
-    damagePower = statBonuses[0];
+    // If the character has a weapon, use that weapons main stat to determin the players damage power
+    if (equippedWeapon != nullptr)
+        damagePower = statBonuses[equippedWeapon->getStatRequirements()[0]];
+    // If no weapon is equipped, add the players str to their damagePower
+    else
+        damagePower = statBonuses[0];
 }
 
 
