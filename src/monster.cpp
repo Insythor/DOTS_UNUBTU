@@ -66,8 +66,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / "
-        << toRender.getMaxHealth()
-
+                                         << toRender.getMaxHealth()
         << "\n" << std::setfill('.')
         // Print out the players stats
         << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus 
@@ -150,8 +149,7 @@ void monster::initMonster()
         // Arbitrary and needs to be replaced with actual value
         maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
     }
-
-
     checkStatBonuses();
 
+    setGold(dice(level * 10).roll());
 }

@@ -28,14 +28,9 @@ int consumable::getID()
   return id;
 }
 
-int consumable::getStatToAdd()
+std::vector<int> consumable::statsToAdd()
 {
-    return statToAdd;
-}
-
-int consumable::getStatValue()
-{
-    return statValue;
+    return stats;
 }
 
 bool consumable::getIsPerminant()
@@ -48,6 +43,7 @@ bool consumable::getIsPerminant()
 1 dexterity   mainStats[1]
 2 intellect   mainStats[2]
 3 speed       mainStats[3]
+4 health      
 */
 
 

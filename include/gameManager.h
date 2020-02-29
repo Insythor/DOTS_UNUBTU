@@ -6,17 +6,17 @@
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 
-//#include "baseCharacter.h"
+// User defined classes
 #include "player.h"
 #include "monster.h"
 #include "chest.h"
-#include "outputManager.h"
 #include "combatManager.h"
 #include "roomManager.h"
 
-
+// Containers
 #include <vector>
 #include <string>
+// I/O
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -26,7 +26,6 @@
 #include <chrono>
 #include <thread>
 //#include "unistd.h"
-
 #include <time.h>
 
 class gameManager
@@ -47,7 +46,7 @@ public:
 
 
 private:
-    // Easiest to store all of the race data in a vector<classData>
+    // Easiest to store all of the race data in a vector<raceData>
     struct raceData
     {
         int index;
@@ -56,7 +55,8 @@ private:
         std::vector<int> mStats;
         std::string description;
     };
-    // All race data read in from races.csv
+
+  // All race data read in from races.csv
   std::vector<raceData>* allRaces;
   // 
   player* playerPtr;

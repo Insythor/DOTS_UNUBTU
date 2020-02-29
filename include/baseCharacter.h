@@ -21,7 +21,6 @@ class baseCharacter
         @param[out] Name, HealthPoints, Level, Weapon
     */
     friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
-  //  friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
 public:
   baseCharacter();
   virtual ~baseCharacter();
@@ -132,7 +131,8 @@ protected:
   int gold;
   inventory* cInventory;
 
-
+  // Add the players stat bonus to the weapon that they are using
+  // depending on what stat the weapon requires
   int damagePower;
   weapon* equippedWeapon;
 
