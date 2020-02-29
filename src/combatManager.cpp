@@ -8,11 +8,10 @@ combatManager::combatManager(player* p, monster* m)
         playersTurn = true;
     else
         playersTurn = false;
-
+    // Monster
     fightOrder[0] = m;
+    // Player
     fightOrder[1] = p;
-
-   
 }
 
 combatManager::~combatManager()
@@ -22,46 +21,40 @@ combatManager::~combatManager()
 
 void combatManager::startFight()
 {
-    std::string firstAttacker;
+    // Debugging
+    bool forceQuit = true;
+    //
 
     int tempDamage = 0;
-
+    // Start of combat text formatting
     if (playersTurn)
     {
-        firstAttacker = "Congratulations " + fightOrder[playersTurn]->getName() + 
-            "!!! Your speed was higher than the " + fightOrder[!playersTurn]->getRace();
-        std::cout << "\nCOMBAT HAS BEGUN!!!\n" << firstAttacker << std::endl; 
+
+        std::cout << "\nCOMBAT HAS BEGUN!!!\n" << fightOrder[playersTurn]->getName() +
+            "'s faster than the " + fightOrder[!playersTurn]->getRace() << "\nWhat's your first move? ";
     }
     else
     {
-        firstAttacker = "The " + fightOrder[!playersTurn]->getRace() + " is already attacking you!!! ";
-        std::cout << "\nCOMBAT HAS BEGUN!!!\n" << firstAttacker << std::endl;
+        std::cout << "\nCOMBAT HAS BEGUN!!!\n" << "A " + fightOrder[!playersTurn]->getRace() + 
+                    " has gotten the first attack against you!" << std::endl;
     }
     
-    bool forceQuit = true;
+    // forceQuit if for debugging
     while (!checkCombatDone() && forceQuit)
     {
-       
-
+        // dummy variables to consume user input
         std::string command;
         std::vector<int> input;
 
         if (playersTurn)
         {
-            // Print basic character information
-           // std::cout << *fightOrder[playersTurn] << std::endl;
-            
             std::cin >> command;
             input = formatCommand(command);
-
         }
         else
         {
             input.push_back(1);
         }
-
-        /*for (auto i : input)
-            std::cout << i << std::endl;*/
 
         switch (input[0])
         {
@@ -78,7 +71,6 @@ void combatManager::startFight()
         case 12:
             // Print the basic character information for the player
             std::cout << *fightOrder[1] << std::endl;  
-            //  std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl; // detailed
             // So printing won't cost you the turn
             playersTurn = !playersTurn;
             break;
@@ -86,7 +78,6 @@ void combatManager::startFight()
         case 13:
             // Print the basic character information for the monster
             std::cout << *fightOrder[0] << std::endl;
-            // std::cout << *dynamic_cast<monster*> (fightOrder[0]) << std::endl; // detailed
             playersTurn = !playersTurn;
             break;
 
@@ -94,9 +85,22 @@ void combatManager::startFight()
             forceQuit = false;
             break;
             
+        case -1:
+            std::cout << "\n"
+                << "atk:        Attack the monster with your weapon.\n"
+                
+                
+                << "\n\n                   DEBUGGING"  
+                << "\n**************************************************\n"
+
+                << "pp:         Display the basic details of your hero.\n" 
+                << "pm:         Display the basic details of the monster.\n"
+
+                << std::endl;
+            break;
 
         default:
-            std::cout << "Invalid command. Type 'Help' for all available commands\n" << std::endl;;
+            std::cout << "Invalid command. Type 'Help' for all available commands\n" << std::endl;
             break;
         }
         // Flip-Flop turns
@@ -123,6 +127,9 @@ std::vector<int> combatManager::formatCommand(std::string command)
         temp.push_back(1);
 
 
+    else if (tempCommand[0] == "Loot" || tempCommand[0] == "loot")
+        temp.push_back(20);
+
     // Print the player
     else if (tempCommand[0] == "pPlayer" || tempCommand[0] == "pp")
         temp.push_back(12);
@@ -130,7 +137,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
     else if (tempCommand[0] == "pMonster" || tempCommand[0] == "pm")
         temp.push_back(13);
 
-    else if (tempCommand[0] == "exit")
+    else if (tempCommand[0] == "Exit" || tempCommand[0] == "exit")
         temp.push_back(0);
 
     else
@@ -153,15 +160,68 @@ std::string combatManager::selectAction(int type, int subType)
   return "n\a";
 }
 
+
 std::string combatManager::endFight()
 {
     if (playersTurn)
     {
-        std::cout << "Congratulations " + fightOrder[playersTurn]->getName() + " you were victorious over the "
-            << fightOrder[!playersTurn]->getName()
+        
+        //  *** Arbitrary amout of experience for the player to gain when they killed the monster ***
+        
+        int monsterXP =  (*dynamic_cast<player*> (fightOrder[1])).getExperience()[1] / 3 
+                                               + (fightOrder[0]->getMaxHealth() * 0.2);
+
+        dynamic_cast<player*> (fightOrder[1])->addExperience(monsterXP);
+        // First line draws a bar of '*' to seperate the combat phase from the end of combat
+        std::cout << "\n" << std::setfill('*') << std::setw(50) << "\n\n" << std::setfill(' ')
+            << "Congratulations " + fightOrder[playersTurn]->getName() + "! You were victorious over the "
+            << fightOrder[!playersTurn]->getRace() << ".\n"
+            << "Defeating the monster has granted you " << monsterXP << " experience.\n Here's how "
+            << fightOrder[1]->getName() << " is looking after that fight.\n"
+            << *dynamic_cast<player*> (fightOrder[1]) << "\n"
+            << "Type 'Loot' to see if the monster has any loot\n"
 
             << std::endl;
+
+        int input;
+        bool monsterLooted = false;
+        std::string command;
+        std::cin >> command;
+
+        input = formatCommand(command)[0];
+
+        switch (input)
+        {
+        case 20:
+            // Insert looting here 
+            break;
+
+        case 0:
+            if (!monsterLooted)
+            {
+                std::cout
+                    << "\nOnce you leave the monster encounter, the loot will still be available until you leave the room.\n"
+                    << "However, if there is another monster in this room that you haven't found yet, this monsters loot "
+                    << "will be taken back into the spire as sacrifice.\nAnd will be gone forever.\n"
+                    << "Are you sure there's no more monsters in the room? ";
+
+                std::cin >> command;
+                if (command == "Yes" || command == "yes" || command == "y")
+                    break;
+                else
+                {
+                    // loop back to looting function
+                }
+            }
+            break;
+        }
     }
+    // We should create a gameOver state. And call it here
+    else
+    {
+        
+    }
+
 
   return "n\a";
 }

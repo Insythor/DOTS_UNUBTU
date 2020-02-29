@@ -3,10 +3,9 @@
 monster::monster(std::string tName, std::string tRace, int tMaxHP, 
                                         std::vector<int> tMStats, int l)
 {
-
     level = l;
 
-    if (level % 6 == 0)
+    if (level % 5 == 0)
         isBoss = true;
     else
         isBoss = false;
@@ -107,10 +106,7 @@ void monster::initMonster()
         }
     }
 
-
-
     dice lvlDice;
-
 
     // Balancing comes into play here because the player gets 4 extra points at level 0
     // And the monsters points are all random
@@ -150,6 +146,9 @@ void monster::initMonster()
                 }
             }
         }
+        // Add 10% of the monster current hp an 50% of the monster strength to their maxHP
+        // Arbitrary and needs to be replaced with actual value
+        maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
     }
 
 

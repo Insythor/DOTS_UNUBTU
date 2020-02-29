@@ -380,7 +380,7 @@ player* gameManager::characterCreation()
 // Overloaded characterCreation(), generates a player at given race index
 player* gameManager::characterCreation(int index)
 {
-    player* temp = new player("TempHero",
+    player* temp = new player("Temp Hero",
         allRaces->at(index).race,
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats);

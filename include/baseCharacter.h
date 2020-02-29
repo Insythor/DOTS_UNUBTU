@@ -109,6 +109,7 @@ public:
     @brief
     @param[out]
   */
+  // Currently can deal negative damage which actually heals the hero
   int dealDamage();
   int useAbility(unsigned int index);
 
@@ -123,7 +124,7 @@ protected:
   int maxHealth;
 
   int level;
-  // 0 = strength 1 = dex 2 = int 3 = speed
+  // 0 = strength : 1 = dex : 2 = int : 3 = speed
   std::vector<int> mainStats;
   // How much of a benafit do your stats give you
   std::vector<int> statBonuses;
@@ -136,7 +137,11 @@ protected:
   weapon* equippedWeapon;
 
   std::vector<ability*> activeAbilities;
-
+  /**
+    @brief for every 2 points in a stat, gain either +1 or -1.
+           Bonus becomes positive above 10
+           (i.e. 6 dexterity = -2 bonus, and 14 dexterity = +2 bonus)
+  */
   void checkStatBonuses();
   /**
     @brief Check if the equipped weapon gain a bonus to damage 

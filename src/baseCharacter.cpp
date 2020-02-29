@@ -19,7 +19,6 @@ baseCharacter::~baseCharacter()
     delete equippedWeapon;
 }
 
-
 std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
 {
     int nameSpacer = 18 - toRender.getName().length();
@@ -93,7 +92,6 @@ void baseCharacter::updateDamagePower()
         damagePower = statBonuses[0];
 }
 
-
 int baseCharacter::useAbility(unsigned int index)
 {
     if(activeAbilities.size() > index)
@@ -105,7 +103,6 @@ int baseCharacter::useAbility(unsigned int index)
         return 0; //if 0 cout where called ability on cooldown.
     }
 }
-
 
 int baseCharacter::dealDamage()
 {
