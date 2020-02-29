@@ -16,6 +16,13 @@ consumable::~consumable()
 
 }
 
+std::ostream& operator << (std::ostream& out, consumable& toRender)
+{
+ out <<
+ std::endl;
+ return out;
+}
+
 int consumable::getID()
 {
   return id;
@@ -40,7 +47,7 @@ bool consumable::getIsPerminant()
 0 strength    mainStats[0]
 1 dexterity   mainStats[1]
 2 intellect   mainStats[2]
-3 speed
+3 speed       mainStats[3]
 */
 
 

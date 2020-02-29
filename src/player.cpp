@@ -9,7 +9,7 @@ player::player()
     maxHealth = 0;
     currentHealth = maxHealth;
 
-    equippedWeapon = nullptr;
+    // equippedWeapon = nullptr;
 
     currentExperience = 0;
     maxExperience = 100;
@@ -43,14 +43,14 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   level = 0;
   gold = 0;
-
 }
+
 // Print 
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
     // Figure out the widths for each section of the player output stream
-    int nameSpacer = 20 - toRender.getName().length();
-    int raceSpacer = 20 - toRender.getRace().length();
+    int nameSpacer = 15 - toRender.getName().length();
+    int raceSpacer = 12 - toRender.getRace().length();
     int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
     int currentXpSpacer = std::to_string(toRender.getExperience()[0]).length();
     int maxXpScacer = 5 + std::to_string(toRender.getExperience()[1]).length();
@@ -84,14 +84,14 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         intBonus = " + ";
     else
         intBonus = " - ";
+
     // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
         toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth() << std::setw(9)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
-        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / " 
-                << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
+        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / "
+               << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
         << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
         << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
@@ -150,7 +150,7 @@ void player::levelUp()
             currentExperience -= maxExperience;
         else
             currentExperience = 0;
-
+        
         // Don't increase the max experience required for level 1 as it is set by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
@@ -160,12 +160,14 @@ void player::levelUp()
     // ding!
     level += 1;
 
+    std::cout << (*this);
+
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
     // Print out the current player before they level up so they have a reference
-    std::cout << (*this);
+
 
     while (availablePoints > 0)
     {
@@ -239,6 +241,7 @@ void player::levelUp()
         }
     }
 
+
     // Add 10% of the players current hp an 50% of the players strength to their maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
@@ -261,26 +264,11 @@ void player::addToStats(std::vector<int>toAdd)
     checkStatBonuses();
 }
 
-void player::applyStatusEffect(std::vector<int>toApply)
-{
-  toApply.clear();
-}
 
-void player::spawnWeapon(int level, std::vector<std::string>* weaponNames)
-{
-    // If there is a weapon already equipped
-    //if (equippedWeapon != nullptr)
-    //    delete equippedWeapon;
-    if (this != nullptr)
-    {
-        equippedWeapon = new weapon(level, weaponNames);
-        updateDamagePower();
-    }
-}
 
 void player::useConsumable(unsigned int index)
 {
-    std::vector<consumable*> tempC = cInventory->removeConsumable(index, 1);
+    std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
         int stat = tempC.front()->getStatToAdd();

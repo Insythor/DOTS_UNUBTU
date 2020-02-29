@@ -6,7 +6,7 @@
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 
-#include "baseCharacter.h"
+//#include "baseCharacter.h"
 #include "player.h"
 #include "monster.h"
 #include "chest.h"
@@ -112,6 +112,8 @@ private:
     @brief Read in all of the weapon names from docs/DATA/weaponNames
   */
   void readInWeapons();
+
+  void printWeapons();
 
   /**
     @brief generate a random monster at a given level

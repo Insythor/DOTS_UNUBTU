@@ -8,14 +8,17 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
 
-  currentLevel = 0;
+//  printRaces();
+
+  currentLevel = 1;
   playerPtr = characterCreation(1);
-  monsterPtr = nullptr;
+  monsterPtr = generateMonster(1);
 
  // mainMenu();
 }
 
-gameManager::~gameManager()
+
+ gameManager::~gameManager()
 {
   delete allRaces;
   delete allWeaponNames;
@@ -112,18 +115,31 @@ void gameManager::printRaces()
   }
 }
 
+void gameManager::printWeapons()
+{
+    for (auto i : (*allWeaponNames))
+        std::cout << i << std::endl;
+}
+
+#include<map>
+
 // Main loop
 void gameManager::startGame()
 {
 
     bool play = true;
     // Temp variables used for comsuming input stream
+    // Convert to string stream for dynamic input / overloading
     std::string command;
     int input0, input1;
 
+    combatManager* thisFight = nullptr;
+
+
+
     while (play)
     {
-  
+      
 
         std::cin >> command;
    //     std::cout << std::endl << command << "  " << formatCommand(command) << std::endl;
@@ -131,28 +147,37 @@ void gameManager::startGame()
         switch (formatCommand(command))
         {
             /**     print commands                    */
-            // Printing functions
-            // printPlayer, pp
+
+            // pPlayer, pp
         case 10:
             printRaces();
             break;
-            // printWeapon, pw
+            // pWeapon, pw
         case 11:
-            std::cout << playerPtr->getWeapon();
+            printWeapons();
             break;
-            // printPlayer, pp
+
+            // pPlayer, pp
         case 12:
             std::cout << (*playerPtr);
+            break;
+            // pPlayerWeapon, ppw
+        case 120:
+            std::cout << (*playerPtr->getWeapon()) << std::endl;
             break;
             // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
             break;
+        case 130:
+            std::cout << monsterPtr->getWeapon()->getName() << std::endl;
+            break;
 
-            /**        make commands                    */
+            /**        make commands (spawn an object)      */
             // makeWeapon,  mw
         case 20:
             playerPtr->spawnWeapon(currentLevel, allWeaponNames);
+            std::cout << (*playerPtr->getWeapon());
             break;
             // makePlayer, mp
         case 21:
@@ -171,10 +196,17 @@ void gameManager::startGame()
             monsterPtr = generateMonster(input0, input1);
             std::cout << (*monsterPtr);
             break;
+            // makeCombat, mc
+        case 23:
+            monsterPtr = generateMonster(currentLevel);
+            thisFight =  new combatManager(playerPtr, monsterPtr);
+            thisFight->startFight();
+            delete thisFight;
+            break;
 
             /**             debugging commands            */
             // Clear the terminal window of all text
-            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ONE! */
+            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
             // WINDOWS
             system("cls");
@@ -186,6 +218,9 @@ void gameManager::startGame()
             std::cin >> input0;
             playerPtr->addExperience(input0);
             //std::cout << (*playerPtr);
+            break;
+        case 92:
+          //  std::cout << testList.front()->dealDamage() << std::endl;
             break;
 
         case 0:
@@ -252,12 +287,15 @@ int gameManager::formatCommand(std::string command)
 
     else if (command == "pPlayer" || command == "pp")
         temp = 12;
-
+    else if (command == "pPlayerWeapon" || command == "ppw")
+        temp = 120;
     else if (command == "pMonster" || command == "pm")
         temp = 13;
+    else if (command == "pMonsterWeapon" || command == "pmw")
+        temp = 130;
 
     // Create object prefixed with 2
-    else if (command == "makeWeapon" || command == "mk")
+    else if (command == "makeWeapon" || command == "mw")
         temp = 20;
 
     else if (command == "makePlayer" || command == "mp")
@@ -267,15 +305,20 @@ int gameManager::formatCommand(std::string command)
 
     else if (command == "makeMonster" || command == "mm")
         temp = 22;
-
+    // Start combat
+    else if (command == "makeCombat" || command == "mc")
+        temp = 23;
 
 
     // debugging gets a prefix of 9
     else if (command == "clear")
-        return 90;
+        temp = 90;
     // add x to the players current experience
     else if (command == "addExperience" || command == "xp")
-        return 91;
+        temp = 91;
+    // print the damage done from a normal weapon attack by the player
+    else if (command == "atk")
+        temp = 92;
 
 
     else if (command == "exit" || command == "quit" || command == "end")
@@ -337,13 +380,11 @@ player* gameManager::characterCreation()
 // Overloaded characterCreation(), generates a player at given race index
 player* gameManager::characterCreation(int index)
 {
-    if (playerPtr != nullptr)
-        delete playerPtr;
-
-    player* temp = new player("Temp Hero",
+    player* temp = new player("TempHero",
         allRaces->at(index).race,
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats);
+
     temp->spawnWeapon(currentLevel, allWeaponNames);
 
     return temp;
@@ -429,6 +470,8 @@ monster* gameManager::generateMonster(int l)
         allRaces->at(index).mStats,
         l);
 
+    temp->spawnWeapon(currentLevel, allWeaponNames);
+
     return temp;
 }
 
@@ -440,6 +483,8 @@ monster* gameManager::generateMonster(int l, int index)
         allRaces->at(index).mStats,
         l);
 
+    temp->spawnWeapon(currentLevel, allWeaponNames);
+
     return temp;
 }
 
@@ -450,6 +495,8 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats, 
         l );
+
+    temp->spawnWeapon(currentLevel, allWeaponNames);
 
     return temp;
 }
