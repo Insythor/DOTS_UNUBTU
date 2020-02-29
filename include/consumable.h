@@ -3,7 +3,8 @@
 
 #include "item.h"
 
-#include <string>
+#include <vector>
+
 #include <iostream>
 
 class consumable : public item
@@ -14,13 +15,18 @@ class consumable : public item
     ~consumable();
     friend std::ostream& operator << (std::ostream& out, consumable &toRender);
     int getID();
-    int getStatToAdd();
-    int getStatValue();
+    /**
+        @brief return the stat to add, and how much is to be added
+        @param[out] std::vector<int>[0] Stat to add
+        @param[out] std::vector<int>[1] Quantity to add
+    */
+    std::vector<int> statsToAdd();
     bool getIsPerminant();
   private:
     int id;
-    int statToAdd;
-    int statValue;
+
+    std::vector<int> stats;
+
     bool isPerminant;
 };
 

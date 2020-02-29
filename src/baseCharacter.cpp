@@ -19,14 +19,11 @@ baseCharacter::~baseCharacter()
     delete equippedWeapon;
 }
 
-
 std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
 {
     int nameSpacer = 18 - toRender.getName().length();
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
     int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
-
-    int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
 
     // from using their current weapon based on their stats
     int dmgBonus = abs(toRender.getDamagePower());
@@ -39,9 +36,10 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
 
     out << "\n"
         << toRender.getName() << std::setw(nameSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth() << std::setw(9)
+        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / "
+                                         << toRender.getMaxHealth() << std::setw(9)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
-        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
+        << "\n" << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
         << dmgBonusSign << dmgBonus
         
@@ -68,7 +66,7 @@ void baseCharacter::checkStatBonuses()
 {
     statBonuses.clear();
     statBonuses.resize(4);
-
+    // Check Str, Dex, Int
     for (int i = 0; i < 3; i ++)
     {
         statBonuses[i] = (mainStats[i] - 10) / 2;
@@ -93,11 +91,11 @@ void baseCharacter::updateDamagePower()
         damagePower = statBonuses[0];
 }
 
-
 int baseCharacter::useAbility(unsigned int index)
 {
     if(activeAbilities.size() > index)
     {
+        // Are we adding stat bonuses to abilities? I can't remember
         return activeAbilities[index]->dealDamage(mainStats);
     }
     else
@@ -105,7 +103,6 @@ int baseCharacter::useAbility(unsigned int index)
         return 0; //if 0 cout where called ability on cooldown.
     }
 }
-
 
 int baseCharacter::dealDamage()
 {
@@ -115,7 +112,6 @@ int baseCharacter::dealDamage()
 void baseCharacter::takeDamage(int damage)
 {
     currentHealth -= damage;
-    isDead();
 }
 
 
@@ -194,6 +190,7 @@ void baseCharacter::takeDamage(int damage)
   {
     return mainStats;
   }
+
   int baseCharacter::getGold()
   {
     return gold;

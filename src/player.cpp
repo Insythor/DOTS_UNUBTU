@@ -17,14 +17,9 @@ player::player()
     level = 0;
     gold = 0;
 
+    statusEffect.resize(3, 0);
     checkStatBonuses();
 }
-
-player::~player()
-{
-  //dtor
-}
-
 
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
@@ -43,7 +38,15 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   level = 0;
   gold = 0;
+
+  statusEffect.resize(3, 0);
 }
+
+player::~player()
+{
+    //dtor
+}
+
 
 // Print 
 std::ostream& operator << (std::ostream& out, player& toRender)
@@ -56,7 +59,6 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     int maxXpScacer = 5 + std::to_string(toRender.getExperience()[1]).length();
     int hpSpacer = 4 - std::to_string(toRender.getCurrentHealth()).length();
     int goldSpacer = 10 - std::to_string(toRender.getGold()).length();
-    int weaponSpacer = 3 + toRender.getWeapon()->getName().length();
     std::string strBonus;
     std::string dexBonus;
     std::string intBonus;
@@ -92,8 +94,8 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / "
                << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
-        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
-        << std::setw(weaponSpacer) << toRender.getWeapon()->getName() << std::setw(3)
+        << std::setw(goldSpacer) << "Gold: " << toRender.getGold() << "\n"
+        << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
         << dmgBonusSign << dmgBonus
         << "\n" << std::setfill('.')
@@ -128,7 +130,6 @@ void player::addExperience(int toAdd)
         levelUp();
 }
 
-
 void player::levelUp()
 {
     // temp variables used to for input
@@ -155,18 +156,19 @@ void player::levelUp()
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
     }
-    // stored amout of available points incase the user does not want to commit their changes
+    // stored amount of available points incase the user does not want to commit their changes
     int backupAvailPoints = availablePoints;
     // ding!
     level += 1;
 
+    // Print out the current player before they level up so they have a reference
     std::cout << (*this);
 
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
-    // Print out the current player before they level up so they have a reference
+    
 
 
     while (availablePoints > 0)
@@ -241,7 +243,6 @@ void player::levelUp()
         }
     }
 
-
     // Add 10% of the players current hp an 50% of the players strength to their maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
@@ -255,7 +256,6 @@ void player::levelUp()
     addExperience(0);
 }
 
-
 void player::addToStats(std::vector<int>toAdd)
 {
     for(unsigned int i = 0; i < mainStats.size(); i++)
@@ -264,15 +264,29 @@ void player::addToStats(std::vector<int>toAdd)
     checkStatBonuses();
 }
 
-
+void player::applyStatusEffect(std::vector<int> toApply, bool apply)
+{
+    if (apply)
+    {
+        statusEffect = toApply;
+        for (unsigned int i = 0; i < 3; i++)
+            mainStats[i] -= statusEffect[i];
+    }
+    else
+    {
+        for (unsigned int i = 0; i < 3; i++)
+            mainStats[i] += statusEffect[i];
+    }
+    checkStatBonuses();
+}
 
 void player::useConsumable(unsigned int index)
 {
     std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
-        int stat = tempC.front()->getStatToAdd();
-        int amount = tempC.front()->getStatValue();
+        int stat = tempC.front()->statsToAdd()[0];
+        int amount = tempC.front()->statsToAdd()[1];
         if(tempC.front()->getIsPerminant())
         {
             switch(stat)

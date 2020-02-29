@@ -8,8 +8,6 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
 
-//  printRaces();
-
   currentLevel = 1;
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);
@@ -121,9 +119,8 @@ void gameManager::printWeapons()
         std::cout << i << std::endl;
 }
 
-#include<map>
-
 // Main loop
+// Most of this is going to be ripped out as it is primarily debugging stuff atm
 void gameManager::startGame()
 {
 
@@ -136,17 +133,14 @@ void gameManager::startGame()
     combatManager* thisFight = nullptr;
 
 
-
     while (play)
     {
-      
-
+        
         std::cin >> command;
-   //     std::cout << std::endl << command << "  " << formatCommand(command) << std::endl;
 
         switch (formatCommand(command))
         {
-            /**     print commands                    */
+            /**     print commands       */
 
             // pPlayer, pp
         case 10:
@@ -165,12 +159,18 @@ void gameManager::startGame()
         case 120:
             std::cout << (*playerPtr->getWeapon()) << std::endl;
             break;
+
             // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
             break;
+            //pMonsterWeapon, pmw
         case 130:
-            std::cout << monsterPtr->getWeapon()->getName() << std::endl;
+            std::cout << (*monsterPtr->getWeapon()) << std::endl;
+            break;
+           // pMonsterGold, pmg
+        case 131:
+            std::cout << monsterPtr->getGold() << std::endl;
             break;
 
             /**        make commands (spawn an object)      */
@@ -185,10 +185,7 @@ void gameManager::startGame()
             playerPtr = characterCreation(input0);
             std::cout << (*playerPtr);
             break;
-            // levelUp, lvl
-        case 210:
-            playerPtr->levelUp();
-            break;
+            
             // makeMonster, mm
         case 22:
             // input0 = level, input1 = raceIndex
@@ -219,8 +216,13 @@ void gameManager::startGame()
             playerPtr->addExperience(input0);
             //std::cout << (*playerPtr);
             break;
+            // levelUp, lvl
+        case 210:
+            playerPtr->levelUp();
+            break;
+        //  atk : deal damage with the players equipped weapon
         case 92:
-          //  std::cout << testList.front()->dealDamage() << std::endl;
+            std::cout << playerPtr->dealDamage() << std::endl;
             break;
 
         case 0:
@@ -289,10 +291,13 @@ int gameManager::formatCommand(std::string command)
         temp = 12;
     else if (command == "pPlayerWeapon" || command == "ppw")
         temp = 120;
+
     else if (command == "pMonster" || command == "pm")
         temp = 13;
     else if (command == "pMonsterWeapon" || command == "pmw")
         temp = 130;
+    else if (command == "pMonsterGold" || command == "pmg")
+        temp = 131;
 
     // Create object prefixed with 2
     else if (command == "makeWeapon" || command == "mw")
@@ -380,7 +385,7 @@ player* gameManager::characterCreation()
 // Overloaded characterCreation(), generates a player at given race index
 player* gameManager::characterCreation(int index)
 {
-    player* temp = new player("TempHero",
+    player* temp = new player("Temp Hero",
         allRaces->at(index).race,
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats);

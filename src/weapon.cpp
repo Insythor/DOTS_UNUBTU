@@ -37,7 +37,6 @@ weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 
 weapon::~weapon()
 {
-
     delete weaponDice;
 }
 

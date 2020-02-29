@@ -58,7 +58,7 @@ class player : public baseCharacter
       @brief
       @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int [3] Speed
     */
-    void applyStatusEffect(std::vector<int> toApply);
+    void applyStatusEffect(std::vector<int> toApply, bool apply);
     /**
         @brief 
         @param[in] 
