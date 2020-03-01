@@ -16,7 +16,9 @@ class monster : public baseCharacter
 
     bool isBoss;
     
-
+    /**
+        @brief Based on the 
+    */
     void initMonster();
 };
 

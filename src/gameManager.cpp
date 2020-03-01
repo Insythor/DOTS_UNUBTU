@@ -92,7 +92,7 @@ void gameManager::printRaces()
     int wDex = 4;
     int wInt = 4;
     int wSpd = 8;
-
+    // Formatting text output based on how many digits the number is
     if(i.maxHP % 100 == 0)
       wHP ++;
     if(i.mStats[0] % 10 == 0 && i.mStats[0] != 0)
@@ -123,7 +123,6 @@ void gameManager::printWeapons()
 // Most of this is going to be ripped out as it is primarily debugging stuff atm
 void gameManager::startGame()
 {
-
     bool play = true;
     // Temp variables used for comsuming input stream
     // Convert to string stream for dynamic input / overloading
@@ -240,7 +239,6 @@ std::string gameManager::formatRoomType(int type)
 {
     std::string temp;
 
-
     if (type == 0)
         temp = "boss";
     else if (type == 1)
@@ -286,23 +284,26 @@ int gameManager::formatCommand(std::string command)
 
     else if (command == "pWeapon" || command == "pw")
         temp = 11;
-
+    // Print the player's detailed stats
     else if (command == "pPlayer" || command == "pp")
         temp = 12;
+    // Print the players weapon
     else if (command == "pPlayerWeapon" || command == "ppw")
         temp = 120;
-
+    // Print the monsters detailed stats
     else if (command == "pMonster" || command == "pm")
         temp = 13;
+    // Print the monsters weapon
     else if (command == "pMonsterWeapon" || command == "pmw")
         temp = 130;
+    // Print the monsters gold
     else if (command == "pMonsterGold" || command == "pmg")
         temp = 131;
 
     // Create object prefixed with 2
     else if (command == "makeWeapon" || command == "mw")
         temp = 20;
-
+    // Make a player with a chosen race
     else if (command == "makePlayer" || command == "mp")
         temp = 21;
     else if (command == "levelUp" || command == "lvl")
@@ -334,7 +335,7 @@ int gameManager::formatCommand(std::string command)
 // Default characterCreation(), has cout and cin
 player* gameManager::characterCreation()
 {
-    player* temp;
+  player* temp;
   int tempRaceIndex;
   std::string tempName;
 
@@ -434,8 +435,9 @@ void gameManager::mainMenu()
   std::cout << std::endl;
   toRead.close();
 
+  // Call the default characterCreation function
+  // This has the I/O required for character customization
   characterCreation();
-
 }
 
 void gameManager::saveGame()
@@ -457,7 +459,6 @@ void gameManager::beginCombat(int l, int index)
 {
     std::string tName = "Cheeky McGee";
     monsterPtr = generateMonster(l, index, tName);
-
 }
 
 void gameManager::chooseNextRoom()

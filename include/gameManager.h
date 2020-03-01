@@ -31,12 +31,10 @@
 class gameManager
 {
 public:
-
-
 	gameManager();
 	~gameManager();
     /**
-        @brief  Initiate the main loop of the game
+        @brief  Main loop of the game
     */
 	void startGame();
     /**
@@ -58,7 +56,7 @@ private:
 
   // All race data read in from races.csv
   std::vector<raceData>* allRaces;
-  // 
+
   player* playerPtr;
   monster* monsterPtr;
   roomManager* currentRoom;
@@ -111,7 +109,7 @@ private:
   */
   void printRaces();
   /**
-    @brief Read in all of the weapon names from docs/DATA/weaponNames
+    @brief Debugging: Read in all of the weapon names from docs/DATA/weaponNames
   */
   void readInWeapons();
   /**

@@ -4,9 +4,10 @@
 
 #include "monster.h"
 #include "player.h"
-
+// Containers
 #include <string>
 #include <vector>
+// I/O
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -32,8 +33,10 @@ class combatManager
     std::string monsterAction();
 
     bool checkCombatDone();
-
-    // [0] switch, [1] type, [2] subType
+    /**
+        @brief Helper function to parse the users input into ints
+        @param[out] [0] switch, [1] type, [2] subType
+     */
     std::vector<int> formatCommand(std::string command);
 };
 

@@ -170,11 +170,11 @@ void player::levelUp()
         << "Available points: " << availablePoints << "\n";
     
 
-
+    // While the player still has points to spend on additional stat upgrades
     while (availablePoints > 0)
     {
         std::cin >> statIn >> statAmountIn;
-
+        // Check that the amount of stats input does not exceed the amount of available points
         if (statIn < 3 && availablePoints - statAmountIn >= 0)
         {
             // Add the stats input by the player to the tempStats vector
@@ -258,25 +258,30 @@ void player::levelUp()
 
 void player::addToStats(std::vector<int>toAdd)
 {
+    // For all the stats the player has, add the given stats
     for(unsigned int i = 0; i < mainStats.size(); i++)
         mainStats[i] += toAdd[i];
-
+    // Check to see if the stats added change the players bonuses
     checkStatBonuses();
 }
 
 void player::applyStatusEffect(std::vector<int> toApply, bool apply)
 {
+    // This may need to be changed based off how we do atatus effects
+    // Add the negative or positive effect
     if (apply)
     {
         statusEffect = toApply;
         for (unsigned int i = 0; i < 3; i++)
-            mainStats[i] -= statusEffect[i];
+            mainStats[i] += statusEffect[i];
     }
+    // Reverse the negative or positive effect
     else
     {
         for (unsigned int i = 0; i < 3; i++)
-            mainStats[i] += statusEffect[i];
+            mainStats[i] -= statusEffect[i];
     }
+    // Check if the status effect changes the players stat bonuses
     checkStatBonuses();
 }
 
@@ -327,6 +332,7 @@ void player::useConsumable(unsigned int index)
 
 std::vector<int> player::getExperience()
 {
+    // Return the experience in a vector to save time
     std::vector<int> temp;
 
     temp.push_back(currentExperience);

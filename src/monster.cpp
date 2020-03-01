@@ -4,7 +4,7 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
                                         std::vector<int> tMStats, int l)
 {
     level = l;
-
+    // Currently does nothing if the monster is a boss
     if (level % 5 == 0)
         isBoss = true;
     else
@@ -16,8 +16,6 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
-    
-    checkStatBonuses();
 
     initMonster();
 }
@@ -90,7 +88,7 @@ void monster::initMonster()
     int tMainStat = 0;
     int tMainStatIndex;
 
-    // Check if str, dex, or int is highest
+    // Check if str, dex, or int is highest for that race
     for (unsigned int i = 0; i < statBonuses.size(); i++)
     {
         if (mainStats[i] > tMainStat)
@@ -98,13 +96,13 @@ void monster::initMonster()
             tMainStat = mainStats[i];
             tMainStatIndex = i;
         }
-        if (i == 2 && mainStats[i] > tMainStat&& mainStats[0] < mainStats[i])
+        if (i == 2 && mainStats[i] > tMainStat && mainStats[0] < mainStats[i])
         {
             tMainStat = mainStats[i];
             tMainStatIndex = i;
         }
     }
-
+    // Temp dice to be used for selecting which stats the monster gets
     dice lvlDice;
 
     // Balancing comes into play here because the player gets 4 extra points at level 0
@@ -150,6 +148,7 @@ void monster::initMonster()
         maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
     }
     checkStatBonuses();
-
+    // Arbitrary amount of gold that the monster carries
+    // NEEDS TO BE BALANCED
     setGold(dice(level * 10).roll());
 }
