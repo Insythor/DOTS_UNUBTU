@@ -41,3 +41,7 @@
 * ```.gitlab-ci.yml``` - Continous integration file for GitLab.
 
 * ```README.md``` - This file.
+
+# Project Instructions
+* This project is expeting that the Project files will be within a single directory (i.e. Nyx/CodeBlocksProject).
+	If your project is organized another way, when you press play it will seg-fault.

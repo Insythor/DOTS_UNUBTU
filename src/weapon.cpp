@@ -18,7 +18,6 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 
 weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 {
-
     allNames = nullptr;
     
     name = nam;
@@ -42,16 +41,19 @@ weapon::~weapon()
 
 void weapon::generateWeapon(int level)
 {
+  // Choose a random stat: [0] str, [1] dex, [2] int
   int statType = rand() % 3;
   int diceSize = level/2 + 4 + (rand() % 5);
 
-
+  // Add one dice of the randomly chosen size to the weaponDice vector
   for(int i = 0; i < level; i++)
   {
     weaponDice->push_back(dice(diceSize));
   }
+  // Optimize!
   weaponDice->shrink_to_fit();
-
+  // If the weapon names dictionary was read in, select a random name
+  // Then delete that name from the dictionary
   if(allNames != nullptr)
   {
     int tempIndex = rand() % allNames->size();
@@ -63,9 +65,10 @@ void weapon::generateWeapon(int level)
   {
     name = "invalid";
   }
-
+  // Add the stat requirement chosen above to the statRequirements
   statRequirements.push_back(statType);
-
+  // Required amount of stats to use this weapon
+  // NEEDS TO BE BALANCED
   statRequirements.push_back(level * 2);
   // If the weapon does max damage, increase the required level by 1
   if(diceSize >= 12)
@@ -76,9 +79,7 @@ void weapon::generateWeapon(int level)
   {
     statRequirements.push_back(level);
   }
-//  for(auto i : statRequirements)
-   // std::cout << i << std::endl;
-
+  // Optimize
   statRequirements.shrink_to_fit();
 }
 

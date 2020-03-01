@@ -50,15 +50,16 @@ void combatManager::startFight()
 
         if (playersTurn)
         {
-
+            // Print out the players basic hero stats each turn (should probably change)
             std::cout << *fightOrder[1] << "\n"
                 << "What will " << fightOrder[1]->getName() << " do next: ";
-
+            // Get all input from the user as a single string until the user hits enter
             std::getline(std::cin, command);
             input = formatCommand(command);
         }
         else
         {
+            // Currently if it's the monsters turn, just auto attack
             input.push_back(1);
         }
 
@@ -69,7 +70,7 @@ void combatManager::startFight()
         case 1:
             tempDamage = fightOrder[playersTurn]->dealDamage();
             fightOrder[!playersTurn]->takeDamage(tempDamage);
-
+            // Display who did how much damage to who after each attack
             std::cout << "\n"
                 << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
                 << " to " << fightOrder[!playersTurn]->getName() << "\n"
@@ -82,6 +83,7 @@ void combatManager::startFight()
                 << std::endl;
             playersTurn = !playersTurn;
             break;
+
         // pp, pplayer
         case 12:
             // Print the basic character information for the player
@@ -166,8 +168,9 @@ std::string combatManager::endFight()
         int input;
         bool monsterLooted = false;
         std::string command;
-        std::cin >> command;
-
+        // Get all input from the user as a single string (prevents overflow)
+        std::getline(std::cin, command);
+        // Only care about the 0th element because there\s not additional commands they can enter
         input = formatCommand(command)[0];
 
         while (!monsterLooted)
@@ -274,6 +277,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
     else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
         temp.push_back(13);
 
+    // Debugging: Exit the combat loop and go straight to the looting phase
     else if (tempCommand[0] == "exit" || tempCommand[0] == "exit")
         temp.push_back(0);
 

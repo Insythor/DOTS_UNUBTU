@@ -1,5 +1,4 @@
 #include "consumable.h"
-#include <vector>
 
 consumable::consumable()
 {

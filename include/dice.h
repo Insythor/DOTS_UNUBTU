@@ -7,8 +7,14 @@
 class dice
 {
 public:
-
+    /**
+        @brief Default constructor. Sides = 6
+    */
 	dice();
+    /**
+        @brief Overloaded constructor for a dice with not 6 sides
+        @param[in] int Number of sides for this dice
+    */
 	dice(int nSides);
 
 	~dice();
@@ -23,6 +29,10 @@ public:
     @param[out] int roll = rand(1, sides).
   */
   int roll(int nRolls);
+  /**
+    @brief Return the number of sides that this dice has
+    @param[out] int numberOfSides
+  */
   int getSides();
 private:
 	int sides;
