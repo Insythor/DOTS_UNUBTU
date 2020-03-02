@@ -1,6 +1,6 @@
 #include "monster.h"
 
-monster::monster(std::string tName, std::string tRace, int tMaxHP, 
+monster::monster(std::string tName, std::string tRace, int tMaxHP,
                                         std::vector<int> tMStats, int l)
 {
     level = l;
@@ -16,6 +16,8 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
+
+    equippedWeapon = nullptr;
 
     initMonster();
 }
@@ -67,7 +69,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
                                          << toRender.getMaxHealth()
         << "\n" << std::setfill('.')
         // Print out the players stats
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus 
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
@@ -146,6 +148,7 @@ void monster::initMonster()
         // Add 10% of the monster current hp an 50% of the monster strength to their maxHP
         // Arbitrary and needs to be replaced with actual value
         maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+        currentHealth = maxHealth;
     }
     checkStatBonuses();
     // Arbitrary amount of gold that the monster carries

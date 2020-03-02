@@ -10,13 +10,13 @@
 #include <string>
 #include <vector>
 
-//class ability;
-//class inventory;
+class ability;
+class inventory;
 
 class baseCharacter
 {
     /**
-        @brief Default output operator overload for baseCharacter. This is essentially 
+        @brief Default output operator overload for baseCharacter. This is essentially
                a reduced version of the overloads in the player and monster class.
         @param[out] Name, HealthPoints, Level, Weapon
     */
@@ -144,12 +144,12 @@ protected:
   */
   void checkStatBonuses();
   /**
-    @brief Check if the equipped weapon gain a bonus to damage 
+    @brief Check if the equipped weapon gain a bonus to damage
            based on the type of weapon it is and the players stats
            so use this weapon
   */
   void updateDamagePower();
-  
+
 
 };
 

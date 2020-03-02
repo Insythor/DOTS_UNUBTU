@@ -4,8 +4,8 @@
 
 baseCharacter::baseCharacter()
 {
-    mainStats.resize(4);
-    statBonuses.resize(4);
+    mainStats.resize(4, 0);
+    statBonuses.resize(4, 0);
 }
 
 baseCharacter::~baseCharacter()
@@ -42,7 +42,7 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
         << "\n" << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
         << dmgBonusSign << dmgBonus
-        
+
         << std::endl;
 
     return out;
@@ -66,12 +66,14 @@ void baseCharacter::checkStatBonuses()
     statBonuses.clear();
     statBonuses.resize(4);
     // Check Str, Dex, Int
+
     for (int i = 0; i < 3; i ++)
     {
+      // Needs to work with odds (i.e. 7 should be - 2 not -1
         statBonuses[i] = (mainStats[i] - 10) / 2;
         // Every 4 points of dexterity increases the players speed by 1
-        // I figure this way dex grants a bonus to speed, but since it also increases
-        // damage, it needs to have some balance
+        // I figure this way dex grants a bonus to speed, but since it also
+        // increases damage, it needs to have some balance
         if (i == 1 && statBonuses[1] > 0 && statBonuses[1] - mainStats[3] > 1)
         {
             mainStats[3] += 1;
@@ -82,9 +84,11 @@ void baseCharacter::checkStatBonuses()
 
 void baseCharacter::updateDamagePower()
 {
-    // If the character has a weapon, use that weapons main stat to determin the players damage power
+    // If the character has a weapon, use that weapons main stat to determine
+    // the players damage power
     if (equippedWeapon != nullptr)
         damagePower = statBonuses[equippedWeapon->getStatRequirements()[0]];
+
     // If no weapon is equipped, add the players str to their damagePower
     else
         damagePower = statBonuses[0];
@@ -194,4 +198,3 @@ void baseCharacter::takeDamage(int damage)
   {
     return gold;
   }
-  
