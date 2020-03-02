@@ -51,7 +51,7 @@ void combatManager::startFight()
         if (playersTurn)
         {
             // Print out the players basic hero stats each turn (should probably change)
-            std::cout << *fightOrder[1] << "\n"
+            std::cout //<<  *fightOrder[1] << "\n"
                 << "What will " << fightOrder[1]->getName() << " do next: ";
             // Get all input from the user as a single string until the user hits enter
             std::getline(std::cin, command);
@@ -79,7 +79,7 @@ void combatManager::startFight()
         // ability, abl
         case 2:
             std::cout <<
-                "Ability selected, this feature is currently under development, select something else" 
+                "Ability selected, this feature is currently under development, select something else"
                 << std::endl;
             playersTurn = !playersTurn;
             break;
@@ -87,7 +87,7 @@ void combatManager::startFight()
         // pp, pplayer
         case 12:
             // Print the basic character information for the player
-            std::cout << *fightOrder[1] << std::endl;  
+            std::cout << *fightOrder[1] << std::endl;
             // So printing won't cost you the turn
             playersTurn = !playersTurn;
             break;
@@ -102,18 +102,18 @@ void combatManager::startFight()
         case 0:
             forceQuit = false;
             break;
-        
+
          // help
         case -1:
             std::cout << "\n"
                 << "atk:        Attack the monster with your weapon.\n"
                 << "abl [int]:  Choose an ability to perform on the monster.\n"
-                
 
-                << "\n\n                   DEBUGGING"  
+
+                << "\n\n                   DEBUGGING"
                 << "\n**************************************************\n"
 
-                << "pp:         Display the basic details of your hero.\n" 
+                << "pp:         Display the basic details of your hero.\n"
                 << "pm:         Display the basic details of the monster.\n"
 
                 << std::endl;
@@ -149,7 +149,7 @@ std::string combatManager::endFight()
     if (playersTurn)
     {
         //  *** Arbitrary amout of experience for the player to gain when they killed the monster ***
-        int monsterXP =  (*dynamic_cast<player*> (fightOrder[1])).getExperience()[1] / 3 
+        int monsterXP =  (*dynamic_cast<player*> (fightOrder[1])).getExperience()[1] / 3
                                                + (fightOrder[0]->getMaxHealth() * 0.2);
 
         dynamic_cast<player*> (fightOrder[1])->addExperience(monsterXP);
@@ -240,7 +240,7 @@ bool combatManager::checkCombatDone()
         return true;
     }
 
-    else 
+    else
         return false;
 }
 

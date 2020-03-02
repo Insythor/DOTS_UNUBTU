@@ -10,9 +10,11 @@ gameManager::gameManager()
 
   currentLevel = 1;
   playerPtr = characterCreation(1);
+
+
   monsterPtr = generateMonster(1);
 
- // mainMenu();
+// mainMenu();
 }
 
 
@@ -27,6 +29,8 @@ gameManager::gameManager()
 
 void gameManager::readInWeapons()
 {
+
+
   std::ifstream weaponNames;
   weaponNames.open(DIR_WEAPON);
   std::string line;
@@ -39,6 +43,8 @@ void gameManager::readInWeapons()
   weaponNames.close();
 
   allWeaponNames->shrink_to_fit();
+
+  // printWeapons();
 }
 
 void gameManager::readInRaceData()
@@ -134,7 +140,7 @@ void gameManager::startGame()
 
     while (play)
     {
-        
+
         std::cin >> command;
 
         switch (formatCommand(command))
@@ -175,6 +181,7 @@ void gameManager::startGame()
             /**        make commands (spawn an object)      */
             // makeWeapon,  mw
         case 20:
+          currentLevel += 1;
             playerPtr->spawnWeapon(currentLevel, allWeaponNames);
             std::cout << (*playerPtr->getWeapon());
             break;
@@ -184,7 +191,7 @@ void gameManager::startGame()
             playerPtr = characterCreation(input0);
             std::cout << (*playerPtr);
             break;
-            
+
             // makeMonster, mm
         case 22:
             // input0 = level, input1 = raceIndex
@@ -332,90 +339,6 @@ int gameManager::formatCommand(std::string command)
 
     return temp;
 }
-// Default characterCreation(), has cout and cin
-player* gameManager::characterCreation()
-{
-  player* temp;
-  int tempRaceIndex;
-  std::string tempName;
-
-  std::cout << "\nWhat race is your Hero?\n\n";
-
-  printRaces();
-
-  std::cin >> tempRaceIndex;
-
-  std::cout << "One " << allRaces->at(tempRaceIndex).race <<
-            " coming right up!" << "\n\n *scurrying and panting can be heard as "
-            "the hero approaches*" <<
-  std::endl;
-
-
-  for(int i = 0; i < 3; i++)
-  {
-    //sleep(1);
-    std::cout << "\n..." << std::endl;
-  }
-
-  //sleep(1);
-  //system("clear");
-
-  std::cout <<
-        "Finally! Your hero has arrived!\nWhat shall we call this one then?" <<
-        "\nName: ";
-
-  std::cin >> tempName;
-
-  std::cout <<
-        "Cool a " << allRaces->at(tempRaceIndex).race << " named " << tempName
-        << " \nNo ones ever done that combo before I'm sure... Anyways! " <<
-        "\nONWARD TO STAT SELECTION!"
-  << std::endl;
-  // Set the temp player to what the user has selected, and genereate their hero
-   temp = new player(tempName,
-                          allRaces->at(tempRaceIndex).race,
-                          allRaces->at(tempRaceIndex).maxHP,
-                          allRaces->at(tempRaceIndex).mStats);
-   
-   temp->spawnWeapon(currentLevel, allWeaponNames);
-
-   return temp;
-
-//  system("clear");
-}
-// Overloaded characterCreation(), generates a player at given race index
-player* gameManager::characterCreation(int index)
-{
-    player* temp = new player("Temp Hero",
-        allRaces->at(index).race,
-        allRaces->at(index).maxHP,
-        allRaces->at(index).mStats);
-
-    temp->spawnWeapon(currentLevel, allWeaponNames);
-
-    return temp;
-}
-// Overloaded characterCreation() generates a player with given race
-player* gameManager::characterCreation(std::string race)
-{
-    player* temp = nullptr;
-    for (auto i : (*allRaces))
-    {
-        if (i.race == race)
-        {
-            temp = new player("Temp Hero",
-                allRaces->at(i.index).race,
-                allRaces->at(i.index).maxHP,
-                allRaces->at(i.index).mStats);
-            temp->spawnWeapon(currentLevel, allWeaponNames);
-            return temp;
-        
-        }
-    }
-    
-    delete temp;
-    return nullptr;
-}
 
 void gameManager::mainMenu()
 {
@@ -499,7 +422,7 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
     monster* temp = new monster(tName,
         allRaces->at(index).race,
         allRaces->at(index).maxHP,
-        allRaces->at(index).mStats, 
+        allRaces->at(index).mStats,
         l );
 
     temp->spawnWeapon(currentLevel, allWeaponNames);
@@ -507,6 +430,92 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
     return temp;
 }
 
+// Default characterCreation(), has cout and cin
+player* gameManager::characterCreation()
+{
+  player* temp;
+  int tempRaceIndex;
+  std::string tempName;
+
+  std::cout << "\nWhat race is your Hero?\n\n";
+
+  printRaces();
+
+  std::cin >> tempRaceIndex;
+
+  std::cout << "One " << allRaces->at(tempRaceIndex).race <<
+            " coming right up!" << "\n\n *scurrying and panting can be heard as"
+            " the hero approaches*" <<
+  std::endl;
+
+
+  for(int i = 0; i < 3; i++)
+  {
+    //sleep(1);
+   // std::cout << "\n..." << std::endl;
+  }
+
+ // sleep(1);
+
+//  system("clear");
+
+  std::cout <<
+        "Finally! Your hero has arrived!\nWhat shall we call this one then?" <<
+        "\nName: ";
+
+  std::cin >> tempName;
+
+  std::cout <<
+        "Cool a " << allRaces->at(tempRaceIndex).race << " named " << tempName
+        << " \nNo ones ever done that combo before I'm sure... Anyways! " <<
+        "\nONWARD TO STAT SELECTION!"
+  << std::endl;
+  // Set the temp player to what the user has selected, and genereate their hero
+   temp = new player(tempName,
+                          allRaces->at(tempRaceIndex).race,
+                          allRaces->at(tempRaceIndex).maxHP,
+                          allRaces->at(tempRaceIndex).mStats);
+
+   temp->spawnWeapon(currentLevel, allWeaponNames);
+
+   return temp;
+
+//  system("clear");
+}
+// Overloaded characterCreation(), generates a player at given race index
+player* gameManager::characterCreation(int index)
+{
+
+    player* temp = new player("Temp_Hero",
+        allRaces->at(index).race,
+        allRaces->at(index).maxHP,
+        allRaces->at(index).mStats);
+
+    temp->spawnWeapon(currentLevel, allWeaponNames);
+
+    return temp;
+}
+// Overloaded characterCreation() generates a player with given race
+player* gameManager::characterCreation(std::string race)
+{
+    player* temp = nullptr;
+    for (auto i : (*allRaces))
+    {
+        if (i.race == race)
+        {
+            temp = new player("Temp Hero",
+                allRaces->at(i.index).race,
+                allRaces->at(i.index).maxHP,
+                allRaces->at(i.index).mStats);
+            temp->spawnWeapon(currentLevel, allWeaponNames);
+
+            return temp;
+        }
+    }
+
+    delete temp;
+    return nullptr;
+}
 
 
 std::vector<std::string>* gameManager::getWeaponNames()

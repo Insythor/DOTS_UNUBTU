@@ -24,6 +24,7 @@ player::player()
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
 {
+
   name = tName;
   race = tRace;
 
@@ -33,6 +34,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   equippedWeapon = nullptr;
 
   mainStats = tStat;
+
   checkStatBonuses();
 
   currentExperience = 0;
@@ -42,6 +44,7 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   gold = 0;
 
   statusEffect.resize(3, 0);
+
 }
 
 player::~player()
@@ -50,7 +53,7 @@ player::~player()
 }
 
 
-// Print 
+// Print
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
     // Figure out the widths for each section of the player output stream
@@ -71,19 +74,19 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     // Change the operation after the weapon damage to +/- based on the players stats
     if (toRender.getDamagePower() >= 0)
         dmgBonusSign = " + ";
-    else 
+    else
         dmgBonusSign = " - ";
 
     if (toRender.getStatBonuses()[0] >= 0)
         strBonus = " + ";
     else
         strBonus = " - ";
-    
+
     if (toRender.getStatBonuses()[1] >= 0)
         dexBonus = " + ";
     else
         dexBonus = " - ";
-    
+
     if (toRender.getStatBonuses()[2] >= 0)
         intBonus = " + ";
     else
@@ -106,7 +109,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
-        << "2.Int" << std::setw(5) << toRender.getStats()[2] << intBonus 
+        << "2.Int" << std::setw(5) << toRender.getStats()[2] << intBonus
                          << abs(toRender.getStatBonuses()[2]) << "\n"
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
@@ -167,7 +170,7 @@ void player::levelUp()
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
         << "Available points: " << availablePoints << "\n";
-    
+
 
     // While the player still has points to spend on additional stat upgrades
     while (availablePoints > 0)
@@ -226,7 +229,7 @@ void player::levelUp()
                 std::cout << "Good Choice Adventurer!" << std::endl;
                 break;
             }
-                  
+
             // reset the available points and tempStats vector which essentially restarts the loop
             else if (command == "no" || command == "No" || command == "n")
             {
@@ -353,14 +356,14 @@ void player::save()
             maxHP
             gold
             damagePower
-        
+
         weapon:
             dice Size
             dice rolls
             name
             statRequirements
-        
-    
-   
+
+
+
     */
 }

@@ -1,7 +1,7 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
-/// UPDATE 
+/// UPDATE
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
@@ -25,7 +25,7 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-//#include "unistd.h"
+#include "unistd.h"
 #include <time.h>
 
 class gameManager
@@ -74,12 +74,12 @@ private:
   int formatCommand(std::string command);
 
   /**
-    @brief Create a character based on user input. Base function 
+    @brief Create a character based on user input. Base function
            is used during main menu
   */
   player* characterCreation();
   /**
-    @brief Overloaded character creation which allows you to 
+    @brief Overloaded character creation which allows you to
             create a hero based on a race index (see races.csv)
     @param[in] int index of csv to create
   */
@@ -97,7 +97,7 @@ private:
   void loadGame();
 
   void enterRoom();
-  // We'll have to start each room description with an index so we know what 
+  // We'll have to start each room description with an index so we know what
   // type of monster to spawn
   void beginCombat(int l, int index);
 
@@ -118,12 +118,12 @@ private:
   void printWeapons();
   /**
     @brief generate a random monster at a given level
-    @@param [in] int level
+    @param [in] int level
   */
   monster* generateMonster(int l);
   /**
     @brief generate a monster with a given race at a given level
-    @param[in] int level 
+    @param[in] int level
     @param[in] int race index
   */
   monster* generateMonster(int l, int index);
@@ -134,6 +134,6 @@ private:
     @param[in] std::string name
   */
   monster* generateMonster(int l, int index, std::string tName);
-  
+
 };
 #endif // GAMEMANAGER_H

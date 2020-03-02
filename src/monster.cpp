@@ -1,6 +1,6 @@
 #include "monster.h"
 
-monster::monster(std::string tName, std::string tRace, int tMaxHP, 
+monster::monster(std::string tName, std::string tRace, int tMaxHP,
                                         std::vector<int> tMStats, int l)
 {
     level = l;
@@ -22,6 +22,8 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     checkStatBonuses();
 
 
+
+    equippedWeapon = nullptr;
 
     initMonster();
 }
@@ -73,7 +75,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
                                          << toRender.getMaxHealth()
         << "\n" << std::setfill('.')
         // Print out the players stats
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus 
+        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
