@@ -16,6 +16,12 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
+    
+    equippedWeapon = nullptr;
+
+    checkStatBonuses();
+
+
 
     equippedWeapon = nullptr;
 

@@ -150,10 +150,10 @@ void player::levelUp()
         availablePoints = 6;
     else
     {
-        // If the player has more experience than the max experience, carry over that amount,
-        // else set the current experience to 0
-        currentExperience -= maxExperience;
+       
+       currentExperience -= maxExperience;
 
+        
         // Don't increase the max experience required for level 1 as it is set by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;

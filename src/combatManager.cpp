@@ -167,16 +167,25 @@ std::string combatManager::endFight()
 
         int input;
         bool monsterLooted = false;
+
+
         std::string command;
         // Get all input from the user as a single string (prevents overflow)
         std::getline(std::cin, command);
         // Only care about the 0th element because there\s not additional commands they can enter
         input = formatCommand(command)[0];
 
+
         while (!monsterLooted)
         {
+            std::string command;
+            std::cin >> command;
+
+            input = formatCommand(command)[0];
+
             switch (input)
             {
+            // loot, yes
             case 20:
                 // Until we have looting in the game, I figure we can get a bit of gold :)
                 fightOrder[1]->setGold(fightOrder[0]->getGold());
@@ -196,11 +205,10 @@ std::string combatManager::endFight()
                     std::cin >> command;
 
                     if (command == "Yes" || command == "yes" || command == "y")
+                        monsterLooted = true;
+
+                    else if(command == "No" || command == "no" || command == "n")
                         break;
-                    else
-                    {
-                        // loop back to looting function
-                    }
                 }
                 break;
             }
