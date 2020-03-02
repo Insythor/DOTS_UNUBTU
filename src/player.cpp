@@ -9,7 +9,7 @@ player::player()
     maxHealth = 0;
     currentHealth = maxHealth;
 
-    // equippedWeapon = nullptr;
+    equippedWeapon = nullptr;
 
     currentExperience = 0;
     maxExperience = 100;
@@ -29,6 +29,8 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
 
   maxHealth = tMaxHP;
   currentHealth = maxHealth;
+
+  equippedWeapon = nullptr;
 
   mainStats = tStat;
   checkStatBonuses();
@@ -145,12 +147,9 @@ void player::levelUp()
         availablePoints = 6;
     else
     {
-        // If the player has more experience than the max experience, carry over that amount,
-        // else set the current experience to 0
-        if (currentExperience > maxExperience)
-            currentExperience -= maxExperience;
-        else
-            currentExperience = 0;
+       
+       currentExperience -= maxExperience;
+
         
         // Don't increase the max experience required for level 1 as it is set by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
