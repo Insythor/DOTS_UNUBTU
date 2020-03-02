@@ -55,7 +55,9 @@ class player : public baseCharacter
     */
     void addToStats(std::vector<int> toAdd);
     /**
-      @brief
+      @brief If "apply" == true add the status effect to the players current stats
+             If "apply" == false subtract the status effect from the players stats
+      @param [in] bool apply
       @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int [3] Speed
     */
     void applyStatusEffect(std::vector<int> toApply, bool apply);
