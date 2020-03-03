@@ -179,16 +179,6 @@ void baseCharacter::takeDamage(int damage)
     return activeAbilities;
   }
 
-  inventory* baseCharacter::getInventory()
-  {
-    return cInventory;
-  }
-
-  std::vector<ability*> baseCharacter::getActiveAbilities()
-  {
-    return activeAbilities;
-  }
-
   void baseCharacter::setGold(int g)
   {
     gold += g;

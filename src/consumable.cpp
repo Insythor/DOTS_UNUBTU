@@ -25,12 +25,6 @@ consumable::~consumable()
 
 }
 
-std::ostream& operator << (std::ostream& out, consumable& toRender)
-{
- out <<
- std::endl;
- return out;
-}
 
 std::ostream& operator << (std::ostream& out, consumable& toRender)
 {
@@ -87,10 +81,10 @@ void consumable::readInConsumableData()
     std::ifstream toRead;
 
     toRead.open(DIR_CONSUMABLE);
-    
+
     std::vector<std::string> tempData;
     std::string line;
-    
+
 
     int lineCount = 0;
 
@@ -120,7 +114,7 @@ void consumable::readInConsumableData()
     cost = std::stoi(tempData[5]);
     sellValue = std::stoi(tempData[6]);
     description = tempData[7];
-    
+
 
 }
 

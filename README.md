@@ -16,7 +16,7 @@
 
 * ```src/game``` - Main.cpp for playing DOTS can be found here.
 
-* ```test/``` - Unit testing files can be found here.   
+* ```test/``` - Unit testing files can be found here.
 
 * ```docs/``` - Parent directory of all documentation for DOTS.
 

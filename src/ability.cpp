@@ -5,11 +5,6 @@ ability::ability()
 
 }
 
-ability::ability()
-{
-
-}
-
 ability::ability(int level)
 {
 
@@ -32,12 +27,6 @@ std::ostream& operator << (std::ostream& out, ability& toRender)
  return out;
 }
 
-std::ostream& operator << (std::ostream& out, ability& toRender)
-{
- out <<
- std::endl;
- return out;
-}
 
 std::string ability::getName()
 {
