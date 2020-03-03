@@ -71,7 +71,7 @@ private:
   std::string formatRoomType(int type);
   bool checkRoomIndex(int t, int i);
   // Format the users input string to an int to switch on in the mian loop
-  int formatCommand(std::string command);
+  std::vector<int> formatCommand(std::string command);
 
   /**
     @brief Create a character based on user input. Base function
@@ -84,12 +84,7 @@ private:
     @param[in] int index of csv to create
   */
   player* characterCreation(int index);
-  /**
-    @brief Overloaded character creation which allows you to
-            create a hero based on a race name (see races.csv)
-    @param[str::string] nameof race to createfrom csv
-  */
-  player* characterCreation(std::string race);
+
 
   void mainMenu();
 

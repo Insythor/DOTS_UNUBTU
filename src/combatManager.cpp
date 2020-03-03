@@ -35,11 +35,9 @@ void combatManager::startFight()
     else
     {
         std::cout << "\nCOMBAT HAS BEGUN!!!\n" << "A " + fightOrder[!playersTurn]->getRace() +
-            " has gotten the first attack against you!";
+            " has gotten the first attack against you!\n";
     }
-    // Comsumes extra characters or w/e from the stream before asking the player for input
-    // Was crashing without it
-    std::cin.ignore();
+
 
     // forceQuit is for debugging
     while (!checkCombatDone() && forceQuit)
@@ -50,12 +48,15 @@ void combatManager::startFight()
 
         if (playersTurn)
         {
-            // Print out the players basic hero stats each turn (should probably change)
-            std::cout //<<  *fightOrder[1] << "\n"
-                << "What will " << fightOrder[1]->getName() << " do next: ";
-            // Get all input from the user as a single string until the user hits enter
-            std::getline(std::cin, command);
-            input = formatCommand(command);
+            if (turnCount > 0)
+            {
+                // Print out the players basic hero stats each turn (should probably change)
+                std::cout
+                    << "\nWhat will " << fightOrder[1]->getName() << " do next: ";
+            }
+                // Get all input from the user as a single string until the user hits enter
+           std::getline(std::cin, command);
+           input = formatCommand(command);
         }
         else
         {
@@ -71,9 +72,11 @@ void combatManager::startFight()
             tempDamage = fightOrder[playersTurn]->dealDamage();
             fightOrder[!playersTurn]->takeDamage(tempDamage);
             // Display who did how much damage to who after each attack
-            std::cout << "\n"
+            std::cout  
                 << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
-                << " to " << fightOrder[!playersTurn]->getName() << "\n"
+                << " to " << fightOrder[!playersTurn]->getName()
+                << "   HP: " << fightOrder[!playersTurn]->getCurrentHealth()
+                    << " / " << fightOrder[!playersTurn]->getMaxHealth()
                 << std::endl;
             break;
         // ability, abl
@@ -127,6 +130,7 @@ void combatManager::startFight()
         }
         // Flip-Flop turns
         playersTurn = !playersTurn;
+        turnCount++;
     }
     // Set the turn back to who the winner of the fight was
     playersTurn = !playersTurn;
@@ -134,8 +138,6 @@ void combatManager::startFight()
 }
 
 
-
-// Not sure if we're going to need this function
 std::string combatManager::selectAction(int type, int subType)
 {
   type *= -1;
@@ -149,6 +151,7 @@ std::string combatManager::endFight()
     if (playersTurn)
     {
         //  *** Arbitrary amout of experience for the player to gain when they killed the monster ***
+        // Gain 1/3 of the players max experience, and 20% of the monsters HP as experience
         int monsterXP =  (*dynamic_cast<player*> (fightOrder[1])).getExperience()[1] / 3
                                                + (fightOrder[0]->getMaxHealth() * 0.2);
 
@@ -172,7 +175,7 @@ std::string combatManager::endFight()
         std::string command;
         // Get all input from the user as a single string (prevents overflow)
         std::getline(std::cin, command);
-        // Only care about the 0th element because there\s not additional commands they can enter
+        // Only care about the 0th element because there's not additional commands they can enter
         input = formatCommand(command)[0];
 
 
@@ -262,7 +265,9 @@ std::vector<int> combatManager::formatCommand(std::string command)
     for (unsigned int i = 0; i < tempCommand.size(); i++)
     {
         for (unsigned int c = 0; c < tempCommand[i].size(); c++)
+        {
             tempCommand[i][c] = tolower(tempCommand[i][c]);
+        }
     }
 
     // Perform a basic attack with the equipped weapon
@@ -286,7 +291,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
         temp.push_back(13);
 
     // Debugging: Exit the combat loop and go straight to the looting phase
-    else if (tempCommand[0] == "exit" || tempCommand[0] == "exit")
+    else if (tempCommand[0] == "exit" || tempCommand[0] == "e")
         temp.push_back(0);
 
     // If no valid command was entered, display the available commands to the user

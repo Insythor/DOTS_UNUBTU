@@ -37,6 +37,7 @@ class consumable : public item
     bool getIsPerminant();
 
     const static int lastIndex = 8;
+
   private:
 
 
