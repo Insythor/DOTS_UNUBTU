@@ -6,13 +6,13 @@
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 
-// User defined classes
+// User defined
 #include "player.h"
 #include "monster.h"
 #include "chest.h"
 #include "combatManager.h"
 #include "roomManager.h"
-
+#include "item.h"
 // Containers
 #include <vector>
 #include <string>
@@ -25,7 +25,7 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-#include "unistd.h"
+//#include "unistd.h"
 #include <time.h>
 
 class gameManager
@@ -71,7 +71,7 @@ private:
   std::string formatRoomType(int type);
   bool checkRoomIndex(int t, int i);
   // Format the users input string to an int to switch on in the mian loop
-  int formatCommand(std::string command);
+  std::vector<int> formatCommand(std::string command);
 
   /**
     @brief Create a character based on user input. Base function
@@ -84,12 +84,7 @@ private:
     @param[in] int index of csv to create
   */
   player* characterCreation(int index);
-  /**
-    @brief Overloaded character creation which allows you to
-            create a hero based on a race name (see races.csv)
-    @param[str::string] nameof race to createfrom csv
-  */
-  player* characterCreation(std::string race);
+
 
   void mainMenu();
 
@@ -102,7 +97,9 @@ private:
   void beginCombat(int l, int index);
 
   void chooseNextRoom();
-
+  /**
+    @brief Read in and store all the races from docs/DATA/races.csv
+  */
   void readInRaceData();
   /**
     @brief Print all the races in the docs/DATA/races.csv file
@@ -116,6 +113,10 @@ private:
     @brief Debugging: Print the remaining dictionary of weapon prefixes
   */
   void printWeapons();
+  /**
+    @brief Print all of the consumables from docs/DATA/consumableDATA.csv
+  */
+  void printConsumables();
   /**
     @brief generate a random monster at a given level
     @param [in] int level

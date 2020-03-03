@@ -24,7 +24,6 @@ player::player()
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
 {
-
   name = tName;
   race = tRace;
 
@@ -52,12 +51,11 @@ player::~player()
     //dtor
 }
 
-
 // Print
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
     // Figure out the widths for each section of the player output stream
-    int nameSpacer = 15 - toRender.getName().length();
+    int nameSpacer = 17 - toRender.getName().length();
     int raceSpacer = 12 - toRender.getRace().length();
     int levelSpacer = 3 - std::to_string(toRender.getLevel()).length();
     int currentXpSpacer = std::to_string(toRender.getExperience()[0]).length();
@@ -169,7 +167,7 @@ void player::levelUp()
     std::cout <<
         "Place your stat points by choosing a stat, then typing the amount of points to add."
         << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
-        << "Available points: " << availablePoints << "\n";
+        << "Available points: " << availablePoints << std::endl;
 
 
     // While the player still has points to spend on additional stat upgrades
@@ -240,7 +238,7 @@ void player::levelUp()
                 std::cout <<
                     "Place your stat points by choosing a stat, then typing the amount of points to add."
                     << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
-                    << "Available points: " << availablePoints << "\n";
+                    << "Available points: " << availablePoints << std::endl;
             }
         }
     }

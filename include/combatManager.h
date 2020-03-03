@@ -28,6 +28,8 @@ class combatManager
     // we get the 1st (true) index
     bool playersTurn;
 
+    int turnCount = 0;
+
     std::string selectAction(int type, int subType);
     std::string endFight();
     std::string monsterAction();
@@ -38,6 +40,8 @@ class combatManager
         @param[out] [0] switch, [1] type, [2] subType
      */
     std::vector<int> formatCommand(std::string command);
+
+
 };
 
 #endif // COMBATMANAGER_H
