@@ -6,13 +6,13 @@
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 
-// User defined classes
+// User defined
 #include "player.h"
 #include "monster.h"
 #include "chest.h"
 #include "combatManager.h"
 #include "roomManager.h"
-
+#include "item.h"
 // Containers
 #include <vector>
 #include <string>
@@ -25,7 +25,7 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-#include "unistd.h"
+//#include "unistd.h"
 #include <time.h>
 
 class gameManager
@@ -102,7 +102,9 @@ private:
   void beginCombat(int l, int index);
 
   void chooseNextRoom();
-
+  /**
+    @brief Read in and store all the races from docs/DATA/races.csv
+  */
   void readInRaceData();
   /**
     @brief Print all the races in the docs/DATA/races.csv file
@@ -116,6 +118,10 @@ private:
     @brief Debugging: Print the remaining dictionary of weapon prefixes
   */
   void printWeapons();
+  /**
+    @brief Print all of the consumables from docs/DATA/consumableDATA.csv
+  */
+  void printConsumables();
   /**
     @brief generate a random monster at a given level
     @param [in] int level

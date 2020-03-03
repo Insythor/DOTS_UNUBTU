@@ -125,6 +125,16 @@ void gameManager::printWeapons()
         std::cout << i << std::endl;
 }
 
+void gameManager::printConsumables()
+{
+    for (int i = 0; i <= consumable::lastIndex; i++)
+    {
+        consumable* toPrint = new consumable(i);
+        std::cout << *toPrint;
+        delete toPrint;
+    }
+}
+
 // Main loop
 // Most of this is going to be ripped out as it is primarily debugging stuff atm
 void gameManager::startGame()
@@ -136,7 +146,7 @@ void gameManager::startGame()
     int input0, input1;
 
     combatManager* thisFight = nullptr;
-
+    consumable* myConsumable = nullptr;
 
     while (play)
     {
@@ -147,64 +157,75 @@ void gameManager::startGame()
         {
             /**     print commands       */
 
-            // pPlayer, pp
+        // pPlayer, pp
         case 10:
             printRaces();
             break;
-            // pWeapon, pw
+        // pWeapon, pw
         case 11:
             printWeapons();
             break;
 
-            // pPlayer, pp
+        // pPlayer, pp
         case 12:
             std::cout << (*playerPtr);
             break;
-            // pPlayerWeapon, ppw
+        // pPlayerWeapon, ppw
         case 120:
             std::cout << (*playerPtr->getWeapon()) << std::endl;
             break;
 
-            // pMonster, pm
+         // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
             break;
-            //pMonsterWeapon, pmw
+        //pMonsterWeapon, pmw
         case 130:
             std::cout << (*monsterPtr->getWeapon()) << std::endl;
             break;
-           // pMonsterGold, pmg
+        // pMonsterGold, pmg
         case 131:
             std::cout << monsterPtr->getGold() << std::endl;
             break;
+        // pConsumables, pcon
+        case 14:
+            printConsumables();
+            break;
 
             /**        make commands (spawn an object)      */
-            // makeWeapon,  mw
+        // makeWeapon,  mw
         case 20:
           currentLevel += 1;
             playerPtr->spawnWeapon(currentLevel, allWeaponNames);
             std::cout << (*playerPtr->getWeapon());
             break;
-            // makePlayer, mp
+        // makePlayer, mp
         case 21:
             std::cin >> input0;
             playerPtr = characterCreation(input0);
             std::cout << (*playerPtr);
             break;
 
-            // makeMonster, mm
+        // makeMonster, mm
         case 22:
             // input0 = level, input1 = raceIndex
             std::cin >> input0 >> input1;
             monsterPtr = generateMonster(input0, input1);
             std::cout << (*monsterPtr);
             break;
-            // makeCombat, mc
+        // makeCombat, mc
         case 23:
             monsterPtr = generateMonster(currentLevel);
             thisFight =  new combatManager(playerPtr, monsterPtr);
             thisFight->startFight();
             delete thisFight;
+            break;
+        // makeConsumable, mcon
+        case 24:
+            std::cin >> input0;
+            myConsumable = new consumable(input0);
+            std::cout << *myConsumable;
+            delete myConsumable;
             break;
 
             /**             debugging commands            */
@@ -216,7 +237,7 @@ void gameManager::startGame()
             // Linux
             // system("clear");
             break;
-
+        // addExperience, xp
         case 91:
             std::cin >> input0;
             playerPtr->addExperience(input0);
@@ -306,6 +327,10 @@ int gameManager::formatCommand(std::string command)
     // Print the monsters gold
     else if (command == "pMonsterGold" || command == "pmg")
         temp = 131;
+    // Print all the consumables in the csv
+    else if(command == "pConsumables" || command == "pcon")
+        temp = 14;
+
 
     // Create object prefixed with 2
     else if (command == "makeWeapon" || command == "mw")
@@ -313,6 +338,7 @@ int gameManager::formatCommand(std::string command)
     // Make a player with a chosen race
     else if (command == "makePlayer" || command == "mp")
         temp = 21;
+    
     else if (command == "levelUp" || command == "lvl")
         temp = 210;
 
@@ -321,7 +347,9 @@ int gameManager::formatCommand(std::string command)
     // Start combat
     else if (command == "makeCombat" || command == "mc")
         temp = 23;
-
+    // Make a consumable, also needs an index.
+    else if (command == "makeConsumable" || command == "mcon")
+        temp = 24;
 
     // debugging gets a prefix of 9
     else if (command == "clear")
@@ -333,12 +361,13 @@ int gameManager::formatCommand(std::string command)
     else if (command == "atk")
         temp = 92;
 
-
+    // GTFO 
     else if (command == "exit" || command == "quit" || command == "end")
         temp = 0;
 
     return temp;
 }
+
 
 void gameManager::mainMenu()
 {

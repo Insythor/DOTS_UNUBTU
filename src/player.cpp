@@ -52,7 +52,6 @@ player::~player()
     //dtor
 }
 
-
 // Print
 std::ostream& operator << (std::ostream& out, player& toRender)
 {
