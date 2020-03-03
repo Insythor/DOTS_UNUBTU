@@ -16,6 +16,24 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
   generateWeapon(l);
 }
 
+weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
+{
+    allNames = nullptr;
+    
+    name = nam;
+    diceSize = dSize;
+    diceRolls = dRolls;
+    statRequirements = sReq;
+    weaponDice = new std::vector<dice>;
+
+    for (int i = 0; i < diceRolls; i++)
+    {
+        weaponDice->push_back(diceSize);
+    }
+    
+    weaponDice->shrink_to_fit();
+}
+
 weapon::~weapon()
 {
     delete weaponDice;
@@ -23,16 +41,19 @@ weapon::~weapon()
 
 void weapon::generateWeapon(int level)
 {
+  // Choose a random stat: [0] str, [1] dex, [2] int
   int statType = rand() % 3;
   int diceSize = level/2 + 4 + (rand() % 5);
 
-
+  // Add one dice of the randomly chosen size to the weaponDice vector
   for(int i = 0; i < level; i++)
   {
     weaponDice->push_back(dice(diceSize));
   }
+  // Optimize!
   weaponDice->shrink_to_fit();
-
+  // If the weapon names dictionary was read in, select a random name
+  // Then delete that name from the dictionary
   if(allNames != nullptr)
   {
     int tempIndex = rand() % allNames->size();
@@ -44,9 +65,10 @@ void weapon::generateWeapon(int level)
   {
     name = "invalid";
   }
-
+  // Add the stat requirement chosen above to the statRequirements
   statRequirements.push_back(statType);
-
+  // Required amount of stats to use this weapon
+  // NEEDS TO BE BALANCED
   statRequirements.push_back(level * 2);
   // If the weapon does max damage, increase the required level by 1
   if(diceSize >= 12)
@@ -57,9 +79,7 @@ void weapon::generateWeapon(int level)
   {
     statRequirements.push_back(level);
   }
-//  for(auto i : statRequirements)
-   // std::cout << i << std::endl;
-
+  // Optimize
   statRequirements.shrink_to_fit();
 }
 
@@ -147,13 +167,14 @@ std::ostream& operator << (std::ostream &out, weapon &toRender)
 int weapon::dealDamage()
 {
   int tempDamage = 0;
-  for(auto i : (*weaponDice))
+  for(auto i : *weaponDice)
   {
     tempDamage += i.roll();
   }
 
   return tempDamage;
 }
+
 
 /** *****************  Getters *****************  */
 int weapon::getDiceRolls()
@@ -171,7 +192,10 @@ std::vector<int> weapon::getStatRequirements()
   return statRequirements;
 }
 
-
+std::string weapon::getName()
+{
+    return name;
+}
 
 
 

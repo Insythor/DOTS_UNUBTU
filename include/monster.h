@@ -16,10 +16,10 @@ class monster : public baseCharacter
 
     bool isBoss;
     
-
-    void generateMonster();
-
-    
+    /**
+        @brief Based on the 
+    */
+    void initMonster();
 };
 
 #endif // MONSTER_H
