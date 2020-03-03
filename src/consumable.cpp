@@ -27,6 +27,13 @@ consumable::~consumable()
 
 std::ostream& operator << (std::ostream& out, consumable& toRender)
 {
+ out <<
+ std::endl;
+ return out;
+}
+
+std::ostream& operator << (std::ostream& out, consumable& toRender)
+{
     std::string stat;
 
     switch (toRender.stats[0])

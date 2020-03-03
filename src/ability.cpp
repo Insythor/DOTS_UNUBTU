@@ -5,6 +5,11 @@ ability::ability()
 
 }
 
+ability::ability()
+{
+
+}
+
 ability::ability(int level)
 {
 
@@ -18,6 +23,13 @@ ability::ability(int level, int stat)
 ability::~ability()
 {
   //dtor
+}
+
+std::ostream& operator << (std::ostream& out, ability& toRender)
+{
+ out <<
+ std::endl;
+ return out;
 }
 
 std::ostream& operator << (std::ostream& out, ability& toRender)
