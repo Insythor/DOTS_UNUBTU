@@ -222,7 +222,7 @@ void gameManager::startGame()
             {
                 playerPtr = characterCreation();
             }
-            
+
             std::cout << (*playerPtr);
             break;
 
@@ -236,7 +236,7 @@ void gameManager::startGame()
         case 23:
             // Generate a monster at a given level then begin combat
             if (input.size() == 2)
-            { 
+            {
                 monsterPtr = generateMonster(input[1]);
                 thisFight = new combatManager(playerPtr, monsterPtr);
                 thisFight->startFight();
@@ -255,7 +255,7 @@ void gameManager::startGame()
                 thisFight = new combatManager(playerPtr, monsterPtr);
                 thisFight->startFight();
             }
-                
+
             delete thisFight;
             break;
         // makeConsumable, mcon
@@ -267,7 +267,7 @@ void gameManager::startGame()
 
             /**             debugging commands            */
         // Clear the terminal window of all text
-            /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
+      /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
             // WINDOWS
             system("cls");
@@ -415,8 +415,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     else if (tempCommand[0] == "atk")
         temp.push_back(92);
 
-    // GTFO 
-    else if (tempCommand[0] == "exit" || tempCommand[0] == "quit" || tempCommand[0] == "e")
+    // GTFO
+    else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
+          || tempCommand[0] == "e")
         temp.push_back(0);
     // If no valid command was entered
     else

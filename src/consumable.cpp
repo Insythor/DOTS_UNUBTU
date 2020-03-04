@@ -85,7 +85,6 @@ void consumable::readInConsumableData()
     std::vector<std::string> tempData;
     std::string line;
 
-
     int lineCount = 0;
 
     if (toRead.is_open())
@@ -114,7 +113,6 @@ void consumable::readInConsumableData()
     cost = std::stoi(tempData[5]);
     sellValue = std::stoi(tempData[6]);
     description = tempData[7];
-
 
 }
 

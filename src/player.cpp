@@ -148,11 +148,12 @@ void player::levelUp()
         availablePoints = 6;
     else
     {
-       
+
        currentExperience -= maxExperience;
 
-        
-        // Don't increase the max experience required for level 1 as it is set by default in the constructor
+
+        // Don't increase the max experience required for level 1 as it is set
+        // by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
     }
@@ -254,6 +255,8 @@ void player::levelUp()
 
     // Check if the player has enough experience to levelup again
     addExperience(0);
+
+    std::cin.ignore();
 }
 
 void player::addToStats(std::vector<int>toAdd)

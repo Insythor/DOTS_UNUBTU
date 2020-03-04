@@ -16,14 +16,21 @@
 class consumable : public item
 {
   public:
+    /**
+      @brief Create a random consumable.
+    */
     consumable();
     /**
-        @brief Sets index and reads in that line from the docs/DATA/consumableData.csv. 
+        @brief Sets index and reads in that line from the docs/DATA/consumableData.csv.
                If an in valid number was given, the consumable will default to a bandage.
     */
     consumable(int cid);
     ~consumable();
     friend std::ostream& operator << (std::ostream& out, consumable &toRender);
+    /**
+      @brief Return the index of the csv that this consumable was generated from
+      @param[out] [int] index
+    */
     int getID();
     /**
         @brief return the stat to add, and how much is to be added
@@ -32,10 +39,15 @@ class consumable : public item
     */
     std::vector<int> statsToAdd();
     /**
-        @brief Returns if this consumable gives the player a permenant buff (books)
+        @brief Returns if this consumable gives the player a permanent buff
+        @param[out] [bool] Book?
     */
     bool getIsPerminant();
 
+    /**
+      @brief Last index in the consumables.csv
+             Used as a mod in default constructor
+    */
     const static int lastIndex = 8;
 
   private:
