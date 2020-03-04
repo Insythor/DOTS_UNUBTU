@@ -24,7 +24,7 @@ class combatManager
   private:
     // [0] = monster : [1] = player
     baseCharacter** fightOrder;
-    // Because player is always in fightOrder[1], when it is the players turn, 
+    // Because player is always in fightOrder[1], when it is the players turn,
     // we get the 1st (true) index
     bool playersTurn;
 
@@ -40,6 +40,7 @@ class combatManager
         @param[out] [0] switch, [1] type, [2] subType
      */
     std::vector<int> formatCommand(std::string command);
+
 
 
 };
