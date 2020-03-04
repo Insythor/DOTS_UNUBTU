@@ -147,11 +147,6 @@ void baseCharacter::takeDamage(int damage)
     return level;
   }
 
-  int baseCharacter::getSpeed()
-  {
-    return mainStats[3];
-  }
-
   int baseCharacter::getDamagePower()
   {
     return damagePower;

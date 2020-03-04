@@ -231,7 +231,7 @@ std::string combatManager::endFight()
                 break;
 
             default:
-              std::cout << "Invalid Command\nCommands: Yes\No" << std::endl;
+              std::cout << "Invalid Command\nCommands: Yes/No" << std::endl;
               break;
             }
         }
@@ -303,7 +303,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
            || tempCommand[0] == "yes" || tempCommand[0] == "y")
         temp.push_back(20);
 
-    // **** Debugging Commands **** \\
+                /**** Debugging Commands ****/
     // Print the player
     else if (tempCommand[0] == "pplayer" || tempCommand[0] == "pp")
         temp.push_back(12);

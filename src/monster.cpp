@@ -44,6 +44,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
     // Formatting variables for the damage bonus the player recieves
     // from using their current weapon based on their stats
     int dmgBonus = abs(toRender.getDamagePower());
+
     std::string dmgBonusSign;
     // Change the operation after the weapon damage to +/- based on the players stats
     if (toRender.getDamagePower() >= 0)
@@ -68,7 +69,8 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
 
     out <<
 
-        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
+        toRender.getName() << std::setw(nameSpacer) << toRender.getRace()
+        << std::setw(raceSpacer)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / "
                                          << toRender.getMaxHealth()
