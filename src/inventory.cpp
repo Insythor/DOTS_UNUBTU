@@ -3,6 +3,11 @@
 inventory::inventory()
 {
   inventorySize = 10;
+  for(int i = 0; i < 9; i++)
+  {
+    std::vector<consumable*> tempvec;
+    consumableStacks.push_back(tempvec);
+  }
 }
 
 inventory::~inventory()
@@ -31,30 +36,48 @@ int inventory::getInventorySize()
 {
   return inventorySize;
 }
+std::string inventory::formatIndex(std::string index)
+{
+  while(index.length() < 7)
+  {
+    if(index.length() < 7)
+      index = " " + index;
+    if(index.length() < 7)
+      index = index + " ";
+  }
+  return index;
+}
 
 void inventory::viewInventory()
 {
-  std::cout << "Weapon's\n";
-  std::cout << "-----------------------------------\n";
+  int index = 0;
+  std::cout << "Weapon's\n"
+  << "| index |             name              |  stat req | lvl req | damage | price |\n"
+  << "--------------------------------------------------------------------------------\n";
   for(weapon* i : weapons)
   {
-      std::cout << i << std::endl;
+    index++;
+      std::cout << "|" << formatIndex(std::to_string(index)) << *i << std::endl;
   }
-  std::cout << "Consumable's\n";
-  std::cout << "-----------------------------------\n";
+  std::cout << "Consumable's\n"
+  << "| index |         name          |  type  | price | amount|\n"
+  << "---------------------------------------------------------\n";
   for(std::vector<consumable*> j : consumableStacks)
   {
     if(!j.empty())
     {
-      std::cout << j.front() << std::endl;
-      std::cout << " x" + j.size() << std::endl;
+      index++;
+      consumable* c = j.front();
+      std::cout << "|" << formatIndex(std::to_string(index)) << *c
+      << formatIndex(std::to_string(static_cast<int>(j.size()))) << "|" << std::endl;
     }
   }
   std::cout << "Stored Abilities\n";
   std::cout << "-----------------------------------\n";
   for(ability* k : abilities)
   {
-      std::cout << k << std::endl;
+    index++;
+      std::cout << *k << std::endl;
   }
 }
 

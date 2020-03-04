@@ -18,7 +18,7 @@ class consumable : public item
   public:
     consumable();
     /**
-        @brief Sets index and reads in that line from the docs/DATA/consumableData.csv. 
+        @brief Sets index and reads in that line from the docs/DATA/consumableData.csv.
                If an in valid number was given, the consumable will default to a bandage.
     */
     consumable(int cid);
@@ -45,7 +45,7 @@ class consumable : public item
     std::vector<int> stats;
     bool isPermanent;
     std::string description;
-
+    std::string formatOutput(int type, std::string value);
     /**
         @brief Reads a line from the consumableData.csv, and makes tha type of consumable
     */
