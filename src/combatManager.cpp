@@ -107,6 +107,7 @@ void combatManager::startFight()
         case 13:
             // Print the basic character information for the monster
             std::cout << *fightOrder[0] << std::endl;
+            // So printing the monster won't take up the users turn
             playersTurn = !playersTurn;
             break;
 
@@ -293,7 +294,7 @@ std::vector<int> combatManager::formatCommand(std::string command)
     if (tempCommand[0] == "attack" || tempCommand[0] == "atk")
         temp.push_back(1);
     // Choose an ability to perform
-    if (tempCommand[0] == "ability" || tempCommand[0] == "abl")
+    else if (tempCommand[0] == "ability" || tempCommand[0] == "abl")
         temp.push_back(2);
 
 
