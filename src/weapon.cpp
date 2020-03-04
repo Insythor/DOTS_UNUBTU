@@ -1,5 +1,7 @@
 #include "weapon.h"
 
+
+
 weapon::weapon()
 {
   weaponDice = new std::vector<dice>;
@@ -9,7 +11,7 @@ weapon::weapon()
 weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 {
   srand(time(NULL));
-//  std::cout << "constructed" << std::endl;
+
   weaponDice = new std::vector<dice>;
   allNames = nameDicPtr;
 
@@ -81,11 +83,16 @@ void weapon::generateWeapon(int level)
   }
   // Optimize
   statRequirements.shrink_to_fit();
+
+  // Arbitrary. Kind of fun to have the value based on an attack
+  // Sort of like trying it out in the shop.. idk
+  cost = (level * 50) + dealDamage();
+  sellValue = (cost / 2);
+
 }
 
 std::string weapon::addType(int dSize, int sType)
 {
-
   switch(sType)
   {
     //  Strength
@@ -149,7 +156,6 @@ std::string weapon::addType(int dSize, int sType)
     default:
       break;
   }
-
   return " Invalid Stat Requirement";
 }
 

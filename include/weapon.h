@@ -1,10 +1,14 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
+#define DIR_WEAPON "../docs/DATA/weaponNames.txt"
+
 #include "item.h"
 #include "dice.h"
 
 #include <iostream>
+#include <fstream>
+
 #include <vector>
 #include <string>
 // Temp for random weapon generation
@@ -41,7 +45,6 @@ class weapon : public item
         @param[out] std::vector<int> statRequirements[2] = Level Requirement
     */
     std::vector<int> getStatRequirements();
-
     /**
       weapon should be a constant reference, but when it's a constant
       it gets angry that we're accessing non constant members. So just

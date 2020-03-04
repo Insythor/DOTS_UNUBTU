@@ -156,6 +156,7 @@ bool inventory::deleteWeapon(unsigned int index)
 
 void inventory::addConsumables(std::vector<consumable*> conStack)
 {
+
     if(conStack.size() > 0)
     {
         int index = conStack[0]->getID();

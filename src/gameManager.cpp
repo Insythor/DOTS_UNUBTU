@@ -11,7 +11,6 @@ gameManager::gameManager()
   currentLevel = 1;
   playerPtr = characterCreation(1);
 
-
   monsterPtr = generateMonster(1);
 
 // mainMenu();
@@ -172,7 +171,19 @@ void gameManager::startGame()
         case 120:
             std::cout << (*playerPtr->getWeapon()) << std::endl;
             break;
+        //viewinventory, vi
+        case 121:
 
+            for(int i = 0; i < 20; i++)
+            {
+              playerPtr->getInventory()->addWeapon(new weapon(currentLevel, allWeaponNames));
+              std::vector<consumable*> tempcon;
+              tempcon.push_back(new consumable());
+              playerPtr->getInventory()->addConsumables(tempcon);
+            }
+
+            playerPtr->getInventory()->viewInventory();
+          break;
          // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
@@ -270,9 +281,9 @@ void gameManager::startGame()
       /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
             // WINDOWS
-            system("cls");
+            //system("cls");
             // Linux
-            // system("clear");
+             system("clear");
             break;
         // addExperience, xp
         case 91:
@@ -291,17 +302,7 @@ void gameManager::startGame()
         case 0:
             play = false;
             break;
-        case 220:
-            for(int i = 0; i < 20; i++)
-            {
-              playerPtr->getInventory()->addWeapon(new weapon(currentLevel, allWeaponNames));
-              std::vector<consumable*> tempcon;
-              tempcon.push_back(new consumable());
-              playerPtr->getInventory()->addConsumables(tempcon);
-            }
 
-            playerPtr->getInventory()->viewInventory();
-          break;
         default:
             std::cout << "invalid command" << std::endl;
             break;
@@ -381,6 +382,10 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Print the players weapon
     else if (tempCommand[0] == "pplayerweapon" || tempCommand[0] == "ppw")
         temp.push_back(120);
+        //print view inventory
+    else if (tempCommand[0] == "viewinventory" || tempCommand[0] == "vi")
+        temp.push_back(121);
+
     // Print the monsters detailed stats
     else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
         temp.push_back(13);
@@ -430,9 +435,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
     else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
           temp.push_back(0);
-        //print view inventory
-    else if (tempCommand[0] == "viewinventory" || tempCommand[0] == "vi")
-        temp.push_back(220);
+
 
     // If no valid command was entered
     else
