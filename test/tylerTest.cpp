@@ -9,8 +9,6 @@
 
 #include <iostream>
 
-#define testGlobal "does this work?"
-
 int main()
 {
 
