@@ -57,7 +57,7 @@ class consumable : public item
     std::vector<int> stats;
     bool isPermanent;
     std::string description;
-
+    std::string formatOutput(int type, std::string value);
     /**
         @brief Reads a line from the consumableData.csv, and makes tha type of consumable
     */

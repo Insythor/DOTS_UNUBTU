@@ -25,39 +25,50 @@ consumable::~consumable()
 
 }
 
-
 std::ostream& operator << (std::ostream& out, consumable& toRender)
 {
-    std::string stat;
+  std::string type = "";
+  if(toRender.getIsPerminant())
+    type = "book";
+  else
+    type = "potion";
+  out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
+  << toRender.formatOutput(1, type) << "|" << toRender.formatOutput(2, std::to_string(toRender.getSellValue())) << "|";
+  return out;
+}
 
-    switch (toRender.stats[0])
+std::string consumable::formatOutput(int type, std::string value)
+{
+  switch(type) {
+  case 0:
+    while(value.length() < 23)
     {
-    case 0:
-        stat = "Strength";
-        break;
-    case 1:
-        stat = "Dexterity";
-        break;
-    case 2:
-        stat = "Intellect";
-        break;
-    case 3:
-        stat = "Speed";
-        break;
-    case 4:
-        stat = "Health";
-        break;
+      if(value.length() < 23)
+        value = " " + value;
+      if(value.length() < 23)
+        value = value + " ";
     }
-
-    out << toRender.index << "   " << toRender.name << ": + "
-        << toRender.stats[1] << " " << stat << std::setw(10 - stat.length())
-        << " Costs " << toRender.cost << std::setw(10)
-        << " Sells for: " << toRender.sellValue << "\n"
-        << "    " << toRender.description
-
-        << std::endl << std::endl;
-
- return out;
+    break;
+  case 1:
+    while(value.length() < 8)
+    {
+      if(value.length() < 8)
+        value = " " + value;
+      if(value.length() < 8)
+      value = value + " ";
+    }
+    break;
+  case 2:
+    while(value.length() < 7)
+    {
+      if(value.length() < 7)
+        value = " " + value;
+      if(value.length() < 7)
+        value = value + " ";
+    }
+    break;
+  }
+  return value;
 }
 
 int consumable::getID()

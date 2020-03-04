@@ -29,6 +29,7 @@ class ability
    bool onCooldown;
    int diceRolls;
    int diceSize;
+   //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirement;
    int abilityMultiplier;
    std::vector<std::string>* allNames;

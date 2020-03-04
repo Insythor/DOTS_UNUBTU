@@ -62,7 +62,7 @@ class weapon : public item
 
   private:
      std::string name;
-     
+
      int diceRolls;
      int diceSize;
 
@@ -77,6 +77,7 @@ class weapon : public item
         @param [in] int How many sides the dice has
         @param [in] int stat required to use this weapon
     */
+    std::string formatOutput(int type, std::string value);
     std::string addType(int dSize, int sType);
 };
 

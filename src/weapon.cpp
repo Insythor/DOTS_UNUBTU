@@ -19,7 +19,7 @@ weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
 weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 {
     allNames = nullptr;
-    
+
     name = nam;
     diceSize = dSize;
     diceRolls = dRolls;
@@ -30,7 +30,7 @@ weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
     {
         weaponDice->push_back(diceSize);
     }
-    
+
     weaponDice->shrink_to_fit();
 }
 
@@ -155,13 +155,77 @@ std::string weapon::addType(int dSize, int sType)
 
 std::ostream& operator << (std::ostream &out, weapon &toRender)
 {
-  out <<
-        toRender.getName() << ", " << toRender.getDiceRolls()
-        << "d" << toRender.getDiceSize() <<
-        "  Damage: " << toRender.dealDamage()
-  << std::endl;
-
+  std::string tempType = "";
+  std::string wDamage = std::to_string(toRender.getDiceRolls()) + " * D" + std::to_string(toRender.getDiceSize());
+  switch(toRender.statRequirements[0])
+  {
+    case 0:
+      tempType = std::to_string(toRender.statRequirements[1]) + " Str";
+      break;
+    case 1:
+      tempType = std::to_string(toRender.statRequirements[1]) + " Dex";
+      break;
+    case 2:
+      tempType = std::to_string(toRender.statRequirements[1]) + " Int";
+      break;
+  }
+  out << "|" << toRender.formatOutput(0, toRender.name) << "|" << toRender.formatOutput(1, tempType) << "|"
+  << toRender.formatOutput(2, std::to_string(toRender.statRequirements[2])) << "|" << toRender.formatOutput(3, wDamage) << "|"
+  << toRender.formatOutput(4, std::to_string(toRender.getSellValue()) + "g") << "|" << std::endl;
   return out;
+}
+
+std::string weapon::formatOutput(int type, std::string value)
+{
+  switch(type)
+  {
+    case 0:
+      while(value.length() < 31)
+      {
+        if(value.length() < 31)
+          value = " " + value;
+        if(value.length() < 31)
+          value = value + " ";
+      }
+      break;
+    case 1:
+      while(value.length() < 11)
+      {
+        if(value.length() < 11)
+          value = " " + value;
+        if(value.length() < 11)
+          value = value + " ";
+      }
+      break;
+    case 2:
+      while(value.length() < 9)
+      {
+        if(value.length() < 9)
+          value = " " + value;
+        if(value.length() < 9)
+          value = value + " ";
+      }
+      break;
+    case 3:
+      while(value.length() < 8)
+      {
+        if(value.length() < 8)
+          value = " " + value;
+        if(value.length() < 8)
+          value = value + " ";
+      }
+      break;
+    case 4:
+      while(value.length() < 7)
+      {
+        if(value.length() < 7)
+          value = " " + value;
+        if(value.length() < 7)
+          value = value + " ";
+      }
+      break;
+  }
+  return value;
 }
 
 int weapon::dealDamage()

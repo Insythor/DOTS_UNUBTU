@@ -291,7 +291,17 @@ void gameManager::startGame()
         case 0:
             play = false;
             break;
+        case 220:
+            for(int i = 0; i < 20; i++)
+            {
+              playerPtr->getInventory()->addWeapon(new weapon(currentLevel, allWeaponNames));
+              std::vector<consumable*> tempcon;
+              tempcon.push_back(new consumable());
+              playerPtr->getInventory()->addConsumables(tempcon);
+            }
 
+            playerPtr->getInventory()->viewInventory();
+          break;
         default:
             std::cout << "invalid command" << std::endl;
             break;
@@ -385,7 +395,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
         temp.push_back(14);
 
 
-    // Create object prefixed with 2
+    // Create object prefixed with 2std::vector<consumable*> t
     else if (tempCommand[0] == "makweapon" || tempCommand[0] == "mw")
         temp.push_back(20);
     // Make a player with a chosen race
@@ -414,10 +424,18 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // print the damage done from a normal weapon attack by the player
     else if (tempCommand[0] == "atk")
         temp.push_back(92);
+<<<<<<< HEAD
 
     // GTFO
     else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
+=======
+        //print view inventory
+    else if (tempCommand[0] == "viewinventory" || tempCommand[0] == "vi")
+        temp.push_back(220);
+    // GTFO
+    else if (tempCommand[0] == "exit" || tempCommand[0] == "quit" || tempCommand[0] == "e")
+>>>>>>> 13a704408e802c561461e73d1fd0d3ecf47b2393
         temp.push_back(0);
     // If no valid command was entered
     else

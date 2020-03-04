@@ -31,6 +31,7 @@ class inventory
     std::vector<std::vector<consumable*>> consumableStacks;
     std::vector<weapon*> weapons;
     std::vector<ability*> abilities;
+    std::string formatIndex(std::string index);
     int inventorySize;
 };
 
