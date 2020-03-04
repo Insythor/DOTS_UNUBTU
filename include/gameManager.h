@@ -21,7 +21,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-
+#include <unistd.h>
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>

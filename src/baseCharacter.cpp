@@ -4,6 +4,7 @@
 
 baseCharacter::baseCharacter()
 {
+    cInventory = new inventory();
     mainStats.resize(4, 0);
     statBonuses.resize(4, 0);
 }
