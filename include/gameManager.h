@@ -44,7 +44,6 @@ public:
     /**
         @brief Debugging: Print all weapon names read in the the weaponNames dictionary
     */
-	std::vector<std::string>* getWeaponNames();
 
 
 private:
@@ -67,8 +66,6 @@ private:
   /**
     @brief Dictionary of all weapon names
   */
-  std::vector<std::string>* allWeaponNames;
-
   int currentLevel;
 
   // Helper functions for main loop

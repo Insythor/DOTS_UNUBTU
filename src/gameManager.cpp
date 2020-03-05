@@ -1,10 +1,8 @@
 #include "gameManager.h"
-
+std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 gameManager::gameManager()
 {
   allRaces = new std::vector<raceData>;
-  allWeaponNames = new std::vector<std::string>;
-
   readInRaceData();
   readInWeapons();
 
@@ -19,7 +17,6 @@ gameManager::gameManager()
  gameManager::~gameManager()
 {
   delete allRaces;
-  delete allWeaponNames;
   delete playerPtr;
   delete monsterPtr;
 }
@@ -32,12 +29,12 @@ void gameManager::readInWeapons()
   // Store each line (name) in a dictionary of weaponNames
   while(getline(weaponNames, line))
   {
-    allWeaponNames->push_back(line);
+    weapon::allNames->push_back(line);
   }
 
   weaponNames.close();
 
-  allWeaponNames->shrink_to_fit();
+  weapon::allNames->shrink_to_fit();
 
   // printWeapons();
 }
@@ -114,11 +111,6 @@ void gameManager::printRaces()
   }
 }
 
-void gameManager::printWeapons()
-{
-    for (auto i : (*allWeaponNames))
-        std::cout << i << std::endl;
-}
 
 void gameManager::printConsumables()
 {
@@ -144,7 +136,7 @@ void gameManager::startGame()
 
     combatManager* thisFight = nullptr;
     consumable* myConsumable = nullptr;
-
+    chest* myChest = nullptr;
     while (play)
     {
         std::getline(std::cin, command);
@@ -157,10 +149,6 @@ void gameManager::startGame()
         // pPlayer, pp
         case 10:
             printRaces();
-            break;
-        // pWeapon, pw
-        case 11:
-            printWeapons();
             break;
 
         // pPlayer, pp
@@ -176,7 +164,7 @@ void gameManager::startGame()
 
             for(int i = 0; i < 20; i++)
             {
-              playerPtr->getInventory()->addWeapon(new weapon(currentLevel, allWeaponNames));
+              playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
               std::vector<consumable*> tempcon;
               tempcon.push_back(new consumable());
               playerPtr->getInventory()->addConsumables(tempcon);
@@ -200,17 +188,21 @@ void gameManager::startGame()
         case 14:
             printConsumables();
             break;
-
+        //viewchest, vc
+        case 15:
+          myChest = new chest(25);
+          myChest->getInventory()->viewInventory();
+          delete myChest;
+          break;
             /**        make commands (spawn an object)      */
         // makeWeapon,  mw
         case 20:
             // Replace the players equipped weapon at the given level
             if (input.size() == 2)
-                playerPtr->spawnWeapon(input[1], allWeaponNames);
+                playerPtr->spawnWeapon(input[1]);
             // Replace the players equipped weapon with one of the global level
             else
-                playerPtr->spawnWeapon(currentLevel, allWeaponNames);
-
+                playerPtr->spawnWeapon(currentLevel);
             std::cout << (*playerPtr->getWeapon());
             break;
         // makePlayer, mp
@@ -378,9 +370,6 @@ std::vector<int> gameManager::formatCommand(std::string command)
     if (tempCommand[0] == "prace" || tempCommand[0] == "pr")
         temp.push_back(10);
 
-    else if (tempCommand[0] == "pweapon" || tempCommand[0] == "pw")
-        temp.push_back(11);
-    // Print the player's detailed stats
     else if (tempCommand[0] == "pplayer" || tempCommand[0] == "pp")
         temp.push_back(12);
     // Print the players weapon
@@ -402,8 +391,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Print all the consumables in the csv
     else if (tempCommand[0] == "pconsumables" || tempCommand[0] == "pcon")
         temp.push_back(14);
-
-
+    //Print all items in chest inventory
+    else if(tempCommand[0] == "viewChest" || tempCommand[0] == "vc")
+        temp.push_back(15);
     // Create object prefixed with 2std::vector<consumable*> t
     else if (tempCommand[0] == "makweapon" || tempCommand[0] == "mw")
         temp.push_back(20);
@@ -561,7 +551,7 @@ monster* gameManager::generateMonster(int l)
         allRaces->at(index).mStats,
         l);
 
-    temp->spawnWeapon(currentLevel, allWeaponNames);
+    temp->spawnWeapon(currentLevel);
 
     return temp;
 }
@@ -574,7 +564,7 @@ monster* gameManager::generateMonster(int l, int index)
         allRaces->at(index).mStats,
         l);
 
-    temp->spawnWeapon(currentLevel, allWeaponNames);
+    temp->spawnWeapon(currentLevel);
 
     return temp;
 }
@@ -587,7 +577,7 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
         allRaces->at(index).mStats,
         l );
 
-    temp->spawnWeapon(currentLevel, allWeaponNames);
+    temp->spawnWeapon(currentLevel);
 
     return temp;
 }
@@ -638,7 +628,7 @@ player* gameManager::characterCreation()
                           allRaces->at(tempRaceIndex).maxHP,
                           allRaces->at(tempRaceIndex).mStats);
 
-   temp->spawnWeapon(currentLevel, allWeaponNames);
+   temp->spawnWeapon(currentLevel);
 
    return temp;
 
@@ -652,14 +642,11 @@ player* gameManager::characterCreation(int index)
         allRaces->at(index).maxHP,
         allRaces->at(index).mStats);
 
-    temp->spawnWeapon(currentLevel, allWeaponNames);
+    temp->spawnWeapon(currentLevel);
 
     return temp;
 }
 
 
 
-std::vector<std::string>* gameManager::getWeaponNames()
-{
-  return allWeaponNames;
-}
+

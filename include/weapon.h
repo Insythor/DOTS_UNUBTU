@@ -20,7 +20,7 @@ class weapon : public item
 {
   public:
     weapon();
-    weapon(int l, std::vector<std::string>* nameDicPtr);
+    weapon(int l);
     weapon(std::string name, int dSize, int dRolls, std::vector<int> sReq);
     ~weapon();
     /**
@@ -62,7 +62,7 @@ class weapon : public item
       @param[out] int sum of dice rolls
     */
     int dealDamage();
-
+    static std::vector<std::string>* allNames;
   private:
      std::string name;
 
@@ -73,7 +73,7 @@ class weapon : public item
     std::vector<int> statRequirements;
 
     std::vector<dice>* weaponDice;
-    std::vector<std::string>* allNames;
+
     /**
         @brief Based on which stat is required to use this weapon, give it a type
         @param [out] std::string Type of weapon (i.e. Sword, Rapier, Wand)
