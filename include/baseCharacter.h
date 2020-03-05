@@ -108,7 +108,7 @@ public:
   int dealDamage();
   int useAbility(unsigned int index);
 
-  void spawnWeapon(int level, std::vector<std::string>* weaponNames);
+  void spawnWeapon(int level);
 
 protected:
 

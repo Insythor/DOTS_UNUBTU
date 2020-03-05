@@ -49,14 +49,14 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
     return out;
 }
 
-void baseCharacter::spawnWeapon(int level, std::vector<std::string>* weaponNames)
+void baseCharacter::spawnWeapon(int level)
 {
     if (equippedWeapon != nullptr)
         delete equippedWeapon;
 
     if (this != nullptr)
     {
-        equippedWeapon = new weapon(level, weaponNames);
+        equippedWeapon = new weapon(level);
         // Check if this weapon gets a bonus from the characters stats
         updateDamagePower();
     }

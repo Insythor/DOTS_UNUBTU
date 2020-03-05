@@ -5,23 +5,18 @@
 weapon::weapon()
 {
   weaponDice = new std::vector<dice>;
-  allNames = nullptr;
 }
 
-weapon::weapon(int l, std::vector<std::string>* nameDicPtr)
+weapon::weapon(int l)
 {
   srand(time(NULL));
 
   weaponDice = new std::vector<dice>;
-  allNames = nameDicPtr;
-
   generateWeapon(l);
 }
 
 weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 {
-    allNames = nullptr;
-
     name = nam;
     diceSize = dSize;
     diceRolls = dRolls;
@@ -56,7 +51,7 @@ void weapon::generateWeapon(int level)
   weaponDice->shrink_to_fit();
   // If the weapon names dictionary was read in, select a random name
   // Then delete that name from the dictionary
-  if(allNames != nullptr)
+  if(weapon::allNames != nullptr)
   {
     int tempIndex = rand() % allNames->size();
     name = allNames->at(tempIndex);
