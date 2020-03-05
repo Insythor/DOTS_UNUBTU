@@ -513,8 +513,9 @@ void gameManager::mainMenu()
   {
     for(int c = 0; c <introText[l].length(); c++)
     {
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+
       std::cout << introText[l].at(c);
+      sleep(1);
     }
     std::cout << std::endl;
   }
