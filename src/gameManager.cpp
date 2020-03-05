@@ -482,6 +482,7 @@ void gameManager::mainMenu()
     logo.push_back(line);
   }
   toRead.close();
+
   logo.shrink_to_fit();
 
   system("resize -s 30 80");
@@ -498,26 +499,29 @@ void gameManager::mainMenu()
     {
       std::cout << logo[row] <<std::endl;
     }
- //   usleep(160000);
+    usleep(160000);
   }
 
   std::vector<std::string> introText;
 
   toRead.open(DIR_INTRO);
-  while(getline(toRead, line))
+
+  while(!toRead.eof())
   {
+    getline(toRead, line);
     introText.push_back(line);
   }
+
   toRead.close();
 
   introText.shrink_to_fit();
 
   for(unsigned int l = 0; l < introText.size(); l++)
   {
-    for(int c = 0; c <introText[l].length(); c++)
+    for(auto c : introText[l])
     {
-      std::this_thread::sleep_for(std::chrono::seconds(1));
-      std::cout << introText[l].at(c);
+      std::cout.flush() << c;
+      std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
     }
     std::cout << std::endl;
   }
