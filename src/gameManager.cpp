@@ -485,12 +485,24 @@ void gameManager::mainMenu()
 
   logo.shrink_to_fit();
 
-  system("resize -s 30 80");
+  // printf '\e[48;2;r;g;bm
+  // printf '\e[48;2;255;255;255m = white
+
 
   for(int i = 1; i < logo.size(); i ++)
   {
-    //0system("clear");
-      system("cls");
+    system("clear");
+
+    std::string bgColour = "printf '\e[48;2;";
+    bgColour + std::to_string(i) + ";"
+             + std::to_string(i) + ";"
+             + std::to_string(i) + "m'";
+
+    char sysCommand[bgColour.length()];
+    strcpy(sysCommand, bgColour.c_str());
+
+    system(sysCommand);
+
     for(int e = logo.size(); e > i; e--)
     {
       std::cout << std::endl;
@@ -499,7 +511,7 @@ void gameManager::mainMenu()
     {
       std::cout << logo[row] <<std::endl;
     }
-   //   std::this_thread::sleep_for(std::chrono::microseconds(160000));
+      std::this_thread::sleep_for(std::chrono::microseconds(160000));
   }
   std::cout << std::endl;
 
@@ -516,7 +528,7 @@ void gameManager::mainMenu()
   toRead.close();
 
   introText.shrink_to_fit();
-  
+
   char lastChar;
 
   for(unsigned int l = 0; l < introText.size(); l++)
@@ -524,9 +536,15 @@ void gameManager::mainMenu()
     for(auto c : introText[l])
     {
       std::cout.flush() << c;
-  //    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
+      std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
     }
     std::cout << std::endl;
+  }
+
+  for(int i = 0; i < 30; i++)
+  {
+    std::cout.end;
+    std::this_thread::sleep_for(std::chrono::milliseconds(160000));
   }
 
   // Call the default characterCreation function
@@ -609,14 +627,15 @@ player* gameManager::characterCreation()
   std::string tempName;
   std::string tempLine;
 
-  tempLine = "\nWhat race is your Hero?\n\n";
+  tempLine = "\nAnyways adventurer, where do you come from? I can't quite place you: ";
+
   printText(tempLine);
 
   printRaces();
 
   std::cin >> tempRaceIndex;
 
-  system("cls");
+  system("clear");
 
   tempLine = "One " + baseCharacter::allRaces->at(tempRaceIndex).race +
       " coming right up!";
@@ -624,10 +643,10 @@ player* gameManager::characterCreation()
 
   tempLine = "*scurrying (and panting) can be heard as the hero approaches*\n";
   printText(tempLine);
-       
+
   std::ifstream toRead;
   std::string line;
-  
+
   std::vector<std::string> stairs;
   toRead.open(DIR_STAIRS_SPIRAL);
 
@@ -638,10 +657,10 @@ player* gameManager::characterCreation()
   std::cout << "\n\n\n";
   // Print the stairs txt file, and decrease the speed as the "animation" plays
   printText(stairs, false);
-  
+
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
-  system("cls");
+  system("clear");
 
   tempLine = "Finally! Your hero has arrived!\nWhat shall we call this one then?";
   printText(tempLine);
@@ -649,8 +668,11 @@ player* gameManager::characterCreation()
 
   std::cin >> tempName;
 
-  tempLine = "Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race + " named " + tempName
-      + " \nNo ones ever done that combo before I'm sure... Anyways! " + "\nONWARD TO STAT SELECTION!";
+  tempLine = "Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
+             " named " + tempName +
+             " \nNo ones ever done that combo before I'm sure... Anyways! " +
+             "\nONWARD TO STAT SELECTION!";
+
   printText(tempLine);
 
   // Set the temp player to what the user has selected, and genereate their hero
@@ -662,6 +684,7 @@ player* gameManager::characterCreation()
    temp->levelUp();
    temp->spawnWeapon(1);
 
+   system("clear");
    std::cin.ignore();
 
    return temp;
@@ -707,4 +730,4 @@ void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed
             // sleep(rand() % miliMax)
         //
     //
-}           
+}

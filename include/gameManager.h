@@ -18,6 +18,7 @@
 // Containers
 #include <vector>
 #include <string>
+#include <cstring>
 // I/O
 #include <fstream>
 #include <iostream>
