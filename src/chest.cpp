@@ -17,7 +17,7 @@ chest::chest(int level)
   }
   else if(goldRange > 5 && goldRange <= 80)
   {
-    gold = rand() % 10;
+    gold = rand() % 11;
   }
   else
   {

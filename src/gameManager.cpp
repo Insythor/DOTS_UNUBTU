@@ -1,22 +1,25 @@
 #include "gameManager.h"
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
+std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
+std::vector<baseCharacter::raceData>* baseCharacter::allRaces = new std::vector<baseCharacter::raceData>;
+std::vector<ability::abilityData>* ability::allAbilities = new std::vector<ability::abilityData>;
 gameManager::gameManager()
 {
-  allRaces = new std::vector<raceData>;
   readInRaceData();
   readInWeapons();
-
+  readInRooms();
+  readInAbilities();
   currentLevel = 1;
   playerPtr = characterCreation(1);
-
   monsterPtr = generateMonster(1);
-
 // mainMenu();
 }
 
  gameManager::~gameManager()
 {
-  delete allRaces;
+  delete weapon::allNames;
+  delete roomManager::allNames;
+  delete baseCharacter::allRaces;
   delete playerPtr;
   delete monsterPtr;
 }
@@ -39,6 +42,16 @@ void gameManager::readInWeapons()
   // printWeapons();
 }
 
+void gameManager::readInRooms()
+{
+
+}
+
+void gameManager::readInAbilities()
+{
+
+}
+
 void gameManager::readInRaceData()
 {
   // ifstream to read in the csv file
@@ -58,30 +71,30 @@ void gameManager::readInRaceData()
   for(unsigned int i = 0; i < 10; i ++)
   {
     // Initialize a new index in the vector
-    allRaces->push_back(raceData());
+    baseCharacter::allRaces->push_back(baseCharacter::raceData());
     // Init the stats vector to have a size of 4
-    allRaces->at(i).mStats.resize(4);
+    baseCharacter::allRaces->at(i).mStats.resize(4);
     // Load all of the race data into the allRaces vector
-    allRaces->at(i).index = std::stoi(tempData.at(0));
-    allRaces->at(i).race = tempData.at(1);
-    allRaces->at(i).maxHP = std::stoi(tempData.at(2));
-    allRaces->at(i).mStats[0] = std::stoi(tempData.at(3));
-    allRaces->at(i).mStats[1] = std::stoi(tempData.at(4));
-    allRaces->at(i).mStats[2] = std::stoi(tempData.at(5));
-    allRaces->at(i).mStats[3] = std::stoi(tempData.at(6));
-    allRaces->at(i).description = tempData.at(7);
+    baseCharacter::allRaces->at(i).index = std::stoi(tempData.at(0));
+    baseCharacter::allRaces->at(i).race = tempData.at(1);
+    baseCharacter::allRaces->at(i).maxHP = std::stoi(tempData.at(2));
+    baseCharacter::allRaces->at(i).mStats[0] = std::stoi(tempData.at(3));
+    baseCharacter::allRaces->at(i).mStats[1] = std::stoi(tempData.at(4));
+    baseCharacter::allRaces->at(i).mStats[2] = std::stoi(tempData.at(5));
+    baseCharacter::allRaces->at(i).mStats[3] = std::stoi(tempData.at(6));
+    baseCharacter::allRaces->at(i).description = tempData.at(7);
 
     // Once all the data for a race has been loaded, clear that section
     // of the tempData vector
     tempData.erase(tempData.begin(), tempData.begin() + 8);
   }
-  allRaces->shrink_to_fit();
+  baseCharacter::allRaces->shrink_to_fit();
  // printRaces();
 }
 
 void gameManager::printRaces()
 {
-  for(auto i : (*allRaces))
+  for(auto i : (*baseCharacter::allRaces))
   {
     // Spacers for formating race data
     int wName = 13 - i.race.length();
@@ -175,7 +188,7 @@ void gameManager::startGame()
          // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
-            break;
+            break;srand (time(NULL));
         //pMonsterWeapon, pmw
         case 130:
             std::cout << (*monsterPtr->getWeapon()) << std::endl;
@@ -542,12 +555,12 @@ void gameManager::chooseNextRoom()
 
 monster* gameManager::generateMonster(int l)
 {
-    int index = rand() % allRaces->size();
+    int index = rand() % baseCharacter::allRaces->size();
 
     monster* temp = new monster("Temp Monster",
-        allRaces->at(index).race,
-        allRaces->at(index).maxHP,
-        allRaces->at(index).mStats,
+        baseCharacter::allRaces->at(index).race,
+        baseCharacter::allRaces->at(index).maxHP,
+        baseCharacter::allRaces->at(index).mStats,
         l);
 
     temp->spawnWeapon(currentLevel);
@@ -558,9 +571,9 @@ monster* gameManager::generateMonster(int l)
 monster* gameManager::generateMonster(int l, int index)
 {
     monster* temp = new monster("Temp Monster",
-        allRaces->at(index).race,
-        allRaces->at(index).maxHP,
-        allRaces->at(index).mStats,
+        baseCharacter::allRaces->at(index).race,
+        baseCharacter::allRaces->at(index).maxHP,
+        baseCharacter::allRaces->at(index).mStats,
         l);
 
     temp->spawnWeapon(currentLevel);
@@ -571,9 +584,9 @@ monster* gameManager::generateMonster(int l, int index)
 monster* gameManager::generateMonster(int l, int index, std::string tName)
 {
     monster* temp = new monster(tName,
-        allRaces->at(index).race,
-        allRaces->at(index).maxHP,
-        allRaces->at(index).mStats,
+        baseCharacter::allRaces->at(index).race,
+        baseCharacter::allRaces->at(index).maxHP,
+        baseCharacter::allRaces->at(index).mStats,
         l );
 
     temp->spawnWeapon(currentLevel);
@@ -594,7 +607,7 @@ player* gameManager::characterCreation()
 
   std::cin >> tempRaceIndex;
 
-  std::cout << "One " << allRaces->at(tempRaceIndex).race <<
+  std::cout << "One " << baseCharacter::allRaces->at(tempRaceIndex).race <<
             " coming right up!" << "\n\n *scurrying and panting can be heard as"
             " the hero approaches*" <<
   std::endl;
@@ -617,15 +630,15 @@ player* gameManager::characterCreation()
   std::cin >> tempName;
 
   std::cout <<
-        "Cool a " << allRaces->at(tempRaceIndex).race << " named " << tempName
+        "Cool a " << baseCharacter::allRaces->at(tempRaceIndex).race << " named " << tempName
         << " \nNo ones ever done that combo before I'm sure... Anyways! " <<
         "\nONWARD TO STAT SELECTION!"
   << std::endl;
   // Set the temp player to what the user has selected, and genereate their hero
    temp = new player(tempName,
-                          allRaces->at(tempRaceIndex).race,
-                          allRaces->at(tempRaceIndex).maxHP,
-                          allRaces->at(tempRaceIndex).mStats);
+                          baseCharacter::allRaces->at(tempRaceIndex).race,
+                          baseCharacter::allRaces->at(tempRaceIndex).maxHP,
+                         baseCharacter::allRaces->at(tempRaceIndex).mStats);
 
    temp->spawnWeapon(currentLevel);
 
@@ -637,9 +650,9 @@ player* gameManager::characterCreation()
 player* gameManager::characterCreation(int index)
 {
     player* temp = new player("Temp_Hero",
-        allRaces->at(index).race,
-        allRaces->at(index).maxHP,
-        allRaces->at(index).mStats);
+        baseCharacter::allRaces->at(index).race,
+        baseCharacter::allRaces->at(index).maxHP,
+        baseCharacter::allRaces->at(index).mStats);
 
     temp->spawnWeapon(currentLevel);
 

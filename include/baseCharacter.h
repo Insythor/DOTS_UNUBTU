@@ -24,6 +24,14 @@ class baseCharacter
 public:
   baseCharacter();
   virtual ~baseCharacter();
+  struct raceData
+    {
+        int index;
+        std::string race;
+        int maxHP;
+        std::vector<int> mStats;
+        std::string description;
+    };
   /**
     @brief  return the name of the character
     @param[out] [std::string] name
@@ -109,7 +117,7 @@ public:
   int useAbility(unsigned int index);
 
   void spawnWeapon(int level);
-
+  static std::vector<baseCharacter::raceData>* allRaces;
 protected:
 
   std::string race;

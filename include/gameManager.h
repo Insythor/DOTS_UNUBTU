@@ -111,8 +111,13 @@ private:
   */
   void readInWeapons();
   /**
+    @brief Read in all of the room names from docs/DATA/roomNames
+  */
+  void readInRooms();
+  /**
     @brief Debugging: Print the remaining dictionary of weapon prefixes
   */
+  void readInAbilities();
   void printWeapons();
   /**
     @brief Print all of the consumables from docs/DATA/consumableDATA.csv

@@ -6,8 +6,10 @@
 #define DEFAULT_HEIGHT 16
 #define DEFAULT_FILE ".txt"
 
-//#include "chest.h"
-
+#include "chest.h"
+#include "player.h"
+#include "monster.h"
+#include "combatManager.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -28,37 +30,29 @@ public:
     @param[in] int Type: 0 = boss, 1 = chest, 2 = monster, 3 = shop, 4 = default
     @param[in] int Index: Which iteration of the room type (i.e. boss room 4)
   */
-	std::vector<std::vector<char>>* renderRoom(int type, int index);
-
+  std::string getDescription();
+  bool getRoomComplete();
+  int getLevel();
+  int getType();
+  static std::vector<std::string>* allNames;
 private:
   int puzzleRoomCounter = 0;
   int type;
   bool roomComplete;
   int numChests;
-//  std::vector<chest> chests;
   std::vector<int> nextRooms;
+  std::vector<chest*> chests;
+  player* myPlayer;
   int roomLevel;
   std::string description;
-  /**
-      @brief Pointer to the next room which will be rendered on the screen
-  */
-  std::vector<std::vector<char>>* toRender;
-  /**
-    @brief 2D array of rooms that are ready to be rendered to the screen
-  */
-  std::vector<std::vector<char>>** allRooms;
-
-  std::string formatRoomType(int type, int index);
-  /**
-    @brief Helper function which allocates memory for the 2D array of rooms
-  */
-  void allocateMemory();
+  void enterRoom();
   void changeRoom(int nextRoom);
-  std::string getDescription();
-  bool getRoomComplete();
-//  chest* getChest(int index);
-  int getLevel();
-  int getType();
+  void createChestRoom();
+  void createMonsterRoom();
+  void createShopRoom();
+  void createPuzzleRoom();
+  std::vector<int> formatCommand(std::string command);
+  monster* generateMonster();
 };
 
 #endif // ROOM_H

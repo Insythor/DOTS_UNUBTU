@@ -8,6 +8,14 @@
 class ability
 {
   public:
+     struct abilityData
+    {
+        int index;
+        std::string race;
+        int maxHP;
+        std::vector<int> mStats;
+        std::string description;
+    };
     ability();
     ability(int level);
     ability(int level, int stat);
@@ -32,7 +40,7 @@ class ability
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirement;
    int abilityMultiplier;
-   std::vector<std::string>* allNames;
+   static std::vector<abilityData>* allAbilities;
    std::vector<dice>* abilityDice;
 };
 
