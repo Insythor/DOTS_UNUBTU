@@ -4,6 +4,7 @@
 /// UPDATE
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
+#define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 
 // User defined
@@ -25,7 +26,7 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-//#include "unistd.h"
+#include "unistd.h"
 #include <time.h>
 
 class gameManager
