@@ -298,6 +298,10 @@ void gameManager::startGame()
         case 92:
             std::cout << playerPtr->dealDamage() << std::endl;
             break;
+        //mainmenu, mmenu
+        case 93:
+          mainMenu();
+          break;
         // exit, e
         case 0:
             play = false;
@@ -430,11 +434,13 @@ std::vector<int> gameManager::formatCommand(std::string command)
     else if (tempCommand[0] == "atk")
         temp.push_back(92);
 
-
+    else if(tempCommand[0] == "mainmenu" || tempCommand[0] == "mmenu")
+      temp.push_back(93);
     // GTFO
     else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
           temp.push_back(0);
+
 
 
     // If no valid command was entered
@@ -464,22 +470,58 @@ void gameManager::mainMenu()
   std::ifstream toRead;
   std::string line;
 
-  toRead.open(DIR_INTRO);
+  std::vector<std::string> logo;
 
-  while(getline(toRead, line, ' '))
+  toRead.open(DIR_DOTS_LOGO);
+
+  while(getline(toRead, line))
   {
-//    for(unsigned int i = 0; i < line.length(); i++)
-    {
-  //    std::cout << line;
-    }
-    std::cout << " ";
+    logo.push_back(line);
   }
-  std::cout << std::endl;
   toRead.close();
+  logo.shrink_to_fit();
+
+  system("resize -s 30 80");
+
+  for(int i = 1; i < logo.size(); i ++)
+  {
+    system("clear");
+
+    for(int e = logo.size(); e > i; e--)
+    {
+      std::cout << std::endl;
+    }
+    for(int row = 0; row < i; row++)
+    {
+      std::cout << logo[row] <<std::endl;
+    }
+ //   usleep(160000);
+  }
+
+  std::vector<std::string> introText;
+
+  toRead.open(DIR_INTRO);
+  while(getline(toRead, line))
+  {
+    introText.push_back(line);
+  }
+  toRead.close();
+
+  introText.shrink_to_fit();
+
+  for(unsigned int l = 0; l < introText.size(); l++)
+  {
+    for(int c = 0; c <introText[l].length(); c++)
+    {
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::cout << introText[l].at(c);
+    }
+    std::cout << std::endl;
+  }
 
   // Call the default characterCreation function
   // This has the I/O required for character customization
-  characterCreation();
+  //characterCreation();
 }
 
 void gameManager::saveGame()
