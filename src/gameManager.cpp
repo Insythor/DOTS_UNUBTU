@@ -489,8 +489,8 @@ void gameManager::mainMenu()
 
   for(int i = 1; i < logo.size(); i ++)
   {
-    system("clear");
-
+    //0system("clear");
+      system("cls");
     for(int e = logo.size(); e > i; e--)
     {
       std::cout << std::endl;
@@ -499,8 +499,9 @@ void gameManager::mainMenu()
     {
       std::cout << logo[row] <<std::endl;
     }
-    usleep(160000);
+   //   std::this_thread::sleep_for(std::chrono::microseconds(160000));
   }
+  std::cout << std::endl;
 
   std::vector<std::string> introText;
 
@@ -515,20 +516,22 @@ void gameManager::mainMenu()
   toRead.close();
 
   introText.shrink_to_fit();
+  
+  char lastChar;
 
   for(unsigned int l = 0; l < introText.size(); l++)
   {
     for(auto c : introText[l])
     {
       std::cout.flush() << c;
-      std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
+  //    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
     }
     std::cout << std::endl;
   }
 
   // Call the default characterCreation function
   // This has the I/O required for character customization
-  //characterCreation();
+  characterCreation();
 }
 
 void gameManager::saveGame()
@@ -604,47 +607,62 @@ player* gameManager::characterCreation()
   player* temp;
   int tempRaceIndex;
   std::string tempName;
+  std::string tempLine;
 
-  std::cout << "\nWhat race is your Hero?\n\n";
+  tempLine = "\nWhat race is your Hero?\n\n";
+  printText(tempLine);
 
   printRaces();
 
   std::cin >> tempRaceIndex;
 
-  std::cout << "One " << baseCharacter::allRaces->at(tempRaceIndex).race <<
-            " coming right up!" << "\n\n *scurrying and panting can be heard as"
-            " the hero approaches*" <<
-  std::endl;
+  system("cls");
 
+  tempLine = "One " + baseCharacter::allRaces->at(tempRaceIndex).race +
+      " coming right up!";
+  printText(tempLine);
 
-  for(int i = 0; i < 3; i++)
-  {
-    //sleep(1);
-   // std::cout << "\n..." << std::endl;
-  }
+  tempLine = "*scurrying (and panting) can be heard as the hero approaches*\n";
+  printText(tempLine);
+       
+  std::ifstream toRead;
+  std::string line;
+  
+  std::vector<std::string> stairs;
+  toRead.open(DIR_STAIRS_SPIRAL);
 
- // sleep(1);
+  while (getline(toRead, line))
+      stairs.push_back(line);
+  toRead.close();
 
-//  system("clear");
+  std::cout << "\n\n\n";
+  // Print the stairs txt file, and decrease the speed as the "animation" plays
+  printText(stairs, false);
+  
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 
-  std::cout <<
-        "Finally! Your hero has arrived!\nWhat shall we call this one then?" <<
-        "\nName: ";
+  system("cls");
+
+  tempLine = "Finally! Your hero has arrived!\nWhat shall we call this one then?";
+  printText(tempLine);
+  std::cout << "\nName: ";
 
   std::cin >> tempName;
 
-  std::cout <<
-        "Cool a " << baseCharacter::allRaces->at(tempRaceIndex).race << " named " << tempName
-        << " \nNo ones ever done that combo before I'm sure... Anyways! " <<
-        "\nONWARD TO STAT SELECTION!"
-  << std::endl;
+  tempLine = "Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race + " named " + tempName
+      + " \nNo ones ever done that combo before I'm sure... Anyways! " + "\nONWARD TO STAT SELECTION!";
+  printText(tempLine);
+
   // Set the temp player to what the user has selected, and genereate their hero
    temp = new player(tempName,
                           baseCharacter::allRaces->at(tempRaceIndex).race,
                           baseCharacter::allRaces->at(tempRaceIndex).maxHP,
                          baseCharacter::allRaces->at(tempRaceIndex).mStats);
 
-   temp->spawnWeapon(currentLevel);
+   temp->levelUp();
+   temp->spawnWeapon(1);
+
+   std::cin.ignore();
 
    return temp;
 
@@ -663,6 +681,30 @@ player* gameManager::characterCreation(int index)
     return temp;
 }
 
+void gameManager::printText(std::string toPrint)
+{
+    for (auto c : toPrint)
+    {
+        std::cout << c;
+        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 50));
+    }
+    std::cout << std::endl;
+}
 
+void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed)
+{
+    // For string in the vector
 
+        // for each char in the string
 
+            // if(increaseSpeed)
+                // miliMax +=
+
+            // else
+                // miliMax -=
+
+            // cout char
+            // sleep(rand() % miliMax)
+        //
+    //
+}           

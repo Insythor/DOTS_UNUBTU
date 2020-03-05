@@ -6,6 +6,7 @@
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
+#define DIR_STAIRS_SPIRAL "../docs/DATA/stairs_spiral.txt"
 
 // User defined
 #include "player.h"
@@ -26,7 +27,6 @@
 // trying to find what libraries i need to slowly print text
 #include <chrono>
 #include <thread>
-#include <unistd.h>
 #include <time.h>
 
 class gameManager
@@ -141,6 +141,10 @@ private:
     @param[in] std::string name
   */
   monster* generateMonster(int l, int index, std::string tName);
+
+  // Default sleep time is rand % 50
+  void printText(std::string toPrint);
+  void printText(std::vector<std::string> toPrint, bool increaseSpeed);
 
 };
 #endif // GAMEMANAGER_H

@@ -1,6 +1,20 @@
-In a time long before I came up with any text to actually put at the begining
-of the game, I wrote this to test the printing system. 
-		
-	And it was fucking glorious! 
+Welcome adventurer! It appears that you have been summoned to The Spire.
+I do not envy you adventurer, but I wish you luck one your journey, it will not
+be an easy one...
 
-			GLORIOUS I SAY!!!
+You see, this spire has been a mystery for centuries. Not lost to time, or 
+shadowed in mystery, rather, one day it just appeared. The druids lost their 
+lives and the forest where they lived was completly desolated. Ripped appart. 
+The blased lands you can see before you is all that remains. 
+
+They say an old wizard was trying to move his castle into another dimension, 
+but something went horibly wrong, and the ritual moved a part of that world 
+into ours...
+	And it has never been the same since...
+
+For as long as time can remember the spire has taken the lives of our loved.
+Turning their souls into nothing more than empty, greed filled shells of 
+what they once were. Everyone who enters the spire turns into a shadow of 
+themselfs. Hell, shadow may be generious. They become... Well... You'll see.
+
+Anyways adventurer, where do you come from? I can't quite place you: 
