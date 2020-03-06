@@ -79,6 +79,7 @@ bool combatManager::startFight()
             if(tempDamage < 0)
               tempDamage = 0;
             fightOrder[!playersTurn]->takeDamage(tempDamage);
+
             // Display who did how much damage to who after each attack
             std::cout
                 << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
@@ -210,12 +211,14 @@ bool combatManager::endFight()
                 break;
 
             case 0:
-                    std::cout
-                        << "\nOnce you leave the monster encounter,\n"
-                        << "this monsters loot will be gone forever.\n"
-                        << "Taken as sacrifice to the spire.\n"
-                        << "Are you sure that you don't want to see what the "
-                        << "monster has on its body? ";
+
+                print::str(
+                           "\nOnce you leave the monster encounter,\n"
+                           "this monsters loot will be gone forever.\n"
+                           "Taken as sacrifice to the spire.\n"
+                           "Are you sure that you don't want to see what the "
+                           "monster has on its body? "
+                           );
 
                     std::cin >> command;
                     input = formatCommand(command)[0];
@@ -239,12 +242,10 @@ bool combatManager::endFight()
     // We should create a gameOver state. And call it here
     else
     {
-        std::cout
-            << "Sorry Adventurer, but this is where your journey ends.\n"
-            // Print out the full character details for the hero
-            << *dynamic_cast<player*> (fightOrder[1])
-        << std::endl;
-        return false;
+      print::str("Sorry Adventurer, but this is where your journey ends.\n");
+        std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl;
+          return false;
+
     }
 
   std::cin.ignore();

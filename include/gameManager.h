@@ -117,12 +117,16 @@ private:
   /**
     @brief Debugging: Print the remaining dictionary of weapon prefixes
   */
-  void readInAbilities();
   void printWeapons();
   /**
     @brief Print all of the consumables from docs/DATA/consumableDATA.csv
   */
   void printConsumables();
+  /**
+    @brief generate a random monster at a given level
+    @param [in] int level
+  */
+  void printAbilities();
   /**
     @brief generate a random monster at a given level
     @param [in] int level
@@ -143,8 +147,7 @@ private:
   monster* generateMonster(int l, int index, std::string tName);
 
   // Default sleep time is rand % 50
-  void printText(std::string toPrint);
-  void printText(std::vector<std::string> toPrint, bool increaseSpeed);
   bool is_number(const std::string& s);
+
 };
 #endif // GAMEMANAGER_H
