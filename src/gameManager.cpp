@@ -485,37 +485,7 @@ void gameManager::mainMenu()
 
   logo.shrink_to_fit();
 
-  // printf '\e[48;2;r;g;bm
-  // printf '\e[48;2;255;255;255m = white
-
-
-  for(int i = 1; i < logo.size(); i ++)
-  {
-    system("clear");
-
-    std::string bgColour = "printf '\e[48;2;";
-    bgColour + std::to_string(i) + ";"
-             + std::to_string(i) + ";"
-             + std::to_string(i) + "m'";
-
-    char sysCommand[bgColour.length()];
-    strcpy(sysCommand, bgColour.c_str());
-
-    system(sysCommand);
-
-    for(int e = logo.size(); e > i; e--)
-    {
-      std::cout << std::endl;
-    }
-    for(int row = 0; row < i; row++)
-    {
-      std::cout << logo[row] <<std::endl;
-    }
-      std::this_thread::sleep_for(std::chrono::microseconds(160000));
-  }
-  std::cout << std::endl;
-
-  std::vector<std::string> introText;
+    std::vector<std::string> introText;
 
   toRead.open(DIR_INTRO);
 
@@ -528,6 +498,72 @@ void gameManager::mainMenu()
   toRead.close();
 
   introText.shrink_to_fit();
+
+  // printf '\e[48;2;r;g;bm
+  // printf '\e[48;2;255;255;255m = white
+
+
+
+  for(int i = 0; i < 255; i += 2)
+  {
+    std::string bgColour = "printf '\e[48;2;";
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(i) + "m '");
+
+    char sysCommand[bgColour.length()];
+
+    strcpy(sysCommand, bgColour.c_str());
+
+    system(sysCommand);
+
+    for(int f = 0; f < 30; f++)
+      std::cout << "\n";
+
+    std::this_thread::sleep_for(std::chrono::microseconds(2000));
+  }
+
+  std::this_thread::sleep_for(std::chrono::seconds(3));
+
+  for (int i = 255; i > 3; i -= 3)
+  {
+    system("clear");
+
+    std::string bgColour = "printf '\e[48;2;";
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(i) + "m '");
+
+    char sysCommand[bgColour.length()];
+
+    strcpy(sysCommand, bgColour.c_str());
+
+    system(sysCommand);
+
+    for(int i = 0; i < 30; i++)
+      std::cout<<std::endl;
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(160));
+  }
+
+  // Bring the logo up on the screen
+  for(int i = 1; i < logo.size(); i ++)
+  {
+
+    system("clear");
+
+    for(int e = logo.size(); e > i; e--)
+    {
+      std::cout << std::endl;
+    }
+    for(int row = 0; row < i; row++)
+    {
+      std::cout << logo[row] <<std::endl;
+    }
+      std::this_thread::sleep_for(std::chrono::microseconds(160000));
+  }
+  std::cout << std::endl << std::endl;
+
 
   char lastChar;
 
@@ -543,8 +579,8 @@ void gameManager::mainMenu()
 
   for(int i = 0; i < 30; i++)
   {
-    std::cout.end;
-    std::this_thread::sleep_for(std::chrono::milliseconds(160000));
+    std::cout << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(130));
   }
 
   // Call the default characterCreation function
@@ -627,7 +663,9 @@ player* gameManager::characterCreation()
   std::string tempName;
   std::string tempLine;
 
-  tempLine = "\nAnyways adventurer, where do you come from? I can't quite place you: ";
+  system("clear");
+
+  tempLine = "Anyways adventurer, where do you come from? I can't quite place you: ";
 
   printText(tempLine);
 
@@ -656,7 +694,8 @@ player* gameManager::characterCreation()
 
   std::cout << "\n\n\n";
   // Print the stairs txt file, and decrease the speed as the "animation" plays
-  printText(stairs, false);
+//  for(auto i : stairs)
+    printText(stairs, true);
 
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
@@ -685,11 +724,8 @@ player* gameManager::characterCreation()
    temp->spawnWeapon(1);
 
    system("clear");
-   std::cin.ignore();
 
    return temp;
-
-//  system("clear");
 }
 // Overloaded characterCreation(), generates a player at given race index
 player* gameManager::characterCreation(int index)
@@ -708,7 +744,7 @@ void gameManager::printText(std::string toPrint)
 {
     for (auto c : toPrint)
     {
-        std::cout << c;
+        std::cout.flush() << c;
         std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 50));
     }
     std::cout << std::endl;
@@ -716,18 +752,21 @@ void gameManager::printText(std::string toPrint)
 
 void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed)
 {
+  int lineCounter = 0;
+  int maxSpeed = 50;
     // For string in the vector
+    for(auto line : toPrint)
+    {
+      if(lineCounter % (toPrint.size() / 5) == 0)
+        maxSpeed *= 0.8;
 
-        // for each char in the string
+      for(auto c :line)
+      {
+        std::cout.flush() << c;
+        std::this_thread::sleep_for(std::chrono::milliseconds
+                                                    (rand() % maxSpeed));
 
-            // if(increaseSpeed)
-                // miliMax +=
-
-            // else
-                // miliMax -=
-
-            // cout char
-            // sleep(rand() % miliMax)
-        //
-    //
+      }
+      lineCounter++;
+    }
 }

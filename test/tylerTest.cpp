@@ -11,9 +11,10 @@
 
 int main()
 {
+  system("printf '\e[48;2;0;0;0m'");
   // Resize the terminal, and clear the terminal of text before game begins
   system("resize -s 30 80");
-  system("reset");
+
 
   gameManager* myManager = new gameManager;
 

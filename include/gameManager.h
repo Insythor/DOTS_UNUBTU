@@ -7,7 +7,6 @@
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 #define DIR_STAIRS_SPIRAL "../docs/DATA/stairs_spiral.txt"
-
 // User defined
 #include "player.h"
 #include "monster.h"
