@@ -17,6 +17,7 @@ int main()
   system("resize -s 30 80");
   // Set the background to black
   system("printf '\e[48;2;0;0;0m'");
+  system("printf '\e[38;2;200;200;200m'");
   system("clear");
 
   gameManager* myManager = new gameManager;
