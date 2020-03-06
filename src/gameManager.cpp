@@ -512,8 +512,8 @@ void gameManager::mainMenu()
 
   logo.shrink_to_fit();
 
-    std::vector<std::string> introText;
-
+    // Read in the intro story that plays after the logo comes up
+  std::vector<std::string> introText;
   toRead.open(DIR_INTRO);
 
   while(!toRead.eof())
@@ -523,14 +523,9 @@ void gameManager::mainMenu()
   }
 
   toRead.close();
-
   introText.shrink_to_fit();
 
-  // printf '\e[48;2;r;g;bm
-  // printf '\e[48;2;255;255;255m = white
-
-
-
+  // Fade to white
   for(int i = 0; i < 255; i += 2)
   {
     std::string bgColour = "printf '\e[48;2;";
@@ -549,9 +544,9 @@ void gameManager::mainMenu()
 
     std::this_thread::sleep_for(std::chrono::microseconds(2000));
   }
-
+  // Pause for dramatic effect
   std::this_thread::sleep_for(std::chrono::seconds(3));
-
+  // Fade to black
   for (int i = 255; i > 3; i -= 3)
   {
     system("clear");
@@ -721,8 +716,7 @@ player* gameManager::characterCreation()
 
   std::cout << "\n\n\n";
   // Print the stairs txt file, and decrease the speed as the "animation" plays
-//  for(auto i : stairs)
-    printText(stairs, true);
+  printText(stairs, true);
 
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
@@ -733,6 +727,7 @@ player* gameManager::characterCreation()
   std::cout << "\nName: ";
 
   std::cin >> tempName;
+  std::cout << std::endl;
 
   tempLine = "Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
              " named " + tempName +
@@ -747,8 +742,9 @@ player* gameManager::characterCreation()
                           baseCharacter::allRaces->at(tempRaceIndex).maxHP,
                          baseCharacter::allRaces->at(tempRaceIndex).mStats);
 
-   temp->levelUp();
    temp->spawnWeapon(1);
+   temp->levelUp();
+
 
    system("clear");
 
@@ -766,7 +762,7 @@ player* gameManager::characterCreation(int index)
 
     return temp;
 }
-
+// Prints out characters to the screen one every 0-50 ms
 void gameManager::printText(std::string toPrint)
 {
     for (auto c : toPrint)
@@ -792,8 +788,8 @@ void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed
         std::cout.flush() << c;
         std::this_thread::sleep_for(std::chrono::milliseconds
                                                     (rand() % maxSpeed));
-
       }
+      std::cout << std::endl;
       lineCounter++;
     }
 }

@@ -11,10 +11,13 @@
 
 int main()
 {
-  system("printf '\e[48;2;0;0;0m'");
+
+
   // Resize the terminal, and clear the terminal of text before game begins
   system("resize -s 30 80");
-
+  // Set the background to black
+  system("printf '\e[48;2;0;0;0m'");
+  system("clear");
 
   gameManager* myManager = new gameManager;
 
