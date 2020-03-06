@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <random>
 class ability
 {
   public:
@@ -22,6 +23,8 @@ class ability
     };
   */
     ability();
+    ability(int level);
+    ability(int level, int sType);
     ability(int tid, int dRolls, int dSize);
     ~ability();
 
@@ -43,6 +46,8 @@ class ability
 
  private:
     int index;
+    int level;
+    int statType;
    std::string name;
    std::string description;
    int cooldown;
@@ -55,6 +60,7 @@ class ability
    std::vector<dice>* abilityDice;
 
    void readInAbilityData();
+    int determineIndex(int lev, int sType);
 };
 
 #endif // ABILITY_H

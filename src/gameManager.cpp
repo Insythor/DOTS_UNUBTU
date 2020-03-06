@@ -162,6 +162,16 @@ void gameManager::printConsumables()
     }
 }
 
+void gameManager::printAbilities()
+{
+    for (int i = 0; i <= 60; i++)
+    {
+        ability* toPrint = new ability(i, 10, 10);
+        std::cout << *toPrint;
+        delete toPrint;
+    }
+}
+
 // Main loop
 // Most of this is going to be ripped out as it is primarily debugging stuff atm
 void gameManager::startGame()
@@ -431,6 +441,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Print all the consumables in the csv
     else if (tempCommand[0] == "pconsumables" || tempCommand[0] == "pcon")
         temp.push_back(14);
+    // Prints all the abilities in the csv
+    else if (tempCommand[0] == "pabilities" || tempCommand[0] == "pa")
+        temp.push_back(30);
     //Print all items in chest inventory
     else if(tempCommand[0] == "viewChest" || tempCommand[0] == "vc")
         temp.push_back(15);
