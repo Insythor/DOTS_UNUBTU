@@ -18,7 +18,7 @@ class combatManager
     combatManager(player* p, monster* m);
     ~combatManager();
 
-  void startFight();
+  bool startFight();
 
 
   private:
@@ -31,7 +31,7 @@ class combatManager
     int turnCount = 0;
 
     std::string selectAction(int type, int subType);
-    std::string endFight();
+    bool endFight();
     std::string monsterAction();
 
     bool checkCombatDone();

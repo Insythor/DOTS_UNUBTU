@@ -14,7 +14,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+#include <algorithm>
 
 class roomManager
 {
@@ -24,7 +24,6 @@ public:
   /**
     @brief stream in all .txt files which contain the ASCII art for the rooms
   */
-	void readInRooms();
   /**
     @brief Return a pointer to the requested room
     @param[in] int Type: 0 = boss, 1 = chest, 2 = monster, 3 = shop, 4 = default
@@ -33,24 +32,27 @@ public:
   std::string getDescription();
   bool getRoomComplete();
   int getLevel();
-  int getType();
+  int getRoomType();
   static std::vector<std::string>* allNames;
 private:
   int puzzleRoomCounter = 0;
-  int type;
+  int roomType;
   bool roomComplete;
-  int numChests;
   std::vector<int> nextRooms;
   std::vector<chest*> chests;
   player* myPlayer;
+  monster* myMonster;
+  combatManager* myCombat;
   int roomLevel;
   std::string description;
   void enterRoom();
   void changeRoom(int nextRoom);
+  void inventoryManagement(int type, int index);
   void createChestRoom();
   void createMonsterRoom();
   void createShopRoom();
   void createPuzzleRoom();
+  bool is_number(const std::string& s);
   std::vector<int> formatCommand(std::string command);
   monster* generateMonster();
 };

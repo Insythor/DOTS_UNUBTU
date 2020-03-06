@@ -486,6 +486,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
     {
         for (auto i : tempCommand)
         {
+          if(is_number(i))
             temp.push_back(std::stoi(i));
         }
     }
@@ -771,6 +772,12 @@ void gameManager::printText(std::string toPrint)
         std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 50));
     }
     std::cout << std::endl;
+}
+
+bool gameManager::is_number(const std::string& s)
+{
+    return !s.empty() && std::find_if(s.begin(),
+        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
 
 void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed)

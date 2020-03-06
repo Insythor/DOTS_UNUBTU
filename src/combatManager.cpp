@@ -19,7 +19,7 @@ combatManager::~combatManager()
     delete[] fightOrder;
 }
 
-void combatManager::startFight()
+bool combatManager::startFight()
 {
     // Debugging
     bool forceQuit = true;
@@ -147,7 +147,7 @@ void combatManager::startFight()
     playersTurn = !playersTurn;
     // Set the turn count back to the winning/losing turn
     turnCount--;
-    endFight();
+    return endFight();
 }
 
 std::string combatManager::selectAction(int type, int subType)
@@ -157,7 +157,7 @@ std::string combatManager::selectAction(int type, int subType)
   return "n\a";
 }
 
-std::string combatManager::endFight()
+bool combatManager::endFight()
 {
     if (playersTurn)
     {
@@ -223,7 +223,7 @@ std::string combatManager::endFight()
                     {
                       std::cout << "Exiting Combat\n" << std::endl;
                       std::cin.ignore();
-                      return "n\a";
+                      return true;
                     }
                     else if(input == 0)
                         break;
@@ -244,11 +244,12 @@ std::string combatManager::endFight()
             // Print out the full character details for the hero
             << *dynamic_cast<player*> (fightOrder[1])
         << std::endl;
+        return false;
     }
 
   std::cin.ignore();
 
-  return "n\a";
+  return true;
 }
 
 std::string combatManager::monsterAction()

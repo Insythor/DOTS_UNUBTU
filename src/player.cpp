@@ -133,6 +133,12 @@ void player::addExperience(int toAdd)
         levelUp();
 }
 
+bool player::is_number(const std::string& s)
+{
+    return !s.empty() && std::find_if(s.begin(),
+        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
+}
+
 void player::levelUp()
 {
     // temp variables used to for input
@@ -166,15 +172,42 @@ void player::levelUp()
     std::cout << (*this);
 
     std::cout <<
-        "Place your stat points by choosing a stat, then typing the amount of points to add."
-        << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
+        "Place your stat points by choosing a stat, then type the amount of points to add."
+        << "\n i.e. 0 will choose strength and then type 1 to add one point to strength.\n"
         << "Available points: " << availablePoints << std::endl;
 
 
     // While the player still has points to spend on additional stat upgrades
     while (availablePoints > 0)
     {
-        std::cin >> statIn >> statAmountIn;
+      bool done = false;
+      std::string In;
+      std::string AmountIn;
+      while(!done)
+      {
+         std::cout << "Choose stat: ";
+         std::cin >> In;
+         if(is_number(In) && (In == "0" || In == "1" || In == "2"))
+         {
+           statIn = std::stoi(In);
+           while(!done)
+           {
+             std::cout << "Choose amount: ";
+             std::cin >> AmountIn;
+             if(is_number(AmountIn))
+             {
+               statAmountIn = std::stoi(AmountIn);
+               done = true;
+             }
+             else
+             {
+               std::cout << "invalid value" << std::endl;
+             }
+           }
+         }
+         else
+          std::cout << "invalid value" << std::endl;
+      }
         // Check that the amount of stats input does not exceed the amount of available points
         if (statIn < 3 && availablePoints - statAmountIn >= 0)
         {

@@ -145,6 +145,6 @@ private:
   // Default sleep time is rand % 50
   void printText(std::string toPrint);
   void printText(std::vector<std::string> toPrint, bool increaseSpeed);
-
+  bool is_number(const std::string& s);
 };
 #endif // GAMEMANAGER_H

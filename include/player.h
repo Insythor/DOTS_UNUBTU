@@ -5,7 +5,7 @@
 #define PLAYERSAVE_EXT ".csv"
 
 #include "baseCharacter.h"
-
+#include <algorithm>
 class player : public baseCharacter
 {
   public:
@@ -38,7 +38,7 @@ class player : public baseCharacter
     void addExperience(int toAdd);
     /**
         @brief  Set currentExperience to current - maxExperience, allow the user
-                to select which stats they would like to add, and check if the 
+                to select which stats they would like to add, and check if the
                 added stats will give the player an increase to their stat bonuses
                 , finally, increase the players HP.
         @param Level 1: 100
@@ -51,7 +51,7 @@ class player : public baseCharacter
     void levelUp();
     /**
       @brief Add to the players main stats perminantly
-      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int 
+      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int
     */
     void addToStats(std::vector<int> toAdd);
     /**
@@ -62,14 +62,14 @@ class player : public baseCharacter
     */
     void applyStatusEffect(std::vector<int> toApply, bool apply);
     /**
-        @brief 
-        @param[in] 
+        @brief
+        @param[in]
     */
     void useConsumable(unsigned int index);
     /**
         @brief return the players currentExperience and the experience they need
         to level up
-        @param[out] std::vector<int> [0] = currentExperience [1] = maxExperience 
+        @param[out] std::vector<int> [0] = currentExperience [1] = maxExperience
     */
     std::vector<int> getExperience();
 
@@ -77,7 +77,7 @@ class player : public baseCharacter
 
 
   private:
-
+    bool is_number(const std::string& s);
     int currentExperience;
     int maxExperience;
 

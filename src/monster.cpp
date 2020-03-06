@@ -9,21 +9,13 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
         isBoss = true;
     else
         isBoss = false;
-
     name = tName;
     race = tRace;
-
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
-
     equippedWeapon = nullptr;
-
     checkStatBonuses();
-
-
-    equippedWeapon = nullptr;
-
     initMonster();
 }
 
@@ -157,6 +149,7 @@ void monster::initMonster()
         maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
         currentHealth = maxHealth;
     }
+    spawnWeapon(level);
     checkStatBonuses();
     // Arbitrary amount of gold that the monster carries
     // NEEDS TO BE BALANCED
