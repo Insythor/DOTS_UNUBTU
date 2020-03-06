@@ -2,13 +2,13 @@
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces = new std::vector<baseCharacter::raceData>;
-std::vector<ability::abilityData>* ability::allAbilities = new std::vector<ability::abilityData>;
+//std::vector<ability::abilityData>* ability::allAbilities = new std::vector<ability::abilityData>;
 gameManager::gameManager()
 {
   readInRaceData();
   readInWeapons();
   readInRooms();
-  readInAbilities();
+  //readInAbilities();
   currentLevel = 1;
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);
@@ -47,10 +47,37 @@ void gameManager::readInRooms()
 
 }
 
-void gameManager::readInAbilities()
+/*void gameManager::readInAbilities()
 {
+  std::ifstream toRead;
+  toRead.open(DIR_ABILITY);
 
+  std::vector<std::string> tempData;
+  std::string line;
+
+  while (getline(toRead, line, ','))
+  {
+      tempData.push_back(line);
+  }
+  toRead.close();
+
+  for (int i = 0; 1 < 60; i++)
+  {
+    ability::allAbilities->push_back(ability::abilityData());
+    ability::allAbilities->at(i).sReqs.resize(3);
+    ability::allAbilities->at(i).index = std::stoi(tempData.at(0));
+    ability::allAbilities->at(i).name = tempData.at(1);
+    ability::allAbilities->at(i).cooldown = std::stoi(tempData.at(2));
+    ability::allAbilities->at(i).sReqs[0] = std::stoi(tempData.at(3));
+    ability::allAbilities->at(i).sReqs[1] = std::stoi(tempData.at(4));
+    ability::allAbilities->at(i).sReqs[2] = std::stoi(tempData.at(5));
+    ability::allAbilities->at(i).description = tempData.at(6);
+
+    tempData.erase(tempData.begin(), tempData.begin() + 7);
+  }
+  ability::allAbilities->shrink_to_fit();
 }
+*/
 
 void gameManager::readInRaceData()
 {
