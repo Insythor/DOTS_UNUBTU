@@ -142,9 +142,5 @@ private:
   */
   monster* generateMonster(int l, int index, std::string tName);
 
-  // Default sleep time is rand % 50
-  void printText(std::string toPrint);
-  void printText(std::vector<std::string> toPrint, bool increaseSpeed);
-
 };
 #endif // GAMEMANAGER_H

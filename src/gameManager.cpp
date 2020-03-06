@@ -494,6 +494,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
     return temp;
 }
+#include "print.h"
 
 void gameManager::mainMenu()
 {
@@ -569,16 +570,15 @@ void gameManager::mainMenu()
   }
 
   // Bring the logo up on the screen
-  for(int i = 1; i < logo.size(); i ++)
+  for(unsigned int i = 1; i < logo.size(); i ++)
   {
-
     system("clear");
 
-    for(int e = logo.size(); e > i; e--)
+    for(unsigned int e = logo.size(); e > i; e--)
     {
       std::cout << std::endl;
     }
-    for(int row = 0; row < i; row++)
+    for(unsigned int row = 0; row < i; row++)
     {
       std::cout << logo[row] <<std::endl;
     }
@@ -586,19 +586,10 @@ void gameManager::mainMenu()
   }
   std::cout << std::endl << std::endl;
 
+  // Print all the intro text from the introText.txt
+  print::vec(introText);
 
-  char lastChar;
-
-  for(unsigned int l = 0; l < introText.size(); l++)
-  {
-    for(auto c : introText[l])
-    {
-      std::cout.flush() << c;
-      std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
-    }
-    std::cout << std::endl;
-  }
-
+  // Once the intro story is done, scroll the text off the screen
   for(int i = 0; i < 30; i++)
   {
     std::cout << std::endl;
@@ -687,27 +678,29 @@ player* gameManager::characterCreation()
 
   system("clear");
 
-  tempLine = "Anyways adventurer, where do you come from? I can't quite place you: ";
-
-  printText(tempLine);
+  print::str("Anyways adventurer, where do you come from? "
+             "I can't quite place it.\n");
 
   printRaces();
 
+  std::cout << "\nRace Index: ";
+
   std::cin >> tempRaceIndex;
+  std::cout << std::endl;
+
+  print::str("One " + baseCharacter::allRaces->at(tempRaceIndex).race +
+      " coming right up!");
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 
   system("clear");
 
-  tempLine = "One " + baseCharacter::allRaces->at(tempRaceIndex).race +
-      " coming right up!";
-  printText(tempLine);
-
-  tempLine = "*scurrying (and panting) can be heard as the hero approaches*\n";
-  printText(tempLine);
+  print::str("*scurrying (and panting) can be heard as the hero approaches*\n");
 
   std::ifstream toRead;
   std::string line;
-
   std::vector<std::string> stairs;
+
   toRead.open(DIR_STAIRS_SPIRAL);
 
   while (getline(toRead, line))
@@ -716,25 +709,28 @@ player* gameManager::characterCreation()
 
   std::cout << "\n\n\n";
   // Print the stairs txt file, and decrease the speed as the "animation" plays
-  printText(stairs, true);
+  print::vec_faster(stairs, true);
 
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
   system("clear");
 
-  tempLine = "Finally! Your hero has arrived!\nWhat shall we call this one then?";
-  printText(tempLine);
+
+  print::str("Finally! Your hero has arrived!\n"
+             "What shall we call this one then?");
+
   std::cout << "\nName: ";
 
-  std::cin >> tempName;
+  std::getline(std::cin, tempName);
   std::cout << std::endl;
 
-  tempLine = "Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
+  print::str("Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
              " named " + tempName +
-             " \nNo ones ever done that combo before I'm sure... Anyways! " +
-             "\nONWARD TO STAT SELECTION!";
+             " \nNo ones ever done that combo before I'm sure");
 
-  printText(tempLine);
+             print::str_time("...", 200);
+
+             print::str("Anyways!\nONWARD TO STAT SELECTION!");
 
   // Set the temp player to what the user has selected, and genereate their hero
    temp = new player(tempName,
@@ -762,34 +758,4 @@ player* gameManager::characterCreation(int index)
 
     return temp;
 }
-// Prints out characters to the screen one every 0-50 ms
-void gameManager::printText(std::string toPrint)
-{
-    for (auto c : toPrint)
-    {
-        std::cout.flush() << c;
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 50));
-    }
-    std::cout << std::endl;
-}
 
-void gameManager::printText(std::vector<std::string> toPrint, bool increaseSpeed)
-{
-  int lineCounter = 0;
-  int maxSpeed = 50;
-    // For string in the vector
-    for(auto line : toPrint)
-    {
-      if(lineCounter % (toPrint.size() / 5) == 0)
-        maxSpeed *= 0.8;
-
-      for(auto c :line)
-      {
-        std::cout.flush() << c;
-        std::this_thread::sleep_for(std::chrono::milliseconds
-                                                    (rand() % maxSpeed));
-      }
-      std::cout << std::endl;
-      lineCounter++;
-    }
-}

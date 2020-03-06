@@ -1,7 +1,7 @@
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
 
-
+#include "print.h"
 #include "monster.h"
 #include "player.h"
 // Containers
