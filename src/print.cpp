@@ -10,6 +10,8 @@ int print::C_PURPLE [3] = {150, 75, 255};
 int print::C_BROWN [3] = {153, 76, 0};
 int print::C_PINK [3] = {255, 102, 255};
 
+int print::C_DEFAULT [3] = {200, 200, 200};
+
 
 void print::str(std::string toPrint)
 {
@@ -18,34 +20,31 @@ void print::str(std::string toPrint)
     std::cout.flush() << c;
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
   }
-  std::cout << std::endl;
 }
 
 void print::str_time(std::string toPrint, int maxMillis)
 {
     for(auto c : toPrint)
-  {
-    std::cout.flush() << c;
-    std::this_thread::sleep_for(std::chrono::milliseconds(maxMillis));
-  }
-  std::cout << std::endl;
+    {
+      std::cout.flush() << c;
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(maxMillis));
+    }
 }
 
 void print::str_colour(std::string toPrint, int colour[3])
 {
-    std::string bgColour = "printf '\e[38;2;";
-    bgColour.append(std::to_string(colour[0]) + ";");
-    bgColour.append(std::to_string(colour[1]) + ";");
-    bgColour.append(std::to_string(colour[2]) + "m '");
-
-    char sysCommand[bgColour.length()];
-
-    strcpy(sysCommand, bgColour.c_str());
-
-    system(sysCommand);
-
+    textColour(colour);
     str(toPrint);
+    system(DEFAULT_COLOUR);
+}
 
+void print::str_time_colour(std::string toPrint, int maxMillis, int colour[3])
+{
+
+    textColour(colour);
+    if(maxMillis == 0)
+    std::cout << toPrint;
     system(DEFAULT_COLOUR);
 }
 

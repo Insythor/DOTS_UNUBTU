@@ -1,7 +1,6 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-
 #define DEFAULT_MOD 100
 #define DEFAULT_COLOUR "printf '\e[38;2;200;200;200m'"
 
@@ -17,11 +16,23 @@
 #include <random>
 #include <thread>
 
+/**
+  @brief This is a very rough class atm, it's jank to be honest...
+          BUT you can print strings like they're being typed by a "person"
+          Change the colour of the text or the 'typing' speed
+
+          To access a colour for any of the functions, call print::C_'somecolour'
+          i.e. print::str_colour(string toPrint, print::C_WHITE);
+
+*/
 
 class print
 {
   public:
     // I guess?
+    /**
+      @brief access with print::C_
+    */
     static int C_WHITE [3];
     static int C_BLACK [3];
     static int C_RED [3];
@@ -32,6 +43,8 @@ class print
     static int C_BROWN [3];
     static int C_PINK [3];
 
+    static int C_DEFAULT [3];
+
 
     /**
       @brief Print out the string every few milliseconds, so it looks
@@ -41,6 +54,9 @@ class print
 
     static void str_colour(std::string toPrint, int colour[3]);
 
+    static void str_time_colour(std::string toPrint,
+                                int maxMillis, int colour[3]);
+
     /**
       @brief Print out the string one char at a time every x milliseconds
     */
@@ -49,8 +65,6 @@ class print
       @brief Print the std::vector<std::string>> to the screen, one char
              at a time, and wait a small amount of time between each char
     */
-
-
     static void vec(std::vector<std::string> toPrint);
     /**
       @brief Print the std::vector<std::string>> to the screen, one char
@@ -59,6 +73,28 @@ class print
     */
     static void vec_faster(std::vector<std::string> toPrint, bool increase);
 
+  static void textColour(int colour[3])
+  {
+
+    std::string bgColour = "printf '\e[38;2;";
+    bgColour.append(std::to_string(colour[0]) + ";");
+    bgColour.append(std::to_string(colour[1]) + ";");
+    bgColour.append(std::to_string(colour[2]) + "m'");
+
+    char textColour[bgColour.length()];
+
+    strcpy(textColour, bgColour.c_str());
+
+    system(textColour);
+  }
+
+  static void setCursor(bool box)
+  {
+    if(box)
+      system("printf '\e[0 q'");
+      else
+    system("printf '\e[4 q'");
+  }
 
 };
 

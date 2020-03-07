@@ -569,7 +569,7 @@ void gameManager::mainMenu()
     std::string bgColour = "printf '\e[48;2;";
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + ";");
-    bgColour.append(std::to_string(i) + "m '");
+    bgColour.append(std::to_string(i) + "m'");
 
     char sysCommand[bgColour.length()];
 
@@ -580,8 +580,9 @@ void gameManager::mainMenu()
     for(int i = 0; i < 30; i++)
       std::cout<<std::endl;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(160));
+    std::this_thread::sleep_for(std::chrono::microseconds(5000));
   }
+
 
   // Bring the logo up on the screen
   for(unsigned int i = 1; i < logo.size(); i ++)
@@ -594,12 +595,28 @@ void gameManager::mainMenu()
     }
     for(unsigned int row = 0; row < i; row++)
     {
-      std::cout << logo[row] <<std::endl;
+      if (row == 0)
+      {
+        print::textColour(print::C_WHITE);
+      }
+
+      else if(row == logo.size() * 0.3)
+      {
+        print::textColour(print::C_BROWN);
+      }
+
+      else  if(row == logo.size() * 0.7)
+      {
+        print::textColour(print::C_RED);
+      }
+
+      std::cout << logo[row] << "\n";
     }
       std::this_thread::sleep_for(std::chrono::microseconds(160000));
   }
-  std::cout << std::endl << std::endl;
 
+  print::textColour(print::C_DEFAULT);
+  std::cout << std::endl << std::endl;
   // Print all the intro text from the introText.txt
   print::vec(introText);
 
@@ -733,9 +750,13 @@ player* gameManager::characterCreation()
   print::str("Finally! Your hero has arrived!\n"
              "What shall we call this one then?");
 
-  std::cout << "\nName: ";
+  print::setCursor(true);
+  std::cout << std::endl;
 
-  std::getline(std::cin, tempName);
+  std::cout << "Name: ";
+
+  std::cin >> tempName;
+  print::setCursor(false);
   std::cout << std::endl;
 
   print::str("Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
