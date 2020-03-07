@@ -6,12 +6,12 @@
 */
 
 #include "gameManager.h"
+#include "print.h"
 
 #include <iostream>
 
 int main()
 {
-
 
   // Resize the terminal, and clear the terminal of text before game begins
   system("resize -s 30 80");
@@ -19,6 +19,9 @@ int main()
   system("printf '\e[48;2;0;0;0m'");
   system("printf '\e[38;2;200;200;200m'");
   system("clear");
+
+print::str_colour("saf", print::C_GREEN
+                  );
 
   gameManager* myManager = new gameManager;
 
