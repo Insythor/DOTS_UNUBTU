@@ -13,14 +13,6 @@
 int main()
 {
 
-  // Resize the terminal, and clear the terminal of text before game begins
-  system("resize -s 32 80");
-  // Set the background to black
-  system("printf '\e[48;2;0;0;0m'");
-  system("printf '\e[38;2;200;200;200m'");
-  system("clear");
-  print::setCursor(false);
-
 /*
 Where x takes a value from 1 to 6 (from xterm manual):
 

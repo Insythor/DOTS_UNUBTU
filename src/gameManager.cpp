@@ -1,8 +1,9 @@
 #include "gameManager.h"
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
-std::vector<baseCharacter::raceData>* baseCharacter::allRaces = new std::vector<baseCharacter::raceData>;
-//std::vector<ability::abilityData>* ability::allAbilities = new std::vector<ability::abilityData>;
+std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
+                                      new std::vector<baseCharacter::raceData>;
+
 gameManager::gameManager()
 {
   readInRaceData();
@@ -13,6 +14,8 @@ gameManager::gameManager()
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);
 // mainMenu();
+
+  print::initScreen();
 }
 
  gameManager::~gameManager()
@@ -95,6 +98,7 @@ void gameManager::readInRaceData()
   }
   toRead.close();
 
+//  std::cout << ""
   for(unsigned int i = 0; i < 10; i ++)
   {
     // Initialize a new index in the vector
@@ -121,34 +125,43 @@ void gameManager::readInRaceData()
 
 void gameManager::printRaces()
 {
+  std::cout
+      << "| Index |     Race     |  Health  |  Str  |  Dex  |  Int  | Speed |\n"
+      << std::setfill('-') << std::setw(70) << ' '
+      << std::endl << std::setfill(' ');
+
   for(auto i : (*baseCharacter::allRaces))
   {
     // Spacers for formating race data
-    int wName = 13 - i.race.length();
-    int wHP = 4;
-    int wStr = 4;
-    int wDex = 4;
-    int wInt = 4;
-    int wSpd = 8;
-    // Formatting text output based on how many digits the number is
-    if(i.maxHP % 100 == 0)
-      wHP ++;
-    if(i.mStats[0] % 10 == 0 && i.mStats[0] != 0)
-      wStr --;
-    if(i.mStats[1] % 10 == 0 && i.mStats[1] != 0)
-      wDex --;
-    if(i.mStats[2] % 10 == 0 && i.mStats[2] != 0)
-      wInt --;
-    if(i.mStats[3] % 10 == 0 && i.mStats[3] != 0)
-      wSpd --;
+    int wName = 18 - i.race.length();
+    int wHP = 9;
+    int wStr = 8;
+    int wDex = 8;
+    int wInt = 8;
+    int wSpd = 9;
 
-    std::cout <<
-            i.index << "  " << i.race << std::setw(wName) << i.maxHP <<
-            std::setw(wHP) << i.mStats[0] << std::setw(wStr) << i.mStats[1] <<
-            std::setw(wDex) << i.mStats[2] << std::setw(wInt) << i.mStats[3] <<
-            std::setw(wSpd) << i.description
-    << std::endl;
+    // Set the colour after we add it to the output buffer
+    std::cout << std::setw(5) << i.index << std::internal
+              << std::setw(7 +  i.race.length()) << i.race
+              << std::setw(wName) << i.maxHP;
+    print::textColour(print::C_DEFAULT);
+    // Strength
+    std::cout << std::setw(wHP) << i.mStats[0];
+    print::textColour(print::C_RED);
+    // Dexterity
+    std::cout << std::setw(wStr) << i.mStats[1];
+    print::textColour(print::C_GREEN);
+    // intellect
+    std::cout << std::setw(wDex) << i.mStats[2];
+    print::textColour(print::C_BLUE);
+    // Speed
+    std::cout << std::setw(wInt) << i.mStats[3];
+    print::textColour(print::C_BROWN);
+    // endl (render to screen)
+    std::cout << std::endl;
   }
+  // Set the text colour back to default
+  print::textColour(print::C_DEFAULT);
 }
 
 
@@ -189,6 +202,7 @@ void gameManager::startGame()
     chest* myChest = nullptr;
     while (play)
     {
+      std::cout << ">>> ";
         std::getline(std::cin, command);
         input = formatCommand(command);
 
@@ -508,7 +522,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
     return temp;
 }
-#include "print.h"
+
 
 void gameManager::mainMenu()
 {
@@ -546,7 +560,7 @@ void gameManager::mainMenu()
     std::string bgColour = "printf '\e[48;2;";
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + ";");
-    bgColour.append(std::to_string(i) + "m '");
+    bgColour.append(std::to_string(i) + "m';");
 
     char sysCommand[bgColour.length()];
 
@@ -569,7 +583,7 @@ void gameManager::mainMenu()
     std::string bgColour = "printf '\e[48;2;";
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + ";");
-    bgColour.append(std::to_string(i) + "m'");
+    bgColour.append(std::to_string(i) + "m';");
 
     char sysCommand[bgColour.length()];
 
@@ -707,20 +721,23 @@ player* gameManager::characterCreation()
   std::string tempName;
   std::string tempLine;
 
-  system("clear");
+  system("clear;");
 
   print::str("Anyways adventurer, where do you come from? "
-             "I can't quite place it.\n");
+             "I can't quite place it.\n\n");
 
   printRaces();
-
+  // Set the cursor to box
+  print::setCursor(true);
   std::cout << "\nRace Index: ";
 
   std::cin >> tempRaceIndex;
   std::cout << std::endl;
-
+  // set the cursor to underscore
+  print::setCursor(false);
   print::str("One " + baseCharacter::allRaces->at(tempRaceIndex).race +
-      " coming right up!");
+      " coming right up!!!");
+
 
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
@@ -763,9 +780,11 @@ player* gameManager::characterCreation()
              " named " + tempName +
              " \nNo ones ever done that combo before I'm sure");
 
-             print::str_time("...", 200);
+             print::str_time("...", 600);
 
              print::str("Anyways!\nONWARD TO STAT SELECTION!");
+
+             std::cout << std::endl;
 
   // Set the temp player to what the user has selected, and genereate their hero
    temp = new player(tempName,

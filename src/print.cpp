@@ -5,7 +5,7 @@ int print::C_BLACK [3] = {0, 0, 0};
 int print::C_RED [3] = {255, 0, 0};
 int print::C_GREEN [3] = {0, 255, 0};
 int print::C_GREEN_D [3] = {0, 175, 0};
-int print::C_BLUE [3] = {0, 0, 255};
+int print::C_BLUE [3] = {75, 75, 255};
 int print::C_PURPLE [3] = {150, 75, 255};
 int print::C_BROWN [3] = {153, 76, 0};
 int print::C_PINK [3] = {255, 102, 255};
@@ -17,7 +17,7 @@ void print::str(std::string toPrint)
 {
   for(auto c : toPrint)
   {
-    std::cout.flush() << c;
+    std::cout << c; std::cout.flush();
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
   }
 }
@@ -62,8 +62,6 @@ void print::vec(std::vector<std::string> toPrint)
   }
 }
 
-
-
 void print::vec_faster(std::vector<std::string> toPrint, bool increase)
 {
   int mod = DEFAULT_MOD;
@@ -82,4 +80,42 @@ void print::vec_faster(std::vector<std::string> toPrint, bool increase)
       }
       std::cout << std::endl;
   }
+}
+
+void print::initScreen()
+{
+  // Resize the terminal, and clear the terminal of text before game begins
+  system("resize -s 32 80;");
+  // Set the background to black
+  system("printf '\e[48;2;0;0;0m';");
+  // Set the cursor to light grey
+  print::textColour(C_DEFAULT);
+
+  system("clear;");
+  setCursor(false);
+}
+void print::textColour(int colour[3])
+{
+
+  std::string bgColour = "printf '\e[38;2;";
+  bgColour.append(std::to_string(colour[0]) + ";");
+  bgColour.append(std::to_string(colour[1]) + ";");
+  bgColour.append(std::to_string(colour[2]) + "m'");
+
+  char textColour[bgColour.length()];
+
+  strcpy(textColour, bgColour.c_str());
+
+  system(textColour);
+  std::cout.flush();
+}
+
+void print::setCursor(bool box)
+{
+    if(box)
+      system("printf '\e[0 q';");
+    else
+      system("printf '\e[4 q';");
+
+    std::cout.flush();
 }

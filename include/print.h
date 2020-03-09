@@ -73,28 +73,10 @@ class print
     */
     static void vec_faster(std::vector<std::string> toPrint, bool increase);
 
-  static void textColour(int colour[3])
-  {
+  static void textColour(int colour[3]);
 
-    std::string bgColour = "printf '\e[38;2;";
-    bgColour.append(std::to_string(colour[0]) + ";");
-    bgColour.append(std::to_string(colour[1]) + ";");
-    bgColour.append(std::to_string(colour[2]) + "m'");
-
-    char textColour[bgColour.length()];
-
-    strcpy(textColour, bgColour.c_str());
-
-    system(textColour);
-  }
-
-  static void setCursor(bool box)
-  {
-    if(box)
-      system("printf '\e[0 q'");
-      else
-    system("printf '\e[4 q'");
-  }
+  static void setCursor(bool box);
+  static void initScreen();
 
 };
 
