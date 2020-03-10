@@ -127,9 +127,9 @@ std::ostream& operator << (std::ostream& out, player& toRender)
           out << "Active Abilities:\n";
           for(auto i : toRender.getActiveAbilities())
             out
-            << std::setw(4) << index++
-            << std::setw(15 - i->getName().length() / 2)
-            << *i;
+            << std::setw(4) << ++index
+            << std::setw(10 + i->getName().length() / 2)
+            << *i << std::endl;
         }
 
     out << std::endl;
@@ -138,6 +138,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
 
 void player::swapAbilities()
 {
+
   int index = 0;
   int lastActiveIndex = -1;
 
@@ -148,11 +149,12 @@ void player::swapAbilities()
         << "---------------------------------------------------------\n";
     for(auto ab : activeAbilities)
         std::cout
-        << std::setw(3) << index++
+        << std::setw(3) << ++index
         << std::setw(15 + ab->getName().length() / 2)
         << *ab << std::endl;
-    if(index > 0)
+    if(index >= 0)
       lastActiveIndex = index;
+//    std::cout << "last Active: " << lastActiveIndex<< std::endl;
   }
   else
     std::cout << "Currently " + name + " has no active abilities." << std::endl;
@@ -164,54 +166,133 @@ void player::swapAbilities()
 
     for(auto ab : cInventory->getAbilities())
       std::cout
-      << std::setw(3) << index++
+      << std::setw(3) << ++index
       <<std::setw(15 + ab->getName().length() / 2)
       << *ab << std::endl;
   }
   else
     std::cout << "Currently " + name + " has no stored abilities." << std::endl;
 
-    std::vector<int> input(2);
-    std::cout << "Which two abilities would you like to swap? [int] [int]"
-    << std::endl;
+    std::cout
+      << "Which two abilities would you like to swap? [int] [int]\n"
+      << "Or would you like to 'add' or 'remove' an active ability?"
+      << " [string][int]\n"
+      << std::endl;
 
-    std::cin >> input[0] >> input[1];
+    std::string rawInput;
+    std::string parsed;
 
-    ability* tempAb = nullptr;
+    getline(std::cin, rawInput);
+
+    std::stringstream ss(rawInput);
+    std::vector<int> input;
+
+    while(getline(ss, parsed, ' '))
+    {
+      if(isdigit(parsed[0]))
+        input.push_back(std::stoi(parsed));
+      else if(parsed[0] == 'a')
+        input.push_back(100);
+      else if(parsed[0] == 'r')
+        input.push_back(101);
+    }
+    // Decrement the user input so that it starts counting at 0
+    for(unsigned int i = 0; i < input.size(); i++)
+    {
+      input[i]--;
+      std::cout << "input " << i << ": " << input[i] << std::endl;
+
+    }
     // So we get the proper index starting from 0
     index--;
-    // If the first ability is an active ability
-    if(input[0] <= lastActiveIndex)
-    {
-      // Store ability 1 to swap
-      tempAb = activeAbilities[input[0]];
-      // If the second ability is an active ability
-      if(input[1] <= lastActiveIndex)
-      {
-        activeAbilities[input[0]] = activeAbilities[input[1]];
-        activeAbilities[input[1]] = tempAb;
-      }
-      // If the second ability is a stored ability
-      else if(input[1] <= index)
-      {
-        // input[1] - lastActiveIndex so that it matches with the inventory
-        activeAbilities[input[0]] =
-              cInventory->removeAbility(input[1] - lastActiveIndex);
-        // Add the swapped ability back into the inventory
-        cInventory->addAbility(tempAb);
-      }
-    }
-    // If the first ability is a stored ability
-    else
-    {
-      // Get the ability from the inventory
-      tempAb = cInventory->removeAbility(input[0]);
 
-      if(input[1] <= index)
-      {
+    // Temp pointer for passing
+    ability* tempAb = nullptr;
 
+    switch(input[0])
+    {
+      // add an active ability
+      case 99:
+        std::cout << "add to active" << std::endl;
+          if(activeAbilities.size() >= 2)
+          {
+            cInventory->addAbility(activeAbilities.back());
+            activeAbilities.pop_back();
+            activeAbilities.push_back(cInventory->removeAbility
+                                      (input[1] - lastActiveIndex));
+          }
+          else if(!activeAbilities.empty())
+            activeAbilities.push_back(cInventory->removeAbility
+                                      (input[1] - lastActiveIndex));
+           else
+            activeAbilities.push_back(cInventory->removeAbility
+                                      (input[1]));
+        break;
+
+      case 100:
+        std::cout << "From active to inventory" << std::endl;
+          if(input[1] <= lastActiveIndex && input[1] >= 0)
+          {
+            cInventory->addAbility(activeAbilities[input[1]]);
+            activeAbilities.erase(activeAbilities.begin() + input[1]);
+          }
+          else
+            std::cout << "Invalid Active Ability Index" << std::endl;
+        break;
+
+      default:
+      // If the first ability is an active ability
+      if(input[0] < lastActiveIndex)
+      {
+//        std::cout << "input 0: " << input[0] << std::endl;
+        // Store ability 1 to swap
+        tempAb = activeAbilities[input[0]];
+        // If the second ability is an active ability
+        if(input[1] < lastActiveIndex)
+        {
+      //    std::cout << "swap two active abilities" << std::endl;
+          activeAbilities[input[0]] = activeAbilities[input[1]];
+          activeAbilities[input[1]] = tempAb;
+        }
+        // If the second ability is a stored ability
+        else if(input[1] <= index)
+        {
+    //  std::cout << "input 1: " << (input[1] - lastActiveIndex) << std::endl;
+          // input[1] - lastActiveIndex so that it matches with the inventory
+          activeAbilities[input[0]] =
+                cInventory->removeAbility(input[1] - lastActiveIndex);
+          // Add the swapped ability back into the inventory
+          cInventory->addAbility(tempAb);
+        }
       }
+      // If the first ability is a stored ability
+      else
+      {
+        std::cout << "swap from inventory" << std::endl;
+        // Get the ability from the inventory
+        tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
+
+        std::cout
+         << "Input[0]: " << input[0] - lastActiveIndex
+         << "  :  Input[1]: " << input[1]
+         << std::endl;
+
+        if(input[1] <= lastActiveIndex)
+        {
+
+          cInventory->addAbility(activeAbilities[input[1]]);
+          activeAbilities[input[1]] = tempAb;
+        }
+        else if(input[1] <= index)
+        {
+          std::cout
+           << "cannot swap abilities in inventory currently" << std::endl;
+        }
+      }
+      break;
     }
+
+//    std::cin.ignore();
 }
 
 void player::addExperience(int toAdd)

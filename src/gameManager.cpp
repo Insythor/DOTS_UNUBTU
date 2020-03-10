@@ -221,10 +221,13 @@ void gameManager::startGame()
 
     while (play)
     {
-      print::setCursor(true);
-      std::cout << ">>> ";
+        print::setCursor(true);
+
+        std::cout << ">>> ";
         std::getline(std::cin, command);
+
         input = formatCommand(command);
+
         print::setCursor(false);
 
         switch (input[0])
@@ -483,6 +486,7 @@ bool gameManager::checkRoomIndex(int t, int i)
 
 std::vector<int> gameManager::formatCommand(std::string command)
 {
+
     std::vector<int> temp;
 
     std::vector<std::string> tempCommand;
@@ -602,6 +606,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
         }
     }
 
+    if(temp.empty())
+      temp.push_back(-1);
     temp.shrink_to_fit();
 
     return temp;
@@ -855,7 +861,7 @@ monster* gameManager::generateMonster(int l, int index)
         l);
 
     temp->spawnWeapon(currentLevel);
-
+    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
     return temp;
 }
 
@@ -868,7 +874,7 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
         l );
 
     temp->spawnWeapon(currentLevel);
-
+    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
     return temp;
 }
 

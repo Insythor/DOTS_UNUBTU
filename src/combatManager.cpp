@@ -51,6 +51,10 @@ bool combatManager::startFight()
 
         if (playersTurn)
         {
+          //Reduce the CD on all the players abilities
+          for(auto ab : fightOrder[1]->getActiveAbilities())
+              ab->reduceCooldown();
+
             if (turnCount > 0)
             {
               // Print out the players basic hero stats each turn
@@ -66,6 +70,9 @@ bool combatManager::startFight()
         }
         else
         {
+          // Reduce the CD on the monsters abilities
+          for(auto ab : fightOrder[0]->getActiveAbilities())
+            ab->reduceCooldown();
             // Currently if it's the monsters turn, just auto attack
             input.push_back(1);
         }
