@@ -2,9 +2,11 @@
 #define GAMEMANAGER_H
 
 /// UPDATE
+#define DIR_COMMANDS "../docs/DATA/commands.csv"
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
+#define DIR_MM_BUTTONS "../docs/DATA/mainMenuButtons.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
 #define DIR_STAIRS_SPIRAL "../docs/DATA/stairs_spiral.txt"
 // User defined
@@ -14,6 +16,7 @@
 #include "combatManager.h"
 #include "roomManager.h"
 #include "item.h"
+#include "print.h"
 // Containers
 #include <vector>
 #include <string>

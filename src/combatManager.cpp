@@ -53,14 +53,14 @@ bool combatManager::startFight()
         {
             if (turnCount > 0)
             {
-                // Print out the players basic hero stats each turn
-                // (should probably change)
-                std::cout
-                    << "\nWhat will " << fightOrder[1]->getName()
-                    << " do next: ";
+              // Print out the players basic hero stats each turn
+              // (should probably change)
+              std::cout
+                << "\nWhat will " << fightOrder[1]->getName()
+                << " do next: ";
             }
-                // Get all input from the user as a single string until the
-                // user hits enter
+           // Get all input from the user as a single string until the
+           // user hits enter
            std::getline(std::cin, command);
            input = formatCommand(command);
         }
