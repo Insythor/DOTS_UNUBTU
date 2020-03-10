@@ -52,7 +52,6 @@ private:
   void createMonsterRoom();
   void createShopRoom();
   void createPuzzleRoom();
-  bool is_number(const std::string& s);
   std::vector<int> formatCommand(std::string command);
   monster* generateMonster();
 };

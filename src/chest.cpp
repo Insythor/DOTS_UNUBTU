@@ -13,15 +13,15 @@ chest::chest(int level)
   std::vector<consumable*> tempCon;
   if(goldRange <= 5)
   {
-    gold = rand() % 50 + 30;
+    gold = rand() % 21 + 30;
   }
   else if(goldRange > 5 && goldRange <= 80)
   {
-    gold = rand() % 11;
+    gold = rand() % 11 + 1;
   }
   else
   {
-    gold = rand() % 30 + 10;
+    gold = rand() % 21 + 10;
   }
   if(spawnLevel < 1)
     spawnLevel = 1;
@@ -33,7 +33,7 @@ chest::chest(int level)
   }
   if(consumableToSpawn < 6)
   {
-    typeOfConsumable = rand() % 8 + 5;
+    typeOfConsumable = rand() % 4 + 5;
   }
   else
   {

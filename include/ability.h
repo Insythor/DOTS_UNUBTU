@@ -1,7 +1,7 @@
 #ifndef ABILITY_H
 #define ABILITY_H
 
-#define DIR_ABILITY "../docs/DATA/abilitiesData.csv"
+
 
 #include "dice.h"
 #include <string>
@@ -13,21 +13,20 @@
 class ability
 {
   public:
- /*    struct abilityData
-    {
-        int index;
-        std::string name;
-        int cooldown;
-        std::vector<int> sReqs;
-        std::string description;
-    };
-  */
     ability();
     ability(int level);
     ability(int level, int sType);
-    ability(int tid, int dRolls, int dSize);
-    ~ability();
-
+    virtual ~ability();
+    struct abilityData
+    {
+        int index;
+        std::string name;
+        std::vector<int> aStats;
+        int cooldown;
+        int dSize;
+        int dRoll;
+        std::string description;
+    };
     std::string getName();
     std::string getDescription();
     int getDiceRolls();
@@ -41,13 +40,11 @@ class ability
     friend std::ostream& operator << (std::ostream& out, ability& toRender);
     void reduceCoolddown();
     int dealDamage(std::vector<int> playerStats);
-
-    //static std::vector<abilityData>* allAbilities;
+    static std::vector<std::vector<abilityData>>* allAbilities;
 
  private:
     int index;
     int level;
-    int statType;
    std::string name;
    std::string description;
    int cooldown;
@@ -58,9 +55,8 @@ class ability
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirements;
    std::vector<dice>* abilityDice;
-
-   void readInAbilityData();
-    int determineIndex(int lev, int sType);
+   void generateAbility();
+   int determineIndex(int lev, int sType);
 };
 
 #endif // ABILITY_H

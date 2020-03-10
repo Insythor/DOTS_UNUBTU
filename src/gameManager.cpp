@@ -3,13 +3,13 @@ std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
                                       new std::vector<baseCharacter::raceData>;
-
+std::vector<std::vector<ability::abilityData>>* ability::allAbilities = new std::vector<std::vector<ability::abilityData>>;
 gameManager::gameManager()
 {
   readInRaceData();
   readInWeapons();
   readInRooms();
-  //readInAbilities();
+  readInAbilities();
   currentLevel = 1;
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);
@@ -23,6 +23,7 @@ gameManager::gameManager()
   delete weapon::allNames;
   delete roomManager::allNames;
   delete baseCharacter::allRaces;
+  delete ability::allAbilities;
   delete playerPtr;
   delete monsterPtr;
 }
@@ -50,7 +51,7 @@ void gameManager::readInRooms()
 
 }
 
-/*void gameManager::readInAbilities()
+void gameManager::readInAbilities()
 {
   std::ifstream toRead;
   toRead.open(DIR_ABILITY);
@@ -63,24 +64,26 @@ void gameManager::readInRooms()
       tempData.push_back(line);
   }
   toRead.close();
-
+//  ability::allAbilities->push_back(std::vector<ability::abilityData>)
   for (int i = 0; 1 < 60; i++)
   {
-    ability::allAbilities->push_back(ability::abilityData());
-    ability::allAbilities->at(i).sReqs.resize(3);
-    ability::allAbilities->at(i).index = std::stoi(tempData.at(0));
-    ability::allAbilities->at(i).name = tempData.at(1);
-    ability::allAbilities->at(i).cooldown = std::stoi(tempData.at(2));
-    ability::allAbilities->at(i).sReqs[0] = std::stoi(tempData.at(3));
-    ability::allAbilities->at(i).sReqs[1] = std::stoi(tempData.at(4));
-    ability::allAbilities->at(i).sReqs[2] = std::stoi(tempData.at(5));
-    ability::allAbilities->at(i).description = tempData.at(6);
 
-    tempData.erase(tempData.begin(), tempData.begin() + 7);
+//    ability::allAbilities->push_back(ability::abilityData());
+//    ability::allAbilities->at(i).aStats.resize(3);
+//    ability::allAbilities->at(i).index = std::stoi(tempData.at(0));
+//    ability::allAbilities->at(i).name = tempData.at(1);
+//    ability::allAbilities->at(i).cooldown = std::stoi(tempData.at(2));
+//    ability::allAbilities->at(i).aStats[0] = std::stoi(tempData.at(3));
+//    ability::allAbilities->at(i).aStats[1] = std::stoi(tempData.at(4));
+//    ability::allAbilities->at(i).aStats[2] = std::stoi(tempData.at(5));
+//    ability::allAbilities->at(i).dSize = std::stoi(tempData.at(6));
+//    ability::allAbilities->at(i).dRoll = std::stoi(tempData.at(7));
+//    ability::allAbilities->at(i).description = tempData.at(8);
+//    tempData.erase(tempData.begin(), tempData.begin() + 7);
   }
   ability::allAbilities->shrink_to_fit();
 }
-*/
+
 
 void gameManager::readInRaceData()
 {
@@ -179,9 +182,9 @@ void gameManager::printAbilities()
 {
     for (int i = 0; i <= 60; i++)
     {
-        ability* toPrint = new ability(i, 10, 10);
-        std::cout << *toPrint;
-        delete toPrint;
+        //ability* toPrint = new ability(i, 10, 10);
+        //std::cout << *toPrint;
+        // toPrint;
     }
 }
 
@@ -514,7 +517,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
     {
         for (auto i : tempCommand)
         {
-          if(is_number(i))
+          if(print::is_number(i))
             temp.push_back(std::stoi(i));
         }
     }
@@ -887,9 +890,5 @@ player* gameManager::characterCreation(int index)
     return temp;
 }
 
-bool gameManager::is_number(const std::string& s)
-{
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
-}
+
 

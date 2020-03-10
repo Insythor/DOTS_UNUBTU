@@ -4,6 +4,7 @@
 /// UPDATE
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
+#define DIR_ABILITY "../docs/DATA/abilitiesData.csv"
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
 #define DIR_MM_BUTTONS "../docs/DATA/mainMenuButtons.txt"
 #define DIR_INTRO "../docs/DATA/introStory.txt"
@@ -117,6 +118,10 @@ private:
   */
   void readInRooms();
   /**
+    @brief Read in all of the ability names from docs/DATA/abilitiesNames
+  */
+  void readInAbilities();
+  /**
     @brief Debugging: Print the remaining dictionary of weapon prefixes
   */
   void printWeapons();
@@ -149,7 +154,6 @@ private:
   monster* generateMonster(int l, int index, std::string tName);
 
   // Default sleep time is rand % 50
-  bool is_number(const std::string& s);
 
 };
 #endif // GAMEMANAGER_H

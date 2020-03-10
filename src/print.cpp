@@ -125,3 +125,9 @@ void print::setCursor(bool box)
 
     std::cout.flush();
 }
+
+bool print::is_number(const std::string& s)
+{
+    return !s.empty() && std::find_if(s.begin(),
+        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
+}
