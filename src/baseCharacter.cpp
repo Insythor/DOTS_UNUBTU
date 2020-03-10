@@ -194,3 +194,9 @@ void baseCharacter::takeDamage(int damage)
   {
     return gold;
   }
+/**     setters     */
+void baseCharacter::setWeapon(weapon* toSet)
+{
+  equippedWeapon = toSet;
+  updateDamagePower();
+}

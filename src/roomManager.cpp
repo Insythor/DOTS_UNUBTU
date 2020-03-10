@@ -149,6 +149,7 @@ void roomManager::createChestRoom()
   }
   description += "What would you like to do: ";
   std::cout << description;
+//  print::textColour(print::)
 }
 //0 = player 1 = chest for type and index is for chest
 void roomManager::inventoryManagement(int type, int index)
@@ -249,7 +250,6 @@ std::vector<int> roomManager::formatCommand(std::string command)
     temp.shrink_to_fit();
     return temp;
 }
-
 
 std::string roomManager::getDescription()
 {

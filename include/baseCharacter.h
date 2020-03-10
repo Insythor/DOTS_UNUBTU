@@ -34,27 +34,27 @@ public:
     };
   /**
     @brief  return the name of the character
-    @param[out] [std::string] name
+    @param[out] std::string name
   */
   std::string getName();
   /**
     @brief return the race of the character
-    @param[out] [std::string] race
+    @param[out] std::string race
   */
   std::string getRace();
   /**
     @brief  return the remaining health that the character has
-    @param[out] [int] currentHP
+    @param[out] int currentHP
   */
   int getCurrentHealth();
   /**
     @brief  return the maximum health points that the character has
-    @param[out] [int] maxHP
+    @param[out] int maxHP
   */
   int getMaxHealth();
   /**
     @brief Return the current level of the character
-    @param[out] [int] Characters level
+    @param[out] int Characters level
   */
   int getLevel();
 
@@ -65,22 +65,28 @@ public:
   std::vector<int> getStatBonuses();
   /**
     @brief Damage power = stat bonus[equippedWeapon->getStats()[1]]
-    @param[out] [int] Damage Power
+    @param[out] int Damage Power
   */
   int getDamagePower();
   /**
     @brief Return the players current amount of gold.
-    @param[out] [int] Current Gold
+    @param[out] int Current Gold
   */
   int getGold();
   /**
     @brief Return the pointer to the players equipped weapon.
-    @param[out] [weapon*] Equipped weapon.
+    @param[out] weapon* Equipped weapon.
   */
   weapon* getWeapon();
   /**
+    @brief When the player is first made, equip the player with a weapon
+           of their highest stat
+     @param[in] weapon* new equipped weapon
+  */
+  void setWeapon(weapon* toSet);
+  /**
       @brief Return the players current stats.
-      @param[out] [std::vector<int>] [0] Str : [1] Dex : [2] Int : [3] Spd
+      @param[out] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */
   std::vector<int> getStats();
   /**
@@ -95,22 +101,22 @@ public:
   std::vector<ability*> getActiveAbilities();
   /**
     @brief Increase the current gold of the character by the given amount.
-    @param[in] [int] Gold to add
+    @param[in] int Gold to add
   */
   void setGold(int g);
   /**
     @brief Check if the character is still alive.
-    @param[out] [bool] Is the character dead
+    @param[out] bool Is the character dead
   */
   bool isDead();
   /**
     @brief Subtract the damage from the current health.
-    @param[in] Damage taken
+    @param[in] int Damage taken
   */
   void takeDamage(int damage);
   /**
     @brief Attack with the equipped weapon.
-    @param[out] [int] Weapon damage + Damage Power
+    @param[out] int Weapon damage + Damage Power
   */
   // Currently can deal negative damage which actually heals the hero
   int dealDamage();

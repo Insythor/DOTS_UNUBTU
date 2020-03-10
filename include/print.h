@@ -13,6 +13,7 @@
 // I/O
 #include <iostream>
 #include <ostream>
+#include <sstream>
 // For sleep
 #include <chrono>
 #include <random>
@@ -23,7 +24,7 @@
           BUT you can print strings like they're being typed by a "person"
           Change the colour of the text or the 'typing' speed
 
-          To access a colour for any of the functions, call print::C_'somecolour'
+          To access a colour for any of the functions, call print::C_'colour'
           i.e. print::str_colour(string toPrint, print::C_WHITE);
 
 */
@@ -44,7 +45,6 @@ class print
     static int C_PURPLE [3];
     static int C_BROWN [3];
     static int C_PINK [3];
-
     static int C_DEFAULT [3];
 
 
@@ -53,9 +53,18 @@ class print
              like the text is being typed to the screen
     */
     static void str(std::string toPrint);
-
+    /**
+      @brief Call print::str, and add a colour to the text
+      @param[in] std::string toPrint
+      @param[in] int[3] print::C-'colour'
+    */
     static void str_colour(std::string toPrint, int colour[3]);
-
+    /**
+      @brief Call print::str_time, and add a colour to the text
+      @param[in] std::string toPrint
+      @param[in] int maxMillis
+      @param[in] int[3] print::C-'colour'
+    */
     static void str_time_colour(std::string toPrint,
                                 int maxMillis, int colour[3]);
     /**
@@ -73,14 +82,38 @@ class print
              and increase the speed as it's printed.
     */
     static void vec_faster(std::vector<std::string> toPrint, bool increase);
-
-    static bool is_number(const std::string& s);
+    /**
+      @brief Print the std::vector<std::string>> to the screen, one char
+             at a time, and wait a small amount of time between each char,
+             and increase the speed as it's printed.
+    */
     static void vec_time(std::vector<std::string> toPrint, int maxMillis);
+    /**
+      @brief  Set the text colour
+      @param[in] int[3] print::C_'colour'
+    */
     static void textColour(int colour[3]);
+    /**
+      @brief  Sets the cursor to a box (true) or an underscore
+      @param[in] bool Box?
+    */
     static void setCursor(bool box);
+    /**
+      @brief  Screen dimensions: 31h x 80h
+              Background colour: Black
+              Text Colour: Light Grey
+              Cursor : Underscore
+    */
     static void initScreen();
-
-
+    /**
+      @brief
+      @param[in]
+    */
+    static bool is_number(const std::string& s);
+    /**
+      @brief Fade the screen to red, hold for 3 seconds, then fade back to black
+    */
+    static void deathScreen();
 };
 
 

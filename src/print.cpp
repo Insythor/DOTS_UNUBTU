@@ -131,3 +131,47 @@ bool print::is_number(const std::string& s)
     return !s.empty() && std::find_if(s.begin(),
         s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
+
+void print::deathScreen()
+{
+  for(int i = 0; i < 255; i += 2)
+  {
+    std::string bgColour = "printf '\e[48;2;";
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(0) + ";");
+    bgColour.append(std::to_string(0) + "m';");
+
+    char sysCommand[bgColour.length()];
+
+    strcpy(sysCommand, bgColour.c_str());
+
+    system(sysCommand);
+
+    for(int f = 0; f < 31; f++)
+      std::cout << "\n";
+
+    std::this_thread::sleep_for(std::chrono::microseconds(2000));
+  }
+
+  std::this_thread::sleep_for(std::chrono::seconds(3));
+
+  for(int i = 255; i > 0 ; i -= 2)
+  {
+    std::string bgColour = "printf '\e[48;2;";
+    bgColour.append(std::to_string(i) + ";");
+    bgColour.append(std::to_string(0) + ";");
+    bgColour.append(std::to_string(0) + "m';");
+
+    char sysCommand[bgColour.length()];
+
+    strcpy(sysCommand, bgColour.c_str());
+
+    system(sysCommand);
+
+    for(int f = 0; f < 31; f++)
+      std::cout << "\n";
+
+    std::this_thread::sleep_for(std::chrono::microseconds(2000));
+  }
+
+}

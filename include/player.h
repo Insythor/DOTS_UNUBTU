@@ -2,21 +2,28 @@
 #define PLAYER_H
 
 #define DIR_PLAYERSAVE "../../docs/DATA/save"
-#define PLAYERSAVE_EXT ".csv"
 
 #include "baseCharacter.h"
 #include "print.h"
+
 #include <algorithm>
+
+
 class player : public baseCharacter
 {
   public:
 
-    // Default constructor
+    /**
+      @brief Default constructor. Not used in this program
+    */
     player();
     /**
-        @brief  Overloaded constructor (typically used) to create a new hero
+        @brief  Overloaded constructor, used to create a new hero
+        @param[in] std::string Name
+        @param[in] std::string Race
+        @param[in] int Maximum amount of Health points
+        @param[in] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */
-
     player(std::string tName, std::string tRace, int tMaxHP,
                   std::vector<int> tStat);
 
@@ -32,34 +39,35 @@ class player : public baseCharacter
     */
     void swapAbilities();
     /**
-      @brief Adds the given amount of experience to the players current experience,
-             then checks if the player has enough experience to level up, and call levelup()
-      @param [in] int how much experience is to be added
+      @brief Adds the given amount of experience to the current experience,
+             then checks if the player has enough experience to level up,
+             and call levelup()
+      @param[in] int how much experience is to be added
     */
     void addExperience(int toAdd);
     /**
-        @brief  Set currentExperience to current - maxExperience, allow the user
-                to select which stats they would like to add, and check if the
-                added stats will give the player an increase to their stat bonuses
-                , finally, increase the players HP.
-        @param Level 1: 100
-        @param Level 2: 175
-        @param Level 3: 250
-        @param Level 4: 325
-        @param Level 5: 401
-        @param Level 6: 477
+      @brief  Set currentExperience to current - maxExperience, allow the user
+              to select which stats they would like to add, and check if the
+              added stats will give the player an increase to their stat bonuses
+              , finally, increase the players HP.
+      @param Level 1: 100
+      @param Level 2: 175
+      @param Level 3: 250
+      @param Level 4: 325
+      @param Level 5: 401
+      @param Level 6: 477
     */
     void levelUp();
     /**
-      @brief Add to the players main stats perminantly
-      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int
+      @brief Add to the players main stats
+      @param[in] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */
     void addToStats(std::vector<int> toAdd);
     /**
       @brief If "apply" == true add the status effect to the players current stats
              If "apply" == false subtract the status effect from the players stats
-      @param [in] bool apply
-      @param [in] std::vector<int> [0] Strength [1] Dexterity [2] Int [3] Speed
+      @param[in] bool apply
+      @param[in] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */
     void applyStatusEffect(std::vector<int> toApply, bool apply);
     /**
@@ -70,7 +78,7 @@ class player : public baseCharacter
     /**
         @brief return the players currentExperience and the experience they need
         to level up
-        @param[out] std::vector<int> [0] = currentExperience [1] = maxExperience
+        @param[out] std::vector<int> [0] currentExperience : [1]  maxExperience
     */
     std::vector<int> getExperience();
 
