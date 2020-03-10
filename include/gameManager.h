@@ -2,7 +2,6 @@
 #define GAMEMANAGER_H
 
 /// UPDATE
-#define DIR_COMMANDS "../docs/DATA/commands.csv"
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"
