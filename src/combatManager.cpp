@@ -328,10 +328,8 @@ std::vector<int> combatManager::formatCommand(std::string command)
     // Push back all the type numbers that the user entered in their command
     if (!tempCommand.empty())
         for (auto i : tempCommand)
-            // Exception Needed: for if the player enters in a sequence of words
-            // This is currently assuming that only 1 word will be entered
-            // followed by numbers
-            temp.push_back(std::stoi(i));
+            if(isdigit(temp[0]))
+              temp.push_back(std::stoi(i));
 
     return temp;
 }
