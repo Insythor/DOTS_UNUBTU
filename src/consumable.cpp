@@ -32,8 +32,13 @@ std::ostream& operator << (std::ostream& out, consumable& toRender)
     type = "book";
   else
     type = "potion";
-  out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
-  << toRender.formatOutput(1, type) << "|" << toRender.formatOutput(2, std::to_string(toRender.getSellValue())) << "|";
+
+  out
+   << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
+   << toRender.formatOutput(1, type) << "|"
+   << toRender.formatOutput(2, std::to_string(toRender.getSellValue())) << "|"
+   << std::endl;
+
   return out;
 }
 

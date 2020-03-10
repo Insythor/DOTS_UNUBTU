@@ -1,24 +1,42 @@
 #ifndef ABILITY_H
 #define ABILITY_H
-
-
-
+// User Defined
 #include "dice.h"
+// Containers
 #include <string>
 #include <vector>
+// I/O
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <iomanip>
+// Time
 #include <random>
+
+
 class ability
 {
+  friend std::ostream& operator << (std::ostream& out, ability& toRender);
   public:
+    /**
+      @brief
+    */
     ability();
+    /**
+      @brief
+    */
     ability(int level);
+    /**
+      @brief
+    */
     ability(int level, int sType);
+    /**
+      @brief
+    */
     virtual ~ability();
     struct abilityData
     {
+        int index[3];
         std::string name;
         std::vector<int> aStats;
         int cooldown;
@@ -26,19 +44,49 @@ class ability
         int dRoll;
         std::string description;
     };
+    /**
+      @brief
+    */
     std::string getName();
+    /**
+      @brief
+    */
     std::string getDescription();
+    /**
+      @brief
+    */
     int getDiceRolls();
+    /**
+      @brief
+    */
     int getDiceSize();
+    /**
+      @brief
+    */
     int getCurrentCooldown();
+    /**
+      @brief
+    */
     int getCooldown();
+    /**
+      @brief
+    */
     std::vector<int> getStatRequirements();
-
-
+    /**
+      @brief
+    */
     std::string viewAbilityCombat();
-    friend std::ostream& operator << (std::ostream& out, ability& toRender);
+    /**
+      @brief
+    */
     void reduceCoolddown();
+    /**
+      @brief
+    */
     int dealDamage(std::vector<int> playerStats);
+    /**
+      @brief
+    */
     static std::vector<std::vector<std::vector<abilityData>>>* allAbilities;
 
  private:

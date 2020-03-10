@@ -90,19 +90,24 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     else
         intBonus = " - ";
 
-    // Print out the: Name, Race, Level, currentHP, maxHP, gold, weapon of the current player
     out << "\n" <<
-        toRender.getName() << std::setw(nameSpacer) << toRender.getRace() << std::setw(raceSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth() << std::setw(9)
+        toRender.getName() << std::setw(nameSpacer) << toRender.getRace()
+        << std::setw(raceSpacer)
+        << "HP: " << std::setw(hpSpacer)
+        << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
+        << std::setw(9)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
-        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer) << " / "
-               << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
+        << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer)
+        << " / " << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
         << std::setw(goldSpacer) << "Gold: " << toRender.getGold() << "\n"
+        /** Weapon */
         << toRender.getWeapon()->getName() << std::setw(3)
-        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << toRender.getWeapon()->getDiceRolls() << "d"
+        << toRender.getWeapon()->getDiceSize()
         << dmgBonusSign << dmgBonus
+
         << "\n" << std::setfill('.')
-        // Print out the players stats
+        /** Stats */
         << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
         << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
@@ -113,10 +118,9 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
 
+
+
         << std::endl;
-
-
-
     return out;
 }
 
@@ -219,22 +223,22 @@ void player::levelUp()
             switch (statIn)
             {
             case 0:
-                std::cout <<
-                    statAmountIn << " point(s) added to Strength. "
+                std::cout
+                    << statAmountIn << " point(s) added to Strength. "
                     << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 1:
-                std::cout <<
-                    statAmountIn << " point(s) added to Dexterity. "
+                std::cout
+                    << statAmountIn << " point(s) added to Dexterity. "
                     << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 2:
-                std::cout <<
-                    statAmountIn << " point(s) added to Intellect. "
+                std::cout
+                    << statAmountIn << " point(s) added to Intellect. "
                     << availablePoints << " points remaining."
                     << std::endl;
                 break;

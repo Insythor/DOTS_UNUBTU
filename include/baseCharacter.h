@@ -57,7 +57,6 @@ public:
     @param[out] int Characters level
   */
   int getLevel();
-
   /**
     @brief
     @param[out]

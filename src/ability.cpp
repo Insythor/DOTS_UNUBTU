@@ -11,19 +11,28 @@ ability::ability(int lev)
   int rStat = rand() % ability::allAbilities->at(lev - 1).size();
   int rAbility = rand() % ability::allAbilities->at(lev - 1)[rStat].size();
   ability::abilityData ad = ability::allAbilities->at(lev - 1)[rStat][rAbility];
+
   name = ad.name;
+
   cooldown = ad.cooldown;
   currentCooldown = 0;
+
   diceRolls = ad.dRoll;
   diceSize = ad.dSize;
+
   description = ad.description;
+
   statRequirements.push_back(ad.aStats[0]);
   statRequirements.push_back(ad.aStats[1]);
   statRequirements.push_back(ad.aStats[2]);
+
   abilityDice = new std::vector<dice>;
+
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-  ability::allAbilities->at(lev - 1)[rStat].erase(ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
+
+  ability::allAbilities->at(lev - 1)[rStat].erase
+                (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
 }
 
 ability::ability(int lev, int sType)
@@ -43,7 +52,8 @@ ability::ability(int lev, int sType)
   abilityDice = new std::vector<dice>;
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-  ability::allAbilities->at(lev - 1)[sType].erase(ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
+  ability::allAbilities->at(lev - 1)[sType].erase
+        (ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
 }
 
 ability::~ability()
@@ -53,12 +63,37 @@ ability::~ability()
 
 std::ostream& operator << (std::ostream& out, ability& toRender)
 {
- out <<
- std::endl;
+  std::string tempReqStat;
+
+  switch(toRender.getStatRequirements()[0])
+  {
+  case 0:
+    tempReqStat = "Str";
+    break;
+    case 1:
+    tempReqStat = "Dex";
+    break;
+    case 2:
+    tempReqStat = "Int";
+    break;
+    case 3:
+    tempReqStat = "Speed";
+    break;
+  }
+
+
+
+ out
+    << toRender.getName() << std::setw(5)
+//    << toRender.get
+
+
+ << std::endl;
+
  return out;
 }
 
-
+/**     GETTERS       */
 std::string ability::getName()
 {
   return name;

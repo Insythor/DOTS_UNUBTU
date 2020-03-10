@@ -1,17 +1,24 @@
 #include "gameManager.h"
+/**   Initiate all static pointers*/
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
                                       new std::vector<baseCharacter::raceData>;
-std::vector<std::vector<std::vector<ability::abilityData>>>* ability::allAbilities = new std::vector<std::vector<std::vector<ability::abilityData>>>;
+std::vector<std::vector<std::vector<ability::abilityData>>>*
+    ability::allAbilities = new
+        std::vector<std::vector<std::vector<ability::abilityData>>>;
 gameManager::gameManager()
 {
+
   readInRaceData();
   readInWeapons();
   readInRooms();
+  readInAbilities();
   currentLevel = 1;
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);
+
+
 // mainMenu();
 
   print::initScreen();
@@ -52,6 +59,7 @@ void gameManager::readInRooms()
 
 void gameManager::readInAbilities()
 {
+
   std::ifstream toRead;
   toRead.open(DIR_ABILITY);
   std::vector<std::string> tempData;
@@ -72,6 +80,11 @@ void gameManager::readInAbilities()
     int lvlreq = std::stoi(tempData[5]) - 1;
     int stat = std::stoi(tempData[3]);
     ability::allAbilities->at(lvlreq)[stat].push_back(ability::abilityData());
+    // Store the index of the ability so we can recreate it later
+    ability::allAbilities->at(lvlreq)[stat].back().index[0] = i;
+    ability::allAbilities->at(lvlreq)[stat].back().index[1] = stat;
+    ability::allAbilities->at(lvlreq)[stat].back().index[2] =
+                              ability::allAbilities->at(lvlreq)[stat].size();
     ability::allAbilities->at(lvlreq)[stat].back().aStats.resize(3);
     ability::allAbilities->at(lvlreq)[stat].back().name = tempData[1];
     ability::allAbilities->at(lvlreq)[stat].back().cooldown = std::stoi(tempData[2]);
@@ -83,9 +96,9 @@ void gameManager::readInAbilities()
     ability::allAbilities->at(lvlreq)[stat].back().description = tempData[8];
     tempData.erase(tempData.begin(), tempData.begin() + 9);
   }
+
   ability::allAbilities->shrink_to_fit();
 }
-
 
 void gameManager::readInRaceData()
 {
@@ -127,7 +140,6 @@ void gameManager::readInRaceData()
   baseCharacter::allRaces->shrink_to_fit();
  // printRaces();
 }
-
 void gameManager::printRaces()
 {
   std::cout
@@ -168,8 +180,6 @@ void gameManager::printRaces()
   // Set the text colour back to default
   print::textColour(print::C_DEFAULT);
 }
-
-
 void gameManager::printConsumables()
 {
     for (int i = 0; i <= consumable::lastIndex; i++)
@@ -182,13 +192,31 @@ void gameManager::printConsumables()
 
 void gameManager::printAbility()
 {
-      ability* toPrint = new ability(5);
-      std::cout << toPrint->getName() << " " << toPrint->getDescription() << std::endl;
-      delete toPrint;
+
+    for(int lev = 0; lev < 5; lev++)
+    {
+      for(int stat = 0; stat < 4; stat++)
+      {
+          for(int abil = 0; abil < 3; abil++)
+          {
+            std::cout
+
+            << ability::allAbilities->at(lev)[stat][abil].name
+            << ability::allAbilities->at(lev)[stat][abil].aStats[0]
+            << ability::allAbilities->at(lev)[stat][abil].aStats[1]
+            << ability::allAbilities->at(lev)[stat][abil].aStats[2]
+            << ability::allAbilities->at(lev)[stat][abil].cooldown
+            << ability::allAbilities->at(lev)[stat][abil].dRoll
+            << ability::allAbilities->at(lev)[stat][abil].dSize
+
+            << std::endl;
+          }
+      }
+    }
+
 }
 
-// Main loop
-// Most of this is going to be ripped out as it is primarily debugging stuff atm
+/**     MAIN LOOP     */
 void gameManager::startGame()
 {
     bool play = true;
@@ -213,13 +241,11 @@ void gameManager::startGame()
 
         switch (input[0])
         {
-            /**     print commands       */
-
+        /**     print commands       */
         // pPlayer, pp
         case 10:
             printRaces();
             break;
-
         // pPlayer, pp
         case 12:
             std::cout << (*playerPtr);
@@ -230,7 +256,6 @@ void gameManager::startGame()
             break;
         //viewinventory, vi
         case 121:
-
             for(int i = 0; i < 20; i++)
             {
               playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
@@ -263,6 +288,7 @@ void gameManager::startGame()
           myChest->getInventory()->viewInventory();
           delete myChest;
           break;
+        // pabilities, pa
         case 16:
           printAbility();
           break;
@@ -538,9 +564,7 @@ void gameManager::mainMenu()
   std::string line;
 
   std::vector<std::string> logo;
-
   toRead.open(DIR_DOTS_LOGO);
-
   while(getline(toRead, line))
   {
     logo.push_back(line);
@@ -552,7 +576,6 @@ void gameManager::mainMenu()
     // Read in the intro story that plays after the logo comes up
   std::vector<std::string> introText;
   toRead.open(DIR_INTRO);
-
   while(!toRead.eof())
   {
     getline(toRead, line);
@@ -641,21 +664,22 @@ void gameManager::mainMenu()
   print::textColour(print::C_DEFAULT);
   std::cout << std::endl << std::endl;
 
+
   /** Actual main menu part */
 
   std::vector<std::string> menuButtons;
   int input;
   // Read in the buttons for the main menu
   toRead.open(DIR_MM_BUTTONS);
-
   while(!toRead.eof())
   {
     getline(toRead, line);
     menuButtons.push_back(line);
   }
   toRead.close();
+  menuButtons.shrink_to_fit();
 
-
+  // Reprint the logo on the screen with the buttons beneath
   for(unsigned int row = 0; row < logo.size(); row ++)
   {
       if (row == 0)
@@ -677,9 +701,9 @@ void gameManager::mainMenu()
   print::textColour(print::C_DEFAULT);
   print::vec_time(menuButtons, 0);
 
+  // Get the users first input
   std::cout << ">>> ";
   std::cin >> input;
-
   switch(input)
   {
   case 1:
@@ -706,6 +730,7 @@ void gameManager::mainMenu()
       }
     // No break so that we can go right into character creation
     case 2:
+      // Set the terminal back to "standard" size
       system("resize -s 31 80");
       characterCreation();
       break;
@@ -716,6 +741,7 @@ void gameManager::mainMenu()
       break;
 
     case 4:
+      // Essentially Alt+F4's right out of here
       system("exit");
       break;
 
@@ -837,12 +863,12 @@ player* gameManager::characterCreation()
 
   std::cout << "\n\n\n";
   // Print the stairs txt file, and decrease the speed as the "animation" plays
+
+/**
   print::vec_faster(stairs, true);
-
   std::this_thread::sleep_for(std::chrono::seconds(1));
-
   system("clear");
-
+*/
 
   print::str("Finally! Your hero has arrived!\n"
              "What shall we call this one then?");
@@ -904,10 +930,11 @@ player* gameManager::characterCreation()
     sReq.push_back(tMainStatIndex);
     sReq.push_back(temp->getStats()[tMainStatIndex]);
     sReq.push_back(temp->getLevel());
-
-
+    temp->getWeapon();
+   // Equip weapon made just for our player
    temp->setWeapon(new weapon(sReq));
 
+  temp->getInventory()->addAbility(new ability(1, tMainStatIndex));
 
    return temp;
 }

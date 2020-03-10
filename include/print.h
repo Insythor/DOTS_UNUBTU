@@ -2,7 +2,7 @@
 #define PRINT_H
 
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
-#define DEFAULT_MOD 100
+#define DEFAULT_MOD 10
 #define DEFAULT_COLOUR "printf '\e[38;2;200;200;200m'"
 
 // Containters

@@ -55,8 +55,8 @@ void print::vec(std::vector<std::string> toPrint)
     for(auto c : l)
     {
       std::cout << c;
-      std::cout.flags();
-      std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
+      std::cout.flush();
+   std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
     }
       std::cout << std::endl;
   }

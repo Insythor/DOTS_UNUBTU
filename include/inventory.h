@@ -12,19 +12,62 @@ class inventory
   public:
     inventory();
    ~inventory();
+    /**
+      @brief
+    */
     bool deleteConsumables(unsigned int index, unsigned int amount);
+    /**
+      @brief
+    */
     bool deleteWeapon(unsigned int index);
+    /**
+      @brief
+    */
     void addConsumables(std::vector<consumable*> conStack);
+    /**
+      @brief
+    */
     void addAbility(ability* abilityToAdd);
+    /**
+      @brief
+    */
     ability* removeAbility(unsigned int index);
-    std::vector<consumable*> removeConsumables(unsigned int index, unsigned int amount);
+    /**
+      @brief
+    */
+    std::vector<consumable*> removeConsumables(unsigned int index,
+                                               unsigned int amount);
+    /**
+      @brief
+    */
     std::vector<std::vector<consumable*>> removeAllConsumables();
+    /**
+      @brief
+    */
     weapon* removeWeapon(unsigned int index);
+    /**
+      @brief
+    */
     void addWeapon(weapon* wpnToAdd);
+    /**
+      @brief
+    */
     int getInventorySize();
+    /**
+      @brief
+    */
     void viewInventory();
+    /**
+      @brief
+    */
     void increaseInventorySize(int amount);
+    /**
+      @brief
+    */
     std::vector<weapon*> removeAllWeapons();
+    /**
+      @brief
+    */
     bool checkForRoom(unsigned int amountToAdd);
 
   private:
