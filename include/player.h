@@ -5,6 +5,7 @@
 #define PLAYERSAVE_EXT ".csv"
 
 #include "baseCharacter.h"
+#include "print.h"
 #include <algorithm>
 class player : public baseCharacter
 {
@@ -77,7 +78,6 @@ class player : public baseCharacter
 
 
   private:
-    bool is_number(const std::string& s);
     int currentExperience;
     int maxExperience;
 

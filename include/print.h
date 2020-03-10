@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <algorithm>
 // I/O
 #include <iostream>
 #include <ostream>
@@ -74,7 +75,7 @@ class print
     static void vec_faster(std::vector<std::string> toPrint, bool increase);
 
   static void textColour(int colour[3]);
-
+  static bool is_number(const std::string& s);
   static void setCursor(bool box);
   static void initScreen();
 

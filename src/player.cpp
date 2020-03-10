@@ -133,12 +133,6 @@ void player::addExperience(int toAdd)
         levelUp();
 }
 
-bool player::is_number(const std::string& s)
-{
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
-}
-
 void player::levelUp()
 {
     // temp variables used to for input
@@ -187,14 +181,14 @@ void player::levelUp()
       {
          std::cout << "Choose stat: ";
          std::cin >> In;
-         if(is_number(In) && (In == "0" || In == "1" || In == "2"))
+         if(print::is_number(In) && (In == "0" || In == "1" || In == "2"))
          {
            statIn = std::stoi(In);
            while(!done)
            {
              std::cout << "Choose amount: ";
              std::cin >> AmountIn;
-             if(is_number(AmountIn))
+             if(print::is_number(AmountIn))
              {
                statAmountIn = std::stoi(AmountIn);
                done = true;
