@@ -216,6 +216,7 @@ void gameManager::startGame()
 
     combatManager* thisFight = nullptr;
     consumable* myConsumable = nullptr;
+    std::vector<consumable*> myConVec;
     chest* myChest = nullptr;
 
     while (play)
@@ -243,16 +244,23 @@ void gameManager::startGame()
             break;
         //viewinventory, vi
         case 121:
-//            for(int i = 0; i < 20; i++)
-//            {
-//              playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
-//              std::vector<consumable*> tempcon;
-//              tempcon.push_back(new consumable());
-//              playerPtr->getInventory()->addConsumables(tempcon);
-//            }
+/*             for(int i = 0; i < 20; i++)
+ *             {
+ *               playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
+ *               std::vector<consumable*> tempcon;
+ *               tempcon.push_back(new consumable());
+ *               playerPtr->getInventory()->addConsumables(tempcon);
+ *             }
+ */
 
             playerPtr->getInventory()->viewInventory();
           break;
+        //swapabilities, sab
+        case 122:
+            playerPtr->swapAbilities();
+            break;
+
+
          // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
@@ -265,6 +273,7 @@ void gameManager::startGame()
         case 131:
             std::cout << monsterPtr->getGold() << std::endl;
             break;
+
         // pConsumables, pcon
         case 14:
             printConsumables();
@@ -358,10 +367,7 @@ void gameManager::startGame()
             delete myConsumable;
             break;
 
-        case 25:
-            playerPtr->getInventory()->addAbility(
-                                              new ability(input[1], input[2]));
-            break;
+
 
             /**             debugging commands            */
         // Clear the terminal window of all text
@@ -381,6 +387,40 @@ void gameManager::startGame()
         case 210:
             playerPtr->levelUp();
             break;
+        // Make an ability and add it to the players inventory
+        case 211:
+          if(input.size() == 3)
+            playerPtr->getInventory()->addAbility(
+                                              new ability(input[1], input[2]));
+          else if (input.size() == 2)
+            playerPtr->getInventory()->addAbility(new ability(input[1]));
+          else
+            playerPtr->getInventory()->addAbility(new ability(currentLevel));
+
+          playerPtr->getInventory()->viewInventory();
+            break;
+        // Make a consumable and add it to the players inventory
+        case 212:
+          myConVec.clear();
+          myConVec.push_back(new consumable(input[1]));
+          playerPtr->getInventory()->addConsumables(myConVec);
+          playerPtr->getInventory()->viewInventory();
+            break;
+        // Make a weapon and add it to the players inventory
+        case 213:
+          if(input.size() == 4)
+          {
+            input.erase(input.begin());
+            playerPtr->getInventory()->addWeapon(new weapon(input));
+          }
+          else if(input.size() == 2)
+          playerPtr->getInventory()->addWeapon(new weapon (input[1]));
+
+          else
+              playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
+
+          playerPtr->getInventory()->viewInventory();
+          break;
         //  atk : deal damage with the players equipped weapon
         case 92:
             std::cout << playerPtr->dealDamage() << std::endl;
@@ -473,6 +513,10 @@ std::vector<int> gameManager::formatCommand(std::string command)
         //print view inventory
     else if (tempCommand[0] == "viewinventory" || tempCommand[0] == "vi")
         temp.push_back(121);
+    // View the swap abilities menu
+    else if (tempCommand[0] == "swapabilities" || tempCommand[0] == "sab")
+        temp.push_back(122);
+
 
     // Print the monsters detailed stats
     else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
@@ -502,6 +546,15 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Increase the players level by 1
     else if (tempCommand[0] == "levelup" || tempCommand[0] == "lvl")
         temp.push_back(210);
+    // Make an ability and add it to the players inventory
+    else if (tempCommand[0] == "pmakeability" || tempCommand[0] == "mpab")
+        temp.push_back(211);
+    // Make a consumable and add it to the players inventory
+    else if (tempCommand[0] == "mpcon")
+        temp.push_back(212);
+    // Make a weapon and add it to the players inventory
+    else if (tempCommand[0] == "mpw")
+        temp.push_back(213);
 
     else if (tempCommand[0] == "makemonster" || tempCommand[0] == "mm")
         temp.push_back(22);
@@ -511,9 +564,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Make a consumable, also needs an index.
     else if (tempCommand[0] == "makeconsumable" || tempCommand[0] == "mcon")
         temp.push_back(24);
-    // Make an ability and add it to the players inventory
-    else if (tempCommand[0] == "makeability" || tempCommand[0] == "mab")
-        temp.push_back(25);
+
 
 
     /** debugging gets a prefix of 9 */

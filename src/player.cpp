@@ -114,7 +114,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << std::setfill(' ') << "\n"
 
         /** Weapon */
-        << "Weapon: "
+        << "Equipped Weapon: "
         << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d"
         << toRender.getWeapon()->getDiceSize()
@@ -123,9 +123,13 @@ std::ostream& operator << (std::ostream& out, player& toRender)
 
         if(!toRender.getActiveAbilities().empty())
         {
-          out << "Abilities:\n";
+          int index = 0;
+          out << "Active Abilities:\n";
           for(auto i : toRender.getActiveAbilities())
-            out << *i;
+            out
+            << std::setw(4) << index++
+            << std::setw(15 - i->getName().length() / 2)
+            << *i;
         }
 
     out << std::endl;
@@ -134,7 +138,80 @@ std::ostream& operator << (std::ostream& out, player& toRender)
 
 void player::swapAbilities()
 {
+  int index = 0;
+  int lastActiveIndex = -1;
 
+  if(!activeAbilities.empty())
+  {
+    std::cout
+        << "\n                    Active Abilities\n"
+        << "---------------------------------------------------------\n";
+    for(auto ab : activeAbilities)
+        std::cout
+        << std::setw(3) << index++
+        << std::setw(15 + ab->getName().length() / 2)
+        << *ab << std::endl;
+    if(index > 0)
+      lastActiveIndex = index;
+  }
+  else
+    std::cout << "Currently " + name + " has no active abilities." << std::endl;
+  if(!cInventory->getAbilities().empty())
+  {
+    std::cout
+        << "\n                    Stored Abilities\n"
+        << "---------------------------------------------------------\n";
+
+    for(auto ab : cInventory->getAbilities())
+      std::cout
+      << std::setw(3) << index++
+      <<std::setw(15 + ab->getName().length() / 2)
+      << *ab << std::endl;
+  }
+  else
+    std::cout << "Currently " + name + " has no stored abilities." << std::endl;
+
+    std::vector<int> input(2);
+    std::cout << "Which two abilities would you like to swap? [int] [int]"
+    << std::endl;
+
+    std::cin >> input[0] >> input[1];
+
+    ability* tempAb = nullptr;
+    // So we get the proper index starting from 0
+    index--;
+    // If the first ability is an active ability
+    if(input[0] <= lastActiveIndex)
+    {
+      // Store ability 1 to swap
+      tempAb = activeAbilities[input[0]];
+      // If the second ability is an active ability
+      if(input[1] <= lastActiveIndex)
+      {
+        activeAbilities[input[0]] = activeAbilities[input[1]];
+        activeAbilities[input[1]] = tempAb;
+      }
+      // If the second ability is a stored ability
+      else if(input[1] <= index)
+      {
+        // input[1] - lastActiveIndex so that it matches with the inventory
+        activeAbilities[input[0]] =
+              cInventory->removeAbility(input[1] - lastActiveIndex);
+        // Add the swapped ability back into the inventory
+        cInventory->addAbility(tempAb);
+      }
+    }
+    // If the first ability is a stored ability
+    else
+    {
+      // Get the ability from the inventory
+      tempAb = cInventory->removeAbility(input[0]);
+
+      if(input[1] <= index)
+      {
+
+      }
+    }
 }
 
 void player::addExperience(int toAdd)
@@ -206,6 +283,7 @@ void player::levelUp()
            {
              std::cout << "Choose amount: ";
              std::cin >> AmountIn;
+             std::cout << std::endl;
              if(print::is_number(AmountIn))
              {
                statAmountIn = std::stoi(AmountIn);
@@ -213,12 +291,12 @@ void player::levelUp()
              }
              else
              {
-               std::cout << "invalid value" << std::endl;
+               std::cout << "Invalid stat amount" << std::endl;
              }
            }
          }
          else
-          std::cout << "invalid value" << std::endl;
+          std::cout << "\nInvalid stat type" << std::endl;
       }
         // Check that the amount of stats input does not exceed the amount of available points
         if (statIn < 3 && availablePoints - statAmountIn >= 0)

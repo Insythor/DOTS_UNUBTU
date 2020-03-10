@@ -8,6 +8,9 @@ ability::ability()
 ability::ability(int lev)
 {
   srand(time(NULL));
+  if(lev > 5 || lev < 1)
+    lev = 5;
+
   int rStat = rand() % ability::allAbilities->at(lev - 1).size();
   int rAbility = rand() % ability::allAbilities->at(lev - 1)[rStat].size();
   ability::abilityData ad = ability::allAbilities->at(lev - 1)[rStat][rAbility];
@@ -30,13 +33,18 @@ ability::ability(int lev)
 
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-
-  ability::allAbilities->at(lev - 1)[rStat].erase
-                (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
+/** Commented out for testing: We need to check if the vector is empty */
+//  ability::allAbilities->at(lev - 1)[rStat].erase
+//                (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
 }
 
 ability::ability(int lev, int sType)
 {
+    if(lev > 5 || lev < 1)
+      lev = ability::allAbilities->size() - 1;
+    if(sType > 3 || sType < 0)
+      sType = ability::allAbilities->at(lev).size() - 1;
+
   srand(time(NULL));
   int rAbility = rand() % ability::allAbilities->at(lev - 1)[sType].size();
   ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][rAbility];
@@ -58,6 +66,13 @@ ability::ability(int lev, int sType)
 
 ability::ability(int lev, int sType, int abil)
 {
+  if(lev > 5 || lev < 1)
+      lev = ability::allAbilities->size();
+  if(sType > 3 || sType < 0)
+    sType = ability::allAbilities->at(lev).size() - 1;
+  if(abil > 3 || abil < 0)
+    abil = ability::allAbilities->at(lev)[sType].size() -1;
+
   srand(time(NULL));
   ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][abil];
   name = ad.name;
@@ -72,8 +87,8 @@ ability::ability(int lev, int sType, int abil)
   abilityDice = new std::vector<dice>;
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-//  ability::allAbilities->at(lev - 1)[sType].erase
-//        (ability::allAbilities->at(lev - 1)[sType].begin());
+  ability::allAbilities->at(lev - 1)[sType].erase
+        (ability::allAbilities->at(lev - 1)[sType].begin());
 
 }
 
@@ -102,12 +117,17 @@ std::ostream& operator << (std::ostream& out, ability& toRender)
     break;
   }
 
+  int statReqSpacer = 10;
+  if(toRender.getStatRequirements()[1] > 9)
+    statReqSpacer--;
+
  out
 //    << "| Name | CD | " + tempReqStat + " | Level | "
-    << toRender.getName() << std::setw(20 - toRender.getName().length())
+    << toRender.getName() << std::setw(15 - toRender.getName().length() / 2)
     << "CD: " << toRender.getCooldown() << std::setw(7)
-    << tempReqStat << toRender.getStatRequirements()[1] << std::setw(10)
-    << "Level: " << toRender.getStatRequirements()[2] + 1 << std::setw(5)
+    << tempReqStat << toRender.getStatRequirements()[1]
+     << std::setw(statReqSpacer)
+    << "Level: " << toRender.getStatRequirements()[2] + 1 << std::setw(3)
     << toRender.getDiceRolls() << "d" << toRender.getDiceSize()
 
 
@@ -157,7 +177,7 @@ std::string ability::viewAbilityCombat()
   return "n/a";
 }
 
-void ability::reduceCoolddown()
+void ability::reduceCooldown()
 {
     if(onCooldown)
     {
@@ -169,7 +189,7 @@ void ability::reduceCoolddown()
     }
 }
 
-int ability::dealDamage(std::vector<int>playerStats)
+int ability::dealDamage()
 {
     if(!onCooldown)
     {

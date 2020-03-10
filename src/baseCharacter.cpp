@@ -99,12 +99,12 @@ int baseCharacter::useAbility(unsigned int index)
 {
     if(activeAbilities.size() > index)
     {
-        // Are we adding stat bonuses to abilities? I can't remember
-        return activeAbilities[index]->dealDamage(mainStats);
+        return activeAbilities[index]->dealDamage() +
+        statBonuses[activeAbilities[index]->getStatRequirements()[0]];
     }
     else
     {
-        return 0; //if 0 cout where called ability on cooldown.
+        return 0;
     }
 }
 

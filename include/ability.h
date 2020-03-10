@@ -80,11 +80,11 @@ class ability
     /**
       @brief
     */
-    void reduceCoolddown();
+    void reduceCooldown();
     /**
       @brief
     */
-    int dealDamage(std::vector<int> playerStats);
+    int dealDamage();
     /**
       @brief
     */

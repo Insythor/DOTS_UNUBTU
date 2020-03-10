@@ -36,8 +36,7 @@ std::ostream& operator << (std::ostream& out, consumable& toRender)
   out
    << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
    << toRender.formatOutput(1, type) << "|"
-   << toRender.formatOutput(2, std::to_string(toRender.getSellValue())) << "|"
-   << std::endl;
+   << toRender.formatOutput(2, std::to_string(toRender.getSellValue())) << "|";
 
   return out;
 }

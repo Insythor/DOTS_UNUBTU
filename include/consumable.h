@@ -43,7 +43,6 @@ class consumable : public item
         @param[out] [bool] Book?
     */
     bool getIsPerminant();
-
     /**
       @brief Last index in the consumables.csv
              Used as a mod in default constructor

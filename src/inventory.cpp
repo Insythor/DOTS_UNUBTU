@@ -41,7 +41,7 @@ std::string inventory::formatIndex(std::string index) {
 void inventory::viewInventory() {
   int index = 0;
   if (weapons.size() > 0) {
-    std::cout << "Weapon's\n"
+    std::cout << "\nWeapon's\n"
               << "| index |             name              |  stat req | lvl req | damage | price |\n"
               << "--------------------------------------------------------------------------------\n";
     for (weapon* i : weapons) {
@@ -55,7 +55,7 @@ void inventory::viewInventory() {
       || consumableStacks[5].size() > 0
       || consumableStacks[6].size() > 0 || consumableStacks[7].size() > 0
       || consumableStacks[8].size() > 0) {
-    std::cout << "Consumable's\n"
+    std::cout << "\nConsumable's\n"
               << "| index |         name          |  type  | price | amount|\n"
               << "---------------------------------------------------------\n";
     for (std::vector<consumable*> j : consumableStacks) {
@@ -63,16 +63,23 @@ void inventory::viewInventory() {
         index++;
         consumable* c = j.front();
         std::cout << "|" << formatIndex(std::to_string(index)) << *c
-                  << formatIndex(std::to_string(static_cast<int>(j.size()))) << "|" << std::endl;
+                  << formatIndex(std::to_string(static_cast<int>(j.size())))
+                   << "|" << std::endl;
       }
     }
   }
   if (abilities.size() > 0) {
-    std::cout << "Stored Abilities\n";
-    std::cout << "-----------------------------------\n";
+    std::cout
+        << "\nStored Abilities\n"
+        << "---------------------------------------------------------\n";
     for (ability* k : abilities) {
       index++;
-      std::cout << *k << std::endl;
+      std::cout
+
+      << std::setw(3) << index << std::setw(15 + (k->getName().length() / 2))
+      << *k
+
+      << std::endl;
     }
   }
 
@@ -193,4 +200,9 @@ ability* inventory::removeAbility(unsigned int index) {
     abilities.erase(abilities.begin() + index);
   }
   return tempability;
+}
+
+std::vector<ability*> inventory::getAbilities()
+{
+  return abilities;
 }
