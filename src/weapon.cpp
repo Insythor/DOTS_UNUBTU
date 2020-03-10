@@ -15,6 +15,42 @@ weapon::weapon(int l)
   generateWeapon(l);
 }
 
+weapon::weapon(std::vector<int> sReq)
+{
+  srand(time(NULL));
+  weaponDice = new std::vector<dice>;
+
+  statRequirements = sReq;
+  statRequirements.shrink_to_fit();
+
+  int diceSize = statRequirements[2]/2 + 4 + (rand() % 5);
+  // Add one dice of the randomly chosen size to the weaponDice vector
+  for(int i = 0; i < statRequirements[2]; i++)
+  {
+    weaponDice->push_back(dice(diceSize));
+  }
+  // Optimize!
+  weaponDice->shrink_to_fit();
+  // If the weapon names dictionary was read in, select a random name
+  // Then delete that name from the dictionary
+  if(weapon::allNames != nullptr)
+  {
+    int tempIndex = rand() % allNames->size();
+    name = allNames->at(tempIndex);
+    allNames->erase(allNames->begin() + tempIndex);
+    name.append(addType(diceSize, statRequirements[0]));
+  }
+  else
+  {
+    name = "invalid name";
+  }
+
+  // Arbitrary. Kind of fun to have the value based on an attack
+  // Sort of like trying it out in the shop.. idk
+  cost = (statRequirements[2] * 50) + dealDamage();
+  sellValue = (cost / 2);
+}
+
 weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq)
 {
     name = nam;

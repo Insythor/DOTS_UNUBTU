@@ -57,7 +57,6 @@ class print
 
     static void str_time_colour(std::string toPrint,
                                 int maxMillis, int colour[3]);
-
     /**
       @brief Print out the string one char at a time every x milliseconds
     */
@@ -74,10 +73,12 @@ class print
     */
     static void vec_faster(std::vector<std::string> toPrint, bool increase);
 
-  static void textColour(int colour[3]);
-  static bool is_number(const std::string& s);
-  static void setCursor(bool box);
-  static void initScreen();
+    static bool is_number(const std::string& s);
+    static void vec_time(std::vector<std::string> toPrint, int maxMillis);
+    static void textColour(int colour[3]);
+    static void setCursor(bool box);
+    static void initScreen();
+
 
 };
 

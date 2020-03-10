@@ -69,7 +69,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     // from using their current weapon based on their stats
     int dmgBonus = abs(toRender.getDamagePower());
     std::string dmgBonusSign;
-    // Change the operation after the weapon damage to +/- based on the players stats
+    // Change the operation after the weapon damage to +/- based on their stats
     if (toRender.getDamagePower() >= 0)
         dmgBonusSign = " + ";
     else
@@ -148,26 +148,32 @@ void player::levelUp()
         availablePoints = 6;
     else
     {
-
-       currentExperience -= maxExperience;
-
+      // So we can level up the player without giving them negative experience
+      if(currentExperience - maxExperience >= 0)
+        currentExperience -= maxExperience;
+      else
+        currentExperience = 0;
 
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
-        maxExperience += ((level + 1) - 1 + (300 * pow(2, ((level + 1) - 1) / 7))) / 4;
+        maxExperience += ((level + 1) - 1 + (300 *
+                                          pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
     }
-    // stored amount of available points incase the user does not want to commit their changes
+    // stored amount of available points incase the user does not want
+    //  to commit their changes
     int backupAvailPoints = availablePoints;
     // ding!
     level += 1;
 
-    // Print out the current player before they level up so they have a reference
+    // Print out the current player before they level up for reference
     std::cout << (*this);
 
-    std::cout <<
-        "Place your stat points by choosing a stat, then type the amount of points to add."
-        << "\n i.e. 0 will choose strength and then type 1 to add one point to strength.\n"
+    std::cout
+        << "Place your stat points by choosing a stat, "
+        << "then type the amount of points to add"
+        << "\ni.e. 0 will choose strength and then type 1 to add one point "
+        << "to strength.\n"
         << "Available points: " << availablePoints << std::endl;
 
 
@@ -214,19 +220,22 @@ void player::levelUp()
             {
             case 0:
                 std::cout <<
-                    statAmountIn << " point(s) added to Strength. " << availablePoints << " points remaining."
+                    statAmountIn << " point(s) added to Strength. "
+                    << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 1:
                 std::cout <<
-                    statAmountIn << " point(s) added to Dexterity. " << availablePoints << " points remaining."
+                    statAmountIn << " point(s) added to Dexterity. "
+                    << availablePoints << " points remaining."
                     << std::endl;
                 break;
 
             case 2:
                 std::cout <<
-                    statAmountIn << " point(s) added to Intellect. " << availablePoints << " points remaining."
+                    statAmountIn << " point(s) added to Intellect. "
+                    << availablePoints << " points remaining."
                     << std::endl;
                 break;
             }
@@ -236,7 +245,8 @@ void player::levelUp()
         {
             std::cout << "Invalid stat type or amount" << std::endl;
         }
-        // If all the available points are spent, show the user what they have selected so far
+        // If all the available points are spent, show the user what they
+        // have selected so far
         if (availablePoints == 0)
         {
             std::cout << "Would you like to commit?\n"
@@ -256,7 +266,8 @@ void player::levelUp()
                 break;
             }
 
-            // reset the available points and tempStats vector which essentially restarts the loop
+            // reset the available points and tempStats vector which
+            // essentially restarts the loop
             else if (command == "no" || command == "No" || command == "n")
             {
                 availablePoints = backupAvailPoints;
@@ -264,17 +275,19 @@ void player::levelUp()
                 tempStats.resize(4);
 
                 std::cout <<
-                    "Place your stat points by choosing a stat, then typing the amount of points to add."
-                    << "\n i.e. 0 1  will add one ability point to your heros strength.\n"
+                    "Place your stat points by choosing a stat, then typing the"
+                    " amount of points to add."
+                    << "\ni.e. 0 1  will add one ability point to your "
+                    << "heros strength.\n"
                     << "Available points: " << availablePoints << std::endl;
             }
         }
     }
 
-    // Add 10% of the players current hp an 50% of the players strength to their maxHP
+    // Add 10% of the players current hp an 50% of their strength to maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
-    // Give the player back full HP when they level up because we're not savages ;P
+    // Give the player back full HP when they level up because we're not savages
     currentHealth = maxHealth;
 
     // Print out the player so the user can see their changes
@@ -284,6 +297,32 @@ void player::levelUp()
     addExperience(0);
 
     std::cin.ignore();
+
+    // Make the player a weapon with their highest stat
+    delete equippedWeapon;
+
+    int tMainStat = 0;
+    int tMainStatIndex;
+    // Check if str, dex, or int is highest for that race
+    for (unsigned int i = 0; i < statBonuses.size(); i++)
+    {
+        if (mainStats[i] > tMainStat)
+        {
+            tMainStat = mainStats[i];
+            tMainStatIndex = i;
+        }
+        if (i == 2 && mainStats[i] > tMainStat && mainStats[0] < mainStats[i])
+        {
+            tMainStat = mainStats[i];
+            tMainStatIndex = i;
+        }
+    }
+    std::vector<int> sReq;
+    sReq.push_back(tMainStatIndex);
+    sReq.push_back(mainStats[tMainStatIndex]);
+    sReq.push_back(level);
+
+    equippedWeapon = new weapon(sReq);
 }
 
 void player::addToStats(std::vector<int>toAdd)

@@ -12,7 +12,6 @@ int print::C_PINK [3] = {255, 102, 255};
 
 int print::C_DEFAULT [3] = {200, 200, 200};
 
-
 void print::str(std::string toPrint)
 {
   for(auto c : toPrint)
@@ -55,7 +54,8 @@ void print::vec(std::vector<std::string> toPrint)
   {
     for(auto c : l)
     {
-      std::cout.flush() << c;
+      std::cout << c;
+      std::cout.flags();
       std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
     }
       std::cout << std::endl;
@@ -82,6 +82,13 @@ void print::vec_faster(std::vector<std::string> toPrint, bool increase)
   }
 }
 
+void print::vec_time(std::vector<std::string> toPrint, int maxMillis)
+{
+  for(auto l : toPrint)
+    std::cout << l << std::endl;
+}
+
+
 void print::initScreen()
 {
   // Resize the terminal, and clear the terminal of text before game begins
@@ -96,7 +103,6 @@ void print::initScreen()
 }
 void print::textColour(int colour[3])
 {
-
   std::string bgColour = "printf '\e[38;2;";
   bgColour.append(std::to_string(colour[0]) + ";");
   bgColour.append(std::to_string(colour[1]) + ";");

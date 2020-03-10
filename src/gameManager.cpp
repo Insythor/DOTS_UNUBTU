@@ -203,11 +203,14 @@ void gameManager::startGame()
     combatManager* thisFight = nullptr;
     consumable* myConsumable = nullptr;
     chest* myChest = nullptr;
+
     while (play)
     {
+      print::setCursor(true);
       std::cout << ">>> ";
         std::getline(std::cin, command);
         input = formatCommand(command);
+        print::setCursor(false);
 
         switch (input[0])
         {
@@ -501,8 +504,6 @@ std::vector<int> gameManager::formatCommand(std::string command)
           || tempCommand[0] == "e")
           temp.push_back(0);
 
-
-
     // If no valid command was entered
     else
     {
@@ -529,6 +530,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
 void gameManager::mainMenu()
 {
+  system("resize -s 41 80");
+
   std::ifstream toRead;
   std::string line;
 
@@ -558,6 +561,7 @@ void gameManager::mainMenu()
   introText.shrink_to_fit();
 
   // Fade to white
+  // printf '\e[48;2;r;g;bm'  0 -255
   for(int i = 0; i < 255; i += 2)
   {
     std::string bgColour = "printf '\e[48;2;";
@@ -571,7 +575,7 @@ void gameManager::mainMenu()
 
     system(sysCommand);
 
-    for(int f = 0; f < 30; f++)
+    for(int f = 0; f < 41; f++)
       std::cout << "\n";
 
     std::this_thread::sleep_for(std::chrono::microseconds(2000));
@@ -601,7 +605,7 @@ void gameManager::mainMenu()
   }
 
 
-  // Bring the logo up on the screen
+  /** Bring the logo up on the screen */
   for(unsigned int i = 1; i < logo.size(); i ++)
   {
     system("clear");
@@ -631,22 +635,93 @@ void gameManager::mainMenu()
     }
       std::this_thread::sleep_for(std::chrono::microseconds(160000));
   }
-
+  // Reset the colour of the text
   print::textColour(print::C_DEFAULT);
   std::cout << std::endl << std::endl;
-  // Print all the intro text from the introText.txt
-  print::vec(introText);
 
-  // Once the intro story is done, scroll the text off the screen
-  for(int i = 0; i < 30; i++)
+  /** Actual main menu part */
+
+  std::vector<std::string> menuButtons;
+  int input;
+  // Read in the buttons for the main menu
+  toRead.open(DIR_MM_BUTTONS);
+
+  while(!toRead.eof())
   {
-    std::cout << std::endl;
-    std::this_thread::sleep_for(std::chrono::milliseconds(130));
+    getline(toRead, line);
+    menuButtons.push_back(line);
   }
+  toRead.close();
 
-  // Call the default characterCreation function
-  // This has the I/O required for character customization
-  characterCreation();
+
+  for(unsigned int row = 0; row < logo.size(); row ++)
+  {
+      if (row == 0)
+      {
+        print::textColour(print::C_WHITE);
+      }
+
+      else if(row == logo.size() * 0.3)
+      {
+        print::textColour(print::C_BROWN);
+      }
+
+      else  if(row == logo.size() * 0.7)
+      {
+        print::textColour(print::C_RED);
+      }
+    std::cout << logo[row] << "\n";
+  }
+  print::textColour(print::C_DEFAULT);
+  print::vec_time(menuButtons, 0);
+
+  std::cout << ">>> ";
+  std::cin >> input;
+
+  switch(input)
+  {
+  case 1:
+    std::cout << "Continuing is currently under development" << std::endl;
+    break;
+
+  case 2:
+    std::cout << "You you like to watch the intro story?\n"
+                 "1. Yes    2. No\n"
+                 ">>> ";
+    std::cin >> input;
+    switch(input)
+    {
+    case 1:
+      /** Print all the intro text from the introText.txt */
+      system("clear");
+      print::vec(introText);
+
+      // Once the intro story is done, scroll the text off the screen
+      for(int i = 0; i < 41; i++)
+      {
+        std::cout << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(130));
+      }
+    // No break so that we can go right into character creation
+    case 2:
+      system("resize -s 31 80");
+      characterCreation();
+      break;
+
+    case 3:
+      /** MAKE HELP MENU FUNCTION*/
+      std::cout << "Help menu is still under development" << std::endl;
+      break;
+
+    case 4:
+      system("exit");
+      break;
+
+    default:
+      std::cout << "Invalid command" << std::endl;
+      break;
+    }
+  }
 }
 
 void gameManager::saveGame()
@@ -797,7 +872,6 @@ player* gameManager::characterCreation()
 
    temp->spawnWeapon(1);
    temp->levelUp();
-
 
    system("clear");
 

@@ -20,7 +20,22 @@ class weapon : public item
 {
   public:
     weapon();
+    /**
+      @brief Generate a random weapon at a given level
+    */
     weapon(int l);
+    /**
+      @brief Generate a weapon that matches the given stats
+      @param[in] [std::vector<int>] [0] stat [1] required amount [2] level
+    */
+    weapon(std::vector<int> sReq);
+    /**
+      @brief Create a weapon with all specified stats
+      @param[in] [std::string] name of the weapon
+      @param[in] [int] Size of the dice
+      @param[in] [int] How many dice rolls
+      @param[in] [std::vector<int>] [0] stat [1] required amount [2] level
+    */
     weapon(std::string name, int dSize, int dRolls, std::vector<int> sReq);
     ~weapon();
     /**
