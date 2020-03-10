@@ -79,6 +79,12 @@ public:
   */
   weapon* getWeapon();
   /**
+    @brief When the player is first made, equip the player with a weapon
+           of their highest stat
+     @param[in] weapon* new equipped weapon
+  */
+  void setWeapon(weapon* toSet);
+  /**
       @brief Return the players current stats.
       @param[out] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */

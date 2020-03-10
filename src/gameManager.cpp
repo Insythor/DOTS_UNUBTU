@@ -140,7 +140,7 @@ void gameManager::printRaces()
     int wStr = 8;
     int wDex = 8;
     int wInt = 8;
-    int wSpd = 9;
+//    int wSpd = 9; // Spacer between speed int and description
 
     // Set the colour after we add it to the output buffer
     std::cout << std::setw(5) << i.index << std::internal
@@ -620,12 +620,12 @@ void gameManager::mainMenu()
         print::textColour(print::C_WHITE);
       }
 
-      else if(row == logo.size() * 0.3)
+      else if(row - logo.size() * 0.3 < 0.1)
       {
         print::textColour(print::C_BROWN);
       }
 
-      else  if(row == logo.size() * 0.7)
+      else  if(row - logo.size() * 0.7< 0.1)
       {
         print::textColour(print::C_RED);
       }
@@ -660,12 +660,12 @@ void gameManager::mainMenu()
         print::textColour(print::C_WHITE);
       }
 
-      else if(row == logo.size() * 0.3)
+      else if(row - logo.size() * 0.3 < 0.1)
       {
         print::textColour(print::C_BROWN);
       }
 
-      else  if(row == logo.size() * 0.7)
+      else  if(row - logo.size() * 0.7 < 0.1)
       {
         print::textColour(print::C_RED);
       }
@@ -869,10 +869,40 @@ player* gameManager::characterCreation()
                           baseCharacter::allRaces->at(tempRaceIndex).maxHP,
                          baseCharacter::allRaces->at(tempRaceIndex).mStats);
 
-   temp->spawnWeapon(1);
    temp->levelUp();
+    // Give the player between 10 and 40 gold to start
+   temp->setGold(rand() % 41 + 10);
 
    system("clear");
+
+       // Make the player a weapon with their highest stat
+    delete temp->getWeapon();
+
+    int tMainStat = 0;
+    int tMainStatIndex;
+    // Check if str, dex, or int is highest for that race
+    for (unsigned int i = 0; i < temp->getStatBonuses().size(); i++)
+    {
+        if (temp->getStats()[i] > tMainStat)
+        {
+            tMainStat = temp->getStats()[i];
+            tMainStatIndex = i;
+        }
+        if (i == 2 && temp->getStats()[i] > tMainStat
+                   && temp->getStats()[0] < temp->getStats()[i])
+        {
+            tMainStat = temp->getStats()[i];
+            tMainStatIndex = i;
+        }
+    }
+    std::vector<int> sReq;
+    sReq.push_back(tMainStatIndex);
+    sReq.push_back(temp->getStats()[tMainStatIndex]);
+    sReq.push_back(temp->getLevel());
+
+
+   temp->setWeapon(new weapon(sReq));
+
 
    return temp;
 }

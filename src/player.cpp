@@ -298,31 +298,7 @@ void player::levelUp()
 
     std::cin.ignore();
 
-    // Make the player a weapon with their highest stat
-    delete equippedWeapon;
 
-    int tMainStat = 0;
-    int tMainStatIndex;
-    // Check if str, dex, or int is highest for that race
-    for (unsigned int i = 0; i < statBonuses.size(); i++)
-    {
-        if (mainStats[i] > tMainStat)
-        {
-            tMainStat = mainStats[i];
-            tMainStatIndex = i;
-        }
-        if (i == 2 && mainStats[i] > tMainStat && mainStats[0] < mainStats[i])
-        {
-            tMainStat = mainStats[i];
-            tMainStatIndex = i;
-        }
-    }
-    std::vector<int> sReq;
-    sReq.push_back(tMainStatIndex);
-    sReq.push_back(mainStats[tMainStatIndex]);
-    sReq.push_back(level);
-
-    equippedWeapon = new weapon(sReq);
 }
 
 void player::addToStats(std::vector<int>toAdd)

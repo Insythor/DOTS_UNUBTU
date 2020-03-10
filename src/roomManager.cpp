@@ -243,18 +243,12 @@ std::vector<int> roomManager::formatCommand(std::string command)
     {
         for (std::string i : tempCommand)
         {
-            if(is_number(i))
+            if(print::is_number(i))
               temp.push_back(std::stoi(i));
         }
     }
     temp.shrink_to_fit();
     return temp;
-}
-
-bool roomManager::is_number(const std::string& s)
-{
-    return !s.empty() && std::find_if(s.begin(),
-        s.end(), [](unsigned char c) { return !std::isdigit(c); }) == s.end();
 }
 
 std::string roomManager::getDescription()
