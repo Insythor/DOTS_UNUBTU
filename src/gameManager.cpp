@@ -623,12 +623,12 @@ void gameManager::mainMenu()
         print::textColour(print::C_WHITE);
       }
 
-      else if(row - logo.size() * 0.3 < 0.1)
+      else if(row == 11)
       {
         print::textColour(print::C_BROWN);
       }
 
-      else  if(row - logo.size() * 0.7< 0.1)
+      else  if(row == 21)
       {
         print::textColour(print::C_RED);
       }
@@ -663,12 +663,12 @@ void gameManager::mainMenu()
         print::textColour(print::C_WHITE);
       }
 
-      else if(row - logo.size() * 0.3 < 0.1)
+      else if(row == 11)
       {
         print::textColour(print::C_BROWN);
       }
 
-      else  if(row - logo.size() * 0.7 < 0.1)
+      else  if(row == 21)
       {
         print::textColour(print::C_RED);
       }
@@ -871,14 +871,16 @@ player* gameManager::characterCreation()
                           baseCharacter::allRaces->at(tempRaceIndex).race,
                           baseCharacter::allRaces->at(tempRaceIndex).maxHP,
                          baseCharacter::allRaces->at(tempRaceIndex).mStats);
-
+   // The player needs to have a weapon before leveling up so that the damage
+   // Power check doesn't seg fault
+   temp->spawnWeapon(1);
    temp->levelUp();
     // Give the player between 10 and 40 gold to start
    temp->setGold(rand() % 41 + 10);
 
    system("clear");
 
-       // Make the player a weapon with their highest stat
+    // Make the player a weapon with their highest stat
     delete temp->getWeapon();
 
     int tMainStat = 0;
@@ -921,6 +923,3 @@ player* gameManager::characterCreation(int index)
 
     return temp;
 }
-
-
-
