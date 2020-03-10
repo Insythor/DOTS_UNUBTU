@@ -8,17 +8,42 @@ ability::ability()
 ability::ability(int lev)
 {
   srand(time(NULL));
-  level = lev;
-  index = determineIndex(level, 6);
+  int rStat = rand() % ability::allAbilities->at(lev - 1).size();
+  int rAbility = rand() % ability::allAbilities->at(lev - 1)[rStat].size();
+  ability::abilityData ad = ability::allAbilities->at(lev - 1)[rStat][rAbility];
+  name = ad.name;
+  cooldown = ad.cooldown;
+  currentCooldown = 0;
+  diceRolls = ad.dRoll;
+  diceSize = ad.dSize;
+  description = ad.description;
+  statRequirements.push_back(ad.aStats[0]);
+  statRequirements.push_back(ad.aStats[1]);
+  statRequirements.push_back(ad.aStats[2]);
   abilityDice = new std::vector<dice>;
+  for(int i = 0; i < diceRolls; i++)
+    abilityDice->push_back(dice(diceSize));
+  ability::allAbilities->at(lev - 1)[rStat].erase(ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
 }
 
 ability::ability(int lev, int sType)
 {
   srand(time(NULL));
-  level = lev;
-  index = determineIndex(level, sType);
+  int rAbility = rand() % ability::allAbilities->at(lev - 1)[sType].size();
+  ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][rAbility];
+  name = ad.name;
+  cooldown = ad.cooldown;
+  currentCooldown = 0;
+  diceRolls = ad.dRoll;
+  diceSize = ad.dSize;
+  description = ad.description;
+  statRequirements.push_back(ad.aStats[0]);
+  statRequirements.push_back(ad.aStats[1]);
+  statRequirements.push_back(ad.aStats[2]);
   abilityDice = new std::vector<dice>;
+  for(int i = 0; i < diceRolls; i++)
+    abilityDice->push_back(dice(diceSize));
+  ability::allAbilities->at(lev - 1)[sType].erase(ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
 }
 
 ability::~ability()
@@ -32,7 +57,6 @@ std::ostream& operator << (std::ostream& out, ability& toRender)
  std::endl;
  return out;
 }
-
 
 
 std::string ability::getName()
@@ -106,79 +130,3 @@ int ability::dealDamage(std::vector<int>playerStats)
     }
 }
 
-int ability::determineIndex(int lev, int sType)
-{
-  switch(sType)
-  {
-  //Strength
-  case 0:
-    if (lev == 1)
-      return rand() % 3;
-    else if (lev == 2)
-      return rand() % 3 + 12;
-    else if (lev == 3)
-      return rand() % 3 + 24;
-    else if (lev == 4)
-      return rand() % 3 + 36;
-    else if (lev == 5)
-      return rand() % 3 + 48;
-  break;
-
-  //Dexterity
-  case 1:
-    if (lev == 1)
-      return rand() % 3 + 3;
-    else if (lev == 2)
-      return rand() % 3 + 15;
-    else if (lev == 3)
-      return rand() % 3 + 27;
-    else if (lev == 4)
-      return rand() % 3 + 39;
-    else if (lev == 5)
-      return rand() % 3 + 51;
-  break;
-
-  //Intelligence
-  case 2:
-    if (lev == 1)
-      return rand() % 3 + 6;
-    else if (lev == 2)
-      return rand() % 3 + 18;
-    else if (lev == 3)
-      return rand() % 3 + 30;
-    else if (lev == 4)
-      return rand() % 3 + 42;
-    else if (lev == 5)
-      return rand() % 3 + 54;
-  break;
-
-  //Speed
-  case 3:
-    if (lev == 1)
-      return rand() % 3 + 9;
-    else if (lev == 2)
-      return rand() % 3 + 21;
-    else if (lev == 3)
-      return rand() % 3 + 33;
-    else if (lev == 4)
-      return rand() % 3 + 45;
-    else if (lev == 5)
-      return rand() % 3 + 57;
-  break;
-
-  //Random Stat
-  case 6:
-    if (lev == 1)
-      return rand() % 12;
-    if (lev == 2)
-      return rand() % 12 + 12;
-    if (lev == 3)
-      return rand() % 12 + 24;
-    if (lev == 4)
-      return rand() % 12 + 36;
-    if (lev == 5)
-      return rand() % 12 + 48;
-  break;
-  }
-
-}

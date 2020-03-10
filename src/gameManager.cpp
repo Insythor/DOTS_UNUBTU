@@ -3,7 +3,7 @@ std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
                                       new std::vector<baseCharacter::raceData>;
-std::vector<std::vector<ability::abilityData>>* ability::allAbilities = new std::vector<std::vector<ability::abilityData>>;
+std::vector<std::vector<std::vector<ability::abilityData>>>* ability::allAbilities = new std::vector<std::vector<std::vector<ability::abilityData>>>;
 gameManager::gameManager()
 {
   readInRaceData();
@@ -55,31 +55,34 @@ void gameManager::readInAbilities()
 {
   std::ifstream toRead;
   toRead.open(DIR_ABILITY);
-
   std::vector<std::string> tempData;
   std::string line;
-
   while (getline(toRead, line, ','))
   {
       tempData.push_back(line);
   }
   toRead.close();
-//  ability::allAbilities->push_back(std::vector<ability::abilityData>)
-  for (int i = 0; 1 < 60; i++)
+  for(int i = 0; i < 5; i++)
   {
-
-//    ability::allAbilities->push_back(ability::abilityData());
-//    ability::allAbilities->at(i).aStats.resize(3);
-//    ability::allAbilities->at(i).index = std::stoi(tempData.at(0));
-//    ability::allAbilities->at(i).name = tempData.at(1);
-//    ability::allAbilities->at(i).cooldown = std::stoi(tempData.at(2));
-//    ability::allAbilities->at(i).aStats[0] = std::stoi(tempData.at(3));
-//    ability::allAbilities->at(i).aStats[1] = std::stoi(tempData.at(4));
-//    ability::allAbilities->at(i).aStats[2] = std::stoi(tempData.at(5));
-//    ability::allAbilities->at(i).dSize = std::stoi(tempData.at(6));
-//    ability::allAbilities->at(i).dRoll = std::stoi(tempData.at(7));
-//    ability::allAbilities->at(i).description = tempData.at(8);
-//    tempData.erase(tempData.begin(), tempData.begin() + 7);
+    ability::allAbilities->push_back(std::vector<std::vector<ability::abilityData>>());
+    for(int j = 0; j < 4; j++)
+      ability::allAbilities->back().push_back(std::vector<ability::abilityData>());
+  }
+  for(int i = 0; i < 60; i++)
+  {
+    int lvlreq = std::stoi(tempData[5]) - 1;
+    int stat = std::stoi(tempData[3]);
+    ability::allAbilities->at(lvlreq)[stat].push_back(ability::abilityData());
+    ability::allAbilities->at(lvlreq)[stat].back().aStats.resize(3);
+    ability::allAbilities->at(lvlreq)[stat].back().name = tempData[1];
+    ability::allAbilities->at(lvlreq)[stat].back().cooldown = std::stoi(tempData[2]);
+    ability::allAbilities->at(lvlreq)[stat].back().aStats[0] = stat;
+    ability::allAbilities->at(lvlreq)[stat].back().aStats[1] = std::stoi(tempData[4]);
+    ability::allAbilities->at(lvlreq)[stat].back().aStats[2] = lvlreq;
+    ability::allAbilities->at(lvlreq)[stat].back().dSize = std::stoi(tempData[6]);
+    ability::allAbilities->at(lvlreq)[stat].back().dRoll = std::stoi(tempData[7]);
+    ability::allAbilities->at(lvlreq)[stat].back().description = tempData[8];
+    tempData.erase(tempData.begin(), tempData.begin() + 9);
   }
   ability::allAbilities->shrink_to_fit();
 }
@@ -178,14 +181,11 @@ void gameManager::printConsumables()
     }
 }
 
-void gameManager::printAbilities()
+void gameManager::printAbility()
 {
-    for (int i = 0; i <= 60; i++)
-    {
-        //ability* toPrint = new ability(i, 10, 10);
-        //std::cout << *toPrint;
-        // toPrint;
-    }
+      ability* toPrint = new ability(5);
+      std::cout << toPrint->getName() << " " << toPrint->getDescription() << std::endl;
+      delete toPrint;
 }
 
 // Main loop
@@ -263,6 +263,9 @@ void gameManager::startGame()
           myChest = new chest(25);
           myChest->getInventory()->viewInventory();
           delete myChest;
+          break;
+        case 16:
+          printAbility();
           break;
             /**        make commands (spawn an object)      */
         // makeWeapon,  mw
@@ -461,12 +464,12 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Print all the consumables in the csv
     else if (tempCommand[0] == "pconsumables" || tempCommand[0] == "pcon")
         temp.push_back(14);
-    // Prints all the abilities in the csv
-    else if (tempCommand[0] == "pabilities" || tempCommand[0] == "pa")
-        temp.push_back(30);
     //Print all items in chest inventory
     else if(tempCommand[0] == "viewChest" || tempCommand[0] == "vc")
         temp.push_back(15);
+         // Prints all the abilities in the csv
+    else if (tempCommand[0] == "pabilities" || tempCommand[0] == "pa")
+        temp.push_back(16);
     // Create object prefixed with 2std::vector<consumable*> t
     else if (tempCommand[0] == "makweapon" || tempCommand[0] == "mw")
         temp.push_back(20);

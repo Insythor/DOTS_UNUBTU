@@ -2,6 +2,7 @@
 #define GAMEMANAGER_H
 
 /// UPDATE
+#define DIR_COMMANDS "../docs/DATA/commands.csv"
 #define DIR_RACE "../docs/DATA/raceData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_ABILITY "../docs/DATA/abilitiesData.csv"
@@ -133,7 +134,7 @@ private:
     @brief generate a random monster at a given level
     @param [in] int level
   */
-  void printAbilities();
+  void printAbility();
   /**
     @brief generate a random monster at a given level
     @param [in] int level

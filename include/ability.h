@@ -19,7 +19,6 @@ class ability
     virtual ~ability();
     struct abilityData
     {
-        int index;
         std::string name;
         std::vector<int> aStats;
         int cooldown;
@@ -40,11 +39,9 @@ class ability
     friend std::ostream& operator << (std::ostream& out, ability& toRender);
     void reduceCoolddown();
     int dealDamage(std::vector<int> playerStats);
-    static std::vector<std::vector<abilityData>>* allAbilities;
+    static std::vector<std::vector<std::vector<abilityData>>>* allAbilities;
 
  private:
-    int index;
-    int level;
    std::string name;
    std::string description;
    int cooldown;
@@ -55,8 +52,6 @@ class ability
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirements;
    std::vector<dice>* abilityDice;
-   void generateAbility();
-   int determineIndex(int lev, int sType);
 };
 
 #endif // ABILITY_H
