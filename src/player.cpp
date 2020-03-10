@@ -412,17 +412,24 @@ std::vector<int> player::getExperience()
 
 void player::save()
 {
+
+  std::fstream toWrite;
+
+
+
+
+
+
     /*
         player:
             Name
             Race
             Level
-            currentHealth
-            Max Health
             current HP
             maxHP
             gold
-            damagePower
+            mainStats
+            statusEffect
 
         weapon:
             dice Size
@@ -430,7 +437,7 @@ void player::save()
             name
             statRequirements
 
-
+        inventory:
 
     */
 }

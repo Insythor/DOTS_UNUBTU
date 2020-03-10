@@ -9,7 +9,6 @@ gameManager::gameManager()
   readInRaceData();
   readInWeapons();
   readInRooms();
-  readInAbilities();
   currentLevel = 1;
   playerPtr = characterCreation(1);
   monsterPtr = generateMonster(1);

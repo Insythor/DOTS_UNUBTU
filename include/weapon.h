@@ -26,17 +26,20 @@ class weapon : public item
     weapon(int l);
     /**
       @brief Generate a weapon that matches the given stats
-      @param[in] [std::vector<int>] [0] stat [1] required amount [2] level
+      @param[in] std::vector<int> [0] stat [1] required amount [2] level
     */
     weapon(std::vector<int> sReq);
     /**
       @brief Create a weapon with all specified stats
-      @param[in] [std::string] name of the weapon
-      @param[in] [int] Size of the dice
-      @param[in] [int] How many dice rolls
-      @param[in] [std::vector<int>] [0] stat [1] required amount [2] level
+      @param[in] std::string name of the weapon
+      @param[in] intSize of the dice
+      @param[in] int How many dice rolls
+      @param[in] std::vector<int> [0] stat [1] required amount [2] level
     */
     weapon(std::string name, int dSize, int dRolls, std::vector<int> sReq);
+    /**
+      @brief ~dtor
+    */
     ~weapon();
     /**
         @brief Return the name of this weapon
@@ -54,10 +57,8 @@ class weapon : public item
     */
     int getDiceSize();
     /**
-        @brief Return the stat type, stat amount, and level required to use this weapon
-        @param[out] std::vector<int> statRequirements[0] = Stat Type
-        @param[out] std::vector<int> statRequirements[1] = Stat Amount
-        @param[out] std::vector<int> statRequirements[2] = Level Requirement
+        @brief Return the stat type, amount, and level required for this weapon
+        @param[out] std::vector<int> [0] statType : [1] statAmount : [2] level
     */
     std::vector<int> getStatRequirements();
     /**
@@ -90,10 +91,10 @@ class weapon : public item
     std::vector<dice>* weaponDice;
 
     /**
-        @brief Based on which stat is required to use this weapon, give it a type
-        @param [out] std::string Type of weapon (i.e. Sword, Rapier, Wand)
-        @param [in] int How many sides the dice has
-        @param [in] int stat required to use this weapon
+        @brief Based on the stat is required to use this weapon, give it a type
+        @param[out] std::string Type of weapon (i.e. Sword, Rapier, Wand)
+        @param[in] int How many sides the dice has
+        @param[in] int stat required to use this weapon
     */
     std::string formatOutput(int type, std::string value);
     std::string addType(int dSize, int sType);

@@ -242,6 +242,7 @@ bool combatManager::endFight()
     // We should create a gameOver state. And call it here
     else
     {
+
       print::str("Sorry Adventurer, but this is where your journey ends.\n");
         std::cout << *dynamic_cast<player*> (fightOrder[1]) << std::endl;
           return false;
