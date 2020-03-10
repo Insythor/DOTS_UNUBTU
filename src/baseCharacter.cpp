@@ -200,3 +200,12 @@ void baseCharacter::setWeapon(weapon* toSet)
   equippedWeapon = toSet;
   updateDamagePower();
 }
+
+void baseCharacter::setActiveAbilities(std::vector<ability*> toSet)
+{
+  for(auto d : activeAbilities)
+      delete d;
+  activeAbilities.clear();
+
+  activeAbilities = toSet;
+}

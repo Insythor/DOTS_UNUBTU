@@ -56,6 +56,27 @@ ability::ability(int lev, int sType)
         (ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
 }
 
+ability::ability(int lev, int sType, int abil)
+{
+  srand(time(NULL));
+  ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][abil];
+  name = ad.name;
+  cooldown = ad.cooldown;
+  currentCooldown = 0;
+  diceRolls = ad.dRoll;
+  diceSize = ad.dSize;
+  description = ad.description;
+  statRequirements.push_back(ad.aStats[0]);
+  statRequirements.push_back(ad.aStats[1]);
+  statRequirements.push_back(ad.aStats[2]);
+  abilityDice = new std::vector<dice>;
+  for(int i = 0; i < diceRolls; i++)
+    abilityDice->push_back(dice(diceSize));
+//  ability::allAbilities->at(lev - 1)[sType].erase
+//        (ability::allAbilities->at(lev - 1)[sType].begin());
+
+}
+
 ability::~ability()
 {
   delete abilityDice;
@@ -68,24 +89,26 @@ std::ostream& operator << (std::ostream& out, ability& toRender)
   switch(toRender.getStatRequirements()[0])
   {
   case 0:
-    tempReqStat = "Str";
+    tempReqStat = "Str: ";
     break;
     case 1:
-    tempReqStat = "Dex";
+    tempReqStat = "Dex: ";
     break;
     case 2:
-    tempReqStat = "Int";
+    tempReqStat = "Int: ";
     break;
     case 3:
-    tempReqStat = "Speed";
+    tempReqStat = "Spd: ";
     break;
   }
 
-
-
  out
-    << toRender.getName() << std::setw(5)
-//    << toRender.get
+//    << "| Name | CD | " + tempReqStat + " | Level | "
+    << toRender.getName() << std::setw(20 - toRender.getName().length())
+    << "CD: " << toRender.getCooldown() << std::setw(7)
+    << tempReqStat << toRender.getStatRequirements()[1] << std::setw(10)
+    << "Level: " << toRender.getStatRequirements()[2] + 1 << std::setw(5)
+    << toRender.getDiceRolls() << "d" << toRender.getDiceSize()
 
 
  << std::endl;

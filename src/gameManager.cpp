@@ -81,10 +81,7 @@ void gameManager::readInAbilities()
     int stat = std::stoi(tempData[3]);
     ability::allAbilities->at(lvlreq)[stat].push_back(ability::abilityData());
     // Store the index of the ability so we can recreate it later
-    ability::allAbilities->at(lvlreq)[stat].back().index[0] = i;
-    ability::allAbilities->at(lvlreq)[stat].back().index[1] = stat;
-    ability::allAbilities->at(lvlreq)[stat].back().index[2] =
-                              ability::allAbilities->at(lvlreq)[stat].size();
+    ability::allAbilities->at(lvlreq)[stat].back().index = i;
     ability::allAbilities->at(lvlreq)[stat].back().aStats.resize(3);
     ability::allAbilities->at(lvlreq)[stat].back().name = tempData[1];
     ability::allAbilities->at(lvlreq)[stat].back().cooldown = std::stoi(tempData[2]);
@@ -193,27 +190,17 @@ void gameManager::printConsumables()
 void gameManager::printAbility()
 {
 
-    for(int lev = 0; lev < 5; lev++)
+  for(int i = 0; i < 3; i++)
+  {
+    for(int lev = 1; lev < 6; lev++)
     {
       for(int stat = 0; stat < 4; stat++)
       {
-          for(int abil = 0; abil < 3; abil++)
-          {
-            std::cout
-
-            << ability::allAbilities->at(lev)[stat][abil].name
-            << ability::allAbilities->at(lev)[stat][abil].aStats[0]
-            << ability::allAbilities->at(lev)[stat][abil].aStats[1]
-            << ability::allAbilities->at(lev)[stat][abil].aStats[2]
-            << ability::allAbilities->at(lev)[stat][abil].cooldown
-            << ability::allAbilities->at(lev)[stat][abil].dRoll
-            << ability::allAbilities->at(lev)[stat][abil].dSize
-
-            << std::endl;
-          }
+          ability toPrint(lev, stat, i);
+          std::cout << toPrint << std::endl;
       }
     }
-
+  }
 }
 
 /**     MAIN LOOP     */
@@ -256,13 +243,13 @@ void gameManager::startGame()
             break;
         //viewinventory, vi
         case 121:
-            for(int i = 0; i < 20; i++)
-            {
-              playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
-              std::vector<consumable*> tempcon;
-              tempcon.push_back(new consumable());
-              playerPtr->getInventory()->addConsumables(tempcon);
-            }
+//            for(int i = 0; i < 20; i++)
+//            {
+//              playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
+//              std::vector<consumable*> tempcon;
+//              tempcon.push_back(new consumable());
+//              playerPtr->getInventory()->addConsumables(tempcon);
+//            }
 
             playerPtr->getInventory()->viewInventory();
           break;
@@ -307,13 +294,18 @@ void gameManager::startGame()
         case 21:
             if (playerPtr != nullptr)
                 delete playerPtr;
-
             // Spawn a player with the given race index
             if(input.size() == 2)
-                playerPtr = characterCreation(input[1]);
+            {
+              if(input[1] < 0 || input[1] > 9)
+                input [1] = 0;
+              playerPtr = characterCreation(input[1]);
+            }
             // Spawn a player at a given race index and levelUp x times
             else if (input.size() == 3)
             {
+              if(input[1] < 0 || input[1] > 9)
+                input [1] = 0;
                 playerPtr = characterCreation(input[1]);
                 for (int i = 0; i < input[2]; i++)
                     playerPtr->levelUp();
@@ -364,6 +356,11 @@ void gameManager::startGame()
             myConsumable = new consumable(input[1]);
             std::cout << *myConsumable;
             delete myConsumable;
+            break;
+
+        case 25:
+            playerPtr->getInventory()->addAbility(
+                                              new ability(input[1], input[2]));
             break;
 
             /**             debugging commands            */
@@ -464,7 +461,7 @@ std::vector<int> gameManager::formatCommand(std::string command)
         }
     }
 
-    // Print functions are prefixed with 1
+    /** Print functions are prefixed with 1 */
     if (tempCommand[0] == "prace" || tempCommand[0] == "pr")
         temp.push_back(10);
 
@@ -495,7 +492,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
          // Prints all the abilities in the csv
     else if (tempCommand[0] == "pabilities" || tempCommand[0] == "pa")
         temp.push_back(16);
-    // Create object prefixed with 2std::vector<consumable*> t
+
+    /** Create object prefixed with 2 */
     else if (tempCommand[0] == "makweapon" || tempCommand[0] == "mw")
         temp.push_back(20);
     // Make a player with a chosen race
@@ -510,12 +508,15 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Start combat
     else if (tempCommand[0] == "makecombat" || tempCommand[0] == "mc")
         temp.push_back(23);
-
     // Make a consumable, also needs an index.
     else if (tempCommand[0] == "makeconsumable" || tempCommand[0] == "mcon")
         temp.push_back(24);
+    // Make an ability and add it to the players inventory
+    else if (tempCommand[0] == "makeability" || tempCommand[0] == "mab")
+        temp.push_back(25);
 
-    // debugging gets a prefix of 9
+
+    /** debugging gets a prefix of 9 */
     else if (tempCommand[0] == "clear")
         temp.push_back(90);
     // add x to the players current experience
@@ -789,6 +790,7 @@ monster* gameManager::generateMonster(int l)
         l);
 
     temp->spawnWeapon(currentLevel);
+    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
 
     return temp;
 }
@@ -862,7 +864,8 @@ player* gameManager::characterCreation()
   toRead.close();
 
   std::cout << "\n\n\n";
-  // Print the stairs txt file, and decrease the speed as the "animation" plays
+  /** Print the stairs txt file, and increase the speed
+                                                  as the "animation" plays */
 
 /**
   print::vec_faster(stairs, true);
@@ -946,7 +949,35 @@ player* gameManager::characterCreation(int index)
         baseCharacter::allRaces->at(index).maxHP,
         baseCharacter::allRaces->at(index).mStats);
 
-    temp->spawnWeapon(currentLevel);
+
+    int tMainStat = 0;
+    int tMainStatIndex;
+    // Check if str, dex, or int is highest for that race
+    for (unsigned int i = 0; i < temp->getStatBonuses().size(); i++)
+    {
+        if (temp->getStats()[i] > tMainStat)
+        {
+            tMainStat = temp->getStats()[i];
+            tMainStatIndex = i;
+        }
+        if (i == 2 && temp->getStats()[i] > tMainStat
+                   && temp->getStats()[0] < temp->getStats()[i])
+        {
+            tMainStat = temp->getStats()[i];
+            tMainStatIndex = i;
+        }
+    }
+    std::vector<int> sReq;
+    sReq.push_back(tMainStatIndex);
+    sReq.push_back(temp->getStats()[tMainStatIndex]);
+    sReq.push_back(temp->getLevel());
+    temp->getWeapon();
+   // Equip weapon made just for our player
+   temp->setWeapon(new weapon(sReq));
+
+    std::vector<ability*> tempAbil;
+    tempAbil.push_back(new ability(1, tMainStatIndex));
+    temp->setActiveAbilities(tempAbil);
 
     return temp;
 }

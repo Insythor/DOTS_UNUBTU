@@ -30,13 +30,14 @@ class ability
       @brief
     */
     ability(int level, int sType);
+    ability(int level, int sType, int abil);
     /**
       @brief
     */
     virtual ~ability();
     struct abilityData
     {
-        int index[3];
+        int index;
         std::string name;
         std::vector<int> aStats;
         int cooldown;

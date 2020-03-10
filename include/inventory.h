@@ -70,6 +70,8 @@ class inventory
     */
     bool checkForRoom(unsigned int amountToAdd);
 
+    std::vector<ability*> getAbilities();
+
   private:
     std::vector<std::vector<consumable*>> consumableStacks;
     std::vector<weapon*> weapons;

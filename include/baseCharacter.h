@@ -98,6 +98,7 @@ public:
     @param[out]
   */
   std::vector<ability*> getActiveAbilities();
+  void setActiveAbilities(std::vector<ability*> toSet);
   /**
     @brief Increase the current gold of the character by the given amount.
     @param[in] int Gold to add

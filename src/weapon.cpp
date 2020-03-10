@@ -9,6 +9,10 @@ weapon::weapon()
 
 weapon::weapon(int l)
 {
+  // Check in case we try and spawn a weapon an level 0
+  if(l <= 0)
+    l = 1;
+
   srand(time(NULL));
 
   weaponDice = new std::vector<dice>;
@@ -17,6 +21,10 @@ weapon::weapon(int l)
 
 weapon::weapon(std::vector<int> sReq)
 {
+  // Check in case we try and spawn a weapon an level 0
+  if(sReq[2] <= 0)
+    sReq[2] = 1;
+
   srand(time(NULL));
   weaponDice = new std::vector<dice>;
 

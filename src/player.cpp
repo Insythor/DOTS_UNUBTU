@@ -99,28 +99,36 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer)
         << " / " << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
-        << std::setw(goldSpacer) << "Gold: " << toRender.getGold() << "\n"
-        /** Weapon */
-        << toRender.getWeapon()->getName() << std::setw(3)
-        << toRender.getWeapon()->getDiceRolls() << "d"
-        << toRender.getWeapon()->getDiceSize()
-        << dmgBonusSign << dmgBonus
+        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
 
         << "\n" << std::setfill('.')
         /** Stats */
-        << "0.Str" << std::setw(5) << toRender.getStats()[0] << strBonus
+        << "Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
-        << "1.Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
+        << "Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
-        << "2.Int" << std::setw(5) << toRender.getStats()[2] << intBonus
+        << "Int" << std::setw(5) << toRender.getStats()[2] << intBonus
                          << abs(toRender.getStatBonuses()[2]) << "\n"
-        << "3.Spd" << std::setw(5) << toRender.getStats()[3]
+        << "Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
 
+        /** Weapon */
+        << "Weapon: "
+        << toRender.getWeapon()->getName() << std::setw(3)
+        << toRender.getWeapon()->getDiceRolls() << "d"
+        << toRender.getWeapon()->getDiceSize()
+        << dmgBonusSign << dmgBonus << "\n";
 
 
-        << std::endl;
+        if(!toRender.getActiveAbilities().empty())
+        {
+          out << "Abilities:\n";
+          for(auto i : toRender.getActiveAbilities())
+            out << *i;
+        }
+
+    out << std::endl;
     return out;
 }
 
