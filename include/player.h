@@ -1,11 +1,23 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief The user will play as an instance of this class.
+           The Player class is the hero (adventurer) that the user uses to
+           interact with DOTS, and the users source of progression.
+
+
+*/
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
 #define DIR_PLAYERSAVE "../../docs/DATA/save"
 
+// Inherited Class
 #include "baseCharacter.h"
+// User Defined
 #include "print.h"
-
+// Math
 #include <algorithm>
 
 
@@ -35,7 +47,7 @@ class player : public baseCharacter
     */
     friend std::ostream& operator << (std::ostream& out, player& toRender);
     /**
-      @brief
+      @brief Move abilities between the players active and stored abilities
     */
     void swapAbilities();
     /**

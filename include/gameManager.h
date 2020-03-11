@@ -1,3 +1,10 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief
+
+*/
+
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 

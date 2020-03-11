@@ -4,7 +4,7 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
                                         std::vector<int> tMStats, int l)
 {
     level = l;
-    // Currently does nothing if the monster is a boss
+    //Error:  Currently does nothing if the monster is a boss
     if (level % 5 == 0)
         isBoss = true;
     else
@@ -14,8 +14,6 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
-    equippedWeapon = nullptr;
-    checkStatBonuses();
     initMonster();
 }
 

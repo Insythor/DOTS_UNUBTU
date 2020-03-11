@@ -2,6 +2,8 @@
 
 combatManager::combatManager(player* p, monster* m)
 {
+    // Create an array of pointers to the parent class of the 
+    // monster and player so we can flip-flop between them easily
     fightOrder = new baseCharacter* [2];
     // If the player's speed is >= the monsters speed, the player goes first
     if (p->getStats()[3] >= m->getStats()[3])
@@ -41,7 +43,7 @@ bool combatManager::startFight()
          << " has gotten the first attack against you!\n";
     }
 
-    // forceQuit is for debugging
+    // forceQuit is for debugging, takes you to looting the monster
     while (!checkCombatDone() && forceQuit)
     {
         // dummy variables to consume user input
@@ -53,7 +55,6 @@ bool combatManager::startFight()
           //Reduce the CD on all the players abilities
           for(auto ab : fightOrder[1]->getActiveAbilities())
               ab->reduceCooldown();
-
 
             if (turnCount > 0)
             {
@@ -90,14 +91,13 @@ bool combatManager::startFight()
             }
               else index++;
           }
-
             // Currently if it's the monsters turn, just auto attack
             input.push_back(1);
         }
 
         switch (input[0])
         {
-        // Attack with base weapon
+        // dealDamage with equipped weapon
         // attack, atk
         case 1:
             tempDamage = fightOrder[playersTurn]->dealDamage();
@@ -317,7 +317,6 @@ bool combatManager::endFight()
                     }
                     else if(input == 0)
                         break;
-
                 break;
 
             default:

@@ -1,5 +1,5 @@
 #include "gameManager.h"
-/**   Initiate all static pointers*/
+/**   Initiate all static pointers */
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
 std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
@@ -9,19 +9,23 @@ std::vector<std::vector<std::vector<ability::abilityData>>>*
         std::vector<std::vector<std::vector<ability::abilityData>>>;
 gameManager::gameManager()
 {
-
+    /** Read in data from docs/DATA/"file" into the static pointers */
   readInRaceData();
   readInWeapons();
   readInRooms();
   readInAbilities();
+  // Game starts at level 1
   currentLevel = 1;
+  // Initiate the memory location of the playerPtr
   playerPtr = characterCreation(1);
+  // Initiate the memory location of the monsterPtr
   monsterPtr = generateMonster(1);
-
+  // Set the screen to our default values
+  print::initScreen();
 
 // mainMenu();
 
-  print::initScreen();
+
 }
 
  gameManager::~gameManager()
@@ -49,7 +53,6 @@ void gameManager::readInWeapons()
 
   weapon::allNames->shrink_to_fit();
 
-  // printWeapons();
 }
 
 void gameManager::readInRooms()
@@ -59,7 +62,6 @@ void gameManager::readInRooms()
 
 void gameManager::readInAbilities()
 {
-
   std::ifstream toRead;
   toRead.open(DIR_ABILITY);
   std::vector<std::string> tempData;
@@ -135,7 +137,6 @@ void gameManager::readInRaceData()
     tempData.erase(tempData.begin(), tempData.begin() + 8);
   }
   baseCharacter::allRaces->shrink_to_fit();
- // printRaces();
 }
 void gameManager::printRaces()
 {
@@ -189,7 +190,6 @@ void gameManager::printConsumables()
 
 void gameManager::printAbility()
 {
-
   for(int i = 0; i < 3; i++)
   {
     for(int lev = 1; lev < 6; lev++)
@@ -616,22 +616,23 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
 void gameManager::mainMenu()
 {
+  // Make the main menu taller to account for the buttons
   system("resize -s 41 80");
 
   std::ifstream toRead;
   std::string line;
-
   std::vector<std::string> logo;
+  // Read in the Logo and store each line in the logo std::vector<std::string>
   toRead.open(DIR_DOTS_LOGO);
   while(getline(toRead, line))
   {
     logo.push_back(line);
   }
   toRead.close();
-
+ 
   logo.shrink_to_fit();
 
-    // Read in the intro story that plays after the logo comes up
+  // Read in the intro story that plays after the logo comes up
   std::vector<std::string> introText;
   toRead.open(DIR_INTRO);
   while(!toRead.eof())
@@ -652,11 +653,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    char sysCommand[bgColour.length()];
+    //char sysCommand[bgColour.length()];
 
-    strcpy(sysCommand, bgColour.c_str());
+    //strcpy(sysCommand, bgColour.c_str());
 
-    system(sysCommand);
+    //system(sysCommand);
 
     for(int f = 0; f < 41; f++)
       std::cout << "\n";
@@ -675,11 +676,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    char sysCommand[bgColour.length()];
+    //char sysCommand[bgColour.length()];
 
-    strcpy(sysCommand, bgColour.c_str());
+    //strcpy(sysCommand, bgColour.c_str());
 
-    system(sysCommand);
+    //system(sysCommand);
 
     for(int i = 0; i < 30; i++)
       std::cout<<std::endl;
@@ -740,22 +741,24 @@ void gameManager::mainMenu()
   // Reprint the logo on the screen with the buttons beneath
   for(unsigned int row = 0; row < logo.size(); row ++)
   {
+      // Disciple
       if (row == 0)
       {
         print::textColour(print::C_WHITE);
       }
-
+      // Of The
       else if(row == 11)
       {
         print::textColour(print::C_BROWN);
       }
-
+      // Spire
       else  if(row == 21)
       {
         print::textColour(print::C_RED);
       }
     std::cout << logo[row] << "\n";
   }
+  // Set text colour back to light grey
   print::textColour(print::C_DEFAULT);
   print::vec_time(menuButtons, 0);
 
@@ -882,16 +885,17 @@ player* gameManager::characterCreation()
 
   print::str("Anyways adventurer, where do you come from? "
              "I can't quite place it.\n\n");
-
+  // Show the user the races to choose from
   printRaces();
   // Set the cursor to box
   print::setCursor(true);
   std::cout << "\nRace Index: ";
-
+  // Select the race for your hero
   std::cin >> tempRaceIndex;
   std::cout << std::endl;
   // set the cursor to underscore
   print::setCursor(false);
+  // "Story"
   print::str("One " + baseCharacter::allRaces->at(tempRaceIndex).race +
       " coming right up!!!");
 
@@ -899,15 +903,14 @@ player* gameManager::characterCreation()
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
   system("clear");
-
+  
   print::str("*scurrying (and panting) can be heard as the hero approaches*\n");
 
   std::ifstream toRead;
   std::string line;
   std::vector<std::string> stairs;
-
+  // Dramatic effect
   toRead.open(DIR_STAIRS_SPIRAL);
-
   while (getline(toRead, line))
       stairs.push_back(line);
   toRead.close();
@@ -927,11 +930,11 @@ player* gameManager::characterCreation()
   std::cout << std::endl;
 
   std::cout << "Name: ";
-
+  // Enter the name for your hero
   std::cin >> tempName;
   print::setCursor(false);
   std::cout << std::endl;
-
+  // Print the character that the user has made
   print::str("Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
              " named " + tempName +
              " \nNo ones ever done that combo before I'm sure");
@@ -950,8 +953,9 @@ player* gameManager::characterCreation()
    // The player needs to have a weapon before leveling up so that the damage
    // Power check doesn't seg fault
    temp->spawnWeapon(1);
+   // Add 6 points of the users choice to the heros main stats
    temp->levelUp();
-    // Give the player between 10 and 40 gold to start
+   // Give the player between 10 and 40 gold to start
    temp->setGold(rand() % 41 + 10);
 
    system("clear");
@@ -961,7 +965,7 @@ player* gameManager::characterCreation()
 
     int tMainStat = 0;
     int tMainStatIndex;
-    // Check if str, dex, or int is highest for that race
+    // Check if str, dex, or int is highest for this heros race
     for (unsigned int i = 0; i < temp->getStatBonuses().size(); i++)
     {
         if (temp->getStats()[i] > tMainStat)
@@ -976,14 +980,16 @@ player* gameManager::characterCreation()
             tMainStatIndex = i;
         }
     }
+    // [0] statReq : [1] statAmount : [2] levelReq
     std::vector<int> sReq;
     sReq.push_back(tMainStatIndex);
     sReq.push_back(temp->getStats()[tMainStatIndex]);
     sReq.push_back(temp->getLevel());
-    temp->getWeapon();
-   // Equip weapon made just for our player
-   temp->setWeapon(new weapon(sReq));
 
+    // Equip the hero with a weapon that uses their highest stat
+    temp->setWeapon(new weapon(sReq));
+    // Add an ability to the heros active abilities at level 1,
+    // and the heros highest stat
     std::vector<ability*> tempAbil;
     tempAbil.push_back(new ability(1, tMainStatIndex));
     temp->setActiveAbilities(tempAbil);
@@ -1020,7 +1026,6 @@ player* gameManager::characterCreation(int index)
     sReq.push_back(tMainStatIndex);
     sReq.push_back(temp->getStats()[tMainStatIndex]);
     sReq.push_back(temp->getLevel());
-    temp->getWeapon();
    // Equip weapon made just for our player
    temp->setWeapon(new weapon(sReq));
 

@@ -1,6 +1,13 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief
+
+*/
+
 #ifndef DICE_H
 #define DICE_H
-
+// Time
 #include <random>
 #include <time.h>
 

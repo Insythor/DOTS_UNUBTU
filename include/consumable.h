@@ -1,9 +1,16 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief
+
+*/
+
 #ifndef CONSUMABLE_H
 #define CONSUMABLE_H
 
 #define DIR_CONSUMABLE "../docs/DATA/consumableData.csv"
 
-// User Defined
+// Inherited Class
 #include "item.h"
 // Constainers
 #include <vector>

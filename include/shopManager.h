@@ -1,6 +1,13 @@
+/**
+    @author
+
+    @brief
+
+*/
+
 #ifndef SHOPMANAGER_H
 #define SHOPMANAGER_H
-
+// User Defined
 #include "inventory.h"
 
 class shopManager

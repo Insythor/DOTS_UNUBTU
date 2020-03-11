@@ -1,3 +1,10 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief
+
+*/
+
 #ifndef COMBATMANAGER_H
 #define COMBATMANAGER_H
 

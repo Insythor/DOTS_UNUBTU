@@ -1,10 +1,19 @@
+/**
+    @author Victor Besson
+
+    @brief
+
+*/
+
 #ifndef INVENTORY_H
 #define INVENTORY_H
-
+// User Defined 
 #include "consumable.h"
 #include "weapon.h"
 #include "ability.h"
+// Containers
 #include <vector>
+// I/O
 #include <iostream>
 
 class inventory

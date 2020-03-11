@@ -1,3 +1,10 @@
+/**
+    @author 
+
+    @brief
+
+*/
+
 #ifndef ABILITY_H
 #define ABILITY_H
 // User Defined
@@ -30,6 +37,8 @@ class ability
       @brief
     */
     ability(int level, int sType);
+    /// this needs to be changed to take in the line of a csv
+    /// so we can make an ability from a save file
     ability(int level, int sType, int abil);
     /**
       @brief

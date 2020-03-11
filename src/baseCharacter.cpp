@@ -5,8 +5,11 @@
 baseCharacter::baseCharacter()
 {
     cInventory = new inventory();
+    equippedWeapon = nullptr;
     mainStats.resize(4, 0);
     statBonuses.resize(4, 0);
+    gold = 0;
+    level = 0;
 }
 
 baseCharacter::~baseCharacter()
@@ -54,9 +57,10 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
 
 void baseCharacter::spawnWeapon(int level)
 {
+    // If a weapon already exists, delete it
     if (equippedWeapon != nullptr)
         delete equippedWeapon;
-
+    // Not sure if we still need this
     if (this != nullptr)
     {
         equippedWeapon = new weapon(level);
@@ -67,6 +71,7 @@ void baseCharacter::spawnWeapon(int level)
 
 void baseCharacter::checkStatBonuses()
 {
+    // Reset statBonuses vector
     statBonuses.clear();
     statBonuses.resize(4);
     // Check Str, Dex, Int
@@ -105,9 +110,12 @@ int baseCharacter::useAbility(unsigned int index)
 {
     if(activeAbilities.size() > index)
     {
+        // If the ability uses a stat that the player has a bonus with
+        // add that bonus to the damage the ability deals
         return activeAbilities[index]->dealDamage() +
         statBonuses[activeAbilities[index]->getStatRequirements()[0]];
     }
+    // Invalid Ability index
     else
     {
         return 0;
@@ -200,18 +208,23 @@ void baseCharacter::takeDamage(int damage)
   {
     return gold;
   }
+
 /**     setters     */
 void baseCharacter::setWeapon(weapon* toSet)
 {
   equippedWeapon = toSet;
+  // Update the new weapons damage bonus depending on the main stat used
+  // by the weapon, and the players stat bonus for that stat
   updateDamagePower();
 }
 
 void baseCharacter::setActiveAbilities(std::vector<ability*> toSet)
 {
+  // Delete all the active abilities that the player has
   for(auto d : activeAbilities)
       delete d;
+  // Clear the array of nullptrs
   activeAbilities.clear();
-
+  // Set the active ablilities of the player to the given abilities
   activeAbilities = toSet;
 }

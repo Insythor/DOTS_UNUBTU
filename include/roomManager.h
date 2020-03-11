@@ -1,19 +1,24 @@
-#ifndef ROOM_H
-#define ROOM_H
+/**
+    @author
 
-#define roomDir "docs/DATA/rooms/"
-#define DEFAULT_WIDTH 79
-#define DEFAULT_HEIGHT 16
-#define DEFAULT_FILE ".txt"
+    @brief
 
+*/
+
+#ifndef ROOMMANAGER_H
+#define ROOMMANAGER_H
+//User Defined
 #include "chest.h"
 #include "player.h"
 #include "monster.h"
 #include "combatManager.h"
-#include <fstream>
-#include <sstream>
+// Containers
 #include <string>
 #include <vector>
+// I/O
+#include <fstream>
+#include <sstream>
+// Math
 #include <algorithm>
 
 class roomManager
@@ -72,4 +77,4 @@ private:
   monster* generateMonster();
 };
 
-#endif // ROOM_H
+#endif // ROOMMANAGER_H

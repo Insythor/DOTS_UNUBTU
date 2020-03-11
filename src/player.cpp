@@ -9,18 +9,13 @@ player::player()
     maxHealth = 0;
     currentHealth = maxHealth;
 
-    equippedWeapon = nullptr;
-
     currentExperience = 0;
     maxExperience = 100;
-
-    level = 0;
-    gold = 0;
 
     statusEffect.resize(3, 0);
     checkStatBonuses();
 }
-
+// Essentially the default constructor for the player
 player::player(std::string tName, std::string tRace, int tMaxHP,
               std::vector<int> tStat)
 {
@@ -30,17 +25,12 @@ player::player(std::string tName, std::string tRace, int tMaxHP,
   maxHealth = tMaxHP;
   currentHealth = maxHealth;
 
-  equippedWeapon = nullptr;
-
   mainStats = tStat;
 
   checkStatBonuses();
 
   currentExperience = 0;
   maxExperience = 100;
-
-  level = 0;
-  gold = 0;
 
   statusEffect.resize(3, 0);
 
@@ -203,15 +193,15 @@ void player::swapAbilities()
   //    std::cout << "input " << i << ": " << input[i] << std::endl;
 
     }
-    // So we get the proper index starting from 0
+    // Decrement the index so that it starts counting at 0
     index--;
 
-    // Temp pointer for passing
+    // Temp pointer to swap abilities
     ability* tempAb = nullptr;
 
     switch(input[0])
     {
-      // add an active ability
+      // add an abilitiy to the active abilities from the stored abilities
       case 99:
   //      std::cout << "add to active" << std::endl;
           if(activeAbilities.size() >= 2)
@@ -228,7 +218,8 @@ void player::swapAbilities()
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1]));
         break;
-
+    // Remove an ability from the active abilities 
+        // and place it in the stored abilities
       case 100:
    //     std::cout << "From active to inventory" << std::endl;
           if(input[1] <= lastActiveIndex && input[1] >= 0)

@@ -1,6 +1,16 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief Parent class of Weapon and Consumable.
+
+
+
+*/
+
 #ifndef ITEM_H
 #define ITEM_H
 
+// Containers
 #include <string>
 
 class item

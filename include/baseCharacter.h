@@ -1,25 +1,37 @@
-// Superclass of the player/monsters
+/**
+    @author Tyler Justinen-Teite
+
+    @brief Parent class of Player and Monster.
+           Stores the basic functionality for a Player Character 
+           (or Non-Player Character (monsters)).
+
+    @param cInventory = new inventory()
+    @param weapon* equippedWeapon = nullptr
+    @param mainStats.resize(4, 0)
+    @param statBonuses.resize(4, 0)
+
+*/
+
+
 #ifndef BASECHARACTER_H
 #define BASECHARACTER_H
 
+// User Defined
 #include "ability.h"
 #include "inventory.h"
-
-#include <iostream>
-#include <iomanip>
+// Containers
 #include <string>
 #include <vector>
+// I/O
+#include <iostream>
+#include <iomanip>
 
+// Forward declarations
 class ability;
 class inventory;
 
 class baseCharacter
 {
-    /**
-        @brief Default output operator overload for baseCharacter. This is essentially
-               a reduced version of the overloads in the player and monster class.
-        @param[out] Name, HealthPoints, Level, Weapon
-    */
     friend std::ostream& operator << (std::ostream& out, baseCharacter& toRender);
 public:
   baseCharacter();
@@ -118,12 +130,23 @@ public:
     @brief Attack with the equipped weapon.
     @param[out] int Weapon damage + Damage Power
   */
-  // Currently can deal negative damage which actually heals the hero
   int dealDamage();
+  /**
+    @brief
+    @param[in]
+    @param[out]
+  */
   int useAbility(unsigned int index);
-
+  /**
+    @brief
+    @param[in]
+  */
   void spawnWeapon(int level);
+  /**
+    @brief
+  */
   static std::vector<baseCharacter::raceData>* allRaces;
+
 protected:
 
   std::string race;
@@ -159,32 +182,6 @@ protected:
            so use this weapon
   */
   void updateDamagePower();
-
-
 };
 
 #endif // BASECHARACTER_H
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,13 @@
+/**
+    @author 
+
+    @brief
+
+*/
+
 #ifndef CHEST_H
 #define CHEST_H
+// User Defined
 #include "inventory.h"
 
 class chest

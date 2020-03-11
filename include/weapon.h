@@ -1,14 +1,23 @@
+/**
+    @author Tyler Justinen-Teite
+
+    @brief 
+
+*/
+
 #ifndef WEAPON_H
 #define WEAPON_H
 
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 
+// Inherited Class
 #include "item.h"
+// User Defined
 #include "dice.h"
-
+// I/O
 #include <iostream>
 #include <fstream>
-
+// Containters
 #include <vector>
 #include <string>
 // Temp for random weapon generation
@@ -18,6 +27,14 @@
 
 class weapon : public item
 {
+/**
+  weapon should be a constant reference, but when it's a constant
+  it gets angry that we're accessing non constant members. So just
+  don't change any variables of the weapon in the print function...
+*/
+    friend std::ostream& operator << (std::ostream& out, weapon& toRender);
+    friend std::ostream& operator >> (std::ostream& out, weapon& readIn);
+
   public:
     weapon();
     /**
@@ -61,13 +78,7 @@ class weapon : public item
         @param[out] std::vector<int> [0] statType : [1] statAmount : [2] level
     */
     std::vector<int> getStatRequirements();
-    /**
-      weapon should be a constant reference, but when it's a constant
-      it gets angry that we're accessing non constant members. So just
-      don't change any variables of the weapon in the print function...
-    */
-    friend std::ostream& operator << (std::ostream& out, weapon &toRender);
-    friend std::ostream& operator >> (std::ostream& out, weapon& readIn);
+
     /**
       @brief Spawn a random weapon based, stats and damage increased
     */

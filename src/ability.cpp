@@ -63,7 +63,7 @@ ability::ability(int lev, int sType)
   ability::allAbilities->at(lev - 1)[sType].erase
         (ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
 }
-
+// Testing : going to be deleted
 ability::ability(int lev, int sType, int abil)
 {
   if(lev > 5 || lev < 1)
@@ -179,9 +179,13 @@ std::string ability::viewAbilityCombat()
 
 void ability::reduceCooldown()
 {
+    // Check if this ability is on cooldown 
+    // && if the remaining cooldown is > 0
+        // Stops the currentCD from going negative for combat HUD
     if(onCooldown && currentCooldown > 0)
     {
         currentCooldown--;
+        // Take this ability off cooldown
         if(currentCooldown <= 0)
         {
             onCooldown = false;
