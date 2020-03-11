@@ -71,7 +71,10 @@ void baseCharacter::checkStatBonuses()
     for (int i = 0; i < 3; i ++)
     {
       // Needs to work with odds (i.e. 7 should be - 2 not -1
-        statBonuses[i] = (mainStats[i] - 10) / 2;
+        if((mainStats[i] - 10) / 2 >= 0)
+          statBonuses[i] = (mainStats[i] - 10) / 2;
+        else
+          statBonuses[i] = 0;
         // Every 4 points of dexterity increases the players speed by 1
         // I figure this way dex grants a bonus to speed, but since it also
         // increases damage, it needs to have some balance

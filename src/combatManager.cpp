@@ -28,15 +28,14 @@ bool combatManager::startFight()
     // Start of combat text formatting
     if (playersTurn)
     {
-
-        std::cout
+      std::cout
         << "\nCOMBAT HAS BEGUN!!!\n" << fightOrder[playersTurn]->getName() +
             "'s faster than the " + fightOrder[!playersTurn]->getRace()
-             << "\nWhat's your first move? ";
+        << "\nWhat's your first move? ";
     }
     else
     {
-        std::cout
+      std::cout
          << "\nCOMBAT HAS BEGUN!!!\n"
          << "A " + fightOrder[!playersTurn]->getRace()
          << " has gotten the first attack against you!\n";
@@ -55,6 +54,7 @@ bool combatManager::startFight()
           for(auto ab : fightOrder[1]->getActiveAbilities())
               ab->reduceCooldown();
 
+            print::setCursor(true);
             if (turnCount > 0)
             {
               // Print out the players basic hero stats each turn
@@ -67,12 +67,28 @@ bool combatManager::startFight()
            // user hits enter
            std::getline(std::cin, command);
            input = formatCommand(command);
+           print::setCursor(false);
         }
         else
         {
           // Reduce the CD on the monsters abilities
           for(auto ab : fightOrder[0]->getActiveAbilities())
             ab->reduceCooldown();
+          // Index of active ability
+          int index = 0;
+          // If an active ability is off cooldown, store the location
+          // and push back the input
+          for(auto ab : fightOrder[0]->getActiveAbilities())
+          {
+            if(ab->getCooldown() == 0)
+            {
+              input.push_back(2);
+              input.push_back(index);
+              break;
+            }
+              else index++;
+          }
+
             // Currently if it's the monsters turn, just auto attack
             input.push_back(1);
         }
@@ -92,22 +108,56 @@ bool combatManager::startFight()
                 << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
                 << " to " << fightOrder[!playersTurn]->getName()
                 << "   HP: " << fightOrder[!playersTurn]->getCurrentHealth()
-                    << " / " << fightOrder[!playersTurn]->getMaxHealth()
+                << " / " << fightOrder[!playersTurn]->getMaxHealth()
                 << std::endl;
             break;
         // ability, abl
         case 2:
-            std::cout <<
-                "Ability selected, this feature is currently under development,"
-                << " select something else"
-                << std::endl;
-            playersTurn = !playersTurn;
-            break;
+          if(playersTurn)
+          {
+            input[0] = 0;
+            for(auto ab : fightOrder[1]->getActiveAbilities())
+              std::cout
+                << std::setw(4) << ++input[0]
+                << std::setw(10 + ab->getName().length() / 2) << *ab
+                << "\nWhich ability would you like to use? [int]: ";
+            // Reusing the input vector instead of declaring new index
+            std::cin >> input[0];
+            std::cin.ignore();
+            input[0]--;
+
+            if(input[0] < fightOrder[playersTurn]->getActiveAbilities().size()
+               && input[0] >= 0)
+            {
+              tempDamage = fightOrder[playersTurn]->useAbility(input[0]);
+            }
+          }
+          else
+          {
+              tempDamage = fightOrder[playersTurn]->useAbility(input[1]);
+          }
+
+          fightOrder[!playersTurn]->takeDamage(tempDamage);
+          std::cout
+            << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
+            << " to " << fightOrder[!playersTurn]->getName()
+            << "   HP: " << fightOrder[!playersTurn]->getCurrentHealth()
+            << " / " << fightOrder[!playersTurn]->getMaxHealth()
+            << std::endl;
+
+          playersTurn = !playersTurn;
+          break;
 
         // pp, pplayer
         case 12:
             // Print the basic character information for the player
             std::cout << *fightOrder[1] << std::endl;
+            // Reusing the input vector instead of declaring new index
+            input[0] = 0;
+            for(auto ab : fightOrder[1]->getActiveAbilities())
+              std::cout
+                << std::setw(4) << ++input[0]
+                << std::setw(10 + ab->getName().length() / 2) << *ab;
             // So printing won't cost you the turn
             playersTurn = !playersTurn;
             break;
@@ -128,7 +178,7 @@ bool combatManager::startFight()
         case -1:
             std::cout << "\n"
                 << "atk:        Attack the monster with your weapon.\n"
-                << "abl [int]:  Choose an ability to perform on the monster.\n"
+                << "abl:  Choose an ability to perform on the monster.\n"
 
                 << "\n\n                   DEBUGGING"
                 << "\n**************************************************\n"
