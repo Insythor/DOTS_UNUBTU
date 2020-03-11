@@ -35,7 +35,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
     std::string intBonus;
     // Formatting variables for the damage bonus the player recieves
     // from using their current weapon based on their stats
-    int dmgBonus = abs(toRender.getDamagePower());
+//    int dmgBonus = abs(toRender.getDamagePower());
 
     std::string dmgBonusSign;
     // Change the operation after the weapon damage to +/- based on the players stats
@@ -76,10 +76,19 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
                          << abs(toRender.getStatBonuses()[2]) << "\n"
         << "3.Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
-        << std::setfill(' ') << "\n"
+        << std::setfill(' ') << "\n";
 
-    << std::endl;
-
+        if(!toRender.getActiveAbilities().empty())
+        {
+          int index = 0;
+          out << "Active Abilities:\n";
+          for(auto i : toRender.getActiveAbilities())
+            out
+            << std::setw(4) << ++index
+            << std::setw(10 + i->getName().length() / 2)
+            << *i << std::endl;
+        }
+    out << std::endl;
 
     return out;
 }
@@ -104,13 +113,22 @@ void monster::initMonster()
         }
     }
     // Temp dice to be used for selecting which stats the monster gets
-    dice lvlDice;
+    // If it's a boss, increase its odds of getting good stat rolls (bigger die)
+    // and double its level
+    dice* lvlDice = nullptr;
+    if(isBoss)
+    {
+      lvlDice = new dice(10);
+      level *= 2;
+    }
+    else
+      lvlDice = new dice;
 
     // Balancing comes into play here because the player gets 4 extra points at level 0
     // And the monsters points are all random
     for (int i = 0; i < level; i++)
     {
-        int tIndex = lvlDice.roll();
+        int tIndex = lvlDice->roll();
         // Print out the dice roll for debugging
         // std::cout << tIndex << std::endl;
         // Roll 5 or 6, gain +2 to the main stat
@@ -120,13 +138,13 @@ void monster::initMonster()
         else if (tIndex >= 3)
         {
             mainStats[tMainStatIndex] += 1;
-            mainStats[lvlDice.roll() % 3] += 1;
+            mainStats[lvlDice->roll() % 3] += 1;
         }
         // Roll 2, gain 2 random stats
         else if (tIndex == 2)
         {
-            mainStats[lvlDice.roll() % 3] += 1;
-            mainStats[lvlDice.roll() % 3] += 1;
+            mainStats[lvlDice->roll() % 3] += 1;
+            mainStats[lvlDice->roll() % 3] += 1;
         }
         // Roll 1 gain +2 random stats, neither can be the monsters main stat
         // Ciritcal fail
@@ -136,7 +154,7 @@ void monster::initMonster()
 
             while (availablePoints != 0)
             {
-                int rIndex = lvlDice.roll() % 3;
+                int rIndex = lvlDice->roll() % 3;
                 if (rIndex != tMainStatIndex)
                 {
                     mainStats[rIndex] += 1;
@@ -144,12 +162,35 @@ void monster::initMonster()
                 }
             }
         }
-        // Add 10% of the monster current hp and
-        //     50% of the monster strength to their maxHP
-        maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
-        currentHealth = maxHealth;
+      delete lvlDice;
+      // Add 10% of the monster current hp and
+      //     50% of the monster strength to their maxHP
+      maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+      currentHealth = maxHealth;
     }
-    spawnWeapon(level);
+    if(isBoss)
+    {
+      std::vector<int> tempStatReq;
+      tempStatReq.push_back(tMainStatIndex);
+      tempStatReq.push_back(0);
+      tempStatReq.push_back(level / 2);
+
+      equippedWeapon = new weapon(tempStatReq);
+
+      std::vector<ability*> tempAbil;
+      tempAbil.push_back(new ability(level / 2, tMainStatIndex));
+      tempAbil.push_back(new ability(level / 2, tMainStatIndex));
+      setActiveAbilities(tempAbil);
+    }
+    else
+    {
+      spawnWeapon(level);
+
+      std::vector<ability*> tempAbil;
+      tempAbil.push_back(new ability(level, tMainStatIndex));
+      setActiveAbilities(tempAbil);
+    }
+
     checkStatBonuses();
     // Arbitrary amount of gold that the monster carries
     // NEEDS TO BE BALANCED

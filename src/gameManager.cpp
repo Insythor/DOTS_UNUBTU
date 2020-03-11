@@ -224,7 +224,7 @@ void gameManager::startGame()
         print::setCursor(true);
 
         std::cout << ">>> ";
-        std::getline(std::cin, command);
+        getline(std::cin, command);
 
         input = formatCommand(command);
 
@@ -267,7 +267,7 @@ void gameManager::startGame()
          // pMonster, pm
         case 13:
             std::cout << (*monsterPtr);
-            break;srand (time(NULL));
+            break;
         //pMonsterWeapon, pmw
         case 130:
             std::cout << (*monsterPtr->getWeapon()) << std::endl;
@@ -846,9 +846,6 @@ monster* gameManager::generateMonster(int l)
         baseCharacter::allRaces->at(index).mStats,
         l);
 
-    temp->spawnWeapon(currentLevel);
-    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
-
     return temp;
 }
 
@@ -860,8 +857,6 @@ monster* gameManager::generateMonster(int l, int index)
         baseCharacter::allRaces->at(index).mStats,
         l);
 
-    temp->spawnWeapon(currentLevel);
-    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
     return temp;
 }
 
@@ -873,8 +868,6 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
         baseCharacter::allRaces->at(index).mStats,
         l );
 
-    temp->spawnWeapon(currentLevel);
-    temp->getInventory()->addAbility(new ability (currentLevel, rand() % 4));
     return temp;
 }
 
@@ -884,7 +877,6 @@ player* gameManager::characterCreation()
   player* temp;
   int tempRaceIndex;
   std::string tempName;
-  std::string tempLine;
 
   system("clear;");
 
@@ -923,12 +915,10 @@ player* gameManager::characterCreation()
   std::cout << "\n\n\n";
   /** Print the stairs txt file, and increase the speed
                                                   as the "animation" plays */
-
-/**
-  print::vec_faster(stairs, true);
+  print::vec_faster(stairs);
   std::this_thread::sleep_for(std::chrono::seconds(1));
   system("clear");
-*/
+
 
   print::str("Finally! Your hero has arrived!\n"
              "What shall we call this one then?");
@@ -994,7 +984,9 @@ player* gameManager::characterCreation()
    // Equip weapon made just for our player
    temp->setWeapon(new weapon(sReq));
 
-  temp->getInventory()->addAbility(new ability(1, tMainStatIndex));
+    std::vector<ability*> tempAbil;
+    tempAbil.push_back(new ability(1, tMainStatIndex));
+    temp->setActiveAbilities(tempAbil);
 
    return temp;
 }

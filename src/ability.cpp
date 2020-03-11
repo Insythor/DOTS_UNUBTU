@@ -179,7 +179,7 @@ std::string ability::viewAbilityCombat()
 
 void ability::reduceCooldown()
 {
-    if(onCooldown)
+    if(onCooldown && currentCooldown > 0)
     {
         currentCooldown--;
         if(currentCooldown <= 0)

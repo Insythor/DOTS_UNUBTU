@@ -19,20 +19,36 @@
 class roomManager
 {
 public:
+  /**
+    @brief
+    @param[out]
+  */
 	roomManager();
 	~roomManager();
   /**
-    @brief stream in all .txt files which contain the ASCII art for the rooms
-  */
-  /**
-    @brief Return a pointer to the requested room
-    @param[in] int Type: 0 = boss, 1 = chest, 2 = monster, 3 = shop, 4 = default
-    @param[in] int Index: Which iteration of the room type (i.e. boss room 4)
+    @brief
+    @param[out]
   */
   std::string getDescription();
+  /**
+    @brief
+    @param[out]
+  */
   bool getRoomComplete();
+  /**
+    @brief
+    @param[out]
+  */
   int getLevel();
+  /**
+    @brief
+    @param[out]
+  */
   int getRoomType();
+  /**
+    @brief
+    @param[out]
+  */
   static std::vector<std::string>* allNames;
 private:
   int puzzleRoomCounter = 0;

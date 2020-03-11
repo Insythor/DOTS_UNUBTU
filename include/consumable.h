@@ -29,18 +29,17 @@ class consumable : public item
     friend std::ostream& operator << (std::ostream& out, consumable &toRender);
     /**
       @brief Return the index of the csv that this consumable was generated from
-      @param[out] [int] index
+      @param[out] int index
     */
     int getID();
     /**
         @brief return the stat to add, and how much is to be added
-        @param[out] std::vector<int>[0] Stat to add
-        @param[out] std::vector<int>[1] Quantity to add
+        @param[out] std::vector<int> [0] Str : [1] Dex : [2] Int : [3] Spd
     */
     std::vector<int> statsToAdd();
     /**
         @brief Returns if this consumable gives the player a permanent buff
-        @param[out] [bool] Book?
+        @param[out] bool Book?
     */
     bool getIsPerminant();
     /**

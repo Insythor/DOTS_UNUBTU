@@ -54,7 +54,7 @@ bool combatManager::startFight()
           for(auto ab : fightOrder[1]->getActiveAbilities())
               ab->reduceCooldown();
 
-            print::setCursor(true);
+
             if (turnCount > 0)
             {
               // Print out the players basic hero stats each turn
@@ -63,6 +63,7 @@ bool combatManager::startFight()
                 << "\nWhat will " << fightOrder[1]->getName()
                 << " do next: ";
             }
+           print::setCursor(true);
            // Get all input from the user as a single string until the
            // user hits enter
            std::getline(std::cin, command);
@@ -80,7 +81,8 @@ bool combatManager::startFight()
           // and push back the input
           for(auto ab : fightOrder[0]->getActiveAbilities())
           {
-            if(ab->getCooldown() == 0)
+    // std::cout << ab->getCurrentCooldown() << std::endl;
+            if(ab->getCurrentCooldown() == 0)
             {
               input.push_back(2);
               input.push_back(index);
@@ -115,23 +117,49 @@ bool combatManager::startFight()
         case 2:
           if(playersTurn)
           {
-            input[0] = 0;
+            if(fightOrder[1]->getActiveAbilities().empty())
+            {
+              std::cout << "Currently " + fightOrder[1]->getName() +
+              " has no active abilities" << std::endl;
+            }
+            input.push_back(0);
             for(auto ab : fightOrder[1]->getActiveAbilities())
               std::cout
-                << std::setw(4) << ++input[0]
-                << std::setw(10 + ab->getName().length() / 2) << *ab
-                << "\nWhich ability would you like to use? [int]: ";
-            // Reusing the input vector instead of declaring new index
-            std::cin >> input[0];
-            std::cin.ignore();
-            input[0]--;
+                << std::setw(4) << ++input[1]
+                << std::setw(10 + ab->getName().length() / 2) << ab->getName()
+                << std::setw(15 + ab->getName().length())
+                << "CD Remaining: " << ab->getCurrentCooldown()
+                << std::setw(3)
+                << ab->getDiceRolls() << "d" << ab->getDiceSize()
+                << std::endl;
+           std::cout << "\nWhich ability would you like to use? [int]: ";
 
-            if(input[0] < fightOrder[playersTurn]->getActiveAbilities().size()
-               && input[0] >= 0)
+           print::setCursor(true);
+            // Reusing the input vector instead of declaring new index
+            std::cin >> input[1];
+            print::setCursor(false);
+            std::cin.ignore();
+            input[1]--;
+
+            if(static_cast<unsigned int> (input[1])
+                    < fightOrder[playersTurn]->getActiveAbilities().size()
+               && input[1] >= 0
+               && fightOrder[playersTurn]->
+               getActiveAbilities()[input[1]]->getCurrentCooldown() == 0)
             {
-              tempDamage = fightOrder[playersTurn]->useAbility(input[0]);
+              tempDamage = fightOrder[playersTurn]->useAbility(input[1]);
+            }
+            else
+            {
+              std::cout
+              << "Invalid Active Ability Index\n"
+              << "Abilities can only be used if their CD Remaining == 0"
+              << std::endl;
+              playersTurn = !playersTurn;
+              break;
             }
           }
+          // Monster using an ability
           else
           {
               tempDamage = fightOrder[playersTurn]->useAbility(input[1]);
@@ -139,13 +167,15 @@ bool combatManager::startFight()
 
           fightOrder[!playersTurn]->takeDamage(tempDamage);
           std::cout
-            << fightOrder[playersTurn]->getName() << " dealt " << tempDamage
-            << " to " << fightOrder[!playersTurn]->getName()
+            << fightOrder[playersTurn]->getName()
+            << " used "
+         << fightOrder[playersTurn]->getActiveAbilities()[input[1]]->getName()
+            << " dealing " << tempDamage
+            << " damage to " << fightOrder[!playersTurn]->getName()
             << "   HP: " << fightOrder[!playersTurn]->getCurrentHealth()
             << " / " << fightOrder[!playersTurn]->getMaxHealth()
             << std::endl;
 
-          playersTurn = !playersTurn;
           break;
 
         // pp, pplayer
@@ -244,25 +274,25 @@ bool combatManager::endFight()
 
             << std::endl;
 
-        int input;
+
         bool monsterLooted = false;
 
         while (!monsterLooted)
         {
-          std::cout << "Would you like to 'Loot' the monster? ";
-
+            int input;
+            std::cout << "Would you like to 'Loot' the monster? ";
+            print::setCursor(true);
             std::string command;
-            std::cin >> command;
-            std::cout << std::endl;
+            getline(std::cin, command);
+
+            print::setCursor(false);
             input = formatCommand(command)[0];
 
             switch (input)
             {
             // loot, yes
             case 20:
-                std::cout << "Congratulations, you looted... Nothing, yet!"
-                << "\nExiting Combat\n"
-                << std::endl;
+//                std::cout << fightOrder[0]->getInventory()
 
                 monsterLooted = true;
                 break;

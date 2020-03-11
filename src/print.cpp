@@ -62,11 +62,10 @@ void print::vec(std::vector<std::string> toPrint)
   }
 }
 
-void print::vec_faster(std::vector<std::string> toPrint, bool increase)
+void print::vec_faster(std::vector<std::string> toPrint)
 {
   int mod = DEFAULT_MOD;
   int lineCounter = -1;
-
     for(auto l : toPrint)
     {
       lineCounter++;
@@ -84,8 +83,14 @@ void print::vec_faster(std::vector<std::string> toPrint, bool increase)
 
 void print::vec_time(std::vector<std::string> toPrint, int maxMillis)
 {
+  if(maxMillis < 1)
+    maxMillis = 1;
+
   for(auto l : toPrint)
+  {
     std::cout << l << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(rand() % maxMillis));
+  }
 }
 
 

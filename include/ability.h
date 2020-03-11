@@ -47,34 +47,42 @@ class ability
     };
     /**
       @brief
+      @param[out]
     */
     std::string getName();
     /**
       @brief
+      @param[out]
     */
     std::string getDescription();
     /**
       @brief
+      @param[out]
     */
     int getDiceRolls();
     /**
       @brief
+      @param[out]
     */
     int getDiceSize();
     /**
       @brief
+      @param[out]
     */
     int getCurrentCooldown();
     /**
       @brief
+      @param[out]
     */
     int getCooldown();
     /**
       @brief
+      @param[out] std::vector<int> [0] statType : [1] statAmount : [2] level
     */
     std::vector<int> getStatRequirements();
     /**
       @brief
+      @param[out]
     */
     std::string viewAbilityCombat();
     /**
@@ -83,10 +91,12 @@ class ability
     void reduceCooldown();
     /**
       @brief
+      @param[out]
     */
     int dealDamage();
     /**
       @brief
+      @param[out]
     */
     static std::vector<std::vector<std::vector<abilityData>>>* allAbilities;
 

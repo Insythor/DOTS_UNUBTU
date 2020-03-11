@@ -75,7 +75,7 @@ void roomManager::enterRoom()
             inventoryManagement(0, 0);
             break;
         case 15:
-          if(input[1] <= chests.size())
+          if(static_cast<unsigned int>(input[1]) <= chests.size())
           {
             chests[input[1] - 1]->open();
             inventoryManagement(1, input[1] - 1);
@@ -86,7 +86,7 @@ void roomManager::enterRoom()
           }
             break;
         case 151:
-          if(input[1] <= chests.size())
+          if(static_cast<unsigned int>(input[1]) <= chests.size())
           {
             chests[input[1] - 1]->open();
             inventoryManagement(1, input[1] - 1);

@@ -29,7 +29,8 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
     // from using their current weapon based on their stats
     int dmgBonus = abs(toRender.getDamagePower());
     std::string dmgBonusSign;
-    // Change the operation after the weapon damage to +/- based on the players stats
+    // Change the operation after the weapon damage to +/- based on the
+    // players stats
     if (toRender.getDamagePower() >= 0)
         dmgBonusSign = " + ";
     else
@@ -37,11 +38,13 @@ std::ostream& operator << (std::ostream& out, baseCharacter& toRender)
 
     out << "\n"
         << toRender.getName() << std::setw(nameSpacer)
-        << "HP: " << std::setw(hpSpacer) << toRender.getCurrentHealth() << " / "
-                                         << toRender.getMaxHealth() << std::setw(9)
+        << "HP: " << std::setw(hpSpacer)
+        << toRender.getCurrentHealth() << " / " << toRender.getMaxHealth()
+        << std::setw(9)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "\n" << toRender.getWeapon()->getName() << std::setw(3)
-        << toRender.getWeapon()->getDiceRolls() << "d" << toRender.getWeapon()->getDiceSize()
+        << toRender.getWeapon()->getDiceRolls() << "d"
+        << toRender.getWeapon()->getDiceSize()
         << dmgBonusSign << dmgBonus
 
         << std::endl;

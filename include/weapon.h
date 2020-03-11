@@ -26,7 +26,7 @@ class weapon : public item
     weapon(int l);
     /**
       @brief Generate a weapon that matches the given stats
-      @param[in] std::vector<int> [0] stat [1] required amount [2] level
+      @param[in] std::vector<int> [0] statType : [1] statAmount : [2] level
     */
     weapon(std::vector<int> sReq);
     /**
@@ -34,7 +34,7 @@ class weapon : public item
       @param[in] std::string name of the weapon
       @param[in] intSize of the dice
       @param[in] int How many dice rolls
-      @param[in] std::vector<int> [0] stat [1] required amount [2] level
+      @param[in] std::vector<int> [0] statType : [1] statAmount : [2] level
     */
     weapon(std::string name, int dSize, int dRolls, std::vector<int> sReq);
     /**

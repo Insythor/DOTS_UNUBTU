@@ -6,11 +6,29 @@
 class shopManager
 {
   public:
+    /**
+      @brief
+      @param[in]
+    */
     shopManager(int level);
+    /**
+      @brief
+    */
     shopManager();
     ~shopManager();
+    /**
+      @brief
+      @param[out]
+    */
     inventory* getInventory();
+    /**
+      @brief
+      @param[out]
+    */
     int getGold();
+    /**
+      @brief
+    */
     void setGold();
   private:
     int gold;

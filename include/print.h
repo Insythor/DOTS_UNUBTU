@@ -2,7 +2,7 @@
 #define PRINT_H
 
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
-#define DEFAULT_MOD 10
+#define DEFAULT_MOD 100
 #define DEFAULT_COLOUR "printf '\e[38;2;200;200;200m'"
 
 // Containters
@@ -81,7 +81,7 @@ class print
              at a time, and wait a small amount of time between each char,
              and increase the speed as it's printed.
     */
-    static void vec_faster(std::vector<std::string> toPrint, bool increase);
+    static void vec_faster(std::vector<std::string> toPrint);
     /**
       @brief Print the std::vector<std::string>> to the screen, one char
              at a time, and wait a small amount of time between each char,

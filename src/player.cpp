@@ -200,7 +200,7 @@ void player::swapAbilities()
     for(unsigned int i = 0; i < input.size(); i++)
     {
       input[i]--;
-      std::cout << "input " << i << ": " << input[i] << std::endl;
+  //    std::cout << "input " << i << ": " << input[i] << std::endl;
 
     }
     // So we get the proper index starting from 0
@@ -213,7 +213,7 @@ void player::swapAbilities()
     {
       // add an active ability
       case 99:
-        std::cout << "add to active" << std::endl;
+  //      std::cout << "add to active" << std::endl;
           if(activeAbilities.size() >= 2)
           {
             cInventory->addAbility(activeAbilities.back());
@@ -230,7 +230,7 @@ void player::swapAbilities()
         break;
 
       case 100:
-        std::cout << "From active to inventory" << std::endl;
+   //     std::cout << "From active to inventory" << std::endl;
           if(input[1] <= lastActiveIndex && input[1] >= 0)
           {
             cInventory->addAbility(activeAbilities[input[1]]);
@@ -268,14 +268,14 @@ void player::swapAbilities()
       // If the first ability is a stored ability
       else
       {
-        std::cout << "swap from inventory" << std::endl;
+ //       std::cout << "swap from inventory" << std::endl;
         // Get the ability from the inventory
         tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
 
-        std::cout
-         << "Input[0]: " << input[0] - lastActiveIndex
-         << "  :  Input[1]: " << input[1]
-         << std::endl;
+//        std::cout
+//         << "Input[0]: " << input[0] - lastActiveIndex
+//         << "  :  Input[1]: " << input[1]
+//         << std::endl;
 
         if(input[1] <= lastActiveIndex)
         {
@@ -340,13 +340,14 @@ void player::levelUp()
     std::cout << (*this);
 
     std::cout
-        << "Place your stat points by choosing a stat, "
-        << "then type the amount of points to add"
+        << "First choose the stat you wish to increase[int]\n"
+        << "then type the amount of points to add [int]\n"
+        << "For every 2 points about 10 in any stat, you will gain a +1 bonus"
         << "\ni.e. 0 will choose strength and then type 1 to add one point "
-        << "to strength.\n"
+        << "to strength.\n\n"
         << "Available points: " << availablePoints << std::endl;
 
-
+    print::setCursor(true);
     // While the player still has points to spend on additional stat upgrades
     while (availablePoints > 0)
     {
@@ -355,7 +356,7 @@ void player::levelUp()
       std::string AmountIn;
       while(!done)
       {
-         std::cout << "Choose stat: ";
+         std::cout.flush() << "Choose stat: ";
          std::cin >> In;
          if(print::is_number(In) && (In == "0" || In == "1" || In == "2"))
          {
@@ -454,7 +455,7 @@ void player::levelUp()
             }
         }
     }
-
+    print::setCursor(false);
     // Add 10% of the players current hp an 50% of their strength to maxHP
     // Arbitrary and needs to be replaced with actual value
     maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
@@ -468,8 +469,6 @@ void player::levelUp()
     addExperience(0);
 
     std::cin.ignore();
-
-
 }
 
 void player::addToStats(std::vector<int>toAdd)

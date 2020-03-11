@@ -90,7 +90,6 @@ bool consumable::getIsPerminant()
     return isPermanent;
 }
 
-
 void consumable::readInConsumableData()
 {
     std::ifstream toRead;
@@ -100,10 +99,9 @@ void consumable::readInConsumableData()
     std::vector<std::string> tempData;
     std::string line;
 
-    int lineCount = 0;
-
     if (toRead.is_open())
     {
+        int lineCount = 0;
         while (getline(toRead, line))
         {
             if (lineCount == index)
@@ -128,18 +126,4 @@ void consumable::readInConsumableData()
     cost = std::stoi(tempData[5]);
     sellValue = std::stoi(tempData[6]);
     description = tempData[7];
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

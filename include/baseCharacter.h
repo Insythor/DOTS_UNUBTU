@@ -59,7 +59,7 @@ public:
   int getLevel();
   /**
     @brief
-    @param[out]
+    @param[out] std::vector<int> [0] Str : [1] Dex : [2] Int
   */
   std::vector<int> getStatBonuses();
   /**

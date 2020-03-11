@@ -6,11 +6,26 @@
 class item
 {
   public:
+    /**
+      @brief
+      @param[out]
+    */
     item();
     virtual ~item();
-
+    /**
+      @brief
+      @param[out]
+    */
     std::string getName();
+    /**
+      @brief
+      @param[out]
+    */
     int getCost();
+    /**
+      @brief
+      @param[out]
+    */
     int getSellValue();
 
   protected:
