@@ -113,11 +113,9 @@ void print::textColour(int colour[3])
   bgColour.append(std::to_string(colour[1]) + ";");
   bgColour.append(std::to_string(colour[2]) + "m'");
 
-  //char textColour[bgColour.length()];
-
-  //strcpy(textColour, bgColour.c_str());
-
-  //system(textColour);
+  char textColour[bgColour.length()];
+  strcpy(textColour, bgColour.c_str());
+  system(textColour);
   std::cout.flush();
 }
 
@@ -146,11 +144,9 @@ void print::deathScreen()
     bgColour.append(std::to_string(0) + ";");
     bgColour.append(std::to_string(0) + "m';");
 
-    //char sysCommand[bgColour.length()];
-
-    //strcpy(sysCommand, bgColour.c_str());
-
-    //system(sysCommand);
+    char sysCommand[bgColour.length()];
+    strcpy(sysCommand, bgColour.c_str());
+    system(sysCommand);
 
     for(int f = 0; f < 31; f++)
       std::cout << "\n";
@@ -167,11 +163,9 @@ void print::deathScreen()
     bgColour.append(std::to_string(0) + ";");
     bgColour.append(std::to_string(0) + "m';");
 
-    //char sysCommand[bgColour.length()];
-
-    //strcpy(sysCommand, bgColour.c_str());
-
-    //system(sysCommand);
+    char sysCommand[bgColour.length()];
+    strcpy(sysCommand, bgColour.c_str());
+    system(sysCommand);
 
     for(int f = 0; f < 31; f++)
       std::cout << "\n";
