@@ -271,7 +271,7 @@ bool combatManager::endFight()
             << " experience.\n"
             << "Here's how " << fightOrder[1]->getName()
             << " is looking after that fight.\n"
-            << *dynamic_cast<player*> (fightOrder[1])
+            <<  (*fightOrder[1])
         << std::endl;
 
 

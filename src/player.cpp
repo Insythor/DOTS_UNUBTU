@@ -103,12 +103,13 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
 
+
         /** Weapon */
-        << "Equipped Weapon: "
+        << "\nEquipped Weapon:\n"
         << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d"
         << toRender.getWeapon()->getDiceSize()
-        << dmgBonusSign << dmgBonus << "\n";
+        << dmgBonusSign << dmgBonus << "\n\n";
 
 
         if(!toRender.getActiveAbilities().empty())
@@ -212,16 +213,16 @@ void player::swapAbilities()
     {
       // add an abilitiy to the active abilities from the stored abilities
       case 99:
-          if(activeAbilities.size() >= 2 && checkAbilityReq
-                                            (input[1] - lastActiveIndex))
+          if(activeAbilities.size() >= 2
+             && checkAbilityReq(input[1] - lastActiveIndex))
           {
               cInventory->addAbility(activeAbilities.back());
             activeAbilities.pop_back();
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
           }
-          else if(!activeAbilities.empty() && checkAbilityReq
-                                              (input[1] - lastActiveIndex))
+          else if(!activeAbilities.empty()
+                   && checkAbilityReq(input[1] - lastActiveIndex))
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
           else if(checkAbilityReq(input[1]))
@@ -252,7 +253,7 @@ void player::swapAbilities()
             // Store ability 1 to swap
             tempAb = activeAbilities[input[0]];
             // If the second ability is an active ability
-            if(input[1] < lastActiveIndex )
+            if(input[1] < lastActiveIndex)
             {
               activeAbilities[input[0]] = activeAbilities[input[1]];
               activeAbilities[input[1]] = tempAb;
@@ -271,6 +272,10 @@ void player::swapAbilities()
             else
             {
               print::textColour(print::C_RED);
+             if(static_cast<unsigned int>( input[1])
+                  > cInventory->getAbilities().size())
+                std::cout << "Invalid Selection" << std::endl;
+             else
               std::cout
                   << name << " does not meet the requirements for this ability"
               << std::endl;
@@ -282,18 +287,17 @@ void player::swapAbilities()
           else
           {
             // Get the ability from the inventory
-            if(input[1] <= lastActiveIndex)
+            if(input[1] <= lastActiveIndex
+               && checkAbilityReq(input[0]))
             {
               tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
               cInventory->addAbility(activeAbilities[input[1]]);
               activeAbilities[input[1]] = tempAb;
             }
-            else if(input[1] >= lastActiveIndex)
+            else
             {
               print::textColour(print::C_RED);
-              std::cout
-               << "cannot swap abilities in inventory currently"
-              << std::endl;
+              std::cout << "Invalid selection" << std::endl;
               print::textColour(print::C_DEFAULT);
             }
           }
@@ -306,22 +310,21 @@ void player::swapWeapon()
   int index = 1;
   std::cout
       << "Equipped Weapon\n"
-      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
       << "| Index |             Name              |  Stat Req | "
-      << "Lvl Req | Damage | Price |\n"
-      << "|   " << index << "   " << *equippedWeapon << std::endl;
+      << "Lvl Req | Damage | Price |\n\n"
+      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+      << "|   " << index << "   " << *equippedWeapon
+   << std::endl;
 
 
   if (cInventory->getWeapons().size() > 0)
   {
     std::cout
-     << "\nStored Weapon(s)\n"
+      << "\nStored Weapon(s)\n"
       << "| Index |             Name              |  Stat Req | "
-      << "Lvl Req | Damage | Price |\n";
-
-      std::cout.flush()
-          << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-       << std::endl;
+      << "Lvl Req | Damage | Price |\n"
+      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+   << std::endl;
 
     for (weapon* i : cInventory->getWeapons())
     {
@@ -358,11 +361,19 @@ void player::swapWeapon()
           equippedWeapon = cInventory->getWeapons()[input[1] - 1];
           cInventory->removeWeapon(input[1] - 1);
         }
-        else
+        else if(input[1] - 1 < cInventory->getWeapons().size())
         {
           print::textColour(print::C_RED);
           std::cout
            << name << " does not meet the requirements for this weapon"
+          << std::endl;
+          print::textColour(print::C_DEFAULT);
+        }
+        else
+        {
+          print::textColour(print::C_RED);
+          std::cout
+            << "Invalid weapon selection"
           << std::endl;
           print::textColour(print::C_DEFAULT);
         }
@@ -648,8 +659,9 @@ std::vector<int> player::getExperience()
     return temp;
 }
 
-bool player::checkAbilityReq(int inventoryIndex)
+bool player::checkAbilityReq(unsigned int inventoryIndex)
 {
+  if(inventoryIndex < cInventory->getAbilities().size())
   return
    // get the stat amount required
    cInventory->getAbilities()[inventoryIndex]
@@ -659,17 +671,22 @@ bool player::checkAbilityReq(int inventoryIndex)
                                         ->getStatRequirements()[0]]
    // check the player is at the required level
    && cInventory->getAbilities()[inventoryIndex]
-      ->getStatRequirements()[2] <= level ;
+      ->getStatRequirements()[2] <= level;
+  else
+    return false;
 }
 
-bool player::checkWeaponReq(int inventoryIndex)
+bool player::checkWeaponReq(unsigned int inventoryIndex)
 {
+  if(inventoryIndex < cInventory->getWeapons().size())
   return
     cInventory->getWeapons()[inventoryIndex]->getStatRequirements()[1] <=
       mainStats[cInventory->getWeapons().
         at(inventoryIndex)->getStatRequirements()[0]]
     && cInventory->getWeapons().at(inventoryIndex)->getStatRequirements()[2] <=
       level;
+  else
+    return false;
 }
 
 void player::save()
