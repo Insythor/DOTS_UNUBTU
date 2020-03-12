@@ -7,7 +7,7 @@
 
 #ifndef INVENTORY_H
 #define INVENTORY_H
-// User Defined 
+// User Defined
 #include "consumable.h"
 #include "weapon.h"
 #include "ability.h"
@@ -103,6 +103,12 @@ class inventory
       @param[out]
     */
     std::vector<ability*> getAbilities();
+    /**
+      @brief
+      @param[out]
+    */
+    std::vector<weapon*> getWeapons();
+
 
   private:
     std::vector<std::vector<consumable*>> consumableStacks;

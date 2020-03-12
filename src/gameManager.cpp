@@ -206,27 +206,34 @@ void gameManager::printAbility()
 /**     MAIN LOOP     */
 void gameManager::startGame()
 {
-    bool play = true;
-    // Temp variables used for comsuming input stream
-    // Convert to string stream for dynamic input / overloading
-    std::string command;
-    // User input converted into integers
-    // input[0] command to switch on in the main loop
-    std::vector<int> input;
-
     combatManager* thisFight = nullptr;
     consumable* myConsumable = nullptr;
     std::vector<consumable*> myConVec;
     chest* myChest = nullptr;
 
+
+    bool play = true;
+    // User input converted into integers
+    // input[0] command to switch on in the main loop
+    std::vector<int> input;
+    std::string command;
+
+
     while (play)
     {
         print::setCursor(true);
 
+        command.clear();
         std::cout << ">>> ";
-        getline(std::cin, command);
+        while(command[0] == '\n' || command.empty())
+          getline(std::cin, command);
+
+//        std::cout << command << std::endl;
 
         input = formatCommand(command);
+
+//        for( auto i : input)
+//          std::cout << '\n' << i << std::endl;
 
         print::setCursor(false);
 
@@ -261,6 +268,10 @@ void gameManager::startGame()
         //swapabilities, sab
         case 122:
             playerPtr->swapAbilities();
+            break;
+
+        case 123:
+            playerPtr->swapWeapon();
             break;
 
 
@@ -331,11 +342,22 @@ void gameManager::startGame()
             std::cout << (*playerPtr);
             break;
 
-        // makeMonster, mm
+        /**         makeMonster, mm     */
         case 22:
+          if(monsterPtr != nullptr)
+            delete monsterPtr;
             // input0 = level, input1 = raceIndex
-            monsterPtr = generateMonster(input[1], input[2]);
-            std::cout << (*monsterPtr);
+            if(input.size() == 3)
+              monsterPtr = generateMonster(input[1], input[2]);
+            else if(input.size() == 2)
+                monsterPtr = generateMonster(input[1]);
+            else
+            {
+              std::cout << "Current Level: " << currentLevel << std::endl;
+              monsterPtr = generateMonster(currentLevel);
+            }
+
+            std::cout << *monsterPtr;
             break;
         // makeCombat, mc
         case 23:
@@ -370,9 +392,8 @@ void gameManager::startGame()
             delete myConsumable;
             break;
 
-
-
             /**             debugging commands            */
+
         // Clear the terminal window of all text
       /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
@@ -434,6 +455,7 @@ void gameManager::startGame()
           break;
         // exit, e
         case 0:
+            std::cout << "bye" << std::endl;
             play = false;
             break;
 
@@ -520,7 +542,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // View the swap abilities menu
     else if (tempCommand[0] == "swapabilities" || tempCommand[0] == "sab")
         temp.push_back(122);
-
+    // Swap weapon
+    else if (tempCommand[0] == "swapweapon" || tempCommand[0] == "sw")
+        temp.push_back(123);
 
     // Print the monsters detailed stats
     else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
@@ -602,13 +626,19 @@ std::vector<int> gameManager::formatCommand(std::string command)
         for (auto i : tempCommand)
         {
           if(print::is_number(i))
+          {
             temp.push_back(std::stoi(i));
+          }
         }
     }
 
     if(temp.empty())
       temp.push_back(-1);
+
     temp.shrink_to_fit();
+//
+//    for(auto i : temp)
+//      std::cout << i << std::endl;
 
     return temp;
 }
@@ -629,7 +659,7 @@ void gameManager::mainMenu()
     logo.push_back(line);
   }
   toRead.close();
- 
+
   logo.shrink_to_fit();
 
   // Read in the intro story that plays after the logo comes up
@@ -653,11 +683,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    //char sysCommand[bgColour.length()];
+    char sysCommand[bgColour.length()];
 
-    //strcpy(sysCommand, bgColour.c_str());
+    strcpy(sysCommand, bgColour.c_str());
 
-    //system(sysCommand);
+    system(sysCommand);
 
     for(int f = 0; f < 41; f++)
       std::cout << "\n";
@@ -676,11 +706,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    //char sysCommand[bgColour.length()];
+    char sysCommand[bgColour.length()];
 
-    //strcpy(sysCommand, bgColour.c_str());
+    strcpy(sysCommand, bgColour.c_str());
 
-    //system(sysCommand);
+    system(sysCommand);
 
     for(int i = 0; i < 30; i++)
       std::cout<<std::endl;
@@ -843,7 +873,9 @@ monster* gameManager::generateMonster(int l)
 {
     int index = rand() % baseCharacter::allRaces->size();
 
-    monster* temp = new monster("Temp Monster",
+    std::cout << l << std::endl;
+
+    monster* temp = new monster("Twisted",
         baseCharacter::allRaces->at(index).race,
         baseCharacter::allRaces->at(index).maxHP,
         baseCharacter::allRaces->at(index).mStats,
@@ -903,7 +935,7 @@ player* gameManager::characterCreation()
   std::this_thread::sleep_for(std::chrono::seconds(1));
 
   system("clear");
-  
+
   print::str("*scurrying (and panting) can be heard as the hero approaches*\n");
 
   std::ifstream toRead;

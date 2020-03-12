@@ -206,3 +206,8 @@ std::vector<ability*> inventory::getAbilities()
 {
   return abilities;
 }
+
+std::vector<weapon*> inventory::getWeapons()
+{
+  return weapons;
+}

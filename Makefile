@@ -10,9 +10,9 @@ LINKFLAGS= -lgtest
 SRC_DIR = src
 GAME_SRC_DIR = src/game
 
-TEST_DIR = test
+TEST_DIR = test/tylerTest
 
-SRC_INCLUDE = include
+SRC_INCLUDE = nyx/include/
 INCLUDE = -I ${SRC_INCLUDE}
 
 GCOV = gcov

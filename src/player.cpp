@@ -130,7 +130,8 @@ void player::swapAbilities()
 {
 
   int index = 0;
-  int lastActiveIndex = -1;
+  // Last index of the active abilities, because active use a shared index
+  int lastActiveIndex = 0;
 
   if(!activeAbilities.empty())
   {
@@ -142,9 +143,8 @@ void player::swapAbilities()
         << std::setw(3) << ++index
         << std::setw(15 + ab->getName().length() / 2)
         << *ab << std::endl;
-    if(index >= 0)
+    if(index > 0)
       lastActiveIndex = index;
-//    std::cout << "last Active: " << lastActiveIndex<< std::endl;
   }
   else
     std::cout << "Currently " + name + " has no active abilities." << std::endl;
@@ -156,23 +156,25 @@ void player::swapAbilities()
 
     for(auto ab : cInventory->getAbilities())
       std::cout
-      << std::setw(3) << ++index
-      <<std::setw(15 + ab->getName().length() / 2)
-      << *ab << std::endl;
+        << std::setw(3) << ++index
+        <<std::setw(15 + ab->getName().length() / 2)
+        << *ab
+      << std::endl;
   }
   else
     std::cout << "Currently " + name + " has no stored abilities." << std::endl;
 
     std::cout
-      << "Which two abilities would you like to swap? [int] [int]\n"
-      << "Or would you like to 'add' or 'remove' an active ability?"
-      << " [string][int]\n"
+        << "Which two abilities would you like to swap? [int] [int]\n"
+        << "Or would you like to 'add' or 'remove' an active ability?"
+        << " [string][int]\n"
       << std::endl;
 
     std::string rawInput;
     std::string parsed;
 
-    getline(std::cin, rawInput);
+    while(rawInput.empty() || rawInput[0] == '\n')
+      getline(std::cin, rawInput);
 
     std::stringstream ss(rawInput);
     std::vector<int> input;
@@ -190,8 +192,6 @@ void player::swapAbilities()
     for(unsigned int i = 0; i < input.size(); i++)
     {
       input[i]--;
-  //    std::cout << "input " << i << ": " << input[i] << std::endl;
-
     }
     // Decrement the index so that it starts counting at 0
     index--;
@@ -203,11 +203,21 @@ void player::swapAbilities()
     {
       // add an abilitiy to the active abilities from the stored abilities
       case 99:
-  //      std::cout << "add to active" << std::endl;
-          if(activeAbilities.size() >= 2)
+          if(
+             // get the stat amount required
+             cInventory->getAbilities()[input[1] - lastActiveIndex]
+                  ->getStatRequirements()[1] <=
+             // At the players main stats of the required stat
+                mainStats[cInventory->getAbilities()[input[1] - lastActiveIndex]
+                  ->getStatRequirements()[0]]
+             // check the player is at the required level
+             && cInventory->getAbilities()[input[1] - lastActiveIndex]
+                ->getStatRequirements()[2] <= level )
           {
-            cInventory->addAbility(activeAbilities.back());
-            activeAbilities.pop_back();
+            if(activeAbilities.size() >= 2)
+            {
+              cInventory->addAbility(activeAbilities.back());
+              activeAbilities.pop_back();
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
           }
@@ -217,11 +227,16 @@ void player::swapAbilities()
            else
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1]));
+          }
+
+          else
+            std::cout <<
+                name + " does not meet the stat requirements for that ability"
+            << std::endl;
         break;
-    // Remove an ability from the active abilities 
+    // Remove an ability from the active abilities
         // and place it in the stored abilities
       case 100:
-   //     std::cout << "From active to inventory" << std::endl;
           if(input[1] <= lastActiveIndex && input[1] >= 0)
           {
             cInventory->addAbility(activeAbilities[input[1]]);
@@ -235,20 +250,17 @@ void player::swapAbilities()
       // If the first ability is an active ability
       if(input[0] < lastActiveIndex)
       {
-//        std::cout << "input 0: " << input[0] << std::endl;
         // Store ability 1 to swap
         tempAb = activeAbilities[input[0]];
         // If the second ability is an active ability
         if(input[1] < lastActiveIndex)
         {
-      //    std::cout << "swap two active abilities" << std::endl;
           activeAbilities[input[0]] = activeAbilities[input[1]];
           activeAbilities[input[1]] = tempAb;
         }
         // If the second ability is a stored ability
         else if(input[1] <= index)
         {
-    //  std::cout << "input 1: " << (input[1] - lastActiveIndex) << std::endl;
           // input[1] - lastActiveIndex so that it matches with the inventory
           activeAbilities[input[0]] =
                 cInventory->removeAbility(input[1] - lastActiveIndex);
@@ -259,18 +271,10 @@ void player::swapAbilities()
       // If the first ability is a stored ability
       else
       {
- //       std::cout << "swap from inventory" << std::endl;
         // Get the ability from the inventory
         tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
-
-//        std::cout
-//         << "Input[0]: " << input[0] - lastActiveIndex
-//         << "  :  Input[1]: " << input[1]
-//         << std::endl;
-
         if(input[1] <= lastActiveIndex)
         {
-
           cInventory->addAbility(activeAbilities[input[1]]);
           activeAbilities[input[1]] = tempAb;
         }
@@ -282,9 +286,34 @@ void player::swapAbilities()
       }
       break;
     }
-
-//    std::cin.ignore();
 }
+
+void player::swapWeapon()
+{
+  int index = 1;
+  std::cout
+      << "| Index |             Name              |  Stat Req | "
+      << "Lvl Req | Damage | Price |\n"
+      << "|   " << index << "   " << *equippedWeapon
+   << std::endl;
+
+  if (cInventory->getWeapons().size() > 0)
+  {
+    std::cout
+     << "\nStored Weapons\n"
+      << "| Index |             Name              |  Stat Req | "
+      << "Lvl Req | Damage | Price |\n"
+
+      << std::setw(80) << std::setfill('-') << std::endl;
+    for (weapon* i : cInventory->getWeapons())
+    {
+      index++;
+      std::cout << "|" << index << *i << std::endl;
+    }
+  }
+
+}
+
 
 void player::addExperience(int toAdd)
 {
@@ -458,8 +487,6 @@ void player::levelUp()
 
     // Check if the player has enough experience to levelup again
     addExperience(0);
-
-    std::cin.ignore();
 }
 
 void player::addToStats(std::vector<int>toAdd)

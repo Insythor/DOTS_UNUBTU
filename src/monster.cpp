@@ -4,22 +4,24 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
                                         std::vector<int> tMStats, int l)
 {
     level = l;
-    //Error:  Currently does nothing if the monster is a boss
+
     if (level % 5 == 0)
         isBoss = true;
     else
         isBoss = false;
+
     name = tName;
     race = tRace;
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
+
     initMonster();
 }
 
 monster::~monster()
 {
-  //dtor
+
 }
 
 std::ostream& operator << (std::ostream& out, monster& toRender)
@@ -86,6 +88,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
             << std::setw(10 + i->getName().length() / 2)
             << *i << std::endl;
         }
+
     out << std::endl;
 
     return out;
@@ -113,7 +116,8 @@ void monster::initMonster()
     // Temp dice to be used for selecting which stats the monster gets
     // If it's a boss, increase its odds of getting good stat rolls (bigger die)
     // and double its level
-    dice* lvlDice = nullptr;
+    dice* lvlDice = new dice;
+
     if(isBoss)
     {
       lvlDice = new dice(10);
@@ -160,12 +164,14 @@ void monster::initMonster()
                 }
             }
         }
-      delete lvlDice;
       // Add 10% of the monster current hp and
       //     50% of the monster strength to their maxHP
       maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
       currentHealth = maxHealth;
     }
+
+    delete lvlDice;
+
     if(isBoss)
     {
       std::vector<int> tempStatReq;
@@ -177,9 +183,10 @@ void monster::initMonster()
 
       std::vector<ability*> tempAbil;
       tempAbil.push_back(new ability(level / 2, tMainStatIndex));
-      tempAbil.push_back(new ability(level / 2, tMainStatIndex));
+ //     tempAbil.push_back(new ability(level / 2, tMainStatIndex));
       setActiveAbilities(tempAbil);
     }
+
     else
     {
       spawnWeapon(level);

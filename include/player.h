@@ -51,6 +51,10 @@ class player : public baseCharacter
     */
     void swapAbilities();
     /**
+      @brief Swap the players equipped weapon with one in their inventory
+    */
+    void swapWeapon();
+    /**
       @brief Adds the given amount of experience to the current experience,
              then checks if the player has enough experience to level up,
              and call levelup()

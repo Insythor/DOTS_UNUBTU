@@ -2,7 +2,7 @@
 
 combatManager::combatManager(player* p, monster* m)
 {
-    // Create an array of pointers to the parent class of the 
+    // Create an array of pointers to the parent class of the
     // monster and player so we can flip-flop between them easily
     fightOrder = new baseCharacter* [2];
     // If the player's speed is >= the monsters speed, the player goes first
@@ -65,9 +65,10 @@ bool combatManager::startFight()
                 << " do next: ";
             }
            print::setCursor(true);
-           // Get all input from the user as a single string until the
-           // user hits enter
-           std::getline(std::cin, command);
+
+           while(command.empty() || command[0] == '\n')
+              std::getline(std::cin, command);
+
            input = formatCommand(command);
            print::setCursor(false);
         }
@@ -270,9 +271,8 @@ bool combatManager::endFight()
             << " experience.\n"
             << "Here's how " << fightOrder[1]->getName()
             << " is looking after that fight.\n"
-            << *dynamic_cast<player*> (fightOrder[1]) << "\n"
-
-            << std::endl;
+            << *dynamic_cast<player*> (fightOrder[1])
+        << std::endl;
 
 
         bool monsterLooted = false;
@@ -282,8 +282,10 @@ bool combatManager::endFight()
             int input;
             std::cout << "Would you like to 'Loot' the monster? ";
             print::setCursor(true);
+
             std::string command;
-            getline(std::cin, command);
+            while(command.empty() || command[0] == '\n')
+              getline(std::cin, command);
 
             print::setCursor(false);
             input = formatCommand(command)[0];
@@ -292,13 +294,15 @@ bool combatManager::endFight()
             {
             // loot, yes
             case 20:
-//                std::cout << fightOrder[0]->getInventory()
+                fightOrder[1]->getInventory()->addWeapon
+                          (fightOrder[0]->getWeapon());
+
+                fightOrder[1]->setGold(fightOrder[0]->getGold());
 
                 monsterLooted = true;
                 break;
 
             case 0:
-
                 print::str(
                            "\nOnce you leave the monster encounter,\n"
                            "this monsters loot will be gone forever.\n"
@@ -307,16 +311,18 @@ bool combatManager::endFight()
                            "monster has on its body? "
                            );
 
-                    std::cin >> command;
-                    input = formatCommand(command)[0];
-                    if (input == 20)
-                    {
-                      std::cout << "Exiting Combat\n" << std::endl;
-                      std::cin.ignore();
-                      return true;
-                    }
-                    else if(input == 0)
-                        break;
+                  command.clear();
+                  while(command.empty() || command[0] == '\n')
+                    getline(std::cin, command);
+
+                  if (command[0] == 'y')
+                  {
+                    std::cout << "Exiting Combat\n" << std::endl;
+                    return true;
+                  }
+                  else if(command[0] == 'n')
+                      break;
+
                 break;
 
             default:
@@ -330,8 +336,6 @@ bool combatManager::endFight()
     {
         return false;
     }
-
-  std::cin.ignore();
 
   return true;
 }

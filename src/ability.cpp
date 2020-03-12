@@ -33,7 +33,10 @@ ability::ability(int lev)
 
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-/** Commented out for testing: We need to check if the vector is empty */
+    /**
+      Until something is in place to check if an ability exists, I've
+      commented this out to prevent seg faults
+    */
 //  ability::allAbilities->at(lev - 1)[rStat].erase
 //                (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
 }
@@ -60,8 +63,12 @@ ability::ability(int lev, int sType)
   abilityDice = new std::vector<dice>;
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
-  ability::allAbilities->at(lev - 1)[sType].erase
-        (ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
+    /**
+      Until something is in place to check if an ability exists, I've
+      commented this out to prevent seg faults
+    */
+//  ability::allAbilities->at(lev - 1)[sType].erase
+//        (ability::allAbilities->at(lev - 1)[sType].begin() + rAbility);
 }
 // Testing : going to be deleted
 ability::ability(int lev, int sType, int abil)
@@ -179,7 +186,7 @@ std::string ability::viewAbilityCombat()
 
 void ability::reduceCooldown()
 {
-    // Check if this ability is on cooldown 
+    // Check if this ability is on cooldown
     // && if the remaining cooldown is > 0
         // Stops the currentCD from going negative for combat HUD
     if(onCooldown && currentCooldown > 0)

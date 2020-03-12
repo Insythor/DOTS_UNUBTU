@@ -223,8 +223,7 @@ void baseCharacter::setActiveAbilities(std::vector<ability*> toSet)
   // Delete all the active abilities that the player has
   for(auto d : activeAbilities)
       delete d;
-  // Clear the array of nullptrs
-  activeAbilities.clear();
+
   // Set the active ablilities of the player to the given abilities
   activeAbilities = toSet;
 }
