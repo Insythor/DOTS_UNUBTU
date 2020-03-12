@@ -180,7 +180,9 @@ void monster::initMonster()
 
       std::vector<ability*> tempAbil;
       tempAbil.push_back(new ability(level / 2, tMainStatIndex));
- //     tempAbil.push_back(new ability(level / 2, tMainStatIndex));
+
+      // Give the player the monsters 0th ability
+      cInventory->addAbility(tempAbil[0]);
       setActiveAbilities(tempAbil);
     }
 
@@ -189,7 +191,7 @@ void monster::initMonster()
       spawnWeapon(level);
 
       std::vector<ability*> tempAbil;
-      tempAbil.push_back(new ability(level, tMainStatIndex));
+      tempAbil.push_back(new ability(level));
       setActiveAbilities(tempAbil);
     }
 

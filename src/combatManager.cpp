@@ -150,13 +150,27 @@ bool combatManager::startFight()
             {
               tempDamage = fightOrder[playersTurn]->useAbility(input[1]);
             }
+            else if (static_cast<unsigned int>(input[1])
+                      >= fightOrder[1]->getActiveAbilities().size()
+                    || input[1] < 0)
+            {
+              print::textColour(print::C_RED);
+              std::cout << "Invalid Ability Index" << std::endl;
+              print::textColour(print::C_DEFAULT);
+              // So typing in an invalid command does not waste the players turn
+              playersTurn = !playersTurn;
+              //  Skip printing damage
+              break;
+            }
             else
             {
               std::cout
               << "Invalid Active Ability Index\n"
-              << "Abilities can only be used if their CD Remaining == 0"
+              << "Abilities can only be used if their CD Remaining = 0"
               << std::endl;
+              // So typing in an invalid command does not waste the players turn
               playersTurn = !playersTurn;
+              //  Skip printing damage
               break;
             }
           }
@@ -239,13 +253,6 @@ bool combatManager::startFight()
     return endFight();
 }
 
-std::string combatManager::selectAction(int type, int subType)
-{
-  type *= -1;
-  subType *= -1;
-  return "n\a";
-}
-
 bool combatManager::endFight()
 {
     if (playersTurn)
@@ -275,30 +282,51 @@ bool combatManager::endFight()
         << std::endl;
 
 
-        bool monsterLooted = false;
 
+
+        bool monsterLooted = false;
         while (!monsterLooted)
         {
             int input;
             std::cout << "Would you like to 'Loot' the monster? ";
-            print::setCursor(true);
 
+            print::setCursor(true);
             std::string command;
             while(command.empty() || command[0] == '\n')
               getline(std::cin, command);
-
             print::setCursor(false);
+
             input = formatCommand(command)[0];
 
             switch (input)
             {
             // loot, yes
             case 20:
+                // Loot the monsters weapon
                 fightOrder[1]->getInventory()->addWeapon
                           (fightOrder[0]->getWeapon());
-
+                // Take the gold
                 fightOrder[1]->setGold(fightOrder[0]->getGold());
 
+                if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
+                // If the monster was a boss, get an ability
+                fightOrder[1]->getInventory()
+                  ->addAbility(dynamic_cast<monster*>(fightOrder[0])
+                    ->getInventory()->removeAbility(0));
+
+
+                std::cout
+                  << "Victory granted  " << fightOrder[1]->getName()
+                  << " " << monsterXP << " experience.\n"
+                  << "Found " << fightOrder[0]->getGold() << " gold.\n"
+                  << "Picked up\n" << *fightOrder[0]->getWeapon();
+
+//                if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
+//                  std::cout
+//                    << "\n"
+//                    << *fightOrder[1]->getInventory()->getAbilities().back();
+
+                std::cout << std::endl;
                 monsterLooted = true;
                 break;
 
@@ -338,11 +366,6 @@ bool combatManager::endFight()
     }
 
   return true;
-}
-
-std::string combatManager::monsterAction()
-{
-  return "n\a";
 }
 
 bool combatManager::checkCombatDone()

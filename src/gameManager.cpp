@@ -254,26 +254,24 @@ void gameManager::startGame()
             break;
         //viewinventory, vi
         case 121:
-/*             for(int i = 0; i < 20; i++)
- *             {
- *               playerPtr->getInventory()->addWeapon(new weapon(currentLevel));
- *               std::vector<consumable*> tempcon;
- *               tempcon.push_back(new consumable());
- *               playerPtr->getInventory()->addConsumables(tempcon);
- *             }
- */
-
             playerPtr->getInventory()->viewInventory();
+            std::cout << std::endl;
           break;
         //swapabilities, sab
         case 122:
             playerPtr->swapAbilities();
             break;
-
+        // swapweapon, sw
         case 123:
             playerPtr->swapWeapon();
             break;
-
+        // useconsumable, ucon
+        case 124:
+            playerPtr->getInventory()->viewInventory();
+            std::cout << "Which consumable would you like to use? ";
+            std::cin >> input[1];
+            playerPtr->useConsumable(input[1] - 1);
+            break;
 
          // pMonster, pm
         case 13:
@@ -388,7 +386,7 @@ void gameManager::startGame()
         // makeConsumable, mcon
         case 24:
             myConsumable = new consumable(input[1]);
-            std::cout << *myConsumable;
+            std::cout << *myConsumable << std::endl;
             delete myConsumable;
             break;
 
@@ -544,6 +542,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Swap weapon
     else if (tempCommand[0] == "swapweapon" || tempCommand[0] == "sw")
         temp.push_back(123);
+    // Use a consumable
+    else if (tempCommand[0] == "useconsumable" || tempCommand[0] == "ucon")
+        temp.push_back(124);
 
     // Print the monsters detailed stats
     else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
@@ -870,7 +871,7 @@ void gameManager::chooseNextRoom()
 
 monster* gameManager::generateMonster(int l)
 {
-    int index = rand() % baseCharacter::allRaces->size();
+    int index = rand() % baseCharacter::allRaces->size() -1;
 
     std::cout << l << std::endl;
 

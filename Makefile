@@ -1,5 +1,5 @@
-PROJECT_DIR = Nyx
-PROGRAM_TEST = tylerTest
+PROJECT_DIR = nyx
+PROGRAM_TEST = testDiscipleOfTheSpire
 PROGRAM_GAME = playDiscipleOfTheSpire
 
 CXX=g++

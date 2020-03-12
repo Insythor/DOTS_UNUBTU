@@ -1,7 +1,7 @@
 /**
     @author Tyler Justinen-Teite
 
-    @brief 
+    @brief
 
 */
 
@@ -13,17 +13,18 @@
 
 class monster : public baseCharacter
 {
+  friend std::ostream& operator << (std::ostream& out, monster& toRender);
   public:
     monster(std::string tName, std::string tRace, int tMaxHP, std::vector<int> tmMStats, int l);
     ~monster();
-
-    friend std::ostream& operator << (std::ostream& out, monster& toRender);
-
-  private:
-    // ERROR: If the level % 5 == 0 
-      // Should Be if the current room % 5 == 0
+    /**
+      @brief Boss = level % 5 == 0
+    */
     bool isBoss;
-    
+  private:
+
+
+
     /**
         @brief level up the monster (if applicable)
                give the monster an ability

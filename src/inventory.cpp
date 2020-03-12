@@ -168,7 +168,7 @@ std::vector<consumable*> inventory::removeConsumables(unsigned int index,
     if (consumableStacks[index].size() < amount) {
       amount = consumableStacks[index].size();
     }
-    for (int i = amount; i <= 0; i--) {
+    for (unsigned int i = 0; i <= amount; i++) {
       tempvector.push_back(consumableStacks[index].front());
       consumableStacks[index].erase(consumableStacks[index].begin());
     }

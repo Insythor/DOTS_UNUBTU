@@ -37,9 +37,8 @@ class combatManager
 
     int turnCount = 0;
 
-    std::string selectAction(int type, int subType);
     bool endFight();
-    std::string monsterAction();
+
 
     bool checkCombatDone();
     /**

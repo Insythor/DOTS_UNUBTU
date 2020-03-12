@@ -105,7 +105,7 @@ std::ostream& operator << (std::ostream& out, player& toRender)
 
 
         /** Weapon */
-        << "\nEquipped Weapon:\n"
+        << "\nEquipped Weapon: "
         << toRender.getWeapon()->getName() << std::setw(3)
         << toRender.getWeapon()->getDiceRolls() << "d"
         << toRender.getWeapon()->getDiceSize()
@@ -420,7 +420,11 @@ void player::levelUp()
     int availablePoints;
     // When you create your character you get more points
     if (level == 0)
-        availablePoints = 6;
+    {
+      availablePoints = 6;
+      // Debugging
+      currentExperience = 0;
+    }
     else
     {
       // So we can level up the player without giving them negative experience
@@ -428,14 +432,13 @@ void player::levelUp()
         currentExperience -= maxExperience;
       else
         currentExperience = 0;
-
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
         maxExperience += ((level + 1) - 1 + (300 *
                                           pow(2, ((level + 1) - 1) / 7))) / 4;
         availablePoints = 2;
     }
-    // stored amount of available points incase the user does not want
+    // stored amount of available points in case the user does not want
     //  to commit their changes
     int backupAvailPoints = availablePoints;
     // ding!
@@ -608,42 +611,49 @@ void player::useConsumable(unsigned int index)
     std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
-        int stat = tempC.front()->statsToAdd()[0];
-        int amount = tempC.front()->statsToAdd()[1];
+        int stat = (tempC.front()->statsToAdd()[0]);
+        int amount = (tempC.front()->statsToAdd()[1]);
         if(tempC.front()->getIsPerminant())
         {
+          std::cout << "\n\n" << amount << '\n' << std::endl;
+          /** Correct indices? */
             switch(stat)
             {
-            case 1: mainStats[0] += amount;
+            case 0: mainStats[0] += amount;
                     break;
-            case 2: mainStats[1] += amount;
+            case 1: mainStats[1] += amount;
                     break;
-            case 3: mainStats[2] += amount;
+            case 2: mainStats[2] += amount;
                     break;
-            case 4: mainStats[3] += amount;
+            case 3: mainStats[3] += amount;
                     break;
-            case 5: maxHealth += amount;
+            case 4: maxHealth += amount;
                     currentHealth += amount;
                     break;
             }
         }
         else
         {
+          std::cout << "\n\n" << amount << '\n' << std::endl;
             switch(stat)
             {
-            case 1: statusEffect[0] += amount;
+            case 0: statusEffect[0] += amount;
                     break;
-            case 2: statusEffect[1] += amount;
+            case 1: statusEffect[1] += amount;
                     break;
-            case 3: statusEffect[2] += amount;
+            case 2: statusEffect[2] += amount;
                     break;
-            case 4: statusEffect[3] += amount;
+            case 3: statusEffect[3] += amount;
+                    break;
+            case 4: currentHealth += amount;
                     break;
             }
         }
         delete tempC.front();
         tempC.clear();
     }
+    else
+      std::cout << "\n\ndidnt work" << std::endl << std::endl;
     // Check if updating the players stats changes their damage
     updateDamagePower();
 }
