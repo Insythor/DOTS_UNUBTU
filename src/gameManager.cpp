@@ -395,7 +395,6 @@ void gameManager::startGame()
             /**             debugging commands            */
 
         // Clear the terminal window of all text
-      /** MAKE SURE THAT THE RIGHT ONE IS ENABLED FOR THE SYSTEM YOU ARE ON! */
         case 90:
             // WINDOWS
             //system("cls");
@@ -430,7 +429,7 @@ void gameManager::startGame()
           playerPtr->getInventory()->addConsumables(myConVec);
           playerPtr->getInventory()->viewInventory();
             break;
-        // Make a weapon and add it to the players inventory
+        // mpw, Make a weapon and add it to the players inventory
         case 213:
           if(input.size() == 4)
           {

@@ -107,6 +107,9 @@ class player : public baseCharacter
 
     std::vector<int> statusEffect;
 
+    bool checkAbilityReq(int inventoryIndex);
+    bool checkWeaponReq(int inventoryIndex);
+
 };
 
 #endif // PLAYER_H

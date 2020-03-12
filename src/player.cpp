@@ -122,6 +122,8 @@ std::ostream& operator << (std::ostream& out, player& toRender)
             << *i << std::endl;
         }
 
+    toRender.getInventory()->viewInventory();
+
     out << std::endl;
     return out;
 }
@@ -137,7 +139,9 @@ void player::swapAbilities()
   {
     std::cout
         << "\n                    Active Abilities\n"
-        << "---------------------------------------------------------\n";
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+    << std::endl;
+
     for(auto ab : activeAbilities)
         std::cout
         << std::setw(3) << ++index
@@ -152,7 +156,8 @@ void player::swapAbilities()
   {
     std::cout
         << "\n                    Stored Abilities\n"
-        << "---------------------------------------------------------\n";
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+    << std::endl;
 
     for(auto ab : cInventory->getAbilities())
       std::cout
@@ -173,8 +178,12 @@ void player::swapAbilities()
     std::string rawInput;
     std::string parsed;
 
+    print::setCursor(true);
+
     while(rawInput.empty() || rawInput[0] == '\n')
       getline(std::cin, rawInput);
+
+    print::setCursor(false);
 
     std::stringstream ss(rawInput);
     std::vector<int> input;
@@ -203,31 +212,21 @@ void player::swapAbilities()
     {
       // add an abilitiy to the active abilities from the stored abilities
       case 99:
-          if(
-             // get the stat amount required
-             cInventory->getAbilities()[input[1] - lastActiveIndex]
-                  ->getStatRequirements()[1] <=
-             // At the players main stats of the required stat
-                mainStats[cInventory->getAbilities()[input[1] - lastActiveIndex]
-                  ->getStatRequirements()[0]]
-             // check the player is at the required level
-             && cInventory->getAbilities()[input[1] - lastActiveIndex]
-                ->getStatRequirements()[2] <= level )
+          if(activeAbilities.size() >= 2 && checkAbilityReq
+                                            (input[1] - lastActiveIndex))
           {
-            if(activeAbilities.size() >= 2)
-            {
               cInventory->addAbility(activeAbilities.back());
-              activeAbilities.pop_back();
+            activeAbilities.pop_back();
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
           }
-          else if(!activeAbilities.empty())
+          else if(!activeAbilities.empty() && checkAbilityReq
+                                              (input[1] - lastActiveIndex))
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
-           else
+          else if(checkAbilityReq(input[1]))
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1]));
-          }
 
           else
             std::cout <<
@@ -247,44 +246,58 @@ void player::swapAbilities()
         break;
 
       default:
-      // If the first ability is an active ability
-      if(input[0] < lastActiveIndex)
-      {
-        // Store ability 1 to swap
-        tempAb = activeAbilities[input[0]];
-        // If the second ability is an active ability
-        if(input[1] < lastActiveIndex)
-        {
-          activeAbilities[input[0]] = activeAbilities[input[1]];
-          activeAbilities[input[1]] = tempAb;
-        }
-        // If the second ability is a stored ability
-        else if(input[1] <= index)
-        {
-          // input[1] - lastActiveIndex so that it matches with the inventory
-          activeAbilities[input[0]] =
-                cInventory->removeAbility(input[1] - lastActiveIndex);
-          // Add the swapped ability back into the inventory
-          cInventory->addAbility(tempAb);
-        }
-      }
-      // If the first ability is a stored ability
-      else
-      {
-        // Get the ability from the inventory
-        tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
-        if(input[1] <= lastActiveIndex)
-        {
-          cInventory->addAbility(activeAbilities[input[1]]);
-          activeAbilities[input[1]] = tempAb;
-        }
-        else if(input[1] <= index)
-        {
-          std::cout
-           << "cannot swap abilities in inventory currently" << std::endl;
-        }
-      }
-      break;
+          // If the first ability is an active ability
+          if(input[0] < lastActiveIndex)
+          {
+            // Store ability 1 to swap
+            tempAb = activeAbilities[input[0]];
+            // If the second ability is an active ability
+            if(input[1] < lastActiveIndex )
+            {
+              activeAbilities[input[0]] = activeAbilities[input[1]];
+              activeAbilities[input[1]] = tempAb;
+            }
+            // If the second ability is a stored ability
+            else if(input[1] <= index
+                    && checkAbilityReq(input[1] - lastActiveIndex))
+            {
+              // input[1] - lastActiveIndex so it starts counting at 0
+              activeAbilities[input[0]] =
+                    cInventory->removeAbility(input[1] - lastActiveIndex);
+              // Add the swapped ability back into the inventory
+              cInventory->addAbility(tempAb);
+            }
+
+            else
+            {
+              print::textColour(print::C_RED);
+              std::cout
+                  << name << " does not meet the requirements for this ability"
+              << std::endl;
+              print::textColour(print::C_DEFAULT);
+            }
+
+          }
+          // If the first ability is a stored ability
+          else
+          {
+            // Get the ability from the inventory
+            if(input[1] <= lastActiveIndex)
+            {
+              tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
+              cInventory->addAbility(activeAbilities[input[1]]);
+              activeAbilities[input[1]] = tempAb;
+            }
+            else if(input[1] >= lastActiveIndex)
+            {
+              print::textColour(print::C_RED);
+              std::cout
+               << "cannot swap abilities in inventory currently"
+              << std::endl;
+              print::textColour(print::C_DEFAULT);
+            }
+          }
+          break;
     }
 }
 
@@ -292,26 +305,87 @@ void player::swapWeapon()
 {
   int index = 1;
   std::cout
+      << "Equipped Weapon\n"
+      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
       << "| Index |             Name              |  Stat Req | "
       << "Lvl Req | Damage | Price |\n"
-      << "|   " << index << "   " << *equippedWeapon
-   << std::endl;
+      << "|   " << index << "   " << *equippedWeapon << std::endl;
+
 
   if (cInventory->getWeapons().size() > 0)
   {
     std::cout
-     << "\nStored Weapons\n"
+     << "\nStored Weapon(s)\n"
       << "| Index |             Name              |  Stat Req | "
-      << "Lvl Req | Damage | Price |\n"
+      << "Lvl Req | Damage | Price |\n";
 
-      << std::setw(80) << std::setfill('-') << std::endl;
+      std::cout.flush()
+          << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+       << std::endl;
+
     for (weapon* i : cInventory->getWeapons())
     {
       index++;
-      std::cout << "|" << index << *i << std::endl;
+      std::cout << "|   " << index << "   " << *i << std::endl;
     }
   }
 
+
+    std::vector<unsigned int> input(2);
+
+    std::cout << "Which two indexes would you like to swap?: ";
+    std::cin >> input[0] >> input[1];
+    // Decrement so that the input starts counting at 0
+    input[0]--;
+    input[1]--;
+
+
+    if(input[0] >= cInventory->getWeapons().size()
+       && input[1] >= cInventory->getWeapons().size())
+    {
+       print::textColour(print::C_RED);
+       std::cout << "Invalid weapon selection" << std::endl;
+       print::textColour(print::C_DEFAULT);
+    }
+
+    switch(input[0])
+    {
+      // Swap the Equipped weapon with another
+      case 0:
+        if(checkWeaponReq(input[1] - 1))
+        {
+          cInventory->addWeapon(equippedWeapon);
+          equippedWeapon = cInventory->getWeapons()[input[1] - 1];
+          cInventory->removeWeapon(input[1] - 1);
+        }
+        else
+        {
+          print::textColour(print::C_RED);
+          std::cout
+           << name << " does not meet the requirements for this weapon"
+          << std::endl;
+          print::textColour(print::C_DEFAULT);
+        }
+        break;
+      // Swap a weapon from the inventory with the equipped weapon
+      default:
+        if(input[1] == 0 && checkWeaponReq(input[0] - 1))
+        {
+          cInventory->addWeapon(equippedWeapon);
+          equippedWeapon = cInventory->getWeapons()[input[0] - 1];
+          cInventory->removeWeapon(input[0] - 1);
+        }
+        else
+        {
+          print::textColour(print::C_RED);
+          std::cout
+            << "Invalid weapon selection"
+          << std::endl;
+          print::textColour(print::C_DEFAULT);
+        }
+
+        break;
+    }
 }
 
 
@@ -574,15 +648,32 @@ std::vector<int> player::getExperience()
     return temp;
 }
 
+bool player::checkAbilityReq(int inventoryIndex)
+{
+  return
+   // get the stat amount required
+   cInventory->getAbilities()[inventoryIndex]
+                               ->getStatRequirements()[1] <=
+   // At the players main stats of the required stat
+   mainStats[cInventory->getAbilities()[inventoryIndex]
+                                        ->getStatRequirements()[0]]
+   // check the player is at the required level
+   && cInventory->getAbilities()[inventoryIndex]
+      ->getStatRequirements()[2] <= level ;
+}
+
+bool player::checkWeaponReq(int inventoryIndex)
+{
+  return
+    cInventory->getWeapons()[inventoryIndex]->getStatRequirements()[1] <=
+      mainStats[cInventory->getWeapons().
+        at(inventoryIndex)->getStatRequirements()[0]]
+    && cInventory->getWeapons().at(inventoryIndex)->getStatRequirements()[2] <=
+      level;
+}
+
 void player::save()
 {
-
-  std::fstream toWrite;
-
-
-
-
-
 
     /*
         player:

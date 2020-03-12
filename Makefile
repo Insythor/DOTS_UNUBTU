@@ -1,5 +1,5 @@
 PROJECT_DIR = Nyx
-PROGRAM_TEST = testDiscipleOfTheSpire
+PROGRAM_TEST = tylerTest
 PROGRAM_GAME = playDiscipleOfTheSpire
 
 CXX=g++
@@ -10,9 +10,9 @@ LINKFLAGS= -lgtest
 SRC_DIR = src
 GAME_SRC_DIR = src/game
 
-TEST_DIR = test/tylerTest
+TEST_DIR = test
 
-SRC_INCLUDE = nyx/include/
+SRC_INCLUDE = include
 INCLUDE = -I ${SRC_INCLUDE}
 
 GCOV = gcov

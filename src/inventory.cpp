@@ -42,8 +42,9 @@ void inventory::viewInventory() {
   int index = 0;
   if (weapons.size() > 0) {
     std::cout << "\nWeapon's\n"
-              << "| index |             name              |  stat req | lvl req | damage | price |\n"
-              << "--------------------------------------------------------------------------------\n";
+              << "| Index |             Name              |  Stat Req | "
+              << "Lvl Req | Damage | Price |\n"
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ');
     for (weapon* i : weapons) {
       index++;
       std::cout << "|" << formatIndex(std::to_string(index)) << *i << std::endl;
@@ -55,11 +56,15 @@ void inventory::viewInventory() {
       || consumableStacks[5].size() > 0
       || consumableStacks[6].size() > 0 || consumableStacks[7].size() > 0
       || consumableStacks[8].size() > 0) {
-    std::cout << "\nConsumable's\n"
-              << "| index |         name          |  type  | price | amount|\n"
-              << "---------------------------------------------------------\n";
+    std::cout
+        << "\nConsumable's\n"
+        << "| Index |         Name          |  Type  | Price | Amount|\n"
+        << std::setw(59) << std::setfill('-') << ' ' << std::setfill(' ')
+    << std::endl;
+
     for (std::vector<consumable*> j : consumableStacks) {
-      if (!j.empty()) {
+      if (!j.empty())
+        {
         index++;
         consumable* c = j.front();
         std::cout << "|" << formatIndex(std::to_string(index)) << *c
@@ -71,12 +76,12 @@ void inventory::viewInventory() {
   if (abilities.size() > 0) {
     std::cout
         << "\nStored Abilities\n"
-        << "---------------------------------------------------------\n";
+        << std::setw(61) << std::setfill('-') << ' ' << std::setfill(' ')
+    << std::endl;
     for (ability* k : abilities) {
       index++;
       std::cout
-
-      << std::setw(3) << index << std::setw(15 + (k->getName().length() / 2))
+      << "    " << index << std::setw(15 + (k->getName().length() / 2))
       << *k
 
       << std::endl;

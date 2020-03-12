@@ -33,16 +33,13 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
     std::string strBonus;
     std::string dexBonus;
     std::string intBonus;
-    // Formatting variables for the damage bonus the player recieves
-    // from using their current weapon based on their stats
-//    int dmgBonus = abs(toRender.getDamagePower());
 
-    std::string dmgBonusSign;
-    // Change the operation after the weapon damage to +/- based on the players stats
-    if (toRender.getDamagePower() >= 0)
-        dmgBonusSign = " + ";
-    else
-        dmgBonusSign = " - ";
+//    std::string dmgBonusSign;
+//    // Change the operation after the weapon damage to +/- based on the players stats
+//    if (toRender.getDamagePower() >= 0)
+//        dmgBonusSign = " + ";
+//    else
+//        dmgBonusSign = " - ";
 
     if (toRender.getStatBonuses()[0] >= 0)
         strBonus = " + ";
