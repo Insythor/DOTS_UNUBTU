@@ -1,5 +1,5 @@
 /**
-    @author 
+    @author
 
     @brief
 
@@ -23,16 +23,7 @@ class chest
       @brief
       @param[out]
     */
-    bool getIsOpen();
-    /**
-      @brief
-      @param[out]
-    */
     int lootGold();
-    /**
-      @brief
-    */
-    void open();
     /**
       @brief
       @param[out]
@@ -40,7 +31,6 @@ class chest
     inventory* getInventory();
 
   private:
-    bool isOpen;
     int gold;
     inventory* cinventory;
 };

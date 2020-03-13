@@ -13,15 +13,15 @@ chest::chest(int level)
   std::vector<consumable*> tempCon;
   if(goldRange <= 5)
   {
-    gold = rand() % 21 + 30;
+    gold = rand() % 20 + 30;
   }
   else if(goldRange > 5 && goldRange <= 80)
   {
-    gold = rand() % 11 + 1;
+    gold = rand() % 10 + 1;
   }
   else
   {
-    gold = rand() % 21 + 10;
+    gold = rand() % 20 + 10;
   }
   if(spawnLevel < 1)
     spawnLevel = 1;
@@ -61,20 +61,12 @@ chest::~chest()
   //dtor
 }
 
-bool chest::getIsOpen()
-{
-  return isOpen;
-}
 
 int chest::lootGold()
 {
   return gold;
 }
 
-void chest::open()
-{
-  isOpen = true;
-}
 
 inventory* chest::getInventory()
 {

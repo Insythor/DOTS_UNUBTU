@@ -321,10 +321,10 @@ bool combatManager::endFight()
                   << "Found " << fightOrder[0]->getGold() << " gold.\n"
                   << "Picked up\n" << *fightOrder[0]->getWeapon();
 
-//                if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
-//                  std::cout
-//                    << "\n"
-//                    << *fightOrder[1]->getInventory()->getAbilities().back();
+                if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
+                  std::cout
+                    << "\n"
+                    << *fightOrder[1]->getInventory()->getAbilities().back();
 
                 std::cout << std::endl;
                 monsterLooted = true;

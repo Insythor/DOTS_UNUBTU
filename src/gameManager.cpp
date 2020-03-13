@@ -222,16 +222,12 @@ void gameManager::startGame()
     while (play)
     {
         print::setCursor(true);
-
         command.clear();
         std::cout << ">>> ";
         while(command[0] == '\n' || command.empty())
           getline(std::cin, command);
-
         input = formatCommand(command);
-
         print::setCursor(false);
-
         switch (input[0])
         {
         /**     print commands       */

@@ -63,9 +63,12 @@ void roomManager::enterRoom()
   }
     while (play)
     {
-        std::getline(std::cin, command);
+        print::setCursor(true);
+        command.clear();
+        while(command[0] == '\n' || command.empty())
+          getline(std::cin, command);
         input = formatCommand(command);
-
+        print::setCursor(false);
         switch (input[0])
         {
         case 0:
@@ -75,25 +78,34 @@ void roomManager::enterRoom()
             inventoryManagement(0, 0);
             break;
         case 15:
-          if(static_cast<unsigned int>(input[1]) <= chests.size())
+          if(static_cast<unsigned int>(input[1]- 1) < chests.size())
           {
-            chests[input[1] - 1]->open();
             inventoryManagement(1, input[1] - 1);
           }
           else
           {
-            std::cout << "invalid command" << std::endl;
+            std::cout << "That chest does not exist!" << std::endl;
           }
             break;
         case 151:
-          if(static_cast<unsigned int>(input[1]) <= chests.size())
+          if(static_cast<unsigned int>(input[1] - 1) < chests.size())
           {
-            chests[input[1] - 1]->open();
-            inventoryManagement(1, input[1] - 1);
+            std::cout << "Would you like to open chest number " << input[1] << "? (y/n)";
+            std::cin >> command;
+            if(command == "y")
+            {
+              for(std::vector<consumable*> cStack : chests[input[1] - 1]->getInventory()->removeAllConsumables())
+                myPlayer->getInventory()->addConsumables(cStack);
+              for(weapon* w : chests[input[1] - 1]->getInventory()->removeAllWeapons())
+                myPlayer->getInventory()->addWeapon(w);
+
+            }
+            else
+              break;
           }
            else
           {
-            std::cout << "invalid command" << std::endl;
+            std::cout << "That chest does not exist!" << std::endl;
           }
           break;
         default:
@@ -141,11 +153,7 @@ void roomManager::createChestRoom()
   description = "Need room description here\n";
   for(chest* i : chests)
   {
-    description += std::to_string(index) + ". Chest";
-    if(i->getIsOpen())
-      description += "(Open)\n";
-    else
-      description += "\n";
+    description += std::to_string(index) + ". Chest\n";
   }
   description += "What would you like to do: ";
   std::cout << description;
@@ -156,11 +164,12 @@ void roomManager::inventoryManagement(int type, int index)
 {
   if(type == 0)
   {
-
+    myPlayer->getInventory()->viewInventory();
   }
   else
   {
-
+    if(index < chests.size())
+      chests[index]->getInventory()->viewInventory();
   }
 }
 
@@ -219,11 +228,14 @@ std::vector<int> roomManager::formatCommand(std::string command)
     if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
           temp.push_back(0);
-    else if(tempCommand[0] == "i" || tempCommand[0] == "inventory")
+    else if(tempCommand[0] == "vi" || tempCommand[0] == "inventory")
           temp.push_back(121);
     //Open chest at value
-    else if(roomType == 1 && tempCommand[0] == "open" && (tempCommand[1] == "1" || tempCommand[1] == "2" || tempCommand[1] == "3"))
-          temp.push_back(15);
+    else if(roomType == 1 && tempCommand[1] == "open" && (tempCommand[0] == "1" || tempCommand[0] == "2" || tempCommand[0] == "3"))
+    {
+      temp.push_back(15);
+      temp.push_back(std::stoi(tempCommand[0]));
+    }
     //Open chest using index
     else if(roomType == 1 && (tempCommand[0] == "1" || tempCommand[0] == "2" || tempCommand[0] == "3") && tempCommand.size() == 1)
     {

@@ -1,7 +1,7 @@
 #include "inventory.h"
 
 inventory::inventory() {
-  inventorySize = 10;
+  //inventorySize = 10;
 }
 
 inventory::~inventory() {
@@ -21,9 +21,9 @@ inventory::~inventory() {
   abilities.clear();
 }
 
-int inventory::getInventorySize() {
+/*int inventory::getInventorySize() {
   return inventorySize;
-}
+}*/
 std::string inventory::formatIndex(std::string index) {
   while (index.length() < 7) {
     if (index.length() < 7)
@@ -46,14 +46,9 @@ void inventory::viewInventory() {
       std::cout << "|" << formatIndex(std::to_string(index)) << *i << std::endl;
     }
   }
-  if (consumableStacks[0].size() > 0 || consumableStacks[1].size() > 0
-      || consumableStacks[2].size() > 0
-      || consumableStacks[3].size() > 0 || consumableStacks[4].size() > 0
-      || consumableStacks[5].size() > 0
-      || consumableStacks[6].size() > 0 || consumableStacks[7].size() > 0
-      || consumableStacks[8].size() > 0) {
+  if (!consumableStacks.empty()) {
     std::cout
-        << "\nConsumable's\n"
+        << "Consumable's\n"
         << "| Index |         Name          |  Type  | Price | Amount|\n"
         << std::setw(59) << std::setfill('-') << ' ' << std::setfill(' ')
     << std::endl;
@@ -87,9 +82,9 @@ void inventory::viewInventory() {
 }
 
 
-void inventory::increaseInventorySize(int amount) {
+/*void inventory::increaseInventorySize(int amount) {
   inventorySize += amount;
-}
+}*/
 
 std::vector<std::vector<consumable*>> inventory::removeAllConsumables() {
   std::vector<std::vector <consumable*>> tempvector = consumableStacks;
@@ -106,7 +101,7 @@ std::vector<weapon*> inventory::removeAllWeapons() {
   return tmpvector;
 }
 
-bool inventory::checkForRoom(unsigned int amountToAdd) {
+/*bool inventory::checkForRoom(unsigned int amountToAdd) {
   int counter = amountToAdd;
   for (std::vector<consumable*> i : consumableStacks) {
     counter += i.size();
@@ -117,7 +112,7 @@ bool inventory::checkForRoom(unsigned int amountToAdd) {
   } else {
     return true;
   }
-}
+}*/
 
 bool inventory::deleteConsumables(unsigned int index, unsigned int amount) {
   // to stop the compiler from giving warning

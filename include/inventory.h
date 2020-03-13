@@ -76,7 +76,7 @@ class inventory
       @brief
       @param[out]
     */
-    int getInventorySize();
+    //int getInventorySize();
     /**
       @brief
     */
@@ -85,7 +85,7 @@ class inventory
       @brief
       @param[in]
     */
-    void increaseInventorySize(int amount);
+    //void increaseInventorySize(int amount);
     /**
       @brief
       @param[out]
@@ -96,7 +96,7 @@ class inventory
       @param[in]
       @param[out]
     */
-    bool checkForRoom(unsigned int amountToAdd);
+    //bool checkForRoom(unsigned int amountToAdd);
     /**
       @brief
       @param[out]
@@ -114,7 +114,7 @@ class inventory
     std::vector<weapon*> weapons;
     std::vector<ability*> abilities;
     std::string formatIndex(std::string index);
-    int inventorySize;
+    //int inventorySize;
 };
 
 #endif // INVENTORY_H
