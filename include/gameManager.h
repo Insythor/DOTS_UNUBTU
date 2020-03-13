@@ -25,6 +25,7 @@
 #include "roomManager.h"
 #include "item.h"
 #include "print.h"
+#include "shopManager.h"
 // Containers
 #include <vector>
 #include <string>

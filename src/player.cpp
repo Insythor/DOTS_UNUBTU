@@ -612,7 +612,6 @@ void player::applyStatusEffect(std::vector<int> toApply, bool apply)
 
 void player::useConsumable(unsigned int index)
 {
-
     std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {

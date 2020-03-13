@@ -12,7 +12,7 @@ gameManager::gameManager()
     /** Read in data from docs/DATA/"file" into the static pointers */
   readInRaceData();
   readInWeapons();
-  readInRooms();
+//  readInRooms();
   readInAbilities();
   // Game starts at level 1
   currentLevel = 1;
@@ -208,6 +208,7 @@ void gameManager::startGame()
 {
     combatManager* thisFight = nullptr;
     consumable* myConsumable = nullptr;
+    shopManager* myShop = nullptr;
     std::vector<consumable*> myConVec;
     chest* myChest = nullptr;
 
@@ -385,8 +386,11 @@ void gameManager::startGame()
             delete myConsumable;
             break;
 
-            /**             debugging commands            */
+        case 25:
+            myShop = new shopManager(currentLevel, playerPtr);
+            break;
 
+            /**             debugging commands            */
         // Clear the terminal window of all text
         case 90:
             // WINDOWS
@@ -413,7 +417,7 @@ void gameManager::startGame()
           else
             playerPtr->getInventory()->addAbility(new ability(currentLevel));
 
-          playerPtr->getInventory()->viewInventory();
+            playerPtr->getInventory()->viewInventory();
             break;
         // Make a consumable and add it to the players inventory
         case 212:
@@ -444,6 +448,9 @@ void gameManager::startGame()
         //mainmenu, mmenu
         case 93:
           mainMenu();
+          break;
+        case 94:
+          currentLevel = input[1];
           break;
         // exit, e
         case 0:
@@ -587,7 +594,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Make a consumable, also needs an index.
     else if (tempCommand[0] == "makeconsumable" || tempCommand[0] == "mcon")
         temp.push_back(24);
-
+    // make a shop
+    else if (tempCommand[0] == "makeshop" || tempCommand[0] == "ms")
+        temp.push_back(25);
 
 
     /** debugging gets a prefix of 9 */
@@ -602,6 +611,9 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
     else if(tempCommand[0] == "mainmenu" || tempCommand[0] == "mmenu")
       temp.push_back(93);
+
+    else if(tempCommand[0] == "setlevel" || tempCommand[0] == "sl")
+      temp.push_back(95);
     // GTFO
     else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
