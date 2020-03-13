@@ -368,3 +368,40 @@ Fun
 Booming
 Gloomy
 Self-Esteem += 
+Olivine
+Jade
+Crystal
+Gold
+Iron
+Steel
+Obsidian
+Tainted
+Blessed
+Useless
+Helpful
+Hearty
+Dexterious
+Bold
+Awesom^
+Killers
+Flowery
+Merchants
+My ex's
+Moms
+Dads
+Extra-Ordinary
+The Uggs of
+@brief
+@param[out]
+@param[in]
+make
+Linux
+Dripping
+unsigned
+double
+your
+Beliebers
+True
+Syntactical
+Incorrect
+Demented
