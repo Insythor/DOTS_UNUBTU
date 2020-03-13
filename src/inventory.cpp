@@ -5,7 +5,7 @@ inventory::inventory() {
 }
 
 inventory::~inventory() {
-	for (int i = 0; i < consumableStacks.size(); i++) {
+	for (unsigned int i = 0; i < consumableStacks.size(); i++) {
 		for (consumable* j : consumableStacks[i]) {
 			delete j;
 		}
@@ -90,7 +90,7 @@ void inventory::viewInventory() {
 
 std::vector<std::vector<consumable*>> inventory::removeAllConsumables() {
 	std::vector<std::vector <consumable*>> tempvector = consumableStacks;
-	for (int i = 0; i < consumableStacks.size(); i++) {
+	for (unsigned int i = 0; i < consumableStacks.size(); i++) {
 		consumableStacks[i].clear();
 	}
 	consumableStacks.clear();
@@ -147,7 +147,7 @@ void inventory::addConsumables(std::vector<consumable*> conStack) {
 	if (conStack.size() > 0) {
 		int index = conStack[0]->getID();
 		bool found = false;
-		for (int i = 0; i < consumableStacks.size(); i++) {
+		for (unsigned int i = 0; i < consumableStacks.size(); i++) {
 			if (consumableStacks[i].front()->getID() == index) {
 				found = true;
 				for (consumable* con : conStack) {
@@ -217,6 +217,11 @@ std::vector<ability*> inventory::getAbilities()
 std::vector<weapon*> inventory::getWeapons()
 {
   return weapons;
+}
+
+std::vector<std::vector<consumable*>> inventory::getConsumables()
+{
+  return consumableStacks;
 }
 
 bool inventory::isEmpty()

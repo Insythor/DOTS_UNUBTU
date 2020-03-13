@@ -171,3 +171,8 @@ void print::deathScreen()
   }
 
 }
+
+void print::clearScreen()
+{
+  system(SYS_CLEAR);
+}

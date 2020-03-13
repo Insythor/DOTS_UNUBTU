@@ -9,7 +9,7 @@ ability::ability(int lev)
 {
   srand(time(NULL));
   if(lev > 5 || lev < 1)
-    lev = 5;
+    lev = 1;
 
   int rStat = rand() % ability::allAbilities->at(lev - 1).size();
   int rAbility = rand() % ability::allAbilities->at(lev - 1)[rStat].size();
@@ -33,6 +33,9 @@ ability::ability(int lev)
 
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
+
+  cost = 50 * diceRolls;
+  sellPrice = cost / 2;
     /**
       Until something is in place to check if an ability exists, I've
       commented this out to prevent seg faults
@@ -218,4 +221,17 @@ int ability::dealDamage()
         return 0;
     }
 }
+
+int ability::getCost()
+{
+  return cost;
+}
+
+int ability::getSellPrice()
+{
+  return sellPrice;
+}
+
+
+
 

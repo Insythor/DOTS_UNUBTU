@@ -197,7 +197,7 @@ void roomManager::inventoryManagement(int type, int index)
   }
   else
   {
-    if(index < chests.size())
+    if(static_cast<unsigned int> (index) < chests.size())
       chests[index]->getInventory()->viewInventory();
   }
 }

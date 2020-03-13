@@ -1,5 +1,5 @@
 /**
-    @author 
+    @author
 
     @brief
 
@@ -108,6 +108,16 @@ class ability
       @param[out]
     */
     static std::vector<std::vector<std::vector<abilityData>>>* allAbilities;
+    /**
+      @brief
+      @param[out]
+    */
+    int getCost();
+    /**
+      @brief
+      @param[out]
+    */
+    int getSellPrice();
 
  private:
    std::string name;
@@ -117,6 +127,8 @@ class ability
    bool onCooldown;
    int diceRolls;
    int diceSize;
+   int cost;
+   int sellPrice;
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirements;
    std::vector<dice>* abilityDice;

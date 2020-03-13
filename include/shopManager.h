@@ -37,6 +37,7 @@ class shopManager
 
     int lastWeapon;
     int lastConsumable;
+    bool hasAbility;
     // Prevents the user from entering in an index that'll seg fault
     int lastIndex;
 
@@ -58,6 +59,18 @@ class shopManager
       @brief Prints a random 'continue shopping' message
     */
     void somethingElse();
+    /**
+      @brief
+    */
+    bool checkIndex(const int& index);
+    /**
+      @brief Display the amount of gold the shop and player has
+    */
+    void displayGold();
+    /**
+      @brief When the player makes a purchase, thank them for their patronage
+    */
+    void confirmPurchase();
 };
 
 #endif // SHOPMANAGER_H

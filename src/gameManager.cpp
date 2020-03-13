@@ -664,9 +664,6 @@ std::vector<int> gameManager::formatCommand(std::string command)
       temp.push_back(-1);
 
     temp.shrink_to_fit();
-//
-//    for(auto i : temp)
-//      std::cout << i << std::endl;
 
     return temp;
 }

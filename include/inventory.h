@@ -111,6 +111,8 @@ class inventory
       @brief
       @param[out]
     */
+    std::vector<std::vector<consumable*>> getConsumables();
+
     bool isEmpty();
 
 

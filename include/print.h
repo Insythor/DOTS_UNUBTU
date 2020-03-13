@@ -13,6 +13,10 @@
 
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
 #define DEFAULT_MOD 75
+// Linux
+#define SYS_CLEAR "clear"
+// Windows
+//#define SYS_CLEAR "cls";
 
 // "printf '\e[38;2;200;200;200m'"
 
@@ -38,7 +42,6 @@
 
           To access a colour for any of the functions, call print::C_'colour'
           i.e. print::str_colour(string toPrint, print::C_WHITE);
-
 */
 
 class print
@@ -58,7 +61,6 @@ class print
     static int C_BROWN [3];
     static int C_PINK [3];
     static int C_DEFAULT [3];
-
 
     /**
       @brief Print out the string every few milliseconds, so it looks
@@ -127,6 +129,10 @@ class print
       @brief Fade the screen to red, hold for 3 seconds, then fade back to black
     */
     static void deathScreen();
+    /**
+      @brief Call the system command to clear the terminal
+    */
+    static void clearScreen();
 };
 
 
