@@ -2,10 +2,6 @@
 
 inventory::inventory() {
   inventorySize = 10;
-  for (int i = 0; i < 9; i++) {
-    std::vector<consumable*> tempvec;
-    consumableStacks.push_back(tempvec);
-  }
 }
 
 inventory::~inventory() {
@@ -133,6 +129,8 @@ bool inventory::deleteConsumables(unsigned int index, unsigned int amount) {
       delete consumableStacks[index].front();
       consumableStacks[index].erase(consumableStacks[index].begin());
     }
+    if(consumableStacks[index].empty())
+      consumableStacks.erase(consumableStacks.begin() + index);
     return true;
   }
   return false;
@@ -149,14 +147,19 @@ bool inventory::deleteWeapon(unsigned int index) {
 }
 
 void inventory::addConsumables(std::vector<consumable*> conStack) {
-
   if (conStack.size() > 0) {
     int index = conStack[0]->getID();
-    for (consumable* con : conStack) {
-      if (con != nullptr) {
-        consumableStacks[index].push_back(con);
+    bool found = false;
+    for (std::vector<consumable*> v : consumableStacks) {
+      if (v.front()->getID() == index) {
+          found = true;
+        for (consumable* con : conStack) {
+            consumableStacks[index].push_back(con);
+        }
       }
     }
+   if(!found)
+    consumableStacks.push_back(conStack);
   }
 }
 
@@ -164,14 +167,16 @@ void inventory::addConsumables(std::vector<consumable*> conStack) {
 std::vector<consumable*> inventory::removeConsumables(unsigned int index,
     unsigned int amount) {
   std::vector<consumable*> tempvector;
-  if (consumableStacks.size() > index) {
+  if (index < consumableStacks.size()) {
     if (consumableStacks[index].size() < amount) {
       amount = consumableStacks[index].size();
     }
-    for (unsigned int i = 0; i <= amount; i++) {
+    for (unsigned int i = 0; i < amount; i++) {
       tempvector.push_back(consumableStacks[index].front());
       consumableStacks[index].erase(consumableStacks[index].begin());
     }
+     if(consumableStacks[index].empty())
+      consumableStacks.erase(consumableStacks.begin() + index);
   }
   return tempvector;
 }

@@ -1,6 +1,5 @@
 /**
     @author Victor Besson
-
     @brief
 
 */
