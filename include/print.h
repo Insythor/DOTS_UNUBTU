@@ -12,7 +12,7 @@
 #define PRINT_H
 
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
-#define DEFAULT_MOD 75
+#define DEFAULT_MOD 50
 // Linux
 #define SYS_CLEAR "clear"
 // Windows

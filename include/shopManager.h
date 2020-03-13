@@ -50,7 +50,11 @@ class shopManager
     /**
       @brief Players gold >= cost
     */
-    bool canAfford(const int& cost);
+    bool playerAfford(const int& cost);
+    /**
+      @brief Shops gold <= cost
+    */
+    bool shopAfford(const int& cost);
     /**
       @brief Prints a random message if the player cannot afford the item
     */
@@ -71,6 +75,8 @@ class shopManager
       @brief When the player makes a purchase, thank them for their patronage
     */
     void confirmPurchase();
+
+    void shopCantAfford();
 };
 
 #endif // SHOPMANAGER_H

@@ -35,7 +35,7 @@ ability::ability(int lev)
     abilityDice->push_back(dice(diceSize));
 
   cost = 50 * diceRolls;
-  sellPrice = cost / 2;
+  sellValue = cost / 2;
     /**
       Until something is in place to check if an ability exists, I've
       commented this out to prevent seg faults
@@ -66,6 +66,10 @@ ability::ability(int lev, int sType)
   abilityDice = new std::vector<dice>;
   for(int i = 0; i < diceRolls; i++)
     abilityDice->push_back(dice(diceSize));
+
+  cost = 50 * diceRolls;
+  sellValue = cost / 2;
+
     /**
       Until something is in place to check if an ability exists, I've
       commented this out to prevent seg faults
@@ -227,11 +231,7 @@ int ability::getCost()
   return cost;
 }
 
-int ability::getSellPrice()
+int ability::getSellValue()
 {
-  return sellPrice;
+  return sellValue;
 }
-
-
-
-

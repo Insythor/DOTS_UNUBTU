@@ -117,7 +117,7 @@ class ability
       @brief
       @param[out]
     */
-    int getSellPrice();
+    int getSellValue();
 
  private:
    std::string name;
@@ -128,7 +128,7 @@ class ability
    int diceRolls;
    int diceSize;
    int cost;
-   int sellPrice;
+   int sellValue;
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirements;
    std::vector<dice>* abilityDice;
