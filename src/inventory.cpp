@@ -218,3 +218,9 @@ std::vector<weapon*> inventory::getWeapons()
 {
   return weapons;
 }
+
+bool inventory::isEmpty()
+{
+  return abilities.empty() && weapons.empty() && consumableStacks.empty();
+
+}

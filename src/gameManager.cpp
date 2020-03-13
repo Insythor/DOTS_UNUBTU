@@ -818,7 +818,7 @@ void gameManager::mainMenu()
   }
   // Set text colour back to light grey
   print::textColour(print::C_DEFAULT);
-  print::vec_time(menuButtons, 0);
+  print::vec_time(menuButtons, 1);
 
   // Get the users first input
   std::cout << ">>> ";

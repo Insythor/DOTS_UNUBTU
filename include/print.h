@@ -1,21 +1,26 @@
 /**
     @author Tyler Justinen-Teite
 
-    @brief
-
+    @brief This class is designed to for controlling how text is rendered to the
+           screen. By default, it will print text at soft-white colour, and
+           output a character at a time, so that it looks like the text is being
+           typed into the terminal.
+           The default time between each character is rand() % 75 milliseconds.
 */
 
 #ifndef PRINT_H
 #define PRINT_H
 
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
-#define DEFAULT_MOD 100
-#define DEFAULT_COLOUR "printf '\e[38;2;200;200;200m'"
+#define DEFAULT_MOD 75
+
+// "printf '\e[38;2;200;200;200m'"
 
 // Containters
 #include <vector>
 #include <string>
 #include <cstring>
+/// Not a container but used for converting text to c_strings
 #include <algorithm>
 // I/O
 #include <iostream>
@@ -57,54 +62,55 @@ class print
 
     /**
       @brief Print out the string every few milliseconds, so it looks
-             like the text is being typed to the screen
+             like the text is being typed to the screen. Does not endl
     */
-    static void str(std::string toPrint);
+    static void str(const std::string& toPrint);
     /**
       @brief Call print::str, and add a colour to the text
       @param[in] std::string toPrint
       @param[in] int[3] print::C-'colour'
     */
-    static void str_colour(std::string toPrint, int colour[3]);
+    static void str_colour(const std::string& toPrint, const int colour[3]);
     /**
       @brief Call print::str_time, and add a colour to the text
       @param[in] std::string toPrint
       @param[in] int maxMillis
       @param[in] int[3] print::C-'colour'
     */
-    static void str_time_colour(std::string toPrint,
-                                int maxMillis, int colour[3]);
+    static void str_time_colour(const std::string& toPrint,
+                                const int& maxMillis, const int colour[3]);
     /**
       @brief Print out the string one char at a time every x milliseconds
     */
-    static void str_time(std::string toPrint, int maxMillis);
+    static void str_time(const std::string& toPrint, const int& maxMillis);
     /**
       @brief Print the std::vector<std::string>> to the screen, one char
              at a time, and wait a small amount of time between each char
     */
-    static void vec(std::vector<std::string> toPrint);
+    static void vec(const std::vector<std::string>& toPrint);
     /**
       @brief Print the std::vector<std::string>> to the screen, one char
              at a time, and wait a small amount of time between each char,
              and increase the speed as it's printed.
     */
-    static void vec_faster(std::vector<std::string> toPrint);
+    static void vec_faster(const std::vector<std::string>& toPrint);
     /**
       @brief Print the std::vector<std::string>> to the screen, one char
              at a time, and wait a small amount of time between each char,
              and increase the speed as it's printed.
     */
-    static void vec_time(std::vector<std::string> toPrint, int maxMillis);
+    static void vec_time(const std::vector<std::string>& toPrint,
+                                                    const int& maxMillis);
     /**
       @brief  Set the text colour
       @param[in] int[3] print::C_'colour'
     */
-    static void textColour(int colour[3]);
+    static void textColour(const int colour[3]);
     /**
       @brief  Sets the cursor to a box (true) or an underscore
       @param[in] bool Box?
     */
-    static void setCursor(bool box);
+    static void setCursor(const bool& box);
     /**
       @brief  Screen dimensions: 31h x 80h
               Background colour: Black

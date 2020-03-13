@@ -107,6 +107,11 @@ class inventory
       @param[out]
     */
     std::vector<weapon*> getWeapons();
+    /**
+      @brief
+      @param[out]
+    */
+    bool isEmpty();
 
 
   private:

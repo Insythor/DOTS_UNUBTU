@@ -25,7 +25,7 @@ class shopManager
       @brief
       @param[in]
     */
-    shopManager(int roomCount, player* customer);
+    shopManager(const int& roomCount, player* customer);
     /**
       @brief
     */
@@ -35,12 +35,29 @@ class shopManager
   private:
     int gold;
 
+    int lastWeapon;
+    int lastConsumable;
+    // Prevents the user from entering in an index that'll seg fault
+    int lastIndex;
+
     player* customer;
     inventory* sinventory;
 
     void startTransaction();
 
     int formatCommand(std::string command);
+    /**
+      @brief Players gold >= cost
+    */
+    bool canAfford(const int& cost);
+    /**
+      @brief Prints a random message if the player cannot afford the item
+    */
+    void tooExpensive(const int& cost);
+    /**
+      @brief Prints a random 'continue shopping' message
+    */
+    void somethingElse();
 };
 
 #endif // SHOPMANAGER_H

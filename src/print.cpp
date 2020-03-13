@@ -12,7 +12,7 @@ int print::C_PINK [3] = {255, 102, 255};
 
 int print::C_DEFAULT [3] = {200, 200, 200};
 
-void print::str(std::string toPrint)
+void print::str(const std::string& toPrint)
 {
   for(auto c : toPrint)
   {
@@ -21,7 +21,7 @@ void print::str(std::string toPrint)
   }
 }
 
-void print::str_time(std::string toPrint, int maxMillis)
+void print::str_time(const std::string& toPrint, const int& maxMillis)
 {
     for(auto c : toPrint)
     {
@@ -31,24 +31,24 @@ void print::str_time(std::string toPrint, int maxMillis)
     }
 }
 
-void print::str_colour(std::string toPrint, int colour[3])
+void print::str_colour(const std::string& toPrint, const int colour[3])
 {
     textColour(colour);
     str(toPrint);
-    system(DEFAULT_COLOUR);
+    textColour(C_DEFAULT);
 }
 
-void print::str_time_colour(std::string toPrint, int maxMillis, int colour[3])
+void print::str_time_colour(const std::string& toPrint,
+                                const int& maxMillis, const int colour[3])
 {
-
     textColour(colour);
     if(maxMillis == 0)
     std::cout << toPrint;
-    system(DEFAULT_COLOUR);
+    textColour(C_DEFAULT);
 }
 
 
-void print::vec(std::vector<std::string> toPrint)
+void print::vec(const std::vector<std::string>& toPrint)
 {
   for(auto l : toPrint)
   {
@@ -62,7 +62,7 @@ void print::vec(std::vector<std::string> toPrint)
   }
 }
 
-void print::vec_faster(std::vector<std::string> toPrint)
+void print::vec_faster(const std::vector<std::string>& toPrint)
 {
   int mod = DEFAULT_MOD;
   int lineCounter = -1;
@@ -81,18 +81,15 @@ void print::vec_faster(std::vector<std::string> toPrint)
   }
 }
 
-void print::vec_time(std::vector<std::string> toPrint, int maxMillis)
+void print::vec_time(const std::vector<std::string>& toPrint,
+                                                          const int& maxMillis)
 {
-  if(maxMillis < 1)
-    maxMillis = 1;
-
   for(auto l : toPrint)
   {
     std::cout << l << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(rand() % maxMillis));
   }
 }
-
 
 void print::initScreen()
 {
@@ -106,7 +103,7 @@ void print::initScreen()
   system("clear;");
   setCursor(false);
 }
-void print::textColour(int colour[3])
+void print::textColour(const int colour[3])
 {
   std::string bgColour = "printf '\e[38;2;";
   bgColour.append(std::to_string(colour[0]) + ";");
@@ -119,7 +116,7 @@ void print::textColour(int colour[3])
   std::cout.flush();
 }
 
-void print::setCursor(bool box)
+void print::setCursor(const bool& box)
 {
     if(box)
       system("printf '\e[0 q';");
