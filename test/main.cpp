@@ -3,6 +3,12 @@
     @breif main.cpp for testing all of the public methods in Disciple of the Spire
 */
 
+#include "gtest/gtest.h"
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
 
 /**
 int main()
@@ -43,7 +49,7 @@ int main()
 
        /** baseCharacter : inventory */
 
-           /// 
+           ///
 
        /** baseCharacter : abilities */
 
@@ -158,4 +164,3 @@ int main()
 
 //    return 0;
 //}
-
