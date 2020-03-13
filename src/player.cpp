@@ -216,7 +216,7 @@ void player::swapAbilities()
           if(activeAbilities.size() >= 2
              && checkAbilityReq(input[1] - lastActiveIndex))
           {
-              cInventory->addAbility(activeAbilities.back());
+            cInventory->addAbility(activeAbilities.back());
             activeAbilities.pop_back();
             activeAbilities.push_back(cInventory->removeAbility
                                       (input[1] - lastActiveIndex));
@@ -230,9 +230,13 @@ void player::swapAbilities()
                                       (input[1]));
 
           else
-            std::cout <<
+            {
+              print::textColour(print::C_RED);
+              std::cout <<
                 name + " does not meet the stat requirements for that ability"
-            << std::endl;
+              << std::endl;
+              print::textColour(print::C_DEFAULT);
+            }
         break;
     // Remove an ability from the active abilities
         // and place it in the stored abilities
@@ -336,7 +340,7 @@ void player::swapWeapon()
 
     std::vector<unsigned int> input(2);
 
-    std::cout << "Which two indexes would you like to swap?: ";
+    std::cout << "Which two indices would you like to swap?: ";
     std::cin >> input[0] >> input[1];
     // Decrement so that the input starts counting at 0
     input[0]--;
@@ -608,6 +612,7 @@ void player::applyStatusEffect(std::vector<int> toApply, bool apply)
 
 void player::useConsumable(unsigned int index)
 {
+
     std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
     if(tempC.size() > 0)
     {
@@ -681,7 +686,7 @@ bool player::checkAbilityReq(unsigned int inventoryIndex)
                                         ->getStatRequirements()[0]]
    // check the player is at the required level
    && cInventory->getAbilities()[inventoryIndex]
-      ->getStatRequirements()[2] <= level;
+      ->getStatRequirements()[2] < level;
   else
     return false;
 }
@@ -707,7 +712,7 @@ void player::save()
             Name
             Race
             Level
-            current HP
+            current HPstd::cout << index << std::endl;
             maxHP
             gold
             mainStats
