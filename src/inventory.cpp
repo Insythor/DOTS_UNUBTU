@@ -5,20 +5,21 @@ inventory::inventory() {
 }
 
 inventory::~inventory() {
-  for (std::vector<consumable*> i : consumableStacks) {
-    for (consumable* j : i) {
-      delete j;
-    }
-    i.clear();
-  }
-  for (weapon* i : weapons) {
-    delete i;
-  }
-  weapons.clear();
-  for (ability* i : abilities) {
-    delete i;
-  }
-  abilities.clear();
+	for (int i = 0; i < consumableStacks.size(); i++) {
+		for (consumable* j : consumableStacks[i]) {
+			delete j;
+		}
+		consumableStacks[i].clear();
+	}
+	consumableStacks.clear();
+	for (weapon* i : weapons) {
+		delete i;
+	}
+	weapons.clear();
+	for (ability* i : abilities) {
+		delete i;
+	}
+	abilities.clear();
 }
 
 /*int inventory::getInventorySize() {
@@ -40,7 +41,8 @@ void inventory::viewInventory() {
     std::cout << "\nWeapon's\n"
               << "| Index |             Name              |  Stat Req | "
               << "Lvl Req | Damage | Price |\n"
-        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ');
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+        << std::endl;
     for (weapon* i : weapons) {
       index++;
       std::cout << "|" << formatIndex(std::to_string(index)) << *i << std::endl;
@@ -87,12 +89,12 @@ void inventory::viewInventory() {
 }*/
 
 std::vector<std::vector<consumable*>> inventory::removeAllConsumables() {
-  std::vector<std::vector <consumable*>> tempvector = consumableStacks;
-
-  for (std::vector<consumable*> i : consumableStacks) {
-    i.clear();
-  }
-  return tempvector;
+	std::vector<std::vector <consumable*>> tempvector = consumableStacks;
+	for (int i = 0; i < consumableStacks.size(); i++) {
+		consumableStacks[i].clear();
+	}
+	consumableStacks.clear();
+	return tempvector;
 }
 
 std::vector<weapon*> inventory::removeAllWeapons() {
@@ -142,20 +144,20 @@ bool inventory::deleteWeapon(unsigned int index) {
 }
 
 void inventory::addConsumables(std::vector<consumable*> conStack) {
-  if (conStack.size() > 0) {
-    int index = conStack[0]->getID();
-    bool found = false;
-    for (std::vector<consumable*> v : consumableStacks) {
-      if (v.front()->getID() == index) {
-          found = true;
-        for (consumable* con : conStack) {
-            consumableStacks[index].push_back(con);
-        }
-      }
-    }
-   if(!found)
-    consumableStacks.push_back(conStack);
-  }
+	if (conStack.size() > 0) {
+		int index = conStack[0]->getID();
+		bool found = false;
+		for (int i = 0; i < consumableStacks.size(); i++) {
+			if (consumableStacks[i].front()->getID() == index) {
+				found = true;
+				for (consumable* con : conStack) {
+					consumableStacks[i].push_back(con);
+				}
+			}
+		}
+		if (!found)
+			consumableStacks.push_back(conStack);
+	}
 }
 
 

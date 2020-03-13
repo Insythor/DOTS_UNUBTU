@@ -13,15 +13,15 @@ chest::chest(int level)
   std::vector<consumable*> tempCon;
   if(goldRange <= 5)
   {
-    gold = rand() % 20 + 30;
+    gold = rand() % 21 + 30;
   }
-  else if(goldRange > 5 && goldRange <= 80)
+  else if(goldRange > 5 && goldRange <= 65)
   {
-    gold = rand() % 10 + 1;
+    gold = rand() % 20 + 1;
   }
   else
   {
-    gold = rand() % 20 + 10;
+    gold = rand() % 21 + 10;
   }
   if(spawnLevel < 1)
     spawnLevel = 1;
@@ -58,13 +58,19 @@ chest::chest(int level)
 
 chest::~chest()
 {
-  //dtor
+  delete cinventory;
 }
 
+int chest::getGold()
+{
+    return gold;
+}
 
 int chest::lootGold()
 {
-  return gold;
+    int goldLooted = gold;
+    gold = 0;
+  return goldLooted;
 }
 
 

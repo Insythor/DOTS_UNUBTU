@@ -16,7 +16,7 @@ class monster : public baseCharacter
   friend std::ostream& operator << (std::ostream& out, monster& toRender);
   public:
     monster(std::string tName, std::string tRace, int tMaxHP, std::vector<int> tmMStats, int l);
-    ~monster();
+    virtual ~monster();
     /**
       @brief Boss = level % 5 == 0
     */

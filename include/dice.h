@@ -24,7 +24,7 @@ public:
     */
 	dice(int nSides);
 
-	~dice();
+	virtual ~dice();
   /**
     @brief Roll the dice a single time
     @param[out] int roll = rand(1, sides)

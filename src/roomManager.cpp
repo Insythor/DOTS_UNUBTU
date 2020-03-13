@@ -80,7 +80,27 @@ void roomManager::enterRoom()
         case 15:
           if(static_cast<unsigned int>(input[1]- 1) < chests.size())
           {
-            inventoryManagement(1, input[1] - 1);
+            std::cout << "Would you like to open chest number " << input[1] << "? (y/n)";
+            std::cin >> command;
+            if(command == "y")
+            {
+                std::cout << "Found " << chests[input[1] - 1]->getGold() << " gold.\n";
+                myPlayer->setGold(chests[input[1] - 1]->lootGold());
+                for(weapon* w : chests[input[1] - 1]->getInventory()->removeAllWeapons())
+                {
+                    std::cout << "Picked up\n" << *w << std::endl;
+                    myPlayer->getInventory()->addWeapon(w);
+                }
+                for(std::vector<consumable*> cStack : chests[input[1] - 1]->getInventory()->removeAllConsumables())
+                {
+                    std::cout << "Looted\n" << *cStack.front() << " x" << cStack.size() << std::endl;
+                    myPlayer->getInventory()->addConsumables(cStack);
+                }
+                chests.erase(chests.begin()+ input[1] - 1);
+                createChestRoom();
+            }
+            else
+              break;
           }
           else
           {
@@ -94,11 +114,20 @@ void roomManager::enterRoom()
             std::cin >> command;
             if(command == "y")
             {
-              for(std::vector<consumable*> cStack : chests[input[1] - 1]->getInventory()->removeAllConsumables())
-                myPlayer->getInventory()->addConsumables(cStack);
-              for(weapon* w : chests[input[1] - 1]->getInventory()->removeAllWeapons())
-                myPlayer->getInventory()->addWeapon(w);
-
+                std::cout << "Found " << chests[input[1] - 1]->getGold() << " gold.\n";
+                myPlayer->setGold(chests[input[1] - 1]->lootGold());
+                for(weapon* w : chests[input[1] - 1]->getInventory()->removeAllWeapons())
+                {
+                    std::cout << "Picked up\n" << *w << std::endl;
+                    myPlayer->getInventory()->addWeapon(w);
+                }
+                for(std::vector<consumable*> cStack : chests[input[1] - 1]->getInventory()->removeAllConsumables())
+                {
+                    std::cout << "Looted\n" << *cStack.front() << " x" << cStack.size() << std::endl;
+                    myPlayer->getInventory()->addConsumables(cStack);
+                }
+                chests.erase(chests.begin()+ input[1] - 1);
+                createChestRoom();
             }
             else
               break;
@@ -140,7 +169,7 @@ void roomManager::changeRoom(int nextRoom)
 
 void roomManager::createChestRoom()
 {
-  if(chests.empty())
+  if(chests.empty() && !roomComplete)
   {
     srand (time(NULL));
     int chestAmount = rand() % 4 + 1;

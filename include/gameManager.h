@@ -48,7 +48,7 @@ public:
     @brief
   */
 	gameManager();
-	~gameManager();
+	virtual ~gameManager();
     /**
         @brief  Main loop of the game
     */

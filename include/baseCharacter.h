@@ -2,7 +2,7 @@
     @author Tyler Justinen-Teite
 
     @brief Parent class of Player and Monster.
-           Stores the basic functionality for a Player Character 
+           Stores the basic functionality for a Player Character
            (or Non-Player Character (monsters)).
 
     @param cInventory = new inventory()

@@ -282,15 +282,28 @@ void gameManager::startGame()
         case 14:
             printConsumables();
             break;
-        //viewchest, vc
-        case 15:
-          myChest = new chest(25);
-          myChest->getInventory()->viewInventory();
-          delete myChest;
-          break;
         // pabilities, pa
         case 16:
           printAbility();
+          break;
+        //viewchest, vch
+        case 17:
+          myChest->getInventory()->viewInventory();
+          break;
+        //OpenChest, och
+        case 171:
+                std::cout << "Found " << myChest->getGold() << " gold.\n";
+                playerPtr->setGold(myChest->lootGold());
+                for(weapon* w : myChest->getInventory()->removeAllWeapons())
+                {
+                    std::cout << "Picked up\n" << *w << std::endl;
+                    playerPtr->getInventory()->addWeapon(w);
+                }
+                for(std::vector<consumable*> cStack : myChest->getInventory()->removeAllConsumables())
+                {
+                    std::cout << "Looted\n" << *cStack.front() << " x" << cStack.size() << std::endl;
+                    playerPtr->getInventory()->addConsumables(cStack);
+                }
           break;
             /**        make commands (spawn an object)      */
         // makeWeapon,  mw
@@ -385,7 +398,11 @@ void gameManager::startGame()
         case 25:
             myShop = new shopManager(currentLevel, playerPtr);
             break;
-
+        case 27:
+            delete myChest;
+            myChest = new chest(25);
+            myChest->getInventory()->viewInventory();
+            break;
             /**             debugging commands            */
         // Clear the terminal window of all text
         case 90:
@@ -459,6 +476,12 @@ void gameManager::startGame()
             break;
         }
     }
+    delete myChest;
+    delete thisFight;
+    delete myConsumable;
+    delete myShop;
+    for(consumable* c : myConVec) { delete c; }
+    myConVec.clear();
 }
 
 std::string gameManager::formatRoomType(int type)
@@ -556,12 +579,14 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // Print all the consumables in the csv
     else if (tempCommand[0] == "pconsumables" || tempCommand[0] == "pcon")
         temp.push_back(14);
-    //Print all items in chest inventory
-    else if(tempCommand[0] == "viewChest" || tempCommand[0] == "vc")
-        temp.push_back(15);
          // Prints all the abilities in the csv
     else if (tempCommand[0] == "pabilities" || tempCommand[0] == "pa")
         temp.push_back(16);
+    //Print all items in chest inventory
+    else if(tempCommand[0] == "viewChest" || tempCommand[0] == "vch")
+        temp.push_back(17);
+    else if(tempCommand[0] == "OpenChest" || tempCommand[0] == "och")
+        temp.push_back(171);
 
     /** Create object prefixed with 2 */
     else if (tempCommand[0] == "makweapon" || tempCommand[0] == "mw")
@@ -593,8 +618,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
     // make a shop
     else if (tempCommand[0] == "makeshop" || tempCommand[0] == "ms")
         temp.push_back(25);
-
-
+    else if (tempCommand[0] == "makechest" || tempCommand[0] == "mch")
+        temp.push_back(27);
     /** debugging gets a prefix of 9 */
     else if (tempCommand[0] == "clear")
         temp.push_back(90);

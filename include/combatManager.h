@@ -23,7 +23,7 @@ class combatManager
 {
   public:
     combatManager(player* p, monster* m);
-    ~combatManager();
+    virtual ~combatManager();
 
   bool startFight();
 

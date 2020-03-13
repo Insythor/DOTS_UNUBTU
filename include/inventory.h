@@ -19,7 +19,7 @@ class inventory
 {
   public:
     inventory();
-   ~inventory();
+    virtual ~inventory();
     /**
       @brief
       @param[in] unsigned int

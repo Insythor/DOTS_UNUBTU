@@ -9,7 +9,7 @@ class puzzleManager
 {
   public:
     puzzleManager();
-    ~puzzleManager();
+    virtual ~puzzleManager();
 
   private:
     static std::vector<int> puzzlesLeft;

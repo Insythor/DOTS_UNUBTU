@@ -18,7 +18,7 @@ class chest
       @param[in]
     */
     chest(int level);
-    ~chest();
+    virtual ~chest();
     /**
       @brief
       @param[out]
@@ -29,7 +29,7 @@ class chest
       @param[out]
     */
     inventory* getInventory();
-
+    int getGold();
   private:
     int gold;
     inventory* cinventory;

@@ -30,7 +30,7 @@ class shopManager
       @brief
     */
     shopManager();
-    ~shopManager();
+    virtual ~shopManager();
 
   private:
     int gold;

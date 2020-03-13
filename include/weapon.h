@@ -1,7 +1,7 @@
 /**
     @author Tyler Justinen-Teite
 
-    @brief 
+    @brief
 
 */
 
@@ -57,7 +57,7 @@ class weapon : public item
     /**
       @brief ~dtor
     */
-    ~weapon();
+    virtual ~weapon();
     /**
         @brief Return the name of this weapon
         @param[out] std::string name

@@ -32,7 +32,7 @@ class consumable : public item
                If an in valid number was given, the consumable will default to a bandage.
     */
     consumable(int cid);
-    ~consumable();
+    virtual ~consumable();
     friend std::ostream& operator << (std::ostream& out, consumable &toRender);
     /**
       @brief Return the index of the csv that this consumable was generated from

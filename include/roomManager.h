@@ -29,7 +29,7 @@ public:
     @param[out]
   */
 	roomManager();
-	~roomManager();
+	virtual ~roomManager();
   /**
     @brief
     @param[out]

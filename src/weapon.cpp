@@ -216,7 +216,7 @@ std::ostream& operator << (std::ostream &out, weapon &toRender)
   }
   out << "|" << toRender.formatOutput(0, toRender.name) << "|" << toRender.formatOutput(1, tempType) << "|"
   << toRender.formatOutput(2, std::to_string(toRender.statRequirements[2])) << "|" << toRender.formatOutput(3, wDamage) << "|"
-  << toRender.formatOutput(4, std::to_string(toRender.getSellValue()) + "g") << "|" << std::endl;
+  << toRender.formatOutput(4, std::to_string(toRender.getSellValue()) + "g") << "|";
   return out;
 }
 
