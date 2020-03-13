@@ -228,12 +228,7 @@ void gameManager::startGame()
         while(command[0] == '\n' || command.empty())
           getline(std::cin, command);
 
-//        std::cout << command << std::endl;
-
         input = formatCommand(command);
-
-//        for( auto i : input)
-//          std::cout << '\n' << i << std::endl;
 
         print::setCursor(false);
 
