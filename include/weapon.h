@@ -91,8 +91,6 @@ class weapon : public item
     int dealDamage();
     static std::vector<std::string>* allNames;
   private:
-     std::string name;
-
      int diceRolls;
      int diceSize;
 

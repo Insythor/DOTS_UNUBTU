@@ -93,10 +93,6 @@ class ability
       @brief
       @param[out]
     */
-    std::string viewAbilityCombat();
-    /**
-      @brief
-    */
     void reduceCooldown();
     /**
       @brief

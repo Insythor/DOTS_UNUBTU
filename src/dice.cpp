@@ -1,8 +1,7 @@
 #include "dice.h"
 
-dice::dice()
+dice::dice() : sides {6}
 {
-	sides = 6;
   srand(time(NULL));
 }
 

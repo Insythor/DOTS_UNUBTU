@@ -2,7 +2,14 @@
 
 ability::ability()
 {
-  abilityDice = new std::vector<dice>;
+  abilityDice = nullptr;
+  cooldown = 0;
+  currentCooldown = 0;
+  onCooldown = false;
+  diceRolls = 0;
+  diceSize = 0;
+  cost = 0;
+  sellValue = 0;
 }
 
 ability::ability(int lev)
@@ -186,10 +193,6 @@ std::vector<int> ability::getStatRequirements()
     return statRequirements;
 }
 
-std::string ability::viewAbilityCombat()
-{
-  return "n/a";
-}
 
 void ability::reduceCooldown()
 {

@@ -4,7 +4,11 @@
 
 weapon::weapon()
 {
-  weaponDice = new std::vector<dice>;
+  weaponDice = nullptr;
+  diceSize = 0;
+  diceRolls = 0;
+  name = "not initialized";
+
 }
 
 weapon::weapon(int l)

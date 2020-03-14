@@ -69,8 +69,7 @@ private:
         std::string description;
     };
 
-  // All race data read in from races.csv
-  std::vector<raceData>* allRaces;
+
 
   player* playerPtr;
   monster* monsterPtr;

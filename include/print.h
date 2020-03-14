@@ -67,20 +67,7 @@ class print
              like the text is being typed to the screen. Does not endl
     */
     static void str(const std::string& toPrint);
-    /**
-      @brief Call print::str, and add a colour to the text
-      @param[in] std::string toPrint
-      @param[in] int[3] print::C-'colour'
-    */
-    static void str_colour(const std::string& toPrint, const int colour[3]);
-    /**
-      @brief Call print::str_time, and add a colour to the text
-      @param[in] std::string toPrint
-      @param[in] int maxMillis
-      @param[in] int[3] print::C-'colour'
-    */
-    static void str_time_colour(const std::string& toPrint,
-                                const int& maxMillis, const int colour[3]);
+
     /**
       @brief Print out the string one char at a time every x milliseconds
     */

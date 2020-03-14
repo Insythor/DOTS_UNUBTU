@@ -7,9 +7,10 @@ std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
 std::vector<std::vector<std::vector<ability::abilityData>>>*
     ability::allAbilities = new
         std::vector<std::vector<std::vector<ability::abilityData>>>;
+
 gameManager::gameManager()
 {
-    /** Read in data from docs/DATA/"file" into the static pointers */
+  /** Read in data from docs/DATA/"file" into the static pointers */
   readInRaceData();
   readInWeapons();
 //  readInRooms();
@@ -24,7 +25,6 @@ gameManager::gameManager()
   print::initScreen();
 
 // mainMenu();
-
 
 }
 
@@ -138,6 +138,7 @@ void gameManager::readInRaceData()
   }
   baseCharacter::allRaces->shrink_to_fit();
 }
+
 void gameManager::printRaces()
 {
   std::cout

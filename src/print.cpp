@@ -31,22 +31,6 @@ void print::str_time(const std::string& toPrint, const int& maxMillis)
     }
 }
 
-void print::str_colour(const std::string& toPrint, const int colour[3])
-{
-    textColour(colour);
-    str(toPrint);
-    textColour(C_DEFAULT);
-}
-
-void print::str_time_colour(const std::string& toPrint,
-                                const int& maxMillis, const int colour[3])
-{
-    textColour(colour);
-    if(maxMillis == 0)
-    std::cout << toPrint;
-    textColour(C_DEFAULT);
-}
-
 
 void print::vec(const std::vector<std::string>& toPrint)
 {
