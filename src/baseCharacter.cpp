@@ -10,6 +10,10 @@ baseCharacter::baseCharacter()
     statBonuses.resize(4, 0);
     gold = 0;
     level = 0;
+    currentHealth = 0;
+    maxHealth = 0;
+    damagePower = 0;
+
 }
 
 baseCharacter::~baseCharacter()

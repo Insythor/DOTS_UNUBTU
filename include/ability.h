@@ -114,8 +114,14 @@ class ability
       @param[out]
     */
     int getSellValue();
+    /**
+      @brief
+      @param[out]
+    */
+    int getIndex();
 
  private:
+   int index;
    std::string name;
    std::string description;
    int cooldown;

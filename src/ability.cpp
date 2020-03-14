@@ -10,6 +10,7 @@ ability::ability()
   diceSize = 0;
   cost = 0;
   sellValue = 0;
+  index = -1;
 }
 
 ability::ability(int lev)
@@ -61,6 +62,7 @@ ability::ability(int lev, int sType)
   srand(time(NULL));
   int rAbility = rand() % ability::allAbilities->at(lev - 1)[sType].size();
   ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][rAbility];
+  index = ad.index;
   name = ad.name;
   cooldown = ad.cooldown;
   currentCooldown = 0;
@@ -237,4 +239,9 @@ int ability::getCost()
 int ability::getSellValue()
 {
   return sellValue;
+}
+
+int ability::getIndex()
+{
+    return index;
 }

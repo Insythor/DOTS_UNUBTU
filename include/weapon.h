@@ -89,6 +89,9 @@ class weapon : public item
       @param[out] int sum of dice rolls
     */
     int dealDamage();
+    /**
+        @brief
+    */
     static std::vector<std::string>* allNames;
   private:
      int diceRolls;

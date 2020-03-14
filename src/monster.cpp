@@ -165,7 +165,7 @@ void monster::initMonster()
         }
       // Add 10% of the monster current hp and
       //     50% of the monster strength to their maxHP
-      maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+      maxHealth += static_cast<int>((maxHealth * 0.1) + (mainStats[0] * 0.5));
       currentHealth = maxHealth;
     }
 

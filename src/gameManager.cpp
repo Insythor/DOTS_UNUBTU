@@ -709,11 +709,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    char sysCommand[bgColour.length()];
+    //char sysCommand[bgColour.length()];
 
-    strcpy(sysCommand, bgColour.c_str());
+    //strcpy(sysCommand, bgColour.c_str());
 
-    system(sysCommand);
+    //system(sysCommand);
 
     for(int f = 0; f < 41; f++)
       std::cout << "\n";
@@ -732,11 +732,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    char sysCommand[bgColour.length()];
+    //char sysCommand[bgColour.length()];
 
-    strcpy(sysCommand, bgColour.c_str());
+    //strcpy(sysCommand, bgColour.c_str());
 
-    system(sysCommand);
+    //system(sysCommand);
 
     for(int i = 0; i < 30; i++)
       std::cout<<std::endl;
