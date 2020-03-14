@@ -129,7 +129,10 @@ class print
       @brief Fade the screen to red, hold for 3 seconds, then fade back to black
     */
     static void deathScreen();
-    /**
+    /**  gameManager* myManager = new gameManager;
+
+  myManager->startGame();
+
       @brief Call the system command to clear the terminal
     */
     static void clearScreen();

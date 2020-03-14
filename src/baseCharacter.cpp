@@ -146,22 +146,22 @@ void baseCharacter::takeDamage(int damage)
     return race;
   }
 
-  int baseCharacter::getCurrentHealth()
+  const int&  baseCharacter::getCurrentHealth()
   {
     return currentHealth;
   }
 
-  int baseCharacter::getMaxHealth()
+  const int&  baseCharacter::getMaxHealth()
   {
     return maxHealth;
   }
 
-  int baseCharacter::getLevel()
+  const int&  baseCharacter::getLevel()
   {
     return level;
   }
 
-  int baseCharacter::getDamagePower()
+  const int&  baseCharacter::getDamagePower()
   {
     return damagePower;
   }
@@ -204,7 +204,7 @@ void baseCharacter::takeDamage(int damage)
     return mainStats;
   }
 
-  int baseCharacter::getGold()
+  const int&  baseCharacter::getGold()
   {
     return gold;
   }

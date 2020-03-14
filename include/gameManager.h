@@ -75,9 +75,7 @@ private:
   player* playerPtr;
   monster* monsterPtr;
   roomManager* currentRoom;
-  /**
-    @brief Dictionary of all weapon names
-  */
+
   int currentLevel;
 
   // Helper functions for main loop
@@ -85,7 +83,6 @@ private:
   bool checkRoomIndex(int t, int i);
   // Format the users input string to an int to switch on in the mian loop
   std::vector<int> formatCommand(std::string command);
-
   /**
     @brief Create a character based on user input. Base function
            is used during main menu

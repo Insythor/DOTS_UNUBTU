@@ -305,14 +305,15 @@ void shopManager::startTransaction()
         {
           command =
           "Sure you want to let this sweet baby go?!\nI haven't seen a "
-          + customer->getInventory()->getWeapons().at(lastIndex)->getName()
+          + customer->getInventory()->getWeapons().at(itemIndex)->getName()
           + " in a good while.";
           /// Confirmation on selling message
           print::str(command);
+          std::cout << std::endl;
 
+          print::setCursor(true);
           /// Enter sale confirmation
           std::cout << ">>> ";
-          print::setCursor(true);
           std::cin >> command;
           print::setCursor(false);
 
@@ -324,6 +325,9 @@ void shopManager::startTransaction()
                                   ->getWeapons().at(itemIndex)->getSellValue();
               if(shopAfford(cost))
               {
+                std::cout << "Sold " <<
+                customer->getInventory()->getWeapons().at(itemIndex)->getName()
+                << " for " << cost << std::endl;
                 /// Remove the item from the player, and give it to the shop
                 sinventory->addWeapon
                             (customer->getInventory()->removeWeapon(itemIndex));
@@ -372,6 +376,10 @@ void shopManager::startTransaction()
 
               if(shopAfford(cost))
               {
+                std::cout << "Sold " <<
+                customer->getInventory()->getConsumables().at(itemIndex).front()
+               ->getName() << " for " << cost << std::endl;
+
                 /// Remove the item from the player, and give it to the shop
                 sinventory->addConsumables(customer->getInventory()
                     ->removeConsumables(itemIndex, 1));
@@ -398,6 +406,13 @@ void shopManager::startTransaction()
         {
           /// Account for the weapons in the list
           itemIndex -= lastPlayerConsumable;
+
+          command = "No way... You know how to use the " +
+              customer->getInventory()->getAbilities().at(itemIndex)->getName()
+              + " ability!\nAre you sure I can take that off your hands!";
+          print::str(command);
+          std::cout << std::endl;
+
           /// Enter sale confirmation
           std::cout << ">>> ";
           print::setCursor(true);
@@ -412,6 +427,10 @@ void shopManager::startTransaction()
 
               if(shopAfford(cost))
               {
+                std::cout << "Sold " <<
+               customer->getInventory()->getAbilities().at(itemIndex)->getName()
+                << " for " << cost << std::endl;
+
                 /// Remove the item from the player, and give it to the shop
                 sinventory->addAbility(customer->getInventory()
                     ->removeAbility(itemIndex));
@@ -421,6 +440,7 @@ void shopManager::startTransaction()
                gold -= cost;
                /// Adjust the shops stock numbers
                lastIndex++;
+               hasAbility = true;
               }
               /// If the shop does not have enough money
               else
@@ -436,10 +456,7 @@ void shopManager::startTransaction()
         break;
 
 
-
-
       /** Exit and player management */
-
       /// vi, view the players inventory
       case 121:
         if(customer->getInventory()->isEmpty())
@@ -448,12 +465,12 @@ void shopManager::startTransaction()
         else
         {
           std::cout
-          << customer->getName() << " has " << customer->getGold() << " gold."
+          << customer->getName() << " has " << customer->getGold() << " gold.\n"
           << std::endl;
           customer->getInventory()->viewInventory();
         }
-
         break;
+
       /// sab, swap abilities
       case 122:
         customer->swapAbilities();

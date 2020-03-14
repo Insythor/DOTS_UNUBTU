@@ -58,17 +58,17 @@ public:
     @brief  return the remaining health that the character has
     @param[out] int currentHP
   */
-  int getCurrentHealth();
+  const int&  getCurrentHealth();
   /**
     @brief  return the maximum health points that the character has
     @param[out] int maxHP
   */
-  int getMaxHealth();
+  const int&  getMaxHealth();
   /**
     @brief Return the current level of the character
     @param[out] int Characters level
   */
-  int getLevel();
+  const int&  getLevel();
   /**
     @brief
     @param[out] std::vector<int> [0] Str : [1] Dex : [2] Int
@@ -78,12 +78,12 @@ public:
     @brief Damage power = stat bonus[equippedWeapon->getStats()[1]]
     @param[out] int Damage Power
   */
-  int getDamagePower();
+  const int& getDamagePower();
   /**
     @brief Return the players current amount of gold.
     @param[out] int Current Gold
   */
-  int getGold();
+  const int& getGold();
   /**
     @brief Return the pointer to the players equipped weapon.
     @param[out] weapon* Equipped weapon.
@@ -136,7 +136,7 @@ public:
     @param[in]
     @param[out]
   */
-  int useAbility(unsigned int index);
+   int useAbility(unsigned int index);
   /**
     @brief
     @param[in]

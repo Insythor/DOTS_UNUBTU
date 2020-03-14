@@ -2,9 +2,6 @@
     @author Tyler Justinen-Teite
 
     @brief Parent class of Weapon and Consumable.
-
-
-
 */
 
 #ifndef ITEM_H
@@ -26,17 +23,17 @@ class item
       @brief
       @param[out]
     */
-    std::string getName();
+    const std::string& getName();
     /**
       @brief
       @param[out]
     */
-    int getCost();
+    const int& getCost();
     /**
       @brief
       @param[out]
     */
-    int getSellValue();
+    const int& getSellValue();
 
   protected:
     std::string name;

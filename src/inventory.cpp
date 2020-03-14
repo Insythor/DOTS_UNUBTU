@@ -227,5 +227,4 @@ std::vector<std::vector<consumable*>> inventory::getConsumables()
 bool inventory::isEmpty()
 {
   return abilities.empty() && weapons.empty() && consumableStacks.empty();
-
 }

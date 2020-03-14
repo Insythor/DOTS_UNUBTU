@@ -75,7 +75,7 @@ std::string consumable::formatOutput(int type, std::string value)
   return value;
 }
 
-int consumable::getID()
+const int&  consumable::getID()
 {
   return index;
 }
@@ -85,7 +85,7 @@ std::vector<int> consumable::statsToAdd()
     return stats;
 }
 
-bool consumable::getIsPerminant()
+const bool& consumable::getIsPerminant()
 {
     return isPermanent;
 }

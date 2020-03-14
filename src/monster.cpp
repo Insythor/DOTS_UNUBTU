@@ -94,7 +94,7 @@ std::ostream& operator << (std::ostream& out, monster& toRender)
 void monster::initMonster()
 {
     int tMainStat = 0;
-    int tMainStatIndex;
+    int tMainStatIndex = -1;
 
     // Check if str, dex, or int is highest for that race
     for (unsigned int i = 0; i < statBonuses.size(); i++)
@@ -117,11 +117,11 @@ void monster::initMonster()
 
     if(isBoss)
     {
+      delete lvlDice;
       lvlDice = new dice(10);
       level *= 2;
     }
-    else
-      lvlDice = new dice;
+
 
     // Balancing comes into play here because the player gets 4 extra points at level 0
     // And the monsters points are all random
@@ -189,7 +189,6 @@ void monster::initMonster()
     else
     {
       spawnWeapon(level);
-
       std::vector<ability*> tempAbil;
       tempAbil.push_back(new ability(level));
       setActiveAbilities(tempAbil);

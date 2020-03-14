@@ -7,7 +7,11 @@
 
 int main()
 {
+  gameManager* myGame = new gameManager;
 
+  myGame->startGame();
+
+  delete myGame;
 
 	return 0;
 }

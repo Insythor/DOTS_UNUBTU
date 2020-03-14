@@ -40,7 +40,7 @@ public:
     @brief Return the number of sides that this dice has
     @param[out] int numberOfSides
   */
-  int getSides();
+  const int& getSides();
 
 private:
 	int sides;

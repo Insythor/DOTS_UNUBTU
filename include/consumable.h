@@ -38,7 +38,7 @@ class consumable : public item
       @brief Return the index of the csv that this consumable was generated from
       @param[out] int index
     */
-    int getID();
+    const int& getID();
     /**
         @brief return the stat to add, and how much is to be added
         @param[out] std::vector<int> [0] Str : [1] Dex : [2] Int : [3] Spd
@@ -48,7 +48,7 @@ class consumable : public item
         @brief Returns if this consumable gives the player a permanent buff
         @param[out] bool Book?
     */
-    bool getIsPerminant();
+    const bool& getIsPerminant();
     /**
       @brief Last index in the consumables.csv
              Used as a mod in default constructor

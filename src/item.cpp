@@ -9,17 +9,17 @@ item::~item()
 {
   //dtor
 }
-std::string item::getName()
+const std::string& item::getName()
 {
   return name;
 }
 
-int item::getCost()
+const int& item::getCost()
 {
   return cost;
 }
 
-int item::getSellValue()
+const int& item::getSellValue()
 {
   return sellValue;
 }

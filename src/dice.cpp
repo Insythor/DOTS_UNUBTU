@@ -3,13 +3,13 @@
 dice::dice()
 {
 	sides = 6;
-    srand(time(NULL));
+  srand(time(NULL));
 }
 
 dice::dice(int nSides)
 {
 	sides = nSides;
-
+	srand(time(NULL));
 }
 
 dice::~dice()
@@ -17,33 +17,23 @@ dice::~dice()
 
 }
 
-int dice::getSides()
+const int& dice::getSides()
 {
   return sides;
 }
 
 int dice::roll()
 {
-
-  int temp = rand() % sides;
-  temp++;
-
-	return temp;
+	return (rand() % sides) + 1;
 }
-#include <iostream>
+
 int dice::roll(int nRolls)
 {
   int carry = 0;
-
-
   for(int i = 0; i < nRolls; i++)
   {
-    int temp = rand() % sides;
-    temp++;
-
-    carry += temp;
+    carry += (rand() % sides) + 1;
   }
-
 	return carry;
 }
 
