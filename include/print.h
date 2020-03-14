@@ -133,6 +133,10 @@ class print
       @brief Call the system command to clear the terminal
     */
     static void clearScreen();
+    /**
+      @brief Convert string to lower
+    */
+    static std::string toLower(std::string input);
 };
 
 

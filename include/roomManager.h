@@ -68,7 +68,7 @@ private:
   std::string description;
   void enterRoom();
   void changeRoom(int nextRoom);
-  void inventoryManagement(int type, int index);
+  void inventoryManagement();
   void createChestRoom();
   void createMonsterRoom();
   void createShopRoom();

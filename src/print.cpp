@@ -176,3 +176,11 @@ void print::clearScreen()
 {
   system(SYS_CLEAR);
 }
+
+std::string print::toLower(std::string input)
+{
+  // convert string to upper case
+  std::for_each(input.begin(), input.end(), [](char & c){
+    c = ::tolower(c);});
+  return input;
+}

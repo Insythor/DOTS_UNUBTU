@@ -309,97 +309,76 @@ void player::swapAbilities()
     }
 }
 
-void player::swapWeapon()
+void player::swapWeapon(int index)
 {
-  int index = 1;
-  std::cout
-      << "Equipped Weapon\n"
-      << "| Index |             Name              |  Stat Req | "
-      << "Lvl Req | Damage | Price |\n\n"
-      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-      << "|   " << index << "   " << *equippedWeapon
-   << std::endl;
+//  int index = 1;
+//  std::cout
+//      << "Equipped Weapon\n"
+//      << "| Index |             Name              |  Stat Req | "
+//      << "Lvl Req | Damage | Price |\n\n"
+//      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+//      << "|   " << index << "   " << *equippedWeapon
+//   << std::endl;
+//
+//
+//  if (cInventory->getWeapons().size() > 0)
+//  {
+//    std::cout
+//      << "\nStored Weapon(s)\n"
+//      << "| Index |             Name              |  Stat Req | "
+//      << "Lvl Req | Damage | Price |\n"
+//      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+//   << std::endl;
+//
+//    for (weapon* i : cInventory->getWeapons())
+//    {
+//      index++;
+//      std::cout << "|   " << index << "   " << *i << std::endl;
+//    }
+//  }
+//
+//
+//    std::vector<unsigned int> input(2);
+//
+//    std::cout << "Which two indices would you like to swap?: ";
+//    std::cin >> input[0] >> input[1];
+//    // Decrement so that the input starts counting at 0
+//    input[0]--;
+//    input[1]--;
+//
+//
+//    if(input[0] >= cInventory->getWeapons().size()
+//       && input[1] >= cInventory->getWeapons().size())
+//    {
+//       print::textColour(print::C_RED);
+//       std::cout << "Invalid weapon selection" << std::endl;
+//       print::textColour(print::C_DEFAULT);
+//    }
 
-
-  if (cInventory->getWeapons().size() > 0)
-  {
-    std::cout
-      << "\nStored Weapon(s)\n"
-      << "| Index |             Name              |  Stat Req | "
-      << "Lvl Req | Damage | Price |\n"
-      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-   << std::endl;
-
-    for (weapon* i : cInventory->getWeapons())
+    if(checkWeaponReq(index))
     {
-      index++;
-      std::cout << "|   " << index << "   " << *i << std::endl;
+      weapon* e = equippedWeapon;
+      weapon* w = cInventory->removeWeapon(index);
+      equippedWeapon = w;
+      cInventory->addWeapon(e);
+      std::cout << "You have swapped " << *e
+      << " with " << *w << std::endl;
     }
-  }
-
-
-    std::vector<unsigned int> input(2);
-
-    std::cout << "Which two indices would you like to swap?: ";
-    std::cin >> input[0] >> input[1];
-    // Decrement so that the input starts counting at 0
-    input[0]--;
-    input[1]--;
-
-
-    if(input[0] >= cInventory->getWeapons().size()
-       && input[1] >= cInventory->getWeapons().size())
+    else if(index < cInventory->getWeapons().size())
     {
-       print::textColour(print::C_RED);
-       std::cout << "Invalid weapon selection" << std::endl;
-       print::textColour(print::C_DEFAULT);
+      print::textColour(print::C_RED);
+      std::cout
+       << name << " does not meet the requirements for this weapon"
+      << std::endl;
+      print::textColour(print::C_DEFAULT);
     }
-
-    switch(input[0])
+    else
     {
-      // Swap the Equipped weapon with another
-      case 0:
-        if(checkWeaponReq(input[1] - 1))
-        {
-          cInventory->addWeapon(equippedWeapon);
-          equippedWeapon = cInventory->getWeapons()[input[1] - 1];
-          cInventory->removeWeapon(input[1] - 1);
-        }
-        else if(input[1] - 1 < cInventory->getWeapons().size())
-        {
-          print::textColour(print::C_RED);
-          std::cout
-           << name << " does not meet the requirements for this weapon"
-          << std::endl;
-          print::textColour(print::C_DEFAULT);
-        }
-        else
-        {
-          print::textColour(print::C_RED);
-          std::cout
-            << "Invalid weapon selection"
-          << std::endl;
-          print::textColour(print::C_DEFAULT);
-        }
-        break;
-      // Swap a weapon from the inventory with the equipped weapon
-      default:
-        if(input[1] == 0 && checkWeaponReq(input[0] - 1))
-        {
-          cInventory->addWeapon(equippedWeapon);
-          equippedWeapon = cInventory->getWeapons()[input[0] - 1];
-          cInventory->removeWeapon(input[0] - 1);
-        }
-        else
-        {
-          print::textColour(print::C_RED);
-          std::cout
-            << "Invalid weapon selection"
-          << std::endl;
-          print::textColour(print::C_DEFAULT);
-        }
-
-        break;
+      print::textColour(print::C_RED);
+      std::cout
+        << "Invalid weapon selection"
+      << std::endl;
+      print::textColour(print::C_DEFAULT);
     }
 }
 
@@ -617,6 +596,10 @@ void player::useConsumable(unsigned int index)
     {
         int stat = (tempC.front()->statsToAdd()[0]);
         int amount = (tempC.front()->statsToAdd()[1]);
+        if(stat == 4 && !tempC.front()->getIsPerminant() && currentHealth == maxHealth)
+        {
+          std::cout << "Sorry adventurer you are currently are topped up" << std::endl;
+        }
         if(tempC.front()->getIsPerminant())
         {
           std::cout << "\n\n" << amount << '\n' << std::endl;
@@ -650,6 +633,8 @@ void player::useConsumable(unsigned int index)
             case 3: statusEffect[3] += amount;
                     break;
             case 4: currentHealth += amount;
+                    if(currentHealth > maxHealth)
+                      currentHealth = maxHealth;
                     break;
             }
         }
@@ -657,7 +642,11 @@ void player::useConsumable(unsigned int index)
         tempC.clear();
     }
     else
-      std::cout << "\n\ndidnt work" << std::endl << std::endl;
+    {
+      print::textColour(print::C_RED);
+      std::cout << "\n\nTried to use consumable index that is out of range" << std::endl << std::endl;
+      print::textColour(print::C_DEFAULT);
+    }
     // Check if updating the players stats changes their damage
     updateDamagePower();
 }

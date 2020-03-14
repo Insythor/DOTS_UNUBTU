@@ -255,7 +255,7 @@ void gameManager::startGame()
             break;
         // swapweapon, sw
         case 123:
-            playerPtr->swapWeapon();
+            //playerPtr->swapWeapon();
             break;
         // useconsumable, ucon
         case 124:

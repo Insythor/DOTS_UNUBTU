@@ -1,21 +1,23 @@
 #include "monster.h"
 
 monster::monster(std::string tName, std::string tRace, int tMaxHP,
-                                        std::vector<int> tMStats, int l)
+                                        std::vector<int> tMStats, int rl)
 {
-    level = l;
-
-    if (level % 5 == 0)
+    int spawnLevel = rl / 5;
+    if(spawnLevel < 1)
+      spawnLevel = 1;
+    else if(spawnLevel > 5)
+      spawnLevel = 5;
+    level = spawnLevel;
+    if (rl % 5 == 0)
         isBoss = true;
     else
         isBoss = false;
-
     name = tName;
     race = tRace;
     maxHealth = tMaxHP;
     currentHealth = maxHealth;
     mainStats = tMStats;
-
     initMonster();
 }
 

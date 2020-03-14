@@ -460,7 +460,7 @@ void shopManager::startTransaction()
         break;
       ///sw, swap weapons
       case 123:
-        customer->swapWeapon();
+        //customer->swapWeapon();
         break;
 
       /// exit, ex
