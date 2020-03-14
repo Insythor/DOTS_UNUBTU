@@ -2,7 +2,9 @@
 
 item::item()
 {
-  //ctor
+    name = "n\a";
+    cost = -1;
+    sellValue = -1;
 }
 
 item::~item()

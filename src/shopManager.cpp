@@ -2,12 +2,18 @@
 
 shopManager::shopManager()
 {
-  //ctor
+    customer = nullptr;
+    hasAbility = false;
+    lastConsumable = -1;
+    lastIndex = -1;
+    lastWeapon = -1;
+    sinventory = nullptr;
+    gold = -1;
 }
 
 shopManager::~shopManager()
 {
-  //dtor
+    delete sinventory;
 }
 shopManager::shopManager(const int& roomCount, player* myPlayer)
 {

@@ -458,8 +458,8 @@ void player::levelUp()
         currentExperience = 0;
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
-        maxExperience += ((level + 1) - 1 + (300 *
-                                          pow(2, ((level + 1) - 1) / 7))) / 4;
+        maxExperience += ((level + 1) - static_cast<int>(1 + (300 *
+                                          pow(2, ((level + 1) - 1) / 7))) / 4);
         availablePoints = 2;
     }
     // stored amount of available points in case the user does not want
@@ -590,7 +590,7 @@ void player::levelUp()
     print::setCursor(false);
     // Add 10% of the players current hp an 50% of their strength to maxHP
     // Arbitrary and needs to be replaced with actual value
-    maxHealth += (maxHealth * 0.1) + (mainStats[0] * 0.5);
+    maxHealth += static_cast<int>((maxHealth * 0.1) + (mainStats[0] * 0.5));
     // Give the player back full HP when they level up because we're not savages
     currentHealth = maxHealth;
 
@@ -753,27 +753,65 @@ bool player::checkWeaponReq(unsigned int inventoryIndex)
     return false;
 }
 
+#define DIR_SAVE "../docs/DATA/Save_Player.csv"
+
 void player::save()
 {
+    // Delete the old save file
+    remove(DIR_SAVE);
 
-    /*
-        player:
-            Name
-            Race
-            Level
-            current HPstd::cout << index << std::endl;
-            maxHP
-            gold
-            mainStats
-            statusEffect
+    std::ofstream toWrite;
+    std::ifstream toRead;
 
-        weapon:
-            dice Size
-            dice rolls
-            name
-            statRequirements
+    toWrite.open(DIR_SAVE);
 
-        inventory:
+    toWrite
+        // Store all the players stats
+        << name << ','
+        << race << ','
+        << currentHealth << ','
+        << maxHealth << ','
+        << level << ','
+        << mainStats[0] << ','
+        << mainStats[1] << ','
+        << mainStats[2] << ','
+        << mainStats[3] << ','
+        << gold << ','
+        << currentExperience << ','
+        << maxExperience << ',';
 
-    */
+    // Store all the equipped weapon stats
+    if (equippedWeapon != nullptr)
+    {
+        toWrite
+            << equippedWeapon->getName() << ','
+            << equippedWeapon->getDiceRolls() << ','
+            << equippedWeapon->getDiceSize() << ','
+            << equippedWeapon->getStatRequirements()[0] << ','
+            << equippedWeapon->getStatRequirements()[1] << ','
+            << equippedWeapon->getStatRequirements()[2] << ','
+            << equippedWeapon->getCost() << ','
+            << equippedWeapon->getSellValue() << ',';
+    }
+    if (!activeAbilities.empty())
+    {
+        toWrite
+            // Store the indicies of the 0th abilility
+            << activeAbilities[0]->getIndex();
+
+        if (activeAbilities.size() > 1)
+        {
+            toWrite
+                // Store the indicies of the 1st abilility
+                << activeAbilities[1]->getIndex();
+        }
+    }
+
+
+
+
+
+
+    toWrite.close();
 }
+

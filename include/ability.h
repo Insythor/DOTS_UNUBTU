@@ -110,7 +110,14 @@ class ability : public item
       @param[out]
     */
     int getSellValue();
+    /**
+      @brief
+      @param[out]
+    */
+    int getIndex();
+
  private:
+   int index;
    std::string description;
    int cooldown;
    int currentCooldown;

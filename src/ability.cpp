@@ -289,3 +289,8 @@ int ability::getSellValue()
 {
   return sellValue;
 }
+
+int ability::getIndex()
+{
+    return index;
+}
