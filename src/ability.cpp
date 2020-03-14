@@ -118,51 +118,102 @@ ability::~ability()
   delete abilityDice;
 }
 
+
 std::ostream& operator << (std::ostream& out, ability& toRender)
 {
-  std::string tempReqStat;
-
+  std::string tempType = "";
+  std::string aDamage = std::to_string(toRender.getDiceRolls()) + " * D" + std::to_string(toRender.getDiceSize());
   switch(toRender.getStatRequirements()[0])
   {
-  case 0:
-    tempReqStat = "Str: ";
-    break;
+    case 0:
+      tempType = "Str: " + std::to_string(toRender.getStatRequirements()[1]);
+      break;
     case 1:
-    tempReqStat = "Dex: ";
-    break;
+      tempType = "Dex: " + std::to_string(toRender.getStatRequirements()[1]);
+      break;
     case 2:
-    tempReqStat = "Int: ";
-    break;
+      tempType = "Int: " + std::to_string(toRender.getStatRequirements()[1]);
+      break;
     case 3:
-    tempReqStat = "Spd: ";
-    break;
+        tempType = "Spd: " + std::to_string(toRender.getStatRequirements()[1]);
   }
 
   int statReqSpacer = 10;
   if(toRender.getStatRequirements()[1] > 9)
     statReqSpacer--;
 
- out
-//    << "| Name | CD | " + tempReqStat + " | Level | "
-    << toRender.getName() << std::setw(15 - toRender.getName().length() / 2)
-    << "CD: " << toRender.getCooldown() << std::setw(7)
-    << tempReqStat << toRender.getStatRequirements()[1]
-     << std::setw(statReqSpacer)
-    << "Level: " << toRender.getStatRequirements()[2] + 1 << std::setw(3)
-    << toRender.getDiceRolls() << "d" << toRender.getDiceSize()
-
-
- << std::endl;
-
+ out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
+ << toRender.formatOutput(1, std::to_string(toRender.getCooldown())) << "|"
+ << toRender.formatOutput(2, tempType) << "|"
+ << toRender.formatOutput(3, std::to_string(toRender.getStatRequirements()[2])) << "|"
+ << toRender.formatOutput(4, aDamage) << "|"
+ << toRender.formatOutput(5, std::to_string(toRender.getSellValue()) + "g") << "|";
  return out;
 }
 
-/**     GETTERS       */
-std::string ability::getName()
+std::string ability::formatOutput(unsigned int type, std::string value)
 {
-  return name;
+  switch(type)
+  {
+    case 0:
+      while(value.length() < 21)
+      {
+        if(value.length() < 21)
+          value = " " + value;
+        if(value.length() < 21)
+          value = value + " ";
+      }
+      break;
+    case 1:
+      while(value.length() < 8)
+      {
+        if(value.length() < 8)
+          value = " " + value;
+        if(value.length() < 8)
+          value = value + " ";
+      }
+      break;
+    case 2:
+      while(value.length() < 11)
+      {
+        if(value.length() < 11)
+          value = " " + value;
+        if(value.length() < 11)
+          value = value + " ";
+      }
+      break;
+    case 3:
+      while(value.length() < 9)
+      {
+        if(value.length() < 9)
+          value = " " + value;
+        if(value.length() < 9)
+          value = value + " ";
+      }
+      break;
+    case 4:
+      while(value.length() < 8)
+      {
+        if(value.length() < 8)
+          value = " " + value;
+        if(value.length() < 8)
+          value = value + " ";
+      }
+      break;
+      case 5:
+      while(value.length() < 7)
+      {
+        if(value.length() < 7)
+          value = " " + value;
+        if(value.length() < 7)
+          value = value + " ";
+      }
+      break;
+  }
+  return value;
 }
 
+/**     GETTERS       */
 std::string ability::getDescription()
 {
   return description;

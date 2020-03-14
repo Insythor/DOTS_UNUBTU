@@ -37,7 +37,7 @@ std::string inventory::formatIndex(std::string index) {
 
 void inventory::viewInventory() {
   int index = 0;
-  if (weapons.size() > 0) {
+  if (!weapons.empty()) {
     std::cout << "\nWeapon's\n"
               << "| Index |             Name              |  Stat Req | "
               << "Lvl Req | Damage | Price |\n"
@@ -66,18 +66,17 @@ void inventory::viewInventory() {
       }
     }
   }
-  if (abilities.size() > 0) {
+  if (!abilities.empty()) {
     std::cout
-        << "\nStored Abilities\n"
-        << std::setw(61) << std::setfill('-') << ' ' << std::setfill(' ')
+        << "Stored Abilities\n"
+        << "| Index |        Name         |   CD   |  Stat Req | "
+        << "Lvl Req | Damage | Price |\n"
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
     << std::endl;
     for (ability* k : abilities) {
       index++;
-      std::cout
-      << "    " << index << std::setw(15 + (k->getName().length() / 2))
-      << *k
-
-      << std::endl;
+    std::cout << "|" << formatIndex(std::to_string(index)) << *k
+    << std::endl;
     }
   }
 

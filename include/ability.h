@@ -9,6 +9,7 @@
 #define ABILITY_H
 // User Defined
 #include "dice.h"
+#include "item.h"
 // Containers
 #include <string>
 #include <vector>
@@ -21,7 +22,7 @@
 #include <random>
 
 
-class ability
+class ability : public item
 {
   friend std::ostream& operator << (std::ostream& out, ability& toRender);
   public:
@@ -54,11 +55,6 @@ class ability
         int dRoll;
         std::string description;
     };
-    /**
-      @brief
-      @param[out]
-    */
-    std::string getName();
     /**
       @brief
       @param[out]
@@ -114,9 +110,7 @@ class ability
       @param[out]
     */
     int getSellValue();
-
  private:
-   std::string name;
    std::string description;
    int cooldown;
    int currentCooldown;
@@ -128,6 +122,7 @@ class ability
    //[0] = stattype [1] = amount [2] = level req
    std::vector<int> statRequirements;
    std::vector<dice>* abilityDice;
+   std::string formatOutput(unsigned int type, std::string value);
 };
 
 #endif // ABILITY_H

@@ -206,20 +206,20 @@ std::ostream& operator << (std::ostream &out, weapon &toRender)
 {
   std::string tempType = "";
   std::string wDamage = std::to_string(toRender.getDiceRolls()) + " * D" + std::to_string(toRender.getDiceSize());
-  switch(toRender.statRequirements[0])
+  switch(toRender.getStatRequirements()[0])
   {
     case 0:
-      tempType = std::to_string(toRender.statRequirements[1]) + " Str";
+      tempType = "Str: " + std::to_string(toRender.getStatRequirements()[1]);
       break;
     case 1:
-      tempType = std::to_string(toRender.statRequirements[1]) + " Dex";
+      tempType = "Dex: " + std::to_string(toRender.getStatRequirements()[1]);
       break;
     case 2:
-      tempType = std::to_string(toRender.statRequirements[1]) + " Int";
+      tempType = "Int: " + std::to_string(toRender.getStatRequirements()[1]);
       break;
   }
-  out << "|" << toRender.formatOutput(0, toRender.name) << "|" << toRender.formatOutput(1, tempType) << "|"
-  << toRender.formatOutput(2, std::to_string(toRender.statRequirements[2])) << "|" << toRender.formatOutput(3, wDamage) << "|"
+  out << "|" << toRender.formatOutput(0, toRender.getName()) << "|" << toRender.formatOutput(1, tempType) << "|"
+  << toRender.formatOutput(2, std::to_string(toRender.getStatRequirements()[2])) << "|" << toRender.formatOutput(3, wDamage) << "|"
   << toRender.formatOutput(4, std::to_string(toRender.getSellValue()) + "g") << "|";
   return out;
 }

@@ -114,12 +114,16 @@ std::ostream& operator << (std::ostream& out, player& toRender)
 
         if(!toRender.getActiveAbilities().empty())
         {
+
           int index = 0;
-          out << "Active Abilities:\n";
+          out << "Active Abilities\n"
+           << "| Index |        Name         |   CD   |  Stat Req | "
+        << "Lvl Req | Damage | Price |\n"
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+        << std::endl;
           for(auto i : toRender.getActiveAbilities())
             out
-            << std::setw(4) << ++index
-            << std::setw(10 + i->getName().length() / 2)
+            << "|" << std::setw(4) << ++index <<std::setw(4)
             << *i << std::endl;
         }
 
@@ -129,246 +133,283 @@ std::ostream& operator << (std::ostream& out, player& toRender)
     return out;
 }
 
-void player::swapAbilities()
+void player::inventoryManagement()
 {
-
-  int index = 0;
-  // Last index of the active abilities, because active use a shared index
-  int lastActiveIndex = 0;
-
-  if(!activeAbilities.empty())
-  {
-    std::cout
-        << "\n                    Active Abilities\n"
-        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-    << std::endl;
-
-    for(auto ab : activeAbilities)
-        std::cout
-        << std::setw(3) << ++index
-        << std::setw(15 + ab->getName().length() / 2)
-        << *ab << std::endl;
-    if(index > 0)
-      lastActiveIndex = index;
-  }
-  else
-    std::cout << "Currently " + name + " has no active abilities." << std::endl;
-  if(!cInventory->getAbilities().empty())
-  {
-    std::cout
-        << "\n                    Stored Abilities\n"
-        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-    << std::endl;
-
-    for(auto ab : cInventory->getAbilities())
-      std::cout
-        << std::setw(3) << ++index
-        <<std::setw(15 + ab->getName().length() / 2)
-        << *ab
-      << std::endl;
-  }
-  else
-    std::cout << "Currently " + name + " has no stored abilities." << std::endl;
-
-    std::cout
-        << "Which two abilities would you like to swap? [int] [int]\n"
-        << "Or would you like to 'add' or 'remove' an active ability?"
-        << " [string][int]\n"
-      << std::endl;
-
-    std::string rawInput;
-    std::string parsed;
-
-    print::setCursor(true);
-
-    while(rawInput.empty() || rawInput[0] == '\n')
-      getline(std::cin, rawInput);
-
-    print::setCursor(false);
-
-    std::stringstream ss(rawInput);
-    std::vector<int> input;
-
-    while(getline(ss, parsed, ' '))
+    std::string command;
+    int index = 0;
+    bool done = false;
+    while(!done)
     {
-      if(isdigit(parsed[0]))
-        input.push_back(std::stoi(parsed));
-      else if(parsed[0] == 'a')
-        input.push_back(100);
-      else if(parsed[0] == 'r')
-        input.push_back(101);
-    }
-    // Decrement the user input so that it starts counting at 0
-    for(unsigned int i = 0; i < input.size(); i++)
-    {
-      input[i]--;
-    }
-    // Decrement the index so that it starts counting at 0
-    index--;
-
-    // Temp pointer to swap abilities
-    ability* tempAb = nullptr;
-
-    switch(input[0])
-    {
-      // add an abilitiy to the active abilities from the stored abilities
-      case 99:
-          if(activeAbilities.size() >= 2
-             && checkAbilityReq(input[1] - lastActiveIndex))
-          {
-            cInventory->addAbility(activeAbilities.back());
-            activeAbilities.pop_back();
-            activeAbilities.push_back(cInventory->removeAbility
-                                      (input[1] - lastActiveIndex));
-          }
-          else if(!activeAbilities.empty()
-                   && checkAbilityReq(input[1] - lastActiveIndex))
-            activeAbilities.push_back(cInventory->removeAbility
-                                      (input[1] - lastActiveIndex));
-          else if(checkAbilityReq(input[1]))
-            activeAbilities.push_back(cInventory->removeAbility
-                                      (input[1]));
-
-          else
+        cInventory->viewInventory();
+        std::cout << "Choose the index of the item you want to manage or type(e) to exit\n"
+                  << "Choose index: ";
+        print::setCursor(true);
+        command.clear();
+        while(command[0] == '\n' || command.empty())
+            getline(std::cin, command);
+        print::setCursor(false);
+        if(print::toLower(command) != "e" && print::toLower(command) != "exit")
+        {
+            if(print::is_number(command))
             {
-              print::textColour(print::C_RED);
-              std::cout <<
-                name + " does not meet the stat requirements for that ability"
-              << std::endl;
-              print::textColour(print::C_DEFAULT);
-            }
-        break;
-    // Remove an ability from the active abilities
-        // and place it in the stored abilities
-      case 100:
-          if(input[1] <= lastActiveIndex && input[1] >= 0)
-          {
-            cInventory->addAbility(activeAbilities[input[1]]);
-            activeAbilities.erase(activeAbilities.begin() + input[1]);
-          }
-          else
-            std::cout << "Invalid Active Ability Index" << std::endl;
-        break;
-
-      default:
-          // If the first ability is an active ability
-          if(input[0] < lastActiveIndex)
-          {
-            // Store ability 1 to swap
-            tempAb = activeAbilities[input[0]];
-            // If the second ability is an active ability
-            if(input[1] < lastActiveIndex)
-            {
-              activeAbilities[input[0]] = activeAbilities[input[1]];
-              activeAbilities[input[1]] = tempAb;
-            }
-            // If the second ability is a stored ability
-            else if(input[1] <= index
-                    && checkAbilityReq(input[1] - lastActiveIndex))
-            {
-              // input[1] - lastActiveIndex so it starts counting at 0
-              activeAbilities[input[0]] =
-                    cInventory->removeAbility(input[1] - lastActiveIndex);
-              // Add the swapped ability back into the inventory
-              cInventory->addAbility(tempAb);
-            }
-
-            else
-            {
-              print::textColour(print::C_RED);
-             if(static_cast<unsigned int>( input[1])
-                  > cInventory->getAbilities().size())
-                std::cout << "Invalid Selection" << std::endl;
-             else
-              std::cout
-                  << name << " does not meet the requirements for this ability"
-              << std::endl;
-              print::textColour(print::C_DEFAULT);
-            }
-
-          }
-          // If the first ability is a stored ability
-          else
-          {
-            // Get the ability from the inventory
-            if(input[1] <= lastActiveIndex
-               && checkAbilityReq(input[0]))
-            {
-              tempAb = cInventory->removeAbility(input[0] - lastActiveIndex);
-              cInventory->addAbility(activeAbilities[input[1]]);
-              activeAbilities[input[1]] = tempAb;
+                index = std::stoi(command) - 1;
+                if(index < cInventory->getWeapons().size()
+                        + cInventory->getConsumables().size()
+                        + cInventory->getAbilities().size())
+                {
+                    while(!done)
+                    {
+                        int counter = 0;
+                        if(index < cInventory->getWeapons().size())
+                        {
+                            std::cout << "Would you like to swap " << cInventory->getWeapons()[index]->getName()
+                                      << " with " << equippedWeapon->getName() << "? (y/n):" << std::endl;
+                            while(!done)
+                            {
+                                print::setCursor(true);
+                                command.clear();
+                                while(command[0] == '\n' || command.empty())
+                                    getline(std::cin, command);
+                                print::setCursor(false);
+                                std::string c = print::toLower(command);
+                                if(c == "yes" || c == "y")
+                                {
+                                    swapWeapon(index);
+                                    break;
+                                }
+                                else if(c == "no" || c == "n")
+                                    break;
+                                else
+                                {
+                                    print::textColour(print::C_RED);
+                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                    print::textColour(print::C_DEFAULT);
+                                }
+                            }
+                            break;
+                        }
+                        else if(index < cInventory->getWeapons().size()
+                                + cInventory->getConsumables().size())
+                        {
+                            index -= cInventory->getWeapons().size();
+                            std::cout << "Would you like to consume " << cInventory->getConsumables()[index].front()->getName()
+                                      << "? (y/n)" << std::endl;
+                            while(!done)
+                            {
+                                print::setCursor(true);
+                                command.clear();
+                                while(command[0] == '\n' || command.empty())
+                                    getline(std::cin, command);
+                                print::setCursor(false);
+                                std::string c = print::toLower(command);
+                                if(c == "yes" || c == "y")
+                                {
+                                    useConsumable(index);
+                                    break;
+                                }
+                                else if(c == "no" || c == "n")
+                                    break;
+                                else
+                                {
+                                    print::textColour(print::C_RED);
+                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                    print::textColour(print::C_DEFAULT);
+                                }
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            index -= cInventory->getWeapons().size() + cInventory->getConsumables().size();
+                            std::cout << "Would you like to swap " << cInventory->getAbilities()[index]->getName()
+                                      << " with one of your current abilities? (y/n)" << std::endl;
+                            while(!done)
+                            {
+                                print::setCursor(true);
+                                command.clear();
+                                while(command[0] == '\n' || command.empty())
+                                    getline(std::cin, command);
+                                print::setCursor(false);
+                                std::string c = print::toLower(command);
+                                if(c == "yes" || c == "y")
+                                {
+                                    swapAbilities(index);
+                                    break;
+                                }
+                                else if(c == "no" || c == "n")
+                                    break;
+                                else
+                                {
+                                    print::textColour(print::C_RED);
+                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                    print::textColour(print::C_DEFAULT);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    print::textColour(print::C_RED);
+                    print::str("What are you doing adventurer that's not a valid index?! Try again!");
+                    print::textColour(print::C_DEFAULT);
+                    std::cout << std::endl;
+                }
             }
             else
             {
-              print::textColour(print::C_RED);
-              std::cout << "Invalid selection" << std::endl;
-              print::textColour(print::C_DEFAULT);
+                print::textColour(print::C_RED);
+                print::str("What are you doing adventurer that's not an index?! Try again!");
+                print::textColour(print::C_DEFAULT);
+                std::cout << std::endl;
             }
-          }
-          break;
+        }
+        else
+            done = true;
     }
 }
 
-void player::swapWeapon(int index)
+void player::swapAbilities(unsigned int index)
 {
-//  int index = 1;
-//  std::cout
-//      << "Equipped Weapon\n"
-//      << "| Index |             Name              |  Stat Req | "
-//      << "Lvl Req | Damage | Price |\n\n"
-//      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-//      << "|   " << index << "   " << *equippedWeapon
-//   << std::endl;
-//
-//
-//  if (cInventory->getWeapons().size() > 0)
-//  {
-//    std::cout
-//      << "\nStored Weapon(s)\n"
-//      << "| Index |             Name              |  Stat Req | "
-//      << "Lvl Req | Damage | Price |\n"
-//      << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-//   << std::endl;
-//
-//    for (weapon* i : cInventory->getWeapons())
-//    {
-//      index++;
-//      std::cout << "|   " << index << "   " << *i << std::endl;
-//    }
-//  }
-//
-//
-//    std::vector<unsigned int> input(2);
-//
-//    std::cout << "Which two indices would you like to swap?: ";
-//    std::cin >> input[0] >> input[1];
-//    // Decrement so that the input starts counting at 0
-//    input[0]--;
-//    input[1]--;
-//
-//
-//    if(input[0] >= cInventory->getWeapons().size()
-//       && input[1] >= cInventory->getWeapons().size())
-//    {
-//       print::textColour(print::C_RED);
-//       std::cout << "Invalid weapon selection" << std::endl;
-//       print::textColour(print::C_DEFAULT);
-//    }
+    bool done = false;
+    std::string command;
+    int aindex = 0;
+  if(!(activeAbilities.size() < 2))
+  {
+      while(!done)
+      {
+            std::cout
+        << "Active Abilities\n"
+        << "| Index |        Name         |   CD   |  Stat Req | "
+        << "Lvl Req | Damage | Price |\n"
+        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+    << std::endl;
+    for(auto ab : activeAbilities)
+        std::cout <<
+        "|" << std::setw(4) << ++aindex << std::setw(4)
+        << *ab << std::endl;
+     std::cout
+        <<"which ability would you to swap "
+        << cInventory->getAbilities()[index]->getName()
+        << " with?"
+      << std::endl;
+        std::cout << "Choose index: ";
+        print::setCursor(true);
+        command.clear();
+        while(command[0] == '\n' || command.empty())
+        getline(std::cin, command);
+        print::setCursor(false);
+        if(print::is_number(command))
+        {
+            int mindex = std::stoi(command) - 1;
+            if(mindex < activeAbilities.size())
+            {
+               while(!done)
+                {
+                    print::setCursor(true);
+                    command.clear();
+                    while(command[0] == '\n' || command.empty())
+                        getline(std::cin, command);
+                    print::setCursor(false);
+                    std::string c = print::toLower(command);
+                    if(c == "yes" || c == "y")
+                    {
+                        ability* a = cInventory->removeAbility(index);
+                        ability* ea = activeAbilities[index];
+                        activeAbilities.erase(activeAbilities.begin()+index);
+                        activeAbilities.push_back(a);
+                        cInventory->addAbility(ea);
+                        print::str("You have swapped " + ea->getName() + " with " + a->getName());
+                        std::cout << std::endl;
+                        break;
+                    }
+                    else if(c == "no" || c == "n")
+                        break;
+                    else
+                    {
+                        print::textColour(print::C_RED);
+                        std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                        print::textColour(print::C_DEFAULT);
+                    }
+                }
+            }
+           else
+          {
+             print::textColour(print::C_RED);
+            print::str("What are you doing adventurer that's not a valid index?! Try again!");
+             print::textColour(print::C_DEFAULT);
+             std::cout << std::endl;
+          }
+       }
+       else
+       {
+        print::textColour(print::C_RED);
+         print::str("What are you doing adventurer that's not an index?! Try again!");
+         print::textColour(print::C_DEFAULT);
+         std::cout << std::endl;
+       }
+      }
+  }
+  else
+  {
+      if(activeAbilities.empty())
+        std::cout << "Currently you have no active abilities." << std::endl;
+    else
+        std::cout << "Seems you have room to add this ability." << std::endl;
+      std::cout << "Would you like to add " << cInventory->getAbilities()[index]->getName()
+      << " to your active abilities? (y/n)" << std::endl;
+      while(!done)
+      {
+          print::setCursor(true);
+          command.clear();
+          while(command[0] == '\n' || command.empty())
+              getline(std::cin, command);
+              print::setCursor(false);
+              std::string c = print::toLower(command);
+              if(c == "yes" || c == "y")
+              {
+                ability* a = cInventory->removeAbility(index);
+                activeAbilities.push_back(a);
+                print::str("You have added " + a->getName() + " to your active abilities!");
+                std::cout << std::endl;
+                break;
+              }
+              else if(c == "no" || c == "n")
+                break;
+           else
+            {
+              print::textColour(print::C_RED);
+              std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+              print::textColour(print::C_DEFAULT);
+            }
+      }
+  }
+}
 
+void player::swapWeapon(unsigned int index)
+{
     if(checkWeaponReq(index))
     {
       weapon* e = equippedWeapon;
       weapon* w = cInventory->removeWeapon(index);
       equippedWeapon = w;
       cInventory->addWeapon(e);
-      std::cout << "You have swapped " << *e
-      << " with " << *w << std::endl;
+       print::str("You have swapped ");
+       print::textColour(print::C_GREEN);
+       print::str(e->getName());
+       print::textColour(print::C_DEFAULT);
+       print::str(" with ");
+       print::textColour(print::C_PINK);
+       print::str(w->getName());
+       print::textColour(print::C_DEFAULT);
+      std::cout << std::endl;
     }
     else if(index < cInventory->getWeapons().size())
     {
       print::textColour(print::C_RED);
+      print::str("You do not meet the requirements for this weapon");
       std::cout
-       << name << " does not meet the requirements for this weapon"
       << std::endl;
       print::textColour(print::C_DEFAULT);
     }
@@ -596,55 +637,75 @@ void player::useConsumable(unsigned int index)
     {
         int stat = (tempC.front()->statsToAdd()[0]);
         int amount = (tempC.front()->statsToAdd()[1]);
+        std::string s = "+" + std::to_string(amount);
         if(stat == 4 && !tempC.front()->getIsPerminant() && currentHealth == maxHealth)
         {
-          std::cout << "Sorry adventurer you are currently are topped up" << std::endl;
+         print::str("Sorry adventurer you are currently are topped up");
+         std::cout << std::endl;
+            cInventory->addConsumables(tempC);
         }
-        if(tempC.front()->getIsPerminant())
+        else
         {
-          std::cout << "\n\n" << amount << '\n' << std::endl;
-          /** Correct indices? */
+             if(tempC.front()->getIsPerminant())
+        {
+            s += " permanently added to ";
             switch(stat)
             {
             case 0: mainStats[0] += amount;
+            s += "strength";
                     break;
             case 1: mainStats[1] += amount;
+            s += "dexterity";
                     break;
             case 2: mainStats[2] += amount;
+            s += "intellect";
                     break;
             case 3: mainStats[3] += amount;
+            s += "speed";
                     break;
             case 4: maxHealth += amount;
                     currentHealth += amount;
+            s += "hp";
                     break;
             }
         }
         else
         {
-          std::cout << "\n\n" << amount << '\n' << std::endl;
+            s += " added to ";
             switch(stat)
             {
             case 0: statusEffect[0] += amount;
+            s += "strength";
                     break;
             case 1: statusEffect[1] += amount;
+            s += "dexterity";
                     break;
             case 2: statusEffect[2] += amount;
+            s += "intellect";
                     break;
             case 3: statusEffect[3] += amount;
+            s += "speed";
                     break;
             case 4: currentHealth += amount;
                     if(currentHealth > maxHealth)
                       currentHealth = maxHealth;
+                      s += "hp";
                     break;
             }
         }
+        print::str(s);
+        }
+
         delete tempC.front();
         tempC.clear();
+
+        std::cout << std::endl;
     }
     else
     {
       print::textColour(print::C_RED);
-      std::cout << "\n\nTried to use consumable index that is out of range" << std::endl << std::endl;
+       print::str("Tried to use consumable index that is out of range");
+       std::cout << std::endl;
       print::textColour(print::C_DEFAULT);
     }
     // Check if updating the players stats changes their damage

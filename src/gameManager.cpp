@@ -89,7 +89,7 @@ void gameManager::readInAbilities()
     ability::allAbilities->at(lvlreq)[stat].back().cooldown = std::stoi(tempData[2]);
     ability::allAbilities->at(lvlreq)[stat].back().aStats[0] = stat;
     ability::allAbilities->at(lvlreq)[stat].back().aStats[1] = std::stoi(tempData[4]);
-    ability::allAbilities->at(lvlreq)[stat].back().aStats[2] = lvlreq;
+    ability::allAbilities->at(lvlreq)[stat].back().aStats[2] = lvlreq + 1;
     ability::allAbilities->at(lvlreq)[stat].back().dSize = std::stoi(tempData[6]);
     ability::allAbilities->at(lvlreq)[stat].back().dRoll = std::stoi(tempData[7]);
     ability::allAbilities->at(lvlreq)[stat].back().description = tempData[8];
@@ -247,12 +247,12 @@ void gameManager::startGame()
             break;
         //viewinventory, vi
         case 121:
-            playerPtr->getInventory()->viewInventory();
+            playerPtr->inventoryManagement();
             std::cout << std::endl;
           break;
         //swapabilities, sab
         case 122:
-            playerPtr->swapAbilities();
+            //playerPtr->swapAbilities();
             break;
         // swapweapon, sw
         case 123:

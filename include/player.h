@@ -46,14 +46,18 @@ class player : public baseCharacter
                then add it to the output stream
     */
     friend std::ostream& operator << (std::ostream& out, player& toRender);
+     /**
+      @brief Manage player inventory
+    */
+    void inventoryManagement();
     /**
       @brief Move abilities between the players active and stored abilities
     */
-    void swapAbilities();
+    void swapAbilities(unsigned int index);
     /**
       @brief Swap the players equipped weapon with one in their inventory
     */
-    void swapWeapon(int index);
+    void swapWeapon(unsigned int index);
     /**
       @brief Adds the given amount of experience to the current experience,
              then checks if the player has enough experience to level up,
