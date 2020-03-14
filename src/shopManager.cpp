@@ -473,11 +473,11 @@ void shopManager::startTransaction()
 
       /// sab, swap abilities
       case 122:
-        customer->swapAbilities();
+    //    customer->swapAbilities();
         break;
       ///sw, swap weapons
       case 123:
-        //customer->swapWeapon();
+    //     customer->swapWeapon();
         break;
 
       /// exit, ex
