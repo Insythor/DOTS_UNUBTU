@@ -63,6 +63,7 @@ void roomManager::enterRoom()
   }
     while (play)
     {
+        std::cout << "What would you like to do adventurer: ";
         print::setCursor(true);
         command.clear();
         while(command[0] == '\n' || command.empty())
@@ -75,7 +76,7 @@ void roomManager::enterRoom()
             play = false;
             break;
         case 121:
-            inventoryManagement(0, 0);
+            inventoryManagement();
             break;
         case 15:
           if(static_cast<unsigned int>(input[1]- 1) < chests.size())
@@ -97,6 +98,7 @@ void roomManager::enterRoom()
                     myPlayer->getInventory()->addConsumables(cStack);
                 }
                 chests.erase(chests.begin()+ input[1] - 1);
+                std::cout << "The chest has now been consumed by the spire!!!" << std::endl << std::endl;
                 createChestRoom();
             }
             else
@@ -127,6 +129,7 @@ void roomManager::enterRoom()
                     myPlayer->getInventory()->addConsumables(cStack);
                 }
                 chests.erase(chests.begin()+ input[1] - 1);
+                std::cout << "The chest has now been consumed by the spire!!!" << std::endl << std::endl;
                 createChestRoom();
             }
             else
@@ -189,17 +192,80 @@ void roomManager::createChestRoom()
 //  print::textColour(print::)
 }
 //0 = player 1 = chest for type and index is for chest
-void roomManager::inventoryManagement(int type, int index)
+void roomManager::inventoryManagement()
 {
-  if(type == 0)
-  {
+    std::string command;
+    int index = 0;
+    bool done = false;
     myPlayer->getInventory()->viewInventory();
-  }
-  else
-  {
-    if(static_cast<unsigned int> (index) < chests.size())
-      chests[index]->getInventory()->viewInventory();
-  }
+    while(!done)
+    {
+       std::cout << "Choose index: ";
+       std::cin >> command;
+       if(print::is_number(command))
+       {
+         index = std::stoi(command) - 1;
+         if(index < myPlayer->getInventory()->getWeapons().size()
+          + myPlayer->getInventory()->getConsumables().size()
+          + myPlayer->getInventory()->getAbilities().size())
+         {
+            while(!done)
+            {
+              int counter = 0;
+              if(index < myPlayer->getInventory()->getWeapons().size())
+              {
+                 std::cout << "Would you like to swap " << myPlayer->getInventory()->getWeapons()[index]->getName()
+                  << "with " << myPlayer->getWeapon()->getName() << "? (y/n):" << std::endl;
+                while(!done)
+                {
+                  std::cin >> command;
+                  std::string c = print::toLower(command);
+                  if(c == "yes" || c == "y")
+                    myPlayer->swapWeapon(index);
+                  else if(c == "no" || c == "n")
+                    break;
+                  else
+                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                }
+                break;
+              }
+              else if(index < myPlayer->getInventory()->getWeapons().size()
+              + myPlayer->getInventory()->getConsumables().size())
+              {
+                index -= myPlayer->getInventory()->getWeapons().size();
+                std::cout << "Would you like to consume " << myPlayer->getInventory()->getConsumables()[index].front()->getName()
+                << " ? (y/n)" << std::endl;
+                while(!done)
+                {
+                  std::cin >> command;
+                  std::string c = print::toLower(command);
+                  if(c == "yes" || c == "y")
+                    myPlayer->useConsumable(index);
+                  else if(c == "no" || c == "n")
+                    break;
+                  else
+                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                }
+                break;
+              }
+              else
+              {
+                index -= myPlayer->getInventory()->getWeapons().size() + myPlayer->getInventory()->getConsumables().size();
+              }
+            }
+         }
+          else
+          {
+            std::cout << "What are you doing adventurer that's not a valid index?! Try again!\n";
+          }
+       }
+       else
+       {
+         std::cout << "What are you doing adventurer that's not an index?! Try again!\n";
+         continue;
+       }
+
+    }
 }
 
 void roomManager::createMonsterRoom()
@@ -231,7 +297,7 @@ monster* roomManager::generateMonster()
         baseCharacter::allRaces->at(index).race,
         baseCharacter::allRaces->at(index).maxHP,
         baseCharacter::allRaces->at(index).mStats,
-        spawnLevel);
+        roomLevel);
     temp->spawnWeapon(spawnLevel);
     return temp;
 }
