@@ -326,7 +326,7 @@ monster* roomManager::generateMonster()
     else if(spawnLevel > 5)
         spawnLevel = 5;
     int index = rand() % baseCharacter::allRaces->size();
-    monster* temp = new monster("Temp Monster",
+    monster* temp = new monster( baseCharacter::allRaces->at(index).race,
                                 baseCharacter::allRaces->at(index).race,
                                 baseCharacter::allRaces->at(index).maxHP,
                                 baseCharacter::allRaces->at(index).mStats,
