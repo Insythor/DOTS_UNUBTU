@@ -141,14 +141,22 @@ void player::inventoryManagement()
     while(!done)
     {
         cInventory->viewInventory();
-        std::cout << "Choose the index of the item you want to manage or type(e) to exit\n"
+        std::cout << "Choose the index of the item you want to manage, or type(m) to see player menu or type(e) to exit\n"
                   << "Choose index: ";
         print::setCursor(true);
         command.clear();
         while(command[0] == '\n' || command.empty())
             getline(std::cin, command);
         print::setCursor(false);
-        if(print::toLower(command) != "e" && print::toLower(command) != "exit")
+        if(print::toLower(command) == "e" || print::toLower(command) == "exit")
+        {
+            done = true;
+        }
+        else if(print::toLower(command) == "m" || print::toLower(command) == "menu")
+        {
+            std::cout << *this << std::endl;
+        }
+        else
         {
             if(print::is_number(command))
             {
@@ -265,8 +273,6 @@ void player::inventoryManagement()
                 std::cout << std::endl;
             }
         }
-        else
-            done = true;
     }
 }
 
@@ -290,7 +296,7 @@ void player::swapAbilities(unsigned int index)
         "|" << std::setw(4) << ++aindex << std::setw(4)
         << *ab << std::endl;
      std::cout
-        <<"which ability would you to swap "
+        <<"Which ability would you like to swap "
         << cInventory->getAbilities()[index]->getName()
         << " with?"
       << std::endl;

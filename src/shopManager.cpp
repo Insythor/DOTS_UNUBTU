@@ -1,20 +1,4 @@
 #include "shopManager.h"
-
-shopManager::shopManager()
-{
-    customer = nullptr;
-    hasAbility = false;
-    lastConsumable = -1;
-    lastIndex = -1;
-    lastWeapon = -1;
-    sinventory = nullptr;
-    gold = -1;
-}
-
-shopManager::~shopManager()
-{
-    delete sinventory;
-}
 shopManager::shopManager(const int& roomCount, player* myPlayer)
 {
   int level = (roomCount / 5);
@@ -62,8 +46,12 @@ shopManager::shopManager(const int& roomCount, player* myPlayer)
   lastConsumable = 7;
   lastIndex = 8;
   hasAbility = true;
+}
 
-  startTransaction();
+shopManager::~shopManager()
+{
+  delete customer;
+  delete sinventory;
 }
 
 void shopManager::startTransaction()
@@ -473,19 +461,9 @@ void shopManager::startTransaction()
           std::cout
           << customer->getName() << " has " << customer->getGold() << " gold.\n"
           << std::endl;
-          customer->getInventory()->viewInventory();
+          customer->inventoryManagement();
         }
         break;
-
-      /// sab, swap abilities
-      case 122:
-    //    customer->swapAbilities();
-        break;
-      ///sw, swap weapons
-      case 123:
-    //     customer->swapWeapon();
-        break;
-
       /// exit, ex
       case 0:
         print::str("Best of luck out there adventurer!");
@@ -508,8 +486,7 @@ void shopManager::startTransaction()
         print::textColour(print::C_DEFAULT);
         std::cout
          << "Type 'buy' or 'sell' to access the different shop menus\n"
-         << "Or you can: 'swapAbilities' ('sab'), "
-         << "'swapweapon' ('sw'), 'viewinventory' ('vi')"
+         <<  "'inventory' ('i')"
          << std::endl << std::endl;
         break;
     }
@@ -527,16 +504,8 @@ int shopManager::formatCommand(std::string command)
   else if (command == "sell" || command == "s"
             || command == "no" || command == "n")
     return 2;
-
-  else if (command == "viewinventory" || command == "vi")
+  else if (command == "inventory" || command == "i")
     return 121;
-
-  else if (command == "swapabilities" || command == "sab")
-    return 122;
-
-  else if (command == "swapweapon" || command == "sw")
-    return 123;
-
   // give the player money for testing
   else if(command == "ag")
     return 99;

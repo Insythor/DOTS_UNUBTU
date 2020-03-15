@@ -1,6 +1,6 @@
 /**
     @author Tyler Justinen-Teite
-
+    @author Victor Besson
     @brief The user will play as an instance of this class.
            The Player class is the hero (adventurer) that the user uses to
            interact with DOTS, and the users source of progression.

@@ -127,9 +127,8 @@ bool combatManager::startFight()
             for(auto ab : fightOrder[1]->getActiveAbilities())
               std::cout
                 << std::setw(4) << ++input[1]
-                << std::setw(ab->getName().length() / 2 + 10)
-                << ab->getName()
-                << std::setw(ab->getName().length() + 15)
+                << std::setw(10 + ab->getName().length() / 2) << ab->getName()
+                << std::setw(15 + ab->getName().length())
                 << "CD Remaining: " << ab->getCurrentCooldown()
                 << std::setw(3)
                 << ab->getDiceRolls() << "d" << ab->getDiceSize()
@@ -262,9 +261,9 @@ bool combatManager::endFight()
             // they killed the monster ***
         // Gain 1/3 of the players max experience, and 20% of the
             // monsters HP as experience
-        int monsterXP =  static_cast<int>((*dynamic_cast<player*>
+        int monsterXP =  (*dynamic_cast<player*>
                           (fightOrder[1])).getExperience()[1] / 3
-                        + (fightOrder[0]->getMaxHealth() * 0.2));
+                        + (fightOrder[0]->getMaxHealth() * 0.2);
 
         dynamic_cast<player*> (fightOrder[1])->addExperience(monsterXP);
         // First line draws a bar of '*' to seperate the combat phase

@@ -137,11 +137,6 @@ std::ostream& operator << (std::ostream& out, ability& toRender)
     case 3:
         tempType = "Spd: " + std::to_string(toRender.getStatRequirements()[1]);
   }
-
-  int statReqSpacer = 10;
-  if(toRender.getStatRequirements()[1] > 9)
-    statReqSpacer--;
-
  out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
  << toRender.formatOutput(1, std::to_string(toRender.getCooldown())) << "|"
  << toRender.formatOutput(2, tempType) << "|"

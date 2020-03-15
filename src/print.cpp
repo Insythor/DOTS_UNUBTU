@@ -94,9 +94,9 @@ void print::textColour(const int colour[3])
   bgColour.append(std::to_string(colour[1]) + ";");
   bgColour.append(std::to_string(colour[2]) + "m'");
 
-  //char textColour[bgColour.length()];
-  //strcpy(textColour, bgColour.c_str());
-  //system(textColour);
+  char textColour[bgColour.length()];
+  strcpy(textColour, bgColour.c_str());
+  system(textColour);
   std::cout.flush();
 }
 
@@ -109,12 +109,7 @@ void print::setCursor(const bool& box)
 
     std::cout.flush();
 }
-/*
-    ss through string
-    check reference at ss iteration
-        since chars and ints are pretty much the same
-    check if all the characters are not integers
-*/
+
 bool print::is_number(const std::string& s)
 {
     return !s.empty() && std::find_if(s.begin(),
@@ -130,9 +125,9 @@ void print::deathScreen()
     bgColour.append(std::to_string(0) + ";");
     bgColour.append(std::to_string(0) + "m';");
 
-    //char sysCommand[bgColour.length()];
-    //strcpy(sysCommand, bgColour.c_str());
-    //system(sysCommand);
+    char sysCommand[bgColour.length()];
+    strcpy(sysCommand, bgColour.c_str());
+    system(sysCommand);
 
     for(int f = 0; f < 31; f++)
       std::cout << "\n";
@@ -149,9 +144,9 @@ void print::deathScreen()
     bgColour.append(std::to_string(0) + ";");
     bgColour.append(std::to_string(0) + "m';");
 
-    //char sysCommand[bgColour.length()];
-    //strcpy(sysCommand, bgColour.c_str());
-    //system(sysCommand);
+    char sysCommand[bgColour.length()];
+    strcpy(sysCommand, bgColour.c_str());
+    system(sysCommand);
 
     for(int f = 0; f < 31; f++)
       std::cout << "\n";

@@ -1,6 +1,6 @@
 /**
     @author Tyler Justinen-Teite
-
+    @author Victor Besson
     @brief This class is designed to for controlling how text is rendered to the
            screen. By default, it will print text at soft-white colour, and
            output a character at a time, so that it looks like the text is being

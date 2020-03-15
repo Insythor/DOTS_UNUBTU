@@ -466,6 +466,9 @@ void gameManager::startGame()
         case 94:
           currentLevel = input[1];
           break;
+        case 96:
+            currentRoom = new roomManager(playerPtr);
+            currentRoom->enterRoom();
         // exit, e
         case 0:
             std::cout << "bye" << std::endl;
@@ -481,6 +484,7 @@ void gameManager::startGame()
     delete thisFight;
     delete myConsumable;
     delete myShop;
+    delete currentRoom;
     for(consumable* c : myConVec) { delete c; }
     myConVec.clear();
 }
@@ -633,7 +637,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
 
     else if(tempCommand[0] == "mainmenu" || tempCommand[0] == "mmenu")
       temp.push_back(93);
-
+    else if(tempCommand[0] == "enterroom" || tempCommand[0] == "er")
+        temp.push_back(96);
     else if(tempCommand[0] == "setlevel" || tempCommand[0] == "sl")
       temp.push_back(95);
     // GTFO
@@ -709,11 +714,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    //char sysCommand[bgColour.length()];
+    char sysCommand[bgColour.length()];
 
-    //strcpy(sysCommand, bgColour.c_str());
+    strcpy(sysCommand, bgColour.c_str());
 
-    //system(sysCommand);
+    system(sysCommand);
 
     for(int f = 0; f < 41; f++)
       std::cout << "\n";
@@ -732,11 +737,11 @@ void gameManager::mainMenu()
     bgColour.append(std::to_string(i) + ";");
     bgColour.append(std::to_string(i) + "m';");
 
-    //char sysCommand[bgColour.length()];
+    char sysCommand[bgColour.length()];
 
-    //strcpy(sysCommand, bgColour.c_str());
+    strcpy(sysCommand, bgColour.c_str());
 
-    //system(sysCommand);
+    system(sysCommand);
 
     for(int i = 0; i < 30; i++)
       std::cout<<std::endl;

@@ -26,12 +26,8 @@ class shopManager
       @param[in]
     */
     shopManager(const int& roomCount, player* customer);
-    /**
-      @brief
-    */
-    shopManager();
     virtual ~shopManager();
-
+    void startTransaction();
   private:
     int gold;
 
@@ -43,9 +39,6 @@ class shopManager
 
     player* customer;
     inventory* sinventory;
-
-    void startTransaction();
-
     int formatCommand(std::string command);
     /**
       @brief Players gold >= cost
