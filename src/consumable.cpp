@@ -9,7 +9,7 @@ consumable::consumable()
 
 consumable::consumable(int tid)
 {
-    if (tid <= lastIndex)
+    if (tid <= lastIndex && tid >= 0)
     {
         index = tid;
 

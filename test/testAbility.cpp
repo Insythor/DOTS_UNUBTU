@@ -59,9 +59,9 @@ TEST(testAbility, overloadedConstructor1Test)
             || "Lunge" == a3.getName() || "Charge" == a3.getName() || "Tornado" == a3.getName()
             || "Combustion" == a3.getName() || "Frosted Tip" == a3.getName() || "Falling Bolt" == a3.getName()
             || "Gust Charm" == a3.getName() || "Shade Splitter" == a3.getName() || "Adrenaline Rush" == a3.getName());
-  EXPECT_TRUE(0 == a.getStatRequirements()[0] || 1 == a.getStatRequirements()[0]
-              || 2 == a.getStatRequirements()[0] || 3 == a.getStatRequirements()[0]);
-  EXPECT_TRUE(2 == a.getStatRequirements()[1] || 4 == a.getStatRequirements()[1] || 6 == a.getStatRequirements()[1]);
+  EXPECT_TRUE(0 == a3.getStatRequirements()[0] || 1 == a3.getStatRequirements()[0]
+              || 2 == a3.getStatRequirements()[0] || 3 == a3.getStatRequirements()[0]);
+  EXPECT_TRUE(2 == a3.getStatRequirements()[1] || 4 == a3.getStatRequirements()[1] || 6 == a3.getStatRequirements()[1]);
   EXPECT_TRUE(4 == a3.getDiceSize() || 6 == a3.getDiceSize() || 8 == a3.getDiceSize());
   EXPECT_EQ(2, a3.getCooldown());
 
@@ -70,6 +70,25 @@ TEST(testAbility, overloadedConstructor1Test)
   EXPECT_EQ(0, a3.getCurrentCooldown());
   EXPECT_EQ(a3.getCost()/2, a3.getSellValue());  //********double check formatting
   EXPECT_EQ(1, a.getStatRequirements()[2]);
+
+  ability a4(-10);
+
+  //change these to read from data instead: (also getDescription and getIndex and getCooldown and getStats)
+  EXPECT_TRUE("Slash" == a4.getName() || "Stomp" == a4.getName() || "Fury" == a4.getName()
+            || "Lunge" == a4.getName() || "Charge" == a4.getName() || "Tornado" == a4.getName()
+            || "Combustion" == a4.getName() || "Frosted Tip" == a4.getName() || "Falling Bolt" == a4.getName()
+            || "Gust Charm" == a4.getName() || "Shade Splitter" == a4.getName() || "Adrenaline Rush" == a4.getName());
+  EXPECT_TRUE(0 == a4.getStatRequirements()[0] || 1 == a4.getStatRequirements()[0]
+              || 2 == a4.getStatRequirements()[0] || 3 == a4.getStatRequirements()[0]);
+  EXPECT_TRUE(2 == a4.getStatRequirements()[1] || 4 == a4.getStatRequirements()[1] || 6 == a4.getStatRequirements()[1]);
+  EXPECT_TRUE(4 == a4.getDiceSize() || 6 == a4.getDiceSize() || 8 == a4.getDiceSize());
+  EXPECT_EQ(2, a4.getCooldown());
+
+  EXPECT_EQ(1, a4.getDiceRolls());
+  EXPECT_EQ(50 * a4.getDiceRolls(), a4.getCost());  //********double check formatting
+  EXPECT_EQ(0, a4.getCurrentCooldown());
+  EXPECT_EQ(a4.getCost()/2, a4.getSellValue());  //********double check formatting
+  EXPECT_EQ(1, a4.getStatRequirements()[2]);
 }
 
 TEST(testAbility, overloadedConstructor2Test)
