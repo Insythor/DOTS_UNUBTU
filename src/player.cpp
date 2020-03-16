@@ -841,29 +841,46 @@ void player::save()
     if (equippedWeapon != nullptr)
     {
         toWrite
-                << equippedWeapon->getName() << ','
-                << equippedWeapon->getDiceRolls() << ','
-                << equippedWeapon->getDiceSize() << ','
-                << equippedWeapon->getStatRequirements()[0] << ','
-                << equippedWeapon->getStatRequirements()[1] << ','
-                << equippedWeapon->getStatRequirements()[2] << ','
-                << equippedWeapon->getCost() << ','
-                << equippedWeapon->getSellValue() << ',';
+            << equippedWeapon->getName() << ','
+            << equippedWeapon->getDiceRolls() << ','
+            << equippedWeapon->getDiceSize() << ','
+            << equippedWeapon->getStatRequirements()[0] << ','
+            << equippedWeapon->getStatRequirements()[1] << ','
+            << equippedWeapon->getStatRequirements()[2] << ','
+            << equippedWeapon->getCost() << ','
+            << equippedWeapon->getSellValue() << ',';
     }
+    toWrite << "ABILITIES,";
+    // Store all abilities
     if (!activeAbilities.empty())
     {
-        toWrite
         // Store the indicies of the 0th abilility
-                << activeAbilities[0]->getIndex();
+        toWrite << activeAbilities[0]->getIndex() << ',';
 
         if (activeAbilities.size() > 1)
         {
-            toWrite
             // Store the indicies of the 1st abilility
-                    << activeAbilities[1]->getIndex();
+            toWrite << activeAbilities[1]->getIndex() << ',';
         }
     }
-
+    /** Store all items in the players inventory */
+    // Store all weapons
+    if (cInventory->getWeapons().empty())
+    {
+        toWrite << "STORED_WEAPONS,";
+        for (unsigned int i = 0; i < cInventory->getWeapons().size(); i++)
+        {
+            toWrite
+                << cInventory->getWeapons()[i]->getName() << ','
+                << cInventory->getWeapons()[i]->getDiceRolls() << ','
+                << cInventory->getWeapons()[i]->getDiceSize() << ','
+                << cInventory->getWeapons()[i]->getStatRequirements()[0] << ','
+                << cInventory->getWeapons()[i]->getStatRequirements()[1] << ','
+                << cInventory->getWeapons()[i]->getStatRequirements()[2] << ','
+                << cInventory->getWeapons()[i]->getCost() << ','
+                << cInventory->getWeapons()[i]->getSellValue() << ',';
+        }
+    }
 
 
 
