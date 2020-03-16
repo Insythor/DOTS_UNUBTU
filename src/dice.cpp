@@ -7,7 +7,10 @@ dice::dice() : sides {6}
 
 dice::dice(int nSides)
 {
-	sides = nSides;
+  if(nSides > 0)
+    sides = nSides;
+  else
+    sides = 6;
 	srand(time(NULL));
 }
 
