@@ -2,9 +2,10 @@
 #include "inventory.h"
 
 //only needed when compiling this test seperately from testAbilities.cpp
-
+/*
 #include "gameManager.h"
 gameManager* myManager = new gameManager;
+*/
 
 
 TEST(testInventory, constructorTest)

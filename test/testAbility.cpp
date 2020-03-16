@@ -6,7 +6,14 @@ gameManager* myManager = new gameManager;
 
 TEST(testAbility, constructorTest)
 {
-  //need to do this still
+  ability a;
+
+  EXPECT_EQ("", a.getName());
+  EXPECT_EQ("", a.getDescription());
+  EXPECT_EQ(0, a.getCooldown());
+  EXPECT_EQ(0, a.getCurrentCooldown());
+  EXPECT_EQ(0, a.getCost());
+  EXPECT_EQ(0, a.getSellValue());
 }
 
 //will sometimes fail currently
@@ -139,8 +146,6 @@ TEST(testAbility, overloadedConstructor2Test)
   EXPECT_EQ(a.getCost()/2, a.getSellValue());  //double check formatting
   EXPECT_EQ(2, a.getCooldown());
 */
-
-
 }
 
 TEST(testAbility, getNameTest)
@@ -283,4 +288,3 @@ TEST(testAbility, getIndexTest)
 {
   //need to read in data?
 }
-

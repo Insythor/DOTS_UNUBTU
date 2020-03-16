@@ -7,7 +7,6 @@ TEST(testChest, constructorTest)
 
   //testing for inventory?
   EXPECT_TRUE(c.getGold() >= 1 && c.getGold() <= 100);
-  EXPECT_TRUE(c.getInventory() != nullptr);
 
 }
 
@@ -24,6 +23,7 @@ TEST(testChest, getInventoryTest)
 {
   chest c(4);
 
+  //better testing method?
   inventory* inv = c.getInventory();
   inv->removeAllWeapons();
   inv->removeAllConsumables();
