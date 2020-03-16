@@ -122,7 +122,8 @@ TEST(testAbility, overloadedConstructor2Test)
   EXPECT_EQ(a2.getCost()/2, a2.getSellValue());  //********double check formatting
   EXPECT_EQ(2, a2.getCooldown());
 
-/* //needs to be changed for correct value checks
+/*
+//needs to be changed for correct value checks
   ability a3(0, 0);
 
   //change these to read from data instead: (also getDescription and getIndex and getCooldown and getStats)
@@ -133,9 +134,9 @@ TEST(testAbility, overloadedConstructor2Test)
   EXPECT_TRUE(4 == a3.getDiceSize() || 6 == a3.getDiceSize() || 8 == a3.getDiceSize());
 
   EXPECT_EQ(1, a.getStatRequirements()[2]); //checks level of ability
-  EXPECT_EQ(50 * a.getDiceRolls(), a.getCost());  //********double check formatting
+  EXPECT_EQ(50 * a.getDiceRolls(), a.getCost());  //double check formatting
   EXPECT_EQ(0, a.getCurrentCooldown());
-  EXPECT_EQ(a.getCost()/2, a.getSellValue());  //********double check formatting
+  EXPECT_EQ(a.getCost()/2, a.getSellValue());  //double check formatting
   EXPECT_EQ(2, a.getCooldown());
 */
 
