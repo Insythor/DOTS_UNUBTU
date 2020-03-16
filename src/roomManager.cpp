@@ -4,7 +4,6 @@
 
 roomManager::roomManager(player* p)
 {
-    roomComplete = false;
     myPlayer = p;
     srand (time(NULL));
     for(int i = 0; i < 3; i++)
@@ -14,6 +13,8 @@ roomManager::roomManager(player* p)
     }
     roomLevel = 0;
     roomType = 2;
+    introRead = false;
+    roomDescription = rand() % roomManager::roomData->at(roomType).size();
 }
 
 roomManager::~roomManager()
@@ -68,7 +69,15 @@ void roomManager::enterRoom()
     }
     while (play)
     {
+        print::clearScreen();
+        if(!introRead)
+            print::str(description);
+        else
+            std::cout << description;
+        std::cout << std::endl;
+        std::cout << inputInfo << std::endl;
         std::cout << "What would you like to do adventurer: ";
+        introRead = true;
         print::setCursor(true);
         command.clear();
         while(command[0] == '\n' || command.empty())
@@ -103,12 +112,12 @@ void roomManager::enterRoom()
                     myPlayer->setGold(chests[input[1] - 1]->lootGold());
                     for(weapon* w : chests[input[1] - 1]->getInventory()->removeAllWeapons())
                     {
-                        std::cout << "Picked up\n" << *w << std::endl;
+                        std::cout << "Picked up\n" << w->getName() << std::endl;
                         myPlayer->getInventory()->addWeapon(w);
                     }
                     for(std::vector<consumable*> cStack : chests[input[1] - 1]->getInventory()->removeAllConsumables())
                     {
-                        std::cout << "Looted\n" << *cStack.front() << " x" << cStack.size() << std::endl;
+                        std::cout << "Looted\n" << cStack.front()->getName() << " x" << cStack.size() << std::endl;
                         myPlayer->getInventory()->addConsumables(cStack);
                     }
                     delete chests[input[1]-1];
@@ -142,9 +151,17 @@ void roomManager::enterRoom()
             break;
         case 23:
             if(myCombat->startFight())
+            {
                 play = false;
+                if(roomLevel == 25)
+                {
+                  finishSpire();
+                  done = true;
+                }
+            }
             else
             {
+                deathSequence();
                 play = false;
                 done =true;
             }
@@ -163,6 +180,7 @@ void roomManager::enterRoom()
     {
         while(play)
         {
+            print::clearScreen();
             std::cout << "Choose the room you would like to enter or type(i) to view inventory" << std::endl;
             for(int i = 0 ; i < nextRooms.size(); i++)
             {
@@ -170,6 +188,9 @@ void roomManager::enterRoom()
                 switch(nextRooms[i])
                 {
                 case 0:
+                    if(roomLevel % 5 == 0)
+                    std::cout << "final boss" << std::endl;
+                    else
                     std::cout << "boss" << std::endl;
                     break;
                 case 1:
@@ -182,7 +203,7 @@ void roomManager::enterRoom()
                     std::cout << "shop" << std::endl;
                     break;
                 case 4:
-                    std::cout << "puzzle" << std::endl;
+                    std::cout << "mystery" << std::endl;
                     break;
                 }
             }
@@ -203,8 +224,16 @@ void roomManager::enterRoom()
                     int index = std::stoi(command) - 1;
                     if(index < nextRooms.size())
                     {
-                        changeRoom(index);
-                        play = false;
+                        if(nextRooms.size() == 2 && index == 1)
+                        {
+                            myShop = new shopManager(roomLevel, myPlayer);
+                            myShop->startTransaction();
+                        }
+                        else
+                        {
+                            changeRoom(index);
+                            play = false;
+                        }
                     }
                     else
                     {
@@ -228,6 +257,19 @@ void roomManager::enterRoom()
 
 }
 
+void roomManager::finishSpire()
+{
+    print::clearScreen();
+    print::str("You win!!!!!!!!!!!!!!!!!");
+}
+
+void roomManager::deathSequence()
+{
+    print::clearScreen();
+    print::deathScreen();
+    print::str("You have been defeated!!!!");
+}
+
 void roomManager::changeRoom(int nextRoom)
 {
     if(!chests.empty())
@@ -239,14 +281,11 @@ void roomManager::changeRoom(int nextRoom)
         chests.clear();
     }
     roomType = nextRooms[nextRoom];
-    roomComplete = false;
     nextRooms.clear();
     if(roomLevel % 5 == 0)
     {
         nextRooms.push_back(0);
         nextRooms.push_back(3);
-        int tempRoomType = rand() % 2 + 1;
-        nextRooms.push_back(tempRoomType);
     }
     else
     {
@@ -256,12 +295,14 @@ void roomManager::changeRoom(int nextRoom)
             nextRooms.push_back(tempRoomType);
         }
     }
+    roomDescription = rand() % roomManager::roomData->at(roomType).size();
+    introRead = false;
     enterRoom();
 }
 
 void roomManager::createChestRoom()
 {
-    if(chests.empty() && !roomComplete)
+    if(chests.empty())
     {
         srand (time(NULL));
         int chestAmount = rand() % 3 + 1;
@@ -271,32 +312,28 @@ void roomManager::createChestRoom()
         }
     }
     int index = 1;
-    description = "Need room description here\n";
+    description = roomManager::roomData->at(roomType)[roomDescription] + "\n";
+    inputInfo = "Type the index of the chest you would like to open or type(i) to view inventory\n";
     if(!chests.empty())
     {
         for(chest* i : chests)
         {
-            description += std::to_string(index) + ". Chest\n";
+            inputInfo += std::to_string(index) + ". Chest\n";
             index++;
         }
     }
-    description += "Type the index of the chest you would like to open or type(i) to view inventory";
-    std::cout << description << std::endl;
-//  print::textColour(print::)
 }
 
 void roomManager::createMonsterRoom()
 {
-    description = "Need room description here\n";
-    description += "Type(start) to start combat or type(i) to view your inventory";
-    std::cout << description << std::endl;
+    description = roomManager::roomData->at(roomType)[roomDescription] + "\n";
+    inputInfo = "Type(start) to start combat or type(i) to view your inventory";
 }
 
 void roomManager::createShopRoom()
 {
-    description = "Need room description here\n";
-    description += "Type(shop) to enter shop or type(i) to view your inventory";
-    std::cout << description << std::endl;
+    description = roomManager::roomData->at(roomType)[roomDescription] + "\n";
+    inputInfo = "Type(shop) to enter shop or type(i) to view your inventory";
 }
 
 void roomManager::createPuzzleRoom()
@@ -399,12 +436,7 @@ std::vector<int> roomManager::formatCommand(std::string command)
 
 std::string roomManager::getDescription()
 {
-    return "n/a";
-}
-
-bool roomManager::getRoomComplete()
-{
-    return roomComplete;
+    return description;
 }
 
 int roomManager::getLevel()

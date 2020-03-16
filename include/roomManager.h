@@ -40,11 +40,6 @@ public:
       @brief
       @param[out]
     */
-    bool getRoomComplete();
-    /**
-      @brief
-      @param[out]
-    */
     int getLevel();
     /**
       @brief
@@ -56,11 +51,10 @@ public:
       @param[out]
     */
     void enterRoom();
-    static std::vector<std::string>* allNames;
+    static std::vector<std::vector<std::string>>* roomData;
 private:
     int puzzleRoomCounter = 0;
     int roomType;
-    bool roomComplete;
     std::vector<int> nextRooms;
     std::vector<chest*> chests;
     player* myPlayer;
@@ -76,6 +70,11 @@ private:
     void createMonsterRoom();
     void createShopRoom();
     void createPuzzleRoom();
+    void finishSpire();
+    void deathSequence();
+    int roomDescription;
+    std::string inputInfo;
+    bool introRead;
     std::vector<int> formatCommand(std::string command);
     monster* generateMonster();
 };

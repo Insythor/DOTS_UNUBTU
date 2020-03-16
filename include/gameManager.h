@@ -11,6 +11,7 @@
 /// UPDATE
 #define DIR_COMMANDS "../docs/DATA/commands.csv"
 #define DIR_RACE "../docs/DATA/raceData.csv"
+#define DIR_ROOM "../docs/DATA/roomData.csv"
 #define DIR_WEAPON "../docs/DATA/weaponNames.txt"
 #define DIR_ABILITY "../docs/DATA/abilitiesData.csv"
 #define DIR_DOTS_LOGO "../docs/DATA/DOTS-ASCII.txt"

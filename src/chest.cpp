@@ -3,7 +3,6 @@
 chest::chest(int level)
 {
   cinventory = new inventory();
-  srand (time(NULL));
   int spawnLevel = level / 5;
   int typeOfConsumable;
   int consumableToSpawn = rand() % 100 + 1;

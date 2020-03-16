@@ -33,7 +33,8 @@ bool combatManager::startFight()
       std::cout
         << "\nCOMBAT HAS BEGUN!!!\n" << fightOrder[playersTurn]->getName() +
             "'s faster than the " + fightOrder[!playersTurn]->getRace()
-        << "\nWhat's your first move? ";
+        << "\nType (atk) to attack with weapon or (abl) to use an ability\n"
+        << "What would you like to do adventurer: ";
     }
     else
     {
@@ -61,8 +62,8 @@ bool combatManager::startFight()
               // Print out the players basic hero stats each turn
               // (should probably change)
               std::cout
-                << "\nWhat will " << fightOrder[1]->getName()
-                << " do next: ";
+                << "Type (atk) to attack with weapon or (abl) to use an ability\n"
+                << "What would you like to do adventurer: ";
             }
            print::setCursor(true);
 
@@ -132,7 +133,7 @@ bool combatManager::startFight()
                 << std::setw(15 + ab->getName().length())
                 << "CD Remaining: " << ab->getCurrentCooldown()
                 << std::setw(3)
-                << ab->getDiceRolls() << "d" << ab->getDiceSize()
+                << ab->getDiceRolls() << " * D" << ab->getDiceSize()
                 << std::endl;
            std::cout << "\nChoose the index of the ability would you like to use: ";
 
@@ -222,14 +223,8 @@ bool combatManager::startFight()
          // help
         case -1:
             std::cout << "\n"
-                << "atk:        Attack the monster with your weapon.\n"
+                << "atk:  Attack the monster with your weapon.\n"
                 << "abl:  Choose an ability to perform on the monster.\n"
-
-                << "\n\n                   DEBUGGING"
-                << "\n**************************************************\n"
-                << "pp:         Display the basic details of your hero.\n"
-                << "pm:         Display the basic details of the monster.\n"
-
                 << std::endl;
             // Stops the player from loosing their turn if
             // they enter a wrong command
@@ -319,7 +314,7 @@ bool combatManager::endFight()
                   << "Victory granted  " << fightOrder[1]->getName()
                   << " " << monsterXP << " experience.\n"
                   << "Found " << fightOrder[0]->getGold() << " gold.\n"
-                  << "Picked up\n" << *fightOrder[0]->getWeapon();
+                  << "Picked up\n" << fightOrder[0]->getWeapon()->getName();
 
                 if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
                   std::cout
@@ -339,20 +334,20 @@ bool combatManager::endFight()
                            "monster has on its body? "
                            );
 
-                  command.clear();
-                  while(command.empty() || command[0] == '\n')
+                   print::setCursor(true);
+                command.clear();
+                while(command[0] == '\n' || command.empty())
                     getline(std::cin, command);
-
-                  if (command[0] == 'y')
+                print::setCursor(false);
+                command = print::toLower(command);
+                  if (command == "y" || command == "yes")
                   {
                     std::cout << "Exiting Combat\n" << std::endl;
                     return true;
                   }
-                  else if(command[0] == 'n')
+                  else if(command == "n" || command == "no")
                       break;
-
                 break;
-
             default:
               std::cout << "Invalid Command\nCommands: Yes/No" << std::endl;
               break;
@@ -412,7 +407,8 @@ std::vector<int> combatManager::formatCommand(std::string command)
     else if (tempCommand[0] == "loot" || tempCommand[0] == "lt"
            || tempCommand[0] == "yes" || tempCommand[0] == "y")
         temp.push_back(20);
-
+    else if (tempCommand[0] == "n" || tempCommand[0] == "no")
+        temp.push_back(0);
                 /**** Debugging Commands ****/
     // Print the player
 //    else if (tempCommand[0] == "pplayer" || tempCommand[0] == "pp")

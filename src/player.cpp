@@ -17,22 +17,22 @@ player::player()
 }
 // Essentially the default constructor for the player
 player::player(std::string tName, std::string tRace, int tMaxHP,
-              std::vector<int> tStat)
+               std::vector<int> tStat)
 {
-  name = tName;
-  race = tRace;
+    name = tName;
+    race = tRace;
 
-  maxHealth = tMaxHP;
-  currentHealth = maxHealth;
+    maxHealth = tMaxHP;
+    currentHealth = maxHealth;
 
-  mainStats = tStat;
+    mainStats = tStat;
 
-  checkStatBonuses();
+    checkStatBonuses();
 
-  currentExperience = 0;
-  maxExperience = 100;
+    currentExperience = 0;
+    maxExperience = 100;
 
-  statusEffect.resize(3, 0);
+    statusEffect.resize(3, 0);
 
 }
 
@@ -94,11 +94,11 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << "\n" << std::setfill('.')
         /** Stats */
         << "1. " << "Str" << std::setw(5) << toRender.getStats()[0] << strBonus
-                         << abs(toRender.getStatBonuses()[0]) << "\n"
+        << abs(toRender.getStatBonuses()[0]) << "\n"
         << "2. " <<"Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
-                         << abs(toRender.getStatBonuses()[1]) << "\n"
+        << abs(toRender.getStatBonuses()[1]) << "\n"
         << "3. " <<"Int" << std::setw(5) << toRender.getStats()[2] << intBonus
-                         << abs(toRender.getStatBonuses()[2]) << "\n"
+        << abs(toRender.getStatBonuses()[2]) << "\n"
         << "Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
         << std::setfill(' ') << "\n"
@@ -112,20 +112,20 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << dmgBonusSign << dmgBonus << "\n\n";
 
 
-        if(!toRender.getActiveAbilities().empty())
-        {
+    if(!toRender.getActiveAbilities().empty())
+    {
 
-          int index = 0;
-          out << "Active Abilities\n"
-           << "| Index |        Name         |   CD   |  Stat Req | "
-        << "Lvl Req | Damage | Price |\n"
-        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-        << std::endl;
-          for(auto i : toRender.getActiveAbilities())
+        int index = 0;
+        out << "Active Abilities\n"
+            << "| Index |        Name         |   CD   |  Stat Req | "
+            << "Lvl Req | Damage | Price |\n"
+            << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+            << std::endl;
+        for(auto i : toRender.getActiveAbilities())
             out
-            << "|" << std::setw(4) << ++index <<std::setw(4)
-            << *i << std::endl;
-        }
+                    << "|" << std::setw(4) << ++index <<std::setw(4)
+                    << *i << std::endl;
+    }
     out << std::endl;
     return out;
 }
@@ -137,123 +137,227 @@ void player::inventoryManagement()
     bool done = false;
     if((cInventory->getAbilities().size() + cInventory->getConsumables().size() + cInventory->getWeapons().size()) > 0)
     {
-          while(!done)
+        while(!done)
+        {
+            std::cout << name << "'s Inventory" << std::endl;
+            cInventory->viewInventory();
+            std::cout << "Choose the index of the item you want to manage, or type(m) to see player menu or type(e) to exit\n"
+                      << "Choose index: ";
+            print::setCursor(true);
+            command.clear();
+            while(command[0] == '\n' || command.empty())
+                getline(std::cin, command);
+            print::setCursor(false);
+            if(print::toLower(command) == "e" || print::toLower(command) == "exit")
+            {
+                done = true;
+            }
+            else if(print::toLower(command) == "m" || print::toLower(command) == "menu")
+            {
+                print::clearScreen();
+                std::cout << *this << std::endl;
+            }
+            else
+            {
+                if(print::is_number(command))
+                {
+                    index = std::stoi(command) - 1;
+                    if(index < cInventory->getWeapons().size()
+                            + cInventory->getConsumables().size()
+                            + cInventory->getAbilities().size())
+                    {
+                        while(!done)
+                        {
+                            int counter = 0;
+                            if(index < cInventory->getWeapons().size())
+                            {
+                                std::cout << "Would you like to swap " << cInventory->getWeapons()[index]->getName()
+                                          << " with " << equippedWeapon->getName() << "? (y/n):" << std::endl;
+                                while(!done)
+                                {
+                                    print::setCursor(true);
+                                    command.clear();
+                                    while(command[0] == '\n' || command.empty())
+                                        getline(std::cin, command);
+                                    print::setCursor(false);
+                                    std::string c = print::toLower(command);
+                                    if(c == "yes" || c == "y")
+                                    {
+                                        swapWeapon(index);
+                                        break;
+                                    }
+                                    else if(c == "no" || c == "n")
+                                        break;
+                                    else
+                                    {
+                                        print::textColour(print::C_RED);
+                                        std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                        print::textColour(print::C_DEFAULT);
+                                    }
+                                }
+                                break;
+                            }
+                            else if(index < cInventory->getWeapons().size()
+                                    + cInventory->getConsumables().size())
+                            {
+                                index -= cInventory->getWeapons().size();
+                                std::cout << "Would you like to consume " << cInventory->getConsumables()[index].front()->getName()
+                                          << "? (y/n)" << std::endl;
+                                while(!done)
+                                {
+                                    print::setCursor(true);
+                                    command.clear();
+                                    while(command[0] == '\n' || command.empty())
+                                        getline(std::cin, command);
+                                    print::setCursor(false);
+                                    std::string c = print::toLower(command);
+                                    if(c == "yes" || c == "y")
+                                    {
+                                        useConsumable(index);
+                                        break;
+                                    }
+                                    else if(c == "no" || c == "n")
+                                        break;
+                                    else
+                                    {
+                                        print::textColour(print::C_RED);
+                                        std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                        print::textColour(print::C_DEFAULT);
+                                    }
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                index -= cInventory->getWeapons().size() + cInventory->getConsumables().size();
+                                std::cout << "Would you like to swap " << cInventory->getAbilities()[index]->getName()
+                                          << " with one of your current abilities? (y/n)" << std::endl;
+                                while(!done)
+                                {
+                                    print::setCursor(true);
+                                    command.clear();
+                                    while(command[0] == '\n' || command.empty())
+                                        getline(std::cin, command);
+                                    print::setCursor(false);
+                                    std::string c = print::toLower(command);
+                                    if(c == "yes" || c == "y")
+                                    {
+                                        swapAbilities(index);
+                                        break;
+                                    }
+                                    else if(c == "no" || c == "n")
+                                        break;
+                                    else
+                                    {
+                                        print::textColour(print::C_RED);
+                                        std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                                        print::textColour(print::C_DEFAULT);
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        print::textColour(print::C_RED);
+                        print::str("What are you doing adventurer that's not a valid index?! Try again!");
+                        print::textColour(print::C_DEFAULT);
+                        std::cout << std::endl;
+                    }
+                }
+                else
+                {
+                    print::textColour(print::C_RED);
+                    print::str("What are you doing adventurer that's not an index?! Try again!");
+                    print::textColour(print::C_DEFAULT);
+                    std::cout << std::endl;
+
+                }
+                print::clearScreen();
+            }
+        }
+    }
+    else
     {
-        std::cout << name << "'s Inventory" << std::endl;
-        cInventory->viewInventory();
-        std::cout << "Choose the index of the item you want to manage, or type(m) to see player menu or type(e) to exit\n"
-                  << "Choose index: ";
-        print::setCursor(true);
-        command.clear();
-        while(command[0] == '\n' || command.empty())
-            getline(std::cin, command);
-        print::setCursor(false);
-        if(print::toLower(command) == "e" || print::toLower(command) == "exit")
+        print::textColour(print::C_RED);
+        print::str(name + "'s inventory is currently empty");
+        print::textColour(print::C_DEFAULT);
+        std::cout << std::endl;
+    }
+}
+
+void player::swapAbilities(unsigned int index)
+{
+    bool done = false;
+    std::string command;
+    int aindex = 0;
+    if(!(activeAbilities.size() < 2))
+    {
+        while(!done)
         {
-            done = true;
-        }
-        else if(print::toLower(command) == "m" || print::toLower(command) == "menu")
-        {
-            std::cout << *this << std::endl;
-        }
-        else
-        {
+            std::cout
+                    << "Active Abilities\n"
+                    << "| Index |        Name         |   CD   |  Stat Req | "
+                    << "Lvl Req | Damage | Price |\n"
+                    << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+                    << std::endl;
+            for(auto ab : activeAbilities)
+                std::cout <<
+                          "|" << std::setw(4) << ++aindex << std::setw(4)
+                          << *ab << std::endl;
+            std::cout
+                    <<"Which ability would you like to swap "
+                    << cInventory->getAbilities()[index]->getName()
+                    << " with?"
+                    << std::endl;
+            std::cout << "Choose index: ";
+            print::setCursor(true);
+            command.clear();
+            while(command[0] == '\n' || command.empty())
+                getline(std::cin, command);
+            print::setCursor(false);
             if(print::is_number(command))
             {
-                index = std::stoi(command) - 1;
-                if(index < cInventory->getWeapons().size()
-                        + cInventory->getConsumables().size()
-                        + cInventory->getAbilities().size())
+                int mindex = std::stoi(command) - 1;
+                if(mindex < activeAbilities.size())
                 {
+                    std::cout << "Would you like to swap " << activeAbilities[mindex]->getName()
+                              << " with " << cInventory->getAbilities()[index]->getName() << "? (y/n)" << std::endl;
                     while(!done)
                     {
-                        int counter = 0;
-                        if(index < cInventory->getWeapons().size())
+                        print::setCursor(true);
+                        command.clear();
+                        while(command[0] == '\n' || command.empty())
+                            getline(std::cin, command);
+                        print::setCursor(false);
+                        std::string c = print::toLower(command);
+                        if(c == "yes" || c == "y")
                         {
-                            std::cout << "Would you like to swap " << cInventory->getWeapons()[index]->getName()
-                                      << " with " << equippedWeapon->getName() << "? (y/n):" << std::endl;
-                            while(!done)
-                            {
-                                print::setCursor(true);
-                                command.clear();
-                                while(command[0] == '\n' || command.empty())
-                                    getline(std::cin, command);
-                                print::setCursor(false);
-                                std::string c = print::toLower(command);
-                                if(c == "yes" || c == "y")
-                                {
-                                    swapWeapon(index);
-                                    break;
-                                }
-                                else if(c == "no" || c == "n")
-                                    break;
-                                else
-                                {
-                                    print::textColour(print::C_RED);
-                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
-                                    print::textColour(print::C_DEFAULT);
-                                }
-                            }
+                            ability* a = cInventory->removeAbility(index);
+                            ability* ea = activeAbilities[mindex];
+                            activeAbilities.erase(activeAbilities.begin()+mindex);
+                            activeAbilities.push_back(a);
+                            cInventory->addAbility(ea);
+                            print::str("You have swapped ");
+                            print::textColour(print::C_GREEN);
+                            print::str(ea->getName());
+                            print::textColour(print::C_DEFAULT);
+                            print::str(" with ");
+                            print::textColour(print::C_PINK);
+                            print::str(a->getName());
+                            print::textColour(print::C_DEFAULT);
+                            std::cout << std::endl;
+                            done = true;
                             break;
                         }
-                        else if(index < cInventory->getWeapons().size()
-                                + cInventory->getConsumables().size())
-                        {
-                            index -= cInventory->getWeapons().size();
-                            std::cout << "Would you like to consume " << cInventory->getConsumables()[index].front()->getName()
-                                      << "? (y/n)" << std::endl;
-                            while(!done)
-                            {
-                                print::setCursor(true);
-                                command.clear();
-                                while(command[0] == '\n' || command.empty())
-                                    getline(std::cin, command);
-                                print::setCursor(false);
-                                std::string c = print::toLower(command);
-                                if(c == "yes" || c == "y")
-                                {
-                                    useConsumable(index);
-                                    break;
-                                }
-                                else if(c == "no" || c == "n")
-                                    break;
-                                else
-                                {
-                                    print::textColour(print::C_RED);
-                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
-                                    print::textColour(print::C_DEFAULT);
-                                }
-                            }
+                        else if(c == "no" || c == "n")
                             break;
-                        }
                         else
                         {
-                            index -= cInventory->getWeapons().size() + cInventory->getConsumables().size();
-                            std::cout << "Would you like to swap " << cInventory->getAbilities()[index]->getName()
-                                      << " with one of your current abilities? (y/n)" << std::endl;
-                            while(!done)
-                            {
-                                print::setCursor(true);
-                                command.clear();
-                                while(command[0] == '\n' || command.empty())
-                                    getline(std::cin, command);
-                                print::setCursor(false);
-                                std::string c = print::toLower(command);
-                                if(c == "yes" || c == "y")
-                                {
-                                    swapAbilities(index);
-                                    break;
-                                }
-                                else if(c == "no" || c == "n")
-                                    break;
-                                else
-                                {
-                                    print::textColour(print::C_RED);
-                                    std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
-                                    print::textColour(print::C_DEFAULT);
-                                }
-                            }
-                            break;
+                            print::textColour(print::C_RED);
+                            std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
+                            print::textColour(print::C_DEFAULT);
                         }
                     }
                 }
@@ -274,173 +378,75 @@ void player::inventoryManagement()
             }
         }
     }
-    }
     else
     {
-         std::cout << name << "'s inventory is currently empty" << std::endl;
-    }
-}
-
-void player::swapAbilities(unsigned int index)
-{
-    bool done = false;
-    std::string command;
-    int aindex = 0;
-  if(!(activeAbilities.size() < 2))
-  {
-      while(!done)
-      {
-            std::cout
-        << "Active Abilities\n"
-        << "| Index |        Name         |   CD   |  Stat Req | "
-        << "Lvl Req | Damage | Price |\n"
-        << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-    << std::endl;
-    for(auto ab : activeAbilities)
-        std::cout <<
-        "|" << std::setw(4) << ++aindex << std::setw(4)
-        << *ab << std::endl;
-     std::cout
-        <<"Which ability would you like to swap "
-        << cInventory->getAbilities()[index]->getName()
-        << " with?"
-      << std::endl;
-        std::cout << "Choose index: ";
-        print::setCursor(true);
-        command.clear();
-        while(command[0] == '\n' || command.empty())
-        getline(std::cin, command);
-        print::setCursor(false);
-        if(print::is_number(command))
+        if(activeAbilities.empty())
+            std::cout << "Currently you have no active abilities." << std::endl;
+        else
+            std::cout << "Seems you have room to add this ability." << std::endl;
+        std::cout << "Would you like to add " << cInventory->getAbilities()[index]->getName()
+                  << " to your active abilities? (y/n)" << std::endl;
+        while(!done)
         {
-            int mindex = std::stoi(command) - 1;
-            if(mindex < activeAbilities.size())
+            print::setCursor(true);
+            command.clear();
+            while(command[0] == '\n' || command.empty())
+                getline(std::cin, command);
+            print::setCursor(false);
+            std::string c = print::toLower(command);
+            if(c == "yes" || c == "y")
             {
-                std::cout << "Would you like to swap " << activeAbilities[mindex]->getName()
-                << " with " << cInventory->getAbilities()[index]->getName() << "? (y/n)" << std::endl;
-               while(!done)
-                {
-                    print::setCursor(true);
-                    command.clear();
-                    while(command[0] == '\n' || command.empty())
-                        getline(std::cin, command);
-                    print::setCursor(false);
-                    std::string c = print::toLower(command);
-                    if(c == "yes" || c == "y")
-                    {
-                        ability* a = cInventory->removeAbility(index);
-                        ability* ea = activeAbilities[mindex];
-                        activeAbilities.erase(activeAbilities.begin()+mindex);
-                        activeAbilities.push_back(a);
-                        cInventory->addAbility(ea);
-                            print::str("You have swapped ");
-                            print::textColour(print::C_GREEN);
-                            print::str(ea->getName());
-                            print::textColour(print::C_DEFAULT);
-                            print::str(" with ");
-                            print::textColour(print::C_PINK);
-                            print::str(a->getName());
-                            print::textColour(print::C_DEFAULT);
-                        std::cout << std::endl;
-                        done = true;
-                        break;
-                    }
-                    else if(c == "no" || c == "n")
-                        break;
-                    else
-                    {
-                        print::textColour(print::C_RED);
-                        std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
-                        print::textColour(print::C_DEFAULT);
-                    }
-                }
-            }
-           else
-          {
-             print::textColour(print::C_RED);
-            print::str("What are you doing adventurer that's not a valid index?! Try again!");
-             print::textColour(print::C_DEFAULT);
-             std::cout << std::endl;
-          }
-       }
-       else
-       {
-        print::textColour(print::C_RED);
-         print::str("What are you doing adventurer that's not an index?! Try again!");
-         print::textColour(print::C_DEFAULT);
-         std::cout << std::endl;
-       }
-      }
-  }
-  else
-  {
-      if(activeAbilities.empty())
-        std::cout << "Currently you have no active abilities." << std::endl;
-    else
-        std::cout << "Seems you have room to add this ability." << std::endl;
-      std::cout << "Would you like to add " << cInventory->getAbilities()[index]->getName()
-      << " to your active abilities? (y/n)" << std::endl;
-      while(!done)
-      {
-          print::setCursor(true);
-          command.clear();
-          while(command[0] == '\n' || command.empty())
-              getline(std::cin, command);
-              print::setCursor(false);
-              std::string c = print::toLower(command);
-              if(c == "yes" || c == "y")
-              {
                 ability* a = cInventory->removeAbility(index);
                 activeAbilities.push_back(a);
                 print::str("You have added " + a->getName() + " to your active abilities!");
                 std::cout << std::endl;
                 break;
-              }
-              else if(c == "no" || c == "n")
-                break;
-           else
-            {
-              print::textColour(print::C_RED);
-              std::cout << "That is a yes or no question adventurer! Try again" << std::endl;
-              print::textColour(print::C_DEFAULT);
             }
-      }
-  }
+            else if(c == "no" || c == "n")
+                break;
+            else
+            {
+                print::textColour(print::C_RED);
+                print::str("That is a yes or no question adventurer! Try again");
+                std::cout << std::endl;
+                print::textColour(print::C_DEFAULT);
+            }
+        }
+    }
 }
 
 void player::swapWeapon(unsigned int index)
 {
     if(checkWeaponReq(index))
     {
-      weapon* e = equippedWeapon;
-      weapon* w = cInventory->removeWeapon(index);
-      equippedWeapon = w;
-      cInventory->addWeapon(e);
-       print::str("You have swapped ");
-       print::textColour(print::C_GREEN);
-       print::str(e->getName());
-       print::textColour(print::C_DEFAULT);
-       print::str(" with ");
-       print::textColour(print::C_PINK);
-       print::str(w->getName());
-       print::textColour(print::C_DEFAULT);
-      std::cout << std::endl;
+        weapon* e = equippedWeapon;
+        weapon* w = cInventory->removeWeapon(index);
+        equippedWeapon = w;
+        cInventory->addWeapon(e);
+        print::str("You have swapped ");
+        print::textColour(print::C_GREEN);
+        print::str(e->getName());
+        print::textColour(print::C_DEFAULT);
+        print::str(" with ");
+        print::textColour(print::C_PINK);
+        print::str(w->getName());
+        print::textColour(print::C_DEFAULT);
+        std::cout << std::endl;
     }
     else if(index < cInventory->getWeapons().size())
     {
-      print::textColour(print::C_RED);
-      print::str("You do not meet the requirements for this weapon");
-      std::cout
-      << std::endl;
-      print::textColour(print::C_DEFAULT);
+        print::textColour(print::C_RED);
+        print::str("You do not meet the requirements for this weapon");
+        std::cout
+                << std::endl;
+        print::textColour(print::C_DEFAULT);
     }
     else
     {
-      print::textColour(print::C_RED);
-      std::cout
-        << "Invalid weapon selection"
-      << std::endl;
-      print::textColour(print::C_DEFAULT);
+        print::textColour(print::C_RED);
+       print::str("Invalid weapon selection");
+       std::cout << std::endl;
+        print::textColour(print::C_DEFAULT);
     }
 }
 
@@ -465,18 +471,18 @@ void player::levelUp()
     // When you create your character you get more points
     if (level == 0)
     {
-      availablePoints = 6;
-      // Debugging
-      currentExperience = 0;
+        availablePoints = 6;
+        // Debugging
+        currentExperience = 0;
     }
     else
     {
-      // So we can level up the player without giving them negative experience
+        // So we can level up the player without giving them negative experience
         currentExperience -= maxExperience;
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
         maxExperience += ((level + 1) - static_cast<int>(1 + (300 *
-                                          pow(2, ((level + 1) - 1) / 7))) / 4);
+                          pow(2, ((level + 1) - 1) / 7))) / 4);
         availablePoints = 2;
     }
     // stored amount of available points in case the user does not want
@@ -489,53 +495,53 @@ void player::levelUp()
     std::cout << (*this);
 
     std::cout
-        << "First choose the index of the stat you want to increase\n"
-        << "then type the amount of points to add to that stat\n"
-        << "For every 2 points after 10 in any stat, you will gain a +1 bonus"
-        << "\ni.e. 1 will choose strength and then type 1 to add one point "
-        << "to strength.\n\n"
-        << "Available points: " << availablePoints << std::endl;
+            << "First choose the index of the stat you want to increase\n"
+            << "then type the amount of points to add to that stat\n"
+            << "For every 2 points after 10 in any stat, you will gain a +1 bonus"
+            << "\ni.e. 1 will choose strength and then type 1 to add one point "
+            << "to strength.\n\n"
+            << "Available points: " << availablePoints << std::endl;
 
     print::setCursor(true);
     // While the player still has points to spend on additional stat upgrades
     while (availablePoints > 0)
     {
-      bool done = false;
-      std::string In;
-      std::string AmountIn;
-      while(!done)
-      {
-         std::cout.flush() << "Choose stat: ";
-         std::cin >> In;
-         if(print::is_number(In) && (In == "1" || In == "2" || In == "3"))
-         {
-           statIn = std::stoi(In) - 1;
-           while(!done)
-           {
-             std::cout << "Choose amount: ";
-             std::cin >> AmountIn;
-             std::cout << std::endl;
-             if(print::is_number(AmountIn))
-             {
-                if(std::stoi(AmountIn) > 0)
+        bool done = false;
+        std::string In;
+        std::string AmountIn;
+        while(!done)
+        {
+            std::cout.flush() << "Choose stat: ";
+            std::cin >> In;
+            if(print::is_number(In) && (In == "1" || In == "2" || In == "3"))
+            {
+                statIn = std::stoi(In) - 1;
+                while(!done)
                 {
-                     statAmountIn = std::stoi(AmountIn);
-                    done = true;
+                    std::cout << "Choose amount: ";
+                    std::cin >> AmountIn;
+                    std::cout << std::endl;
+                    if(print::is_number(AmountIn))
+                    {
+                        if(std::stoi(AmountIn) > 0)
+                        {
+                            statAmountIn = std::stoi(AmountIn);
+                            done = true;
+                        }
+                        else
+                        {
+                            std::cout << "Invalid stat amount" << std::endl;
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "Invalid stat amount" << std::endl;
+                    }
                 }
-                 else
-                 {
-                   std::cout << "Invalid stat amount" << std::endl;
-                 }
-             }
-             else
-             {
-               std::cout << "Invalid stat amount" << std::endl;
-             }
-           }
-         }
-         else
-          std::cout << "\nInvalid stat type" << std::endl;
-      }
+            }
+            else
+                std::cout << "\nInvalid stat type" << std::endl;
+        }
         // Check that the amount of stats input does not exceed the amount of available points
         if (statIn < 3 && availablePoints - statAmountIn >= 0)
         {
@@ -548,23 +554,23 @@ void player::levelUp()
             {
             case 0:
                 std::cout
-                    << statAmountIn << " point(s) added to Strength. "
-                    << availablePoints << " points remaining."
-                    << std::endl;
+                        << statAmountIn << " point(s) added to Strength. "
+                        << availablePoints << " points remaining."
+                        << std::endl;
                 break;
 
             case 1:
                 std::cout
-                    << statAmountIn << " point(s) added to Dexterity. "
-                    << availablePoints << " points remaining."
-                    << std::endl;
+                        << statAmountIn << " point(s) added to Dexterity. "
+                        << availablePoints << " points remaining."
+                        << std::endl;
                 break;
 
             case 2:
                 std::cout
-                    << statAmountIn << " point(s) added to Intellect. "
-                    << availablePoints << " points remaining."
-                    << std::endl;
+                        << statAmountIn << " point(s) added to Intellect. "
+                        << availablePoints << " points remaining."
+                        << std::endl;
                 break;
             }
         }
@@ -580,15 +586,20 @@ void player::levelUp()
             while(true)
             {
                 std::cout << "Would you like to commit? (y/n)\n"
-                << "Strength  + " << tempStats[0] << "\n"
-                << "Dexterity + " << tempStats[1] << "\n"
-                << "Intellect + " << tempStats[2] << "\n"
-                << std::endl;
+                          << "Strength  + " << tempStats[0] << "\n"
+                          << "Dexterity + " << tempStats[1] << "\n"
+                          << "Intellect + " << tempStats[2] << "\n"
+                          << std::endl;
                 std::cout << "What would you like to do adventurer: ";
-                std::cin >> command;
+                print::setCursor(true);
+                command.clear();
+                while(command[0] == '\n' || command.empty())
+                    getline(std::cin, command);
+                print::setCursor(false);
+                std::string c = print::toLower(command);
                 // add the chosen stats from the player to the main stats vector
                 // break for the while loop
-                if (command == "yes" || command == "Yes" || command == "y")
+                if (c == "yes" || c == "y")
                 {
                     addToStats(tempStats);
                     // Positive reinforcement is a key value of the Spire...
@@ -598,7 +609,7 @@ void player::levelUp()
 
                 // reset the available points and tempStats vector which
                 // essentially restarts the loop
-                else if(command == "no" || command == "No" || command == "n")
+                else if(c == "no" || c == "n")
                 {
                     availablePoints = backupAvailPoints;
                     tempStats.clear();
@@ -611,7 +622,7 @@ void player::levelUp()
                             << "\ni.e. 1 will choose strength and then type 1 to add one point "
                             << "to strength.\n\n"
                             << "Available points: " << availablePoints << std::endl;
-                            break;
+                    break;
                 }
                 else
                 {
@@ -676,60 +687,70 @@ void player::useConsumable(unsigned int index)
         std::string s = "+" + std::to_string(amount);
         if(stat == 4 && !tempC.front()->getIsPerminant() && currentHealth == maxHealth)
         {
-         print::str("Sorry adventurer you are currently are topped up");
-         std::cout << std::endl;
+            print::str("Sorry adventurer you are currently are topped up");
+            std::cout << std::endl;
             cInventory->addConsumables(tempC);
         }
         else
         {
-             if(tempC.front()->getIsPerminant())
-        {
-            s += " permanently added to ";
-            switch(stat)
+            if(tempC.front()->getIsPerminant())
             {
-            case 0: mainStats[0] += amount;
-            s += "strength";
+                s += " permanently added to ";
+                switch(stat)
+                {
+                case 0:
+                    mainStats[0] += amount;
+                    s += "strength";
                     break;
-            case 1: mainStats[1] += amount;
-            s += "dexterity";
+                case 1:
+                    mainStats[1] += amount;
+                    s += "dexterity";
                     break;
-            case 2: mainStats[2] += amount;
-            s += "intellect";
+                case 2:
+                    mainStats[2] += amount;
+                    s += "intellect";
                     break;
-            case 3: mainStats[3] += amount;
-            s += "speed";
+                case 3:
+                    mainStats[3] += amount;
+                    s += "speed";
                     break;
-            case 4: maxHealth += amount;
+                case 4:
+                    maxHealth += amount;
                     currentHealth += amount;
-            s += "hp";
+                    s += "hp";
                     break;
+                }
             }
-        }
-        else
-        {
-            s += " added to ";
-            switch(stat)
+            else
             {
-            case 0: statusEffect[0] += amount;
-            s += "strength";
+                s += " added to ";
+                switch(stat)
+                {
+                case 0:
+                    statusEffect[0] += amount;
+                    s += "strength";
                     break;
-            case 1: statusEffect[1] += amount;
-            s += "dexterity";
+                case 1:
+                    statusEffect[1] += amount;
+                    s += "dexterity";
                     break;
-            case 2: statusEffect[2] += amount;
-            s += "intellect";
+                case 2:
+                    statusEffect[2] += amount;
+                    s += "intellect";
                     break;
-            case 3: statusEffect[3] += amount;
-            s += "speed";
+                case 3:
+                    statusEffect[3] += amount;
+                    s += "speed";
                     break;
-            case 4: currentHealth += amount;
+                case 4:
+                    currentHealth += amount;
                     if(currentHealth > maxHealth)
-                      currentHealth = maxHealth;
-                      s += "hp";
+                        currentHealth = maxHealth;
+                    s += "hp";
                     break;
+                }
             }
-        }
-        print::str(s);
+            print::str(s);
         }
 
         delete tempC.front();
@@ -739,10 +760,10 @@ void player::useConsumable(unsigned int index)
     }
     else
     {
-      print::textColour(print::C_RED);
-       print::str("Tried to use consumable index that is out of range");
-       std::cout << std::endl;
-      print::textColour(print::C_DEFAULT);
+        print::textColour(print::C_RED);
+        print::str("Tried to use consumable index that is out of range");
+        std::cout << std::endl;
+        print::textColour(print::C_DEFAULT);
     }
     // Check if updating the players stats changes their damage
     updateDamagePower();
@@ -761,32 +782,32 @@ std::vector<int> player::getExperience()
 
 bool player::checkAbilityReq(unsigned int inventoryIndex)
 {
-  if(inventoryIndex < cInventory->getAbilities().size())
-  return
-   // get the stat amount required
-   cInventory->getAbilities()[inventoryIndex]
-                               ->getStatRequirements()[1] <=
-   // At the players main stats of the required stat
-   mainStats[cInventory->getAbilities()[inventoryIndex]
-                                        ->getStatRequirements()[0]]
-   // check the player is at the required level
-   && cInventory->getAbilities()[inventoryIndex]
-      ->getStatRequirements()[2] < level;
-  else
-    return false;
+    if(inventoryIndex < cInventory->getAbilities().size())
+        return
+            // get the stat amount required
+            cInventory->getAbilities()[inventoryIndex]
+            ->getStatRequirements()[1] <=
+            // At the players main stats of the required stat
+            mainStats[cInventory->getAbilities()[inventoryIndex]
+                      ->getStatRequirements()[0]]
+            // check the player is at the required level
+            && cInventory->getAbilities()[inventoryIndex]
+            ->getStatRequirements()[2] < level;
+    else
+        return false;
 }
 
 bool player::checkWeaponReq(unsigned int inventoryIndex)
 {
-  if(inventoryIndex < cInventory->getWeapons().size())
-  return
-    cInventory->getWeapons()[inventoryIndex]->getStatRequirements()[1] <=
-      mainStats[cInventory->getWeapons().
-        at(inventoryIndex)->getStatRequirements()[0]]
-    && cInventory->getWeapons().at(inventoryIndex)->getStatRequirements()[2] <=
-      level;
-  else
-    return false;
+    if(inventoryIndex < cInventory->getWeapons().size())
+        return
+            cInventory->getWeapons()[inventoryIndex]->getStatRequirements()[1] <=
+            mainStats[cInventory->getWeapons().
+                      at(inventoryIndex)->getStatRequirements()[0]]
+            && cInventory->getWeapons().at(inventoryIndex)->getStatRequirements()[2] <=
+            level;
+    else
+        return false;
 }
 
 #define DIR_SAVE "../docs/DATA/Save_Player.csv"
@@ -802,44 +823,44 @@ void player::save()
     toWrite.open(DIR_SAVE);
 
     toWrite
-        // Store all the players stats
-        << name << ','
-        << race << ','
-        << currentHealth << ','
-        << maxHealth << ','
-        << level << ','
-        << mainStats[0] << ','
-        << mainStats[1] << ','
-        << mainStats[2] << ','
-        << mainStats[3] << ','
-        << gold << ','
-        << currentExperience << ','
-        << maxExperience << ',';
+    // Store all the players stats
+            << name << ','
+            << race << ','
+            << currentHealth << ','
+            << maxHealth << ','
+            << level << ','
+            << mainStats[0] << ','
+            << mainStats[1] << ','
+            << mainStats[2] << ','
+            << mainStats[3] << ','
+            << gold << ','
+            << currentExperience << ','
+            << maxExperience << ',';
 
     // Store all the equipped weapon stats
     if (equippedWeapon != nullptr)
     {
         toWrite
-            << equippedWeapon->getName() << ','
-            << equippedWeapon->getDiceRolls() << ','
-            << equippedWeapon->getDiceSize() << ','
-            << equippedWeapon->getStatRequirements()[0] << ','
-            << equippedWeapon->getStatRequirements()[1] << ','
-            << equippedWeapon->getStatRequirements()[2] << ','
-            << equippedWeapon->getCost() << ','
-            << equippedWeapon->getSellValue() << ',';
+                << equippedWeapon->getName() << ','
+                << equippedWeapon->getDiceRolls() << ','
+                << equippedWeapon->getDiceSize() << ','
+                << equippedWeapon->getStatRequirements()[0] << ','
+                << equippedWeapon->getStatRequirements()[1] << ','
+                << equippedWeapon->getStatRequirements()[2] << ','
+                << equippedWeapon->getCost() << ','
+                << equippedWeapon->getSellValue() << ',';
     }
     if (!activeAbilities.empty())
     {
         toWrite
-            // Store the indicies of the 0th abilility
-            << activeAbilities[0]->getIndex();
+        // Store the indicies of the 0th abilility
+                << activeAbilities[0]->getIndex();
 
         if (activeAbilities.size() > 1)
         {
             toWrite
-                // Store the indicies of the 1st abilility
-                << activeAbilities[1]->getIndex();
+            // Store the indicies of the 1st abilility
+                    << activeAbilities[1]->getIndex();
         }
     }
 

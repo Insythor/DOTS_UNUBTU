@@ -1,7 +1,8 @@
 #include "gameManager.h"
 /**   Initiate all static pointers */
 std::vector<std::string>* weapon::allNames = new std::vector<std::string>;
-std::vector<std::string>* roomManager::allNames = new std::vector<std::string>;
+std::vector<std::vector<std::string>>* roomManager::roomData =
+ new std::vector<std::vector<std::string>>;
 std::vector<baseCharacter::raceData>* baseCharacter::allRaces =
                                       new std::vector<baseCharacter::raceData>;
 std::vector<std::vector<std::vector<ability::abilityData>>>*
@@ -13,7 +14,7 @@ gameManager::gameManager()
   /** Read in data from docs/DATA/"file" into the static pointers */
   readInRaceData();
   readInWeapons();
-//  readInRooms();
+  readInRooms();
   readInAbilities();
   // Game starts at level 1
   currentLevel = 1;
@@ -31,11 +32,12 @@ gameManager::gameManager()
  gameManager::~gameManager()
 {
   delete weapon::allNames;
-  delete roomManager::allNames;
+  delete roomManager::roomData;
   delete baseCharacter::allRaces;
   delete ability::allAbilities;
   delete playerPtr;
   delete monsterPtr;
+  delete currentRoom;
 }
 
 void gameManager::readInWeapons()
@@ -57,7 +59,24 @@ void gameManager::readInWeapons()
 
 void gameManager::readInRooms()
 {
-
+    std::ifstream toRead;
+    toRead.open(DIR_ROOM);
+    std::vector<std::string> tempData;
+    std::string line;
+    while (getline(toRead, line, ','))
+    {
+        tempData.push_back(line);
+    }
+    toRead.close();
+    for(int i = 0; i < 4; i++)
+        roomManager::roomData->push_back(std::vector<std::string>());
+    for(int i = 0; i < 11; i++)
+    {
+        int type = std::stoi(tempData[0]);
+        roomManager::roomData->at(type).push_back(tempData[1]);
+        tempData.erase(tempData.begin(), tempData.begin() + 2);
+    }
+    roomManager::roomData->shrink_to_fit();
 }
 
 void gameManager::readInAbilities()
@@ -948,9 +967,7 @@ monster* gameManager::generateMonster(int l, int index, std::string tName)
 player* gameManager::characterCreation()
 {
   player* temp;
-  int tempRaceIndex;
-  std::string tempName;
-
+  std::string command;
   system("clear;");
 
   print::str("Anyways adventurer, where do you come from? "
@@ -958,13 +975,41 @@ player* gameManager::characterCreation()
   // Show the user the races to choose from
   printRaces();
   // Set the cursor to box
-  print::setCursor(true);
-  std::cout << "\nRace Index: ";
+  int tempRaceIndex = 0;
+  while(true)
+  {
+       std::cout << "Race Index: ";
   // Select the race for your hero
-  std::cin >> tempRaceIndex;
-  std::cout << std::endl;
+     print::setCursor(true);
+        command.clear();
+        while(command[0] == '\n' || command.empty())
+            getline(std::cin, command);
+        print::setCursor(false);
+        if(print::is_number(command))
+        {
+            tempRaceIndex = std::stoi(command);
+            if(tempRaceIndex >= 0 && tempRaceIndex <= 9)
+            {
+                break;
+            }
+            else
+            {
+                print::textColour(print::C_RED);
+                print::str("What are you doing adventurer that's not a valid index?! Try again!");
+                print::textColour(print::C_DEFAULT);
+                std::cout << std::endl;
+            }
+        }
+        else
+        {
+            print::textColour(print::C_RED);
+            print::str("What are you doing adventurer that's not an index?! Try again!");
+            print::textColour(print::C_DEFAULT);
+            std::cout << std::endl;
+        }
+  }
+          std::cout << std::endl;
   // set the cursor to underscore
-  print::setCursor(false);
   // "Story"
   print::str("One " + baseCharacter::allRaces->at(tempRaceIndex).race +
       " coming right up!!!");
@@ -1001,12 +1046,12 @@ player* gameManager::characterCreation()
 
   std::cout << "Name: ";
   // Enter the name for your hero
-  std::cin >> tempName;
+  std::cin >> command;
   print::setCursor(false);
   std::cout << std::endl;
   // Print the character that the user has made
   print::str("Cool a " + baseCharacter::allRaces->at(tempRaceIndex).race +
-             " named " + tempName +
+             " named " + command +
              " \nNo ones ever done that combo before I'm sure");
 
              print::str_time("...", 600);
@@ -1016,7 +1061,7 @@ player* gameManager::characterCreation()
              std::cout << std::endl;
 
   // Set the temp player to what the user has selected, and genereate their hero
-   temp = new player(tempName,
+   temp = new player(command,
                           baseCharacter::allRaces->at(tempRaceIndex).race,
                           baseCharacter::allRaces->at(tempRaceIndex).maxHP,
                          baseCharacter::allRaces->at(tempRaceIndex).mStats);
@@ -1061,6 +1106,10 @@ player* gameManager::characterCreation()
     // Add an ability to the heros active abilities at level 1,
     // and the heros highest stat
     std::vector<ability*> tempAbil;
+    std::vector<consumable*> tempCon;
+    for(int i = 0; i < 5; i++)
+        tempCon.push_back(new consumable(0));
+    temp->getInventory()->addConsumables(tempCon);
     tempAbil.push_back(new ability(1, tMainStatIndex));
     temp->setActiveAbilities(tempAbil);
 
