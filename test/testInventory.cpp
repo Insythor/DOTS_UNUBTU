@@ -2,10 +2,10 @@
 #include "inventory.h"
 
 //only needed when compiling this test seperately from testAbilities.cpp
-/*
+
 #include "gameManager.h"
 gameManager* myManager = new gameManager;
-*/
+
 
 TEST(testInventory, constructorTest)
 {
@@ -168,40 +168,175 @@ TEST(testInventory, addWeaponTest)
 
 TEST(testInventory, deleteConsumablesTest)
 {
+  inventory i;
+  std::vector<consumable*> c;
+  consumable con;
+  std::vector<consumable*> ctest;
 
+  for(int i = 0; i < 4; i++)
+    c.push_back(new consumable(1));
+
+  i.addConsumables(c);
+  EXPECT_TRUE(i.deleteConsumables(0,3));
+  i.removeConsumables(0,2);
+  EXPECT_TRUE(i.deleteConsumables(0,2));
+  i.removeConsumables(0,2);
+  EXPECT_FALSE(i.deleteConsumables(0,2));
 }
 
 TEST(testInventory, removeConsumablesTest)
 {
+  inventory i;
+  std::vector<consumable*> c;
+
+  for(int i = 0; i < 4; i++)
+    c.push_back(new consumable(1));
+
+  EXPECT_TRUE(i.isEmpty());
+  i.addConsumables(c);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeConsumables(0,2);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeConsumables(0,2);
+  EXPECT_TRUE(i.isEmpty());
 
 }
 
 TEST(testInventory, removeAllConsumablesTest)
 {
+  inventory i;
+  std::vector<consumable*> c;
 
+  for(int i = 0; i < 4; i++)
+    c.push_back(new consumable(i));
+
+  EXPECT_TRUE(i.isEmpty());
+  i.addConsumables(c);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAllConsumables();
+  EXPECT_TRUE(i.isEmpty());
 }
 
 TEST(testInventory, removeAbilityTest)
 {
+  inventory i;
+  ability* a;
 
+  EXPECT_TRUE(i.isEmpty());
+
+  for(int n = 1; n < 3; n++)
+  {
+    a = new ability(n);
+    i.addAbility(a);
+  }
+
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAbility(0);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAbility(1);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAbility(3);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAbility(0);
+  EXPECT_TRUE(i.isEmpty());
 }
 
 TEST(testInventory, deleteWeaponTest)
 {
+  inventory i;
+  weapon* w;
 
+  for(int n = 1; n < 4; n++)
+  {
+    w = new weapon(n);
+    i.addWeapon(w);
+  }
+
+  EXPECT_TRUE(i.deleteWeapon(2));
+  i.removeWeapon(2);
+  EXPECT_FALSE(i.deleteWeapon(5));
+  i.removeWeapon(3);
+  EXPECT_TRUE(i.deleteWeapon(1));
+  i.removeWeapon(0);
+  EXPECT_FALSE(i.deleteWeapon(1));
+  i.removeWeapon(1);
+  EXPECT_TRUE(i.isEmpty());
 }
 
 TEST(testInventory, removeWeaponTest)
 {
+  inventory i;
+  weapon* w;
 
+  EXPECT_TRUE(i.isEmpty());
+
+  for(int n = 1; n < 4; n++)
+  {
+    w = new weapon(n);
+    i.addWeapon(w);
+  }
+
+  EXPECT_FALSE(i.isEmpty());
+  i.removeWeapon(2);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeWeapon(1);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeWeapon(3);
+  EXPECT_FALSE(i.isEmpty());
+  i.removeWeapon(0);
+  EXPECT_TRUE(i.isEmpty());
 }
 
 TEST(testInventory, removeAllWeaponsTest)
 {
+  inventory i;
+  weapon* w;
 
+  EXPECT_TRUE(i.isEmpty());
+
+  for(int n = 1; n < 4; n++)
+  {
+    w = new weapon(n);
+    i.addWeapon(w);
+  }
+
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAllWeapons();
+  EXPECT_TRUE(i.isEmpty());
 }
 
 TEST(testInventory, isEmptyTest)
 {
+  inventory i;
+  std::vector<consumable*> c;
+  ability* a;
+  weapon* w;
 
+  EXPECT_TRUE(i.isEmpty());
+
+  for(int n = 0; n < 4; n++)
+    c.push_back(new consumable(n));
+
+  i.addConsumables(c);
+
+  for(int n = 1; n < 3; n++)
+  {
+    a = new ability(n);
+    i.addAbility(a);
+  }
+
+  for(int n = 1; n < 4; n++)
+  {
+    w = new weapon(n);
+    i.addWeapon(w);
+  }
+
+  EXPECT_FALSE(i.isEmpty());
+  i.removeAllConsumables();
+  i.removeAllWeapons();
+
+  for(int n = 0; n < 2; n++)
+    i.removeAbility(0);
+
+  EXPECT_TRUE(i.isEmpty());
 }
