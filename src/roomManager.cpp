@@ -188,7 +188,7 @@ void roomManager::enterRoom()
                 switch(nextRooms[i])
                 {
                 case 0:
-                    if(roomLevel % 5 == 0)
+                    if(roomLevel + 1 == 25)
                     std::cout << "final boss" << std::endl;
                     else
                     std::cout << "boss" << std::endl;
@@ -282,7 +282,7 @@ void roomManager::changeRoom(int nextRoom)
     }
     roomType = nextRooms[nextRoom];
     nextRooms.clear();
-    if(roomLevel % 5 == 0)
+    if((roomLevel + 1) % 5 == 0)
     {
         nextRooms.push_back(0);
         nextRooms.push_back(3);
