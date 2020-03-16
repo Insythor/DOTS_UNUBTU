@@ -309,6 +309,3 @@ std::string weapon::getName()
 {
     return name;
 }
-
-
-
