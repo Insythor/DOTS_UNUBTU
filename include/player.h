@@ -11,7 +11,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#define DIR_PLAYERSAVE "../../docs/DATA/save"
+#define DIR_PLAYERSAVE "docs/DATA/save"
 
 // Inherited Class
 #include "baseCharacter.h"

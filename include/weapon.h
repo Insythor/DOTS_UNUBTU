@@ -8,7 +8,7 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#define DIR_WEAPON "../docs/DATA/weaponNames.txt"
+#define DIR_WEAPON "docs/DATA/weaponNames.txt"
 
 // Inherited Class
 #include "item.h"

@@ -8,7 +8,7 @@
 #ifndef CONSUMABLE_H
 #define CONSUMABLE_H
 
-#define DIR_CONSUMABLE "../docs/DATA/consumableData.csv"
+#define DIR_CONSUMABLE "docs/DATA/consumableData.csv"
 
 // Inherited Class
 #include "item.h"
