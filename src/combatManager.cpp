@@ -122,6 +122,7 @@ bool combatManager::startFight()
             {
               std::cout << "Currently " + fightOrder[1]->getName() +
               " has no active abilities" << std::endl;
+              break;
             }
             input.push_back(0);
             for(auto ab : fightOrder[1]->getActiveAbilities())
@@ -133,7 +134,7 @@ bool combatManager::startFight()
                 << std::setw(3)
                 << ab->getDiceRolls() << "d" << ab->getDiceSize()
                 << std::endl;
-           std::cout << "\nWhich ability would you like to use? [int]: ";
+           std::cout << "\nChoose the index of the ability would you like to use: ";
 
            print::setCursor(true);
             // Reusing the input vector instead of declaring new index
@@ -192,7 +193,6 @@ bool combatManager::startFight()
             << std::endl;
 
           break;
-
         // pp, pplayer
         case 12:
             // Print the basic character information for the player
@@ -288,8 +288,8 @@ bool combatManager::endFight()
         while (!monsterLooted)
         {
             int input;
-            std::cout << "Would you like to 'Loot' the monster? ";
-
+            std::cout << "Would you like to 'Loot' the monster? (y/n)" << std::endl;
+            std::cout << "What would you like to do adventurer: ";
             print::setCursor(true);
             std::string command;
             while(command.empty() || command[0] == '\n')
@@ -408,8 +408,6 @@ std::vector<int> combatManager::formatCommand(std::string command)
     // Choose an ability to perform
     else if (tempCommand[0] == "ability" || tempCommand[0] == "abl")
         temp.push_back(2);
-
-
     // Only used during the endFight phase
     else if (tempCommand[0] == "loot" || tempCommand[0] == "lt"
            || tempCommand[0] == "yes" || tempCommand[0] == "y")
@@ -417,16 +415,16 @@ std::vector<int> combatManager::formatCommand(std::string command)
 
                 /**** Debugging Commands ****/
     // Print the player
-    else if (tempCommand[0] == "pplayer" || tempCommand[0] == "pp")
-        temp.push_back(12);
-    // Print the monster
-    else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
-        temp.push_back(13);
-
-    // Debugging: Exit the combat loop and go straight to the looting phase
-    else if (tempCommand[0] == "exit" || tempCommand[0] == "e" ||
-             tempCommand[0] == "no"   || tempCommand[0] == "n")
-        temp.push_back(0);
+//    else if (tempCommand[0] == "pplayer" || tempCommand[0] == "pp")
+//        temp.push_back(12);
+//    // Print the monster
+//    else if (tempCommand[0] == "pmonster" || tempCommand[0] == "pm")
+//        temp.push_back(13);
+//
+//    // Debugging: Exit the combat loop and go straight to the looting phase
+//    else if (tempCommand[0] == "exit" || tempCommand[0] == "e" ||
+//             tempCommand[0] == "no"   || tempCommand[0] == "n")
+//        temp.push_back(0);
 
     // If no valid command was entered, display the available commands
     else

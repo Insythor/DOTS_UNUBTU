@@ -97,7 +97,7 @@ void roomManager::enterRoom()
                     getline(std::cin, command);
                 print::setCursor(false);
                 std::string c = print::toLower(command);
-                if(c == "y")
+                if(c == "y" || c == "yes")
                 {
                     std::cout << "Found " << chests[input[1] - 1]->getGold() << " gold.\n";
                     myPlayer->setGold(chests[input[1] - 1]->lootGold());
@@ -111,6 +111,7 @@ void roomManager::enterRoom()
                         std::cout << "Looted\n" << *cStack.front() << " x" << cStack.size() << std::endl;
                         myPlayer->getInventory()->addConsumables(cStack);
                     }
+                    delete chests[input[1]-1];
                     chests.erase(chests.begin()+ input[1] - 1);
                     print::textColour(print::C_RED);
                     print::str("The chest has been consumed by the spire!!!");
@@ -121,8 +122,15 @@ void roomManager::enterRoom()
                     else
                         play = false;
                 }
-                else
+                else if(c == "n" || c == "no")
                     break;
+                else
+                {
+                    print::textColour(print::C_RED);
+                    print::str("That is a yes or no question adventurer! Try again");
+                    print::textColour(print::C_DEFAULT);
+                    std::cout << std::endl;
+                }
             }
             else
             {
@@ -256,7 +264,7 @@ void roomManager::createChestRoom()
     if(chests.empty() && !roomComplete)
     {
         srand (time(NULL));
-        int chestAmount = rand() % 4 + 1;
+        int chestAmount = rand() % 3 + 1;
         for(int i = 0; i < chestAmount; i++)
         {
             chests.push_back(new chest(roomLevel));

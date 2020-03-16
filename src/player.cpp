@@ -89,15 +89,15 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         << "Level: " << toRender.getLevel() << std::setw(levelSpacer)
         << "(" << toRender.getExperience()[0] << std::setw(currentXpSpacer)
         << " / " << toRender.getExperience()[1] << ")" << std::setw(maxXpScacer)
-        << std::setw(goldSpacer) << "Gold: " << toRender.getGold()
+        << std::setw(goldSpacer) << "Gold: " << toRender.getGold() << "g"
 
         << "\n" << std::setfill('.')
         /** Stats */
-        << "Str" << std::setw(5) << toRender.getStats()[0] << strBonus
+        << "1. " << "Str" << std::setw(5) << toRender.getStats()[0] << strBonus
                          << abs(toRender.getStatBonuses()[0]) << "\n"
-        << "Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
+        << "2. " <<"Dex" << std::setw(5) << toRender.getStats()[1] << dexBonus
                          << abs(toRender.getStatBonuses()[1]) << "\n"
-        << "Int" << std::setw(5) << toRender.getStats()[2] << intBonus
+        << "3. " <<"Int" << std::setw(5) << toRender.getStats()[2] << intBonus
                          << abs(toRender.getStatBonuses()[2]) << "\n"
         << "Spd" << std::setw(5) << toRender.getStats()[3]
         // reset the fill back to empty space
@@ -107,8 +107,8 @@ std::ostream& operator << (std::ostream& out, player& toRender)
         /** Weapon */
         << "\nEquipped Weapon: "
         << toRender.getWeapon()->getName() << std::setw(3)
-        << toRender.getWeapon()->getDiceRolls() << "d"
-        << toRender.getWeapon()->getDiceSize()
+        << "(" << toRender.getWeapon()->getDiceRolls() << " * D"
+        << toRender.getWeapon()->getDiceSize() << ")"
         << dmgBonusSign << dmgBonus << "\n\n";
 
 
@@ -126,9 +126,6 @@ std::ostream& operator << (std::ostream& out, player& toRender)
             << "|" << std::setw(4) << ++index <<std::setw(4)
             << *i << std::endl;
         }
-
-    toRender.getInventory()->viewInventory();
-
     out << std::endl;
     return out;
 }
@@ -138,8 +135,11 @@ void player::inventoryManagement()
     std::string command;
     int index = 0;
     bool done = false;
-    while(!done)
+    if((cInventory->getAbilities().size() + cInventory->getConsumables().size() + cInventory->getWeapons().size()) > 0)
     {
+          while(!done)
+    {
+        std::cout << name << "'s Inventory" << std::endl;
         cInventory->viewInventory();
         std::cout << "Choose the index of the item you want to manage, or type(m) to see player menu or type(e) to exit\n"
                   << "Choose index: ";
@@ -274,6 +274,11 @@ void player::inventoryManagement()
             }
         }
     }
+    }
+    else
+    {
+         std::cout << name << "'s inventory is currently empty" << std::endl;
+    }
 }
 
 void player::swapAbilities(unsigned int index)
@@ -311,6 +316,8 @@ void player::swapAbilities(unsigned int index)
             int mindex = std::stoi(command) - 1;
             if(mindex < activeAbilities.size())
             {
+                std::cout << "Would you like to swap " << activeAbilities[mindex]->getName()
+                << " with " << cInventory->getAbilities()[index]->getName() << "? (y/n)" << std::endl;
                while(!done)
                 {
                     print::setCursor(true);
@@ -322,12 +329,20 @@ void player::swapAbilities(unsigned int index)
                     if(c == "yes" || c == "y")
                     {
                         ability* a = cInventory->removeAbility(index);
-                        ability* ea = activeAbilities[index];
-                        activeAbilities.erase(activeAbilities.begin()+index);
+                        ability* ea = activeAbilities[mindex];
+                        activeAbilities.erase(activeAbilities.begin()+mindex);
                         activeAbilities.push_back(a);
                         cInventory->addAbility(ea);
-                        print::str("You have swapped " + ea->getName() + " with " + a->getName());
+                            print::str("You have swapped ");
+                            print::textColour(print::C_GREEN);
+                            print::str(ea->getName());
+                            print::textColour(print::C_DEFAULT);
+                            print::str(" with ");
+                            print::textColour(print::C_PINK);
+                            print::str(a->getName());
+                            print::textColour(print::C_DEFAULT);
                         std::cout << std::endl;
+                        done = true;
                         break;
                     }
                     else if(c == "no" || c == "n")
@@ -433,7 +448,6 @@ void player::swapWeapon(unsigned int index)
 void player::addExperience(int toAdd)
 {
     currentExperience += toAdd;
-
     if (currentExperience >= maxExperience)
         levelUp();
 }
@@ -458,10 +472,7 @@ void player::levelUp()
     else
     {
       // So we can level up the player without giving them negative experience
-      if(currentExperience - maxExperience >= 0)
         currentExperience -= maxExperience;
-      else
-        currentExperience = 0;
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
         maxExperience += ((level + 1) - static_cast<int>(1 + (300 *
@@ -478,10 +489,10 @@ void player::levelUp()
     std::cout << (*this);
 
     std::cout
-        << "First choose the stat you wish to increase[int]\n"
-        << "then type the amount of points to add [int]\n"
-        << "For every 2 points about 10 in any stat, you will gain a +1 bonus"
-        << "\ni.e. 0 will choose strength and then type 1 to add one point "
+        << "First choose the index of the stat you want to increase\n"
+        << "then type the amount of points to add to that stat\n"
+        << "For every 2 points after 10 in any stat, you will gain a +1 bonus"
+        << "\ni.e. 1 will choose strength and then type 1 to add one point "
         << "to strength.\n\n"
         << "Available points: " << availablePoints << std::endl;
 
@@ -496,9 +507,9 @@ void player::levelUp()
       {
          std::cout.flush() << "Choose stat: ";
          std::cin >> In;
-         if(print::is_number(In) && (In == "0" || In == "1" || In == "2"))
+         if(print::is_number(In) && (In == "1" || In == "2" || In == "3"))
          {
-           statIn = std::stoi(In);
+           statIn = std::stoi(In) - 1;
            while(!done)
            {
              std::cout << "Choose amount: ";
@@ -506,8 +517,15 @@ void player::levelUp()
              std::cout << std::endl;
              if(print::is_number(AmountIn))
              {
-               statAmountIn = std::stoi(AmountIn);
-               done = true;
+                if(std::stoi(AmountIn) > 0)
+                {
+                     statAmountIn = std::stoi(AmountIn);
+                    done = true;
+                }
+                 else
+                 {
+                   std::cout << "Invalid stat amount" << std::endl;
+                 }
              }
              else
              {
@@ -559,37 +577,49 @@ void player::levelUp()
         // have selected so far
         if (availablePoints == 0)
         {
-            std::cout << "Would you like to commit?\n"
+            while(true)
+            {
+                std::cout << "Would you like to commit? (y/n)\n"
                 << "Strength  + " << tempStats[0] << "\n"
                 << "Dexterity + " << tempStats[1] << "\n"
                 << "Intellect + " << tempStats[2] << "\n"
                 << std::endl;
+                std::cout << "What would you like to do adventurer: ";
+                std::cin >> command;
+                // add the chosen stats from the player to the main stats vector
+                // break for the while loop
+                if (command == "yes" || command == "Yes" || command == "y")
+                {
+                    addToStats(tempStats);
+                    // Positive reinforcement is a key value of the Spire...
+                    std::cout << "Good Choice Adventurer!" << std::endl;
+                    break;
+                }
 
-            std::cin >> command;
-           // add the chosen stats from the player to the main stats vector
-            // break for the while loop
-            if (command == "yes" || command == "Yes" || command == "y")
-            {
-                addToStats(tempStats);
-                // Positive reinforcement is a key value of the Spire...
-                std::cout << "Good Choice Adventurer!" << std::endl;
-                break;
-            }
-
-            // reset the available points and tempStats vector which
-            // essentially restarts the loop
-            else if (command == "no" || command == "No" || command == "n")
-            {
-                availablePoints = backupAvailPoints;
-                tempStats.clear();
-                tempStats.resize(4);
-
-                std::cout <<
-                    "Place your stat points by choosing a stat, then typing the"
-                    " amount of points to add."
-                    << "\ni.e. 0 1  will add one ability point to your "
-                    << "heros strength.\n"
-                    << "Available points: " << availablePoints << std::endl;
+                // reset the available points and tempStats vector which
+                // essentially restarts the loop
+                else if(command == "no" || command == "No" || command == "n")
+                {
+                    availablePoints = backupAvailPoints;
+                    tempStats.clear();
+                    tempStats.resize(4);
+                    std::cout << (*this);
+                    std::cout
+                            << "First choose the index of the stat you want to increase\n"
+                            << "then type the amount of points to add to that stat\n"
+                            << "For every 2 points after 10 in any stat, you will gain a +1 bonus"
+                            << "\ni.e. 1 will choose strength and then type 1 to add one point "
+                            << "to strength.\n\n"
+                            << "Available points: " << availablePoints << std::endl;
+                            break;
+                }
+                else
+                {
+                    print::textColour(print::C_RED);
+                    print::str("That is a yes or no question adventurer! Try again");
+                    print::textColour(print::C_DEFAULT);
+                    std::cout << std::endl;
+                }
             }
         }
     }

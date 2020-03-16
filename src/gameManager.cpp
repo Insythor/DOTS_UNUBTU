@@ -469,6 +469,11 @@ void gameManager::startGame()
         case 96:
             currentRoom = new roomManager(playerPtr);
             currentRoom->enterRoom();
+            break;
+        case 99:
+            mainMenu();
+            currentRoom = new roomManager(playerPtr);
+            currentRoom->enterRoom();
         // exit, e
         case 0:
             std::cout << "bye" << std::endl;
@@ -641,6 +646,8 @@ std::vector<int> gameManager::formatCommand(std::string command)
         temp.push_back(96);
     else if(tempCommand[0] == "setlevel" || tempCommand[0] == "sl")
       temp.push_back(95);
+    else if(tempCommand[0] == "game" || tempCommand[0] == "eg")
+        temp.push_back(99);
     // GTFO
     else if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
           || tempCommand[0] == "e")
@@ -854,7 +861,7 @@ void gameManager::mainMenu()
     case 2:
       // Set the terminal back to "standard" size
       system("resize -s 31 80");
-      characterCreation();
+      playerPtr = characterCreation();
       break;
 
     case 3:
