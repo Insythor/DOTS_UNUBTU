@@ -57,11 +57,10 @@ compile: $(SRC_DIR) $(GAME_SRC_DIR)
 tests: $(PROGRAM_TEST)
 		$(PROGRAM_TEST)
 
-game: $(PROGRAM_GAME)
-		$(PROGRAM_GAME)
+game: compile
 
 memcheck: $(PROGRAM_TEST)
-	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
+		valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
 	$(PROGRAM_TEST)
