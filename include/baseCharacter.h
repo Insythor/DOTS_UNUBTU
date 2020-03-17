@@ -1,6 +1,6 @@
 /**
     @author Tyler Justinen-Teite
-
+    @author Victor Besson
     @brief Parent class of Player and Monster.
            Stores the basic functionality for a Player Character
            (or Non-Player Character (monsters)).

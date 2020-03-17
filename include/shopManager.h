@@ -1,5 +1,5 @@
 /**
-    @author
+    @author Tyler Justinen-Teite
 
     @brief
 
