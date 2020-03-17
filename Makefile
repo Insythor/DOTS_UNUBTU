@@ -1,5 +1,5 @@
 PROJECT_DIR = nyx
-PROGRAM_TEST = testProg
+PROGRAM_TEST = testDOTS
 PROGRAM_GAME = playDOTS
 
 CXX=g++
@@ -26,8 +26,9 @@ STYLE_CHECK = cpplint.py
 
 DOXY_DIR = docs/code
 
+
 .PHONY: all
-all: $(PROGRAM_GAME) $(PROGRAM_TEST)
+all: $(PROGRAM_GAME) # $(PROGRAM_TEST)
 	 # memcheck coverage docs static style
 
 # default rule for compiling .cc to .o
