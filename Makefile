@@ -1,6 +1,6 @@
 PROJECT_DIR = nyx
-PROGRAM_TEST = testDiscipleOfTheSpire
-PROGRAM_GAME = playDiscipleOfTheSpire
+PROGRAM_TEST = testProg
+PROGRAM_GAME = playDOTS
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
@@ -27,7 +27,7 @@ STYLE_CHECK = cpplint.py
 DOXY_DIR = docs/code
 
 .PHONY: all
-all: $(PROGRAM_TEST) memcheck coverage docs static style
+all: $(PROGRAM_GAME) # memcheck coverage docs static style
 
 # default rule for compiling .cc to .o
 %.o: %.cpp
@@ -35,7 +35,7 @@ all: $(PROGRAM_TEST) memcheck coverage docs static style
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o $(SRC_INCLUDE)/*.h.gch    \
+	rm -rf *~ $(SRC)/*.o \
 	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
 	*.bak ???*/*.bak $(PROGRAM_GAME) \
 	???*/*~ ???*/???*/*~ $(COVERAGE_RESULTS) \
@@ -46,9 +46,14 @@ $(PROGRAM_TEST): $(TEST_DIR) $(SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) \
 	$(TEST_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
+$(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
+	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS) 
+
 compile: $(SRC_DIR) $(GAME_SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
-	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
+	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS) 
+
 
 tests: $(PROGRAM_TEST)
 	$(PROGRAM_TEST)
