@@ -481,7 +481,7 @@ void player::levelUp()
         currentExperience -= maxExperience;
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
-        maxExperience *= maxExperience * 1.2;
+        maxExperience *= 1.2;
         availablePoints = 2;
     }
     // stored amount of available points in case the user does not want
