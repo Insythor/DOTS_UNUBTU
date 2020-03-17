@@ -1,6 +1,6 @@
-PROJECT_DIR = nyx
-PROGRAM_TEST = testDiscipleOfTheSpire
-PROGRAM_GAME = playDiscipleOfTheSpire
+PROJECT_DIR = Ref-Automation-MakefileDoxyfile
+PROGRAM_TEST = testDOTS
+PROGRAM_GAME = DisicpleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
@@ -27,7 +27,7 @@ STYLE_CHECK = cpplint.py
 DOXY_DIR = docs/code
 
 .PHONY: all
-all: $(PROGRAM_TEST) memcheck coverage docs static style
+all: $(PROGRAM_GAME) $(PROGRAM_TEST) memcheck coverage docs static style
 
 # default rule for compiling .cc to .o
 %.o: %.cpp
@@ -35,7 +35,7 @@ all: $(PROGRAM_TEST) memcheck coverage docs static style
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o $(SRC_INCLUDE)/*.h.gch    \
+	rm -rf *~ $(SRC)/*.o $(TEST_DIR)/output/*.dat \
 	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
 	*.bak ???*/*.bak $(PROGRAM_GAME) \
 	???*/*~ ???*/???*/*~ $(COVERAGE_RESULTS) \
@@ -46,21 +46,22 @@ $(PROGRAM_TEST): $(TEST_DIR) $(SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_TEST) $(INCLUDE) \
 	$(TEST_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
+$(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
+	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
+	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
+
 compile: $(SRC_DIR) $(GAME_SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
 
 tests: $(PROGRAM_TEST)
-	$(PROGRAM_TEST)
+		$(PROGRAM_TEST)
 
 game: $(PROGRAM_GAME)
-	$(PROGRAM_GAME)
+		$(PROGRAM_GAME)
 
 memcheck: $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
-
-fullmemcheck: $(PROGRAM_TEST)
-	valgrind --tool=memcheck --leak-check=full $(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
 	$(PROGRAM_TEST)
@@ -77,8 +78,4 @@ static: ${SRC_DIR} ${TEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
 style: ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE}
-	${STYLE_CHECK} $(SRC_INCLUDE)/* ${SRC_DIR}/* ${TEST_DIR}/*
-
-.PHONY: docs
-docs: ${SRC_INCLUDE}
-	doxygen $(DOXY_DIR)/doxyfile
+	${STYLE_CHECK} $(SRC_INCLUDE)/* ${
