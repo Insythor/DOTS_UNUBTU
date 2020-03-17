@@ -3,7 +3,7 @@ PROGRAM_TEST =	testDOTS
 PROGRAM_GAME =	DiscipleOfTheSpire
 
 CXX=g++
-CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
+CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage -Wall
 
 LINKFLAGS= -lgtest
 
