@@ -55,10 +55,10 @@ compile: $(SRC_DIR) $(GAME_SRC_DIR)
 	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
 
 tests: $(PROGRAM_TEST)
-	$(PROGRAM_TEST)
+		$(PROGRAM_TEST)
 
 game: $(PROGRAM_GAME)
-	$(PROGRAM_GAME)
+		$(PROGRAM_GAME)
 
 memcheck: $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
