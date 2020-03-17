@@ -79,4 +79,8 @@ static: ${SRC_DIR} ${TEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
 style: ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE}
-	${STYLE_CHECK} $(SRC_INCLUDE)/*
+	${STYLE_CHECK} $(SRC_INCLUDE)/* ${SRC_DIR}/* ${TEST_DIR}/*
+
+.PHONY: docs
+docs: ${SRC_INCLUDE}
+	doxygen $(DOXY_DIR)/doxyfile
