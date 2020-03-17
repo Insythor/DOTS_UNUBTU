@@ -79,7 +79,7 @@ void puzzleManager::startPuzzle(player* myPlayer)
 
 }
 
-std::vector<puzzle*> puzzleManager::getPuzzles()
+std::vector<Puzzle*> puzzleManager::getPuzzles()
 {
     return puzzles;
 }

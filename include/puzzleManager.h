@@ -5,7 +5,8 @@
 
 #ifndef PUZZLEMANAGER_H
 #define PUZZLEMANAGER_H
-
+#include "player.h"
+#include "Puzzle.h"
 #include "Puzzle.h"
 #include "PuzzleOne.h"
 #include "PuzzleTwo.h"
@@ -20,9 +21,9 @@ class puzzleManager
         puzzleManager();
         virtual ~puzzleManager();
         void startPuzzle(player* myPlayer);
-        std::vector<puzzle*> getPuzzles();
+        std::vector<Puzzle*> getPuzzles();
     private:
-        std::vector<puzzle*> puzzles;
+        std::vector<Puzzle*> puzzles;
         void puzzleOne();
         void puzzleTwo();
         void puzzleThree();
