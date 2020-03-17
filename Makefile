@@ -29,7 +29,7 @@ DOXY_DIR = docs/code
 
 .PHONY: all
 all: $(PROGRAM_GAME)  # memcheck coverage docs static style
-	$(PROGRAM_GAME)
+
 # default rule for compiling .cc to .o
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
