@@ -60,10 +60,10 @@ tests: $(PROGRAM_TEST)
 
 game: $(PROGRAM_GAME)
 
-memcheck: $(PROGRAM_TEST)	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
+memcheck: $(PROGRAM_TEST)	
+	valgrind --tool=memcheck --leak-check=yes
 
 coverage: $(PROGRAM_TEST)
-	$(PROGRAM_TEST)
 	# Determine code coverage
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
 	# Only show code coverage for the source code files (not library files)
