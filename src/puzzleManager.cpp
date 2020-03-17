@@ -16,7 +16,7 @@ puzzleManager::~puzzleManager()
 }
 
 
-// Puzzle 1
+// Puzzle 1: Price Beat Challenge
 bool puzzleManager::puzzleOne(player* myPlayer) {
     PuzzleOne *puzzle1 = new PuzzleOne;
     puzzle1->mainGame();
@@ -31,7 +31,7 @@ bool puzzleManager::puzzleOne(player* myPlayer) {
 }
 
 
-// Puzzle 2
+// Puzzle 2: Matching Card Challenge
 bool puzzleManager::puzzleTwo(player* myPlayer) {
     PuzzleTwo *puzzle2 = new PuzzleTwo;
     puzzle2->mainGame();
@@ -45,8 +45,13 @@ bool puzzleManager::puzzleTwo(player* myPlayer) {
         stats.push_back(10); // speed
         myPlayer->addToStats(stats);
     } else {
-        // player's gold -10
-        myPlayer->setGold(-10);
+        // player's speed -10
+        std::vector<int> stats;
+        stats.push_back(0); // str
+        stats.push_back(0); // dex
+        stats.push_back(0); // int
+        stats.push_back(-10); // speed
+        myPlayer->addToStats(stats);
     }
     delete puzzle2;
     return result;
@@ -54,7 +59,7 @@ bool puzzleManager::puzzleTwo(player* myPlayer) {
 
 
 
-// Puzzle 3
+// Puzzle 3: Decipher the Hidden Message Challenge
 bool puzzleManager::puzzleThree(player* myPlayer) {
     PuzzleThree *puzzle3 = new PuzzleThree;
     puzzle3->mainGame();

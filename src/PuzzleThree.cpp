@@ -49,8 +49,8 @@ void PuzzleThree::displayGoal() {
 // displays the consequence of the puzzle
 void PuzzleThree::displayConsequence() {
   std::cout << "Win this game and your "
-            << "intellect increases by 20.\n";
-  std::cout << "Lose, your health decreases by 20.\n";
+            << "intelligence increases by 10.\n";
+  std::cout << "Lose, your it decreases by 10.\n";
 }
 
 

@@ -50,8 +50,8 @@ void PuzzleTwo::displayGoal() {
 
 // displays the consequence of the puzzle
 void PuzzleTwo::displayConsequence() {
-  std::cout << "Win this game and your speed increases by 15." << std::endl;
-  std::cout << "Lose, your speed decreases by 15." << std::endl;
+  std::cout << "Win this game and your speed increases by 10." << std::endl;
+  std::cout << "Lose, your speed decreases by 10." << std::endl;
 }
 
 
