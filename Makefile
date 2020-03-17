@@ -27,7 +27,8 @@ STYLE_CHECK = cpplint.py
 DOXY_DIR = docs/code
 
 .PHONY: all
-all: $(PROGRAM_GAME) # memcheck coverage docs static style
+all: $(PROGRAM_GAME) $(PROGRAM_TEST)
+	 # memcheck coverage docs static style
 
 # default rule for compiling .cc to .o
 %.o: %.cpp
