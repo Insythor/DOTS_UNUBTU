@@ -22,10 +22,10 @@ class puzzleManager
         puzzleManager();
         virtual ~puzzleManager();
         bool startPuzzle(player* myPlayer);
-        std::vector<Puzzle*> getPuzzles();
+        //std::vector<Puzzle*> getPuzzles();
         std::vector<int> getPuzzlesLeft();
     private:
-        std::vector<Puzzle*> puzzles;
+        //std::vector<Puzzle*> puzzles;
         bool puzzleOne(player* myPlayer);
         bool puzzleTwo(player* myPlayer);
         bool puzzleThree(player* myPlayer);

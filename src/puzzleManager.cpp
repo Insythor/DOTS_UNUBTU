@@ -141,6 +141,7 @@ std::vector<int> puzzleManager::getPuzzlesLeft() {
     return puzzlesLeft;
 }
 
+/*
 std::vector<Puzzle*> puzzleManager::getPuzzles() {
     return puzzles;
-}
+}*/
