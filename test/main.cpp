@@ -6,10 +6,12 @@
 
 
 #include "gtest/gtest.h"
+#include "gameManager.h"
 
-
+gameManager myManager = new gameManager;
 
 int main(int argc, char **argv) {
+
 
   ::testing::InitGoogleTest(&argc, argv);
 
