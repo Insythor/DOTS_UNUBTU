@@ -1,11 +1,6 @@
 #include "gtest/gtest.h"
 #include "monster.h"
 
-//only needed when compiling this test seperately from testAbilities.cpp
-
-#include "gameManager.h"
-gameManager* myManager = new gameManager;
-
 
 TEST(testMonster, constructorTest)
 {

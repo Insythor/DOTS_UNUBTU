@@ -1,8 +1,6 @@
 #include "gtest/gtest.h"
 #include "ability.h"
-#include "gameManager.h"
 
-gameManager* myManager = new gameManager;
 
 TEST(testAbility, constructorTest)
 {
