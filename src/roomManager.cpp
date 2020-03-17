@@ -304,7 +304,7 @@ void roomManager::changeRoom(int nextRoom)
     {
         int isPuzzle = rand() % 100 + 1;
         int numRooms = 3;
-        if(isPuzzle < 21 && !myPuzzle->getPuzzles().empty())
+        if(isPuzzle < 21 && !myPuzzle->getPuzzlesLeft().empty())
         {
           nextRooms.push_back(4);
           numRooms--;

@@ -9,20 +9,22 @@
 #include <map>
 #include <utility>
 // filename //number of empty jars
-PuzzleFour::PuzzleFour(std::string filename, int numOfEmptyJars) {
+PuzzleFour::PuzzleFour(std::string filename, int numOfEmptyJars, player* p) {
   emptyJars = numOfEmptyJars;
-  std::cout << "Number of empty jars: " << numOfEmptyJars;
+  //std::cout << "Number of empty jars: " << numOfEmptyJars;
   // initialize all the needed objects to be put into the jar
   storeInitialObjects(filename);
 
   // initialize player attributes
-  player.totalHealth = 0;
-  player.totalDex = 0;
-  player.totalIntel = 0;
-  player.totalSpeed = 0;
-  player.totalGold = 0;
-  player.totalImm = 0;
-  player.key = false;
+  playerPuz.totalHealth = 0;
+  playerPuz.totalDex = 0;
+  playerPuz.totalIntel = 0;
+  playerPuz.totalSpeed = 0;
+  playerPuz.totalGold = 0;
+  playerPuz.totalImm = 0;
+  playerPuz.key = false;
+
+  myPlayer = p;
 }
 
 
@@ -73,6 +75,11 @@ void PuzzleFour::printObjects() {
   }
 }
 
+
+// get result
+bool PuzzleFour::getResult() {
+  return result;
+}
 
 
 // create objects (to be put in the jars)
@@ -286,13 +293,13 @@ void PuzzleFour::formatDescription(std::string stringInput) {
 // display player stats
 void PuzzleFour::displayPlayerStats() {
   std::cout << "\n\n\n";
-  std::cout << "\n  Rewards Collected:"
-            << "\n  Health:       " << player.totalHealth
-            << "\t  Dexterity:    " << player.totalDex
-            << "\t  Intelligence: " << player.totalIntel
-            << "\n  Speed:        " << player.totalSpeed
-            << "\t  Gold:         " << player.totalGold
-            << "\t  Immunity:     " << player.totalImm;
+  std::cout << "\n  Total Rewards Collected:"
+            << "\n  Health:       " << playerPuz.totalHealth
+            << "\t  Dexterity:    " << playerPuz.totalDex
+            << "\t  Intelligence: " << playerPuz.totalIntel
+            << "\n  Speed:        " << playerPuz.totalSpeed
+            << "\t  Gold:         " << playerPuz.totalGold
+            << "\t  Immunity:     " << playerPuz.totalImm;
 }
 
 
@@ -412,24 +419,27 @@ void PuzzleFour::pickAJar(int jarNum) {
 
   if (objValue.name == "imm") {
     // immunity protects the player
-    player.totalImm++;
+    playerPuz.totalImm++;
   } else if (objValue.name == "dyn") {
     // dynamite destroys six jars
-    player.key = destroyJars(objKey, 5);
+    playerPuz.key = destroyJars(objKey, 5);
   } else if (objValue.name == "thunder") {
     // thunder destroys four jars
-    player.key = destroyJars(objKey, 3);
+    playerPuz.key = destroyJars(objKey, 3);
   } else if (objValue.name == "landmine") {
     // landmine destroys at most half of the jars in the board
-    player.key = destroyJars(objKey, objBoard.size()/2);
+    playerPuz.key = destroyJars(objKey, objBoard.size()/2);
   } else if (objValue.name == "goldMult") {
     // doubles the number of gold
-    if (player.totalGold > 0)
-      player.totalGold *= 2;
+    /*if (playerPuz.totalGold > 0) {
+      playerPuz.totalGold *= 2;
+      myPlayer->setGold(myPlayer->getGold());
+    }*/
   } else if (objValue.name == "healthMult") {
     // doubles the number of health
-    if (player.totalHealth > 0)
-      player.totalHealth *= 2;
+    /*if (playerPuz.totalHealth > 0) {
+      playerPuz.totalHealth *= 2;
+    }*/
   } else if (objValue.name == "possessed") {
     // player randomly opens a jar
     int randIndex = randomObjKey(objKey);
@@ -443,26 +453,36 @@ void PuzzleFour::pickAJar(int jarNum) {
       formatDescription("The key is in an odd-numbered jar");
   } else if (objValue.name == "key") {
     // key
-    player.key = true;
+    playerPuz.key = true;
   } else {
     // testing purposes
   }
 
   // collect all attibute values of the object in the jar
-  if ( (player.totalImm > 0) && (objValue.state == -1) ) {
+  if ( (playerPuz.totalImm > 0) && (objValue.state == -1) ) {
     PuzzleUtils::delayCharOutput("The immunity necklace protects you!\n"
                                  "You've been spared.");
     PuzzleUtils::delayCharOutput("\nAny damage or harm inflicted by "
                                  "the monster or\ncatastrophe you "
                                  "just opened did not affect you.");
-    --player.totalImm;
+    --playerPuz.totalImm;
   } else {
-    player.totalHealth += objValue.impactOnHealth;
-    player.totalDex += objValue.impactOnDexterity;
-    player.totalIntel += objValue.impactOnIntelligence;
-    player.totalSpeed += objValue.impactOnSpeed;
-    player.totalGold += objValue.impactOnGold;
-    /// update player's real time stats
+    // cumulative
+    playerPuz.totalHealth += objValue.impactOnHealth;
+    playerPuz.totalDex += objValue.impactOnDexterity;
+    playerPuz.totalIntel += objValue.impactOnIntelligence;
+    playerPuz.totalSpeed += objValue.impactOnSpeed;
+    playerPuz.totalGold += objValue.impactOnGold;
+    // real-time stats
+    std::vector<int> stats;
+    stats.push_back(0); //str
+    stats.push_back(objValue.impactOnDexterity); // dex
+    stats.push_back(objValue.impactOnIntelligence); // int
+    stats.push_back(objValue.impactOnSpeed); // speed
+    myPlayer->addToStats(stats);
+    myPlayer->setGold(objValue.impactOnGold); // gold
+    // flips the value of health and make it as param og takeDamage()
+    myPlayer->takeDamage(-1 * objValue.impactOnHealth);
   }
   // remove chosen jar from objBoard
   objBoard.erase(objKey);
@@ -554,7 +574,11 @@ void PuzzleFour::mainGame() {
     } while ( invalid );
     pickAJar(jarNum);
     //displayPlayerStats();
-  } while ( player.key == false );
+  } while ( playerPuz.key == false );
+
+  if(playerPuz.key == true) {
+    result = true;
+  }
   displayObjBoard();
   /*
   std::cout << "Total num of jars: " << objects.size() << std::endl;

@@ -19,6 +19,7 @@
 #include <random>
 //#include <chrono>
 //#include <thread>
+#include "player.h"
 #include "Puzzle.h"
 #include "PuzzleUtils.h"
 
@@ -161,18 +162,21 @@ class PuzzleFour : public Puzzle {
     int totalImm;
     bool key;
   };
-  PuzzlePlayer player;
+  PuzzlePlayer playerPuz;   // only to display the rewards collected so far
+  player* myPlayer;
   std::string PUZZLE_TITLE = "The Pandora's Jar Challenge";
   std::string ROOM_CHARACTER = "The Voice";
   std::vector<Object> objects;
   std::map<int, Object> objBoard;
   std::map<int, Object> objChosen;
   int emptyJars;
+  bool result = false;
 
  public:
-  PuzzleFour(std::string filename, int numOfEmptyJars);
+  PuzzleFour(std::string filename, int numOfEmptyJars, player* myPlayer);
   virtual ~PuzzleFour();
   void mainGame();
+  bool getResult();
 };
 
 #endif // PUZZLEFOUR_H

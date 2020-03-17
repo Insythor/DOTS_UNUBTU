@@ -204,7 +204,7 @@ std::string PuzzleThree::generatePhrase() {
   std::string p, finalString;
   std::ifstream infile;
   unsigned int randIndex, numOfPhrases = 0;
-  infile.open("../docs/DATA/phrases.txt");
+  infile.open("docs/DATA/phrases.txt");
   if (!infile) {
     std::cerr << "\nUnable to open file\n";
     exit(1);

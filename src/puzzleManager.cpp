@@ -5,81 +5,142 @@
 
 #include "puzzleManager.h"
 
-puzzleManager::puzzleManager()
-{
-    //ctor
+puzzleManager::puzzleManager() {
+    for(unsigned int i = 1; i <= numOfPuzzles; ++i)
+        puzzlesLeft.push_back(i);
 }
 
 puzzleManager::~puzzleManager()
 {
-    //dtor
+
 }
 
 
 // Puzzle 1
-void puzzleManager::puzzleOne() {
-
+bool puzzleManager::puzzleOne(player* myPlayer) {
     PuzzleOne *puzzle1 = new PuzzleOne;
     puzzle1->mainGame();
-    if (puzzle1->getResult() == true) {
-        // playyer's gold +10
+    bool result = puzzle1->getResult();
+    if (result == true) {
+        myPlayer->setGold(10);
     } else {
-        // player's gold -10
+        myPlayer->setGold(-10);
     }
-
     delete puzzle1;
-
+    return result;
 }
 
 
 // Puzzle 2
-void puzzleManager::puzzleTwo() {
+bool puzzleManager::puzzleTwo(player* myPlayer) {
     PuzzleTwo *puzzle2 = new PuzzleTwo;
     puzzle2->mainGame();
-    if (puzzle2->getResult() == true) {
-        // playyer's speed +10
+    bool result = puzzle2->getResult();
+    if (result == true) {
+        // player's speed +10
+        std::vector<int> stats;
+        stats.push_back(0); // str
+        stats.push_back(0); // dex
+        stats.push_back(0); // int
+        stats.push_back(10); // speed
+        myPlayer->addToStats(stats);
     } else {
         // player's gold -10
+        myPlayer->setGold(-10);
     }
     delete puzzle2;
+    return result;
 }
 
 
 
 // Puzzle 3
-void puzzleManager::puzzleThree() {
+bool puzzleManager::puzzleThree(player* myPlayer) {
     PuzzleThree *puzzle3 = new PuzzleThree;
     puzzle3->mainGame();
-    if (puzzle3->getResult() == true) {
-        // playyer's intellenct +10
+    bool result = puzzle3->getResult();
+    if (result == true) {
+        // playyer's intellect +10
+        std::vector<int> stats;
+        stats.push_back(0); // str
+        stats.push_back(0); // dex
+        stats.push_back(10); // int
+        stats.push_back(0); // speed
+        myPlayer->addToStats(stats);
     }
     else {
-        // playyer's intellenct -10
+        // player's intellect -10
+        std::vector<int> stats;
+        stats.push_back(0); // str
+        stats.push_back(0); // dex
+        stats.push_back(-10); // int
+        stats.push_back(0); // speed
+        myPlayer->addToStats(stats);
     }
     delete puzzle3;
+    return result;
 }
 
 
 
 // Puzzle 4
-void puzzleManager::puzzleFour() {
-    PuzzleFour *puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 15);
+bool puzzleManager::puzzleFour(player* myPlayer) {
+    PuzzleFour *puzzle4;
+    puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 15, myPlayer);
     puzzle4->mainGame();
+    bool result = puzzle4->getResult();
+    delete puzzle4;
+    return result;
 }
 
 
 // Puzzle 5
-void puzzleManager::puzzleFive() {
-    PuzzleFour *puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 11);
+bool puzzleManager::puzzleFive(player* myPlayer) {
+    PuzzleFour *puzzle5;
+    puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 11, myPlayer);
     puzzle5->mainGame();
+    bool result = puzzle5->getResult();
+    delete puzzle5;
+    return result;
 }
 
-bool puzzleManager::startPuzzle(player* myPlayer)
-{
 
+bool puzzleManager::startPuzzle(player* myPlayer) {
+    bool result;
+    // choose a random puzzle index
+    srand(time(NULL));
+    std::random_shuffle(puzzlesLeft.begin(), puzzlesLeft.end());
+    int puzzleIndex = puzzlesLeft.back();
+    // redirect to the main game of the puzzles
+    switch(puzzleIndex) {
+        case 1:
+            result = puzzleOne(myPlayer);
+            break;
+        case 2:
+            result = puzzleTwo(myPlayer);
+            break;
+        case 3:
+            result = puzzleThree(myPlayer);
+            break;
+        case 4:
+            result = puzzleFour(myPlayer);
+            break;
+        case 5:
+            result = puzzleFive(myPlayer);
+            break;
+        default:
+            break;
+    }
+    // reduce puzzLesLeft
+    puzzlesLeft.pop_back();
+
+    return result;
 }
 
-std::vector<Puzzle*> puzzleManager::getPuzzles()
-{
+std::vector<int> puzzleManager::getPuzzlesLeft() {
+    return puzzlesLeft;
+}
+
+std::vector<Puzzle*> puzzleManager::getPuzzles() {
     return puzzles;
 }

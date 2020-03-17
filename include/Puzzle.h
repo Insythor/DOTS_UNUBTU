@@ -11,8 +11,6 @@ class Puzzle {
  public:
   Puzzle();
   virtual ~Puzzle();
-
- protected:
   /**
    *  @brief  title of the puzzle
    */
@@ -27,23 +25,23 @@ class Puzzle {
    *  @brief  displays the title and the instruction
    *          of the puzzle
    */
-  virtual void displayStartingMessage() = 0;
+  virtual void displayStartingMessage() {}
 
   /**
    *  @brief  displays what the player can get or lose
    *          once the puzzle is completed
    */
-  virtual void displayConsequence() = 0;
+  virtual void displayConsequence() {}
 
   /**
    *  @brief  displays the goal of the puzzle
    */
-  virtual void displayGoal() = 0;
+  virtual void displayGoal() {}
 
   /**
    *  @brief  the game proper
    */
-  virtual void mainGame() = 0;
+  virtual void mainGame() {}
 
   /**
    *  @brief  determine if player successfully completes the puzzle
@@ -53,6 +51,7 @@ class Puzzle {
     return result;
   }
 
+ protected:
  private:
   bool result = false;
 };
