@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 #include "gameManager.h"
 
-gameManager myManager = new gameManager;
+gameManager myManager;
 
 int main(int argc, char **argv) {
 
