@@ -162,4 +162,4 @@ private:
   // Default sleep time is rand % 50
 
 };
-#endif // GAMEMANAGER_H
+#endif // TESTMANAGER_H
