@@ -1,6 +1,6 @@
 PROJECT_DIR = Ref-Automation-MakefileDoxyfile
-PROGRAM_TEST = testDOTS
-PROGRAM_GAME = DisicpleOfTheSpire
+PROGRAM_TEST =	testDOTS
+PROGRAM_GAME =	DiscipleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
@@ -50,15 +50,15 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
+# kept this instead of moving it to game because it was in the 
+# example makefiles
 compile: $(SRC_DIR) $(GAME_SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
 
 tests: $(PROGRAM_TEST)
-		$(PROGRAM_TEST)
 
-game: $(PROGRAM_GAME)
-		$(PROGRAM_GAME)
+game: compile
 
 memcheck: $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
@@ -78,4 +78,8 @@ static: ${SRC_DIR} ${TEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
 style: ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE}
-	${STYLE_CHECK} $(SRC_INCLUDE)/* ${
+	${STYLE_CHECK} $(SRC_INCLUDE)/* ${SRC_DIR}/* ${TEST_DIR}/*
+
+.PHONY: docs
+docs: ${SRC_INCLUDE}
+	doxygen $(DOXY_DIR)/doxyfile
