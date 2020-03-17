@@ -10,7 +10,7 @@ compile:
       - make tests
    artifacts:
       paths:
-         - testGoFish
+         - test
    only:
       - master
 
@@ -19,7 +19,7 @@ test:
       - compile
    stage: test
    script:
-      - testGoFish
+      - make tests
    only:
       - master
 
