@@ -13,6 +13,7 @@
 #include "monster.h"
 #include "combatManager.h"
 #include "shopManager.h"
+#include "puzzleManager.h"
 // Containers
 #include <string>
 #include <vector>
@@ -61,6 +62,7 @@ private:
     monster* myMonster;
     combatManager* myCombat;
     shopManager* myShop;
+    puzzleManager* myPuzzle;
     int roomLevel;
     std::string description;
     void changeRoom(int nextRoom);

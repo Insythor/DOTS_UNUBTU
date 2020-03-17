@@ -15,6 +15,7 @@ roomManager::roomManager(player* p)
     roomType = 2;
     introRead = false;
     roomDescription = rand() % roomManager::roomData->at(roomType).size();
+    myPuzzle = new puzzleManager();
 }
 
 roomManager::~roomManager()
@@ -64,7 +65,7 @@ void roomManager::enterRoom()
         createShopRoom();
         break;
     case 4:
-        //puzzle
+        createPuzzleRoom();
         break;
     }
     while (play)
@@ -158,6 +159,18 @@ void roomManager::enterRoom()
                   finishSpire();
                   done = true;
                 }
+            }
+            else
+            {
+                deathSequence();
+                play = false;
+                done =true;
+            }
+            break;
+        case 24:
+            if(myPuzzle->startPuzzle(myPlayer))
+            {
+                 play = false;
             }
             else
             {
@@ -289,7 +302,14 @@ void roomManager::changeRoom(int nextRoom)
     }
     else
     {
-        for(int i = 0; i < 3; i++)
+        int isPuzzle = rand() % 100 + 1;
+        int numRooms = 3;
+        if(isPuzzle < 21 && !myPuzzle->getPuzzles().empty())
+        {
+          nextRooms.push_back(4);
+          numRooms--;
+        }
+        for(int i = 0; i < numRooms; i++)
         {
             int tempRoomType = rand() % 2 + 1;
             nextRooms.push_back(tempRoomType);
@@ -338,7 +358,8 @@ void roomManager::createShopRoom()
 
 void roomManager::createPuzzleRoom()
 {
-
+    description = roomManager::roomData->at(roomType)[roomDescription] + "\n";
+    inputInfo = "Type(begin) to start mystery event or type(i) to view your inventory";
 }
 
 void roomManager::createRoom(int type)
@@ -413,6 +434,8 @@ std::vector<int> roomManager::formatCommand(std::string command)
     }
     else if((roomType == 0 || roomType == 2) && (tempCommand[0] == "start" || tempCommand[0] == "combat" || tempCommand[0] == "fight"))
         temp.push_back(23);
+    else if(roomType == 4 && (tempCommand[0] == "begin" || tempCommand[0] == "start"))
+        temp.push_back(24);
     // If no valid command was entered
     else
     {

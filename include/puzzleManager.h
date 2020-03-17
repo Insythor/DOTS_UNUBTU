@@ -20,7 +20,7 @@ class puzzleManager
     public:
         puzzleManager();
         virtual ~puzzleManager();
-        void startPuzzle(player* myPlayer);
+        bool startPuzzle(player* myPlayer);
         std::vector<Puzzle*> getPuzzles();
     private:
         std::vector<Puzzle*> puzzles;

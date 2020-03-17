@@ -68,7 +68,7 @@ void gameManager::readInRooms()
         tempData.push_back(line);
     }
     toRead.close();
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 5; i++)
         roomManager::roomData->push_back(std::vector<std::string>());
     for(int i = 0; i < 11; i++)
     {

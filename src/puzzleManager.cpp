@@ -63,18 +63,18 @@ void puzzleManager::puzzleThree() {
 
 // Puzzle 4
 void puzzleManager::puzzleFour() {
-    PuzzleFour *puzzle4 = new PuzzleFour("../docs/DATA/puzzle4-objects.tsv", 15);
+    PuzzleFour *puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 15);
     puzzle4->mainGame();
 }
 
 
 // Puzzle 5
 void puzzleManager::puzzleFive() {
-    PuzzleFour *puzzle5 = new PuzzleFour("../docs/DATA/puzzle5-objects.tsv", 11);
+    PuzzleFour *puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 11);
     puzzle5->mainGame();
 }
 
-void puzzleManager::startPuzzle(player* myPlayer)
+bool puzzleManager::startPuzzle(player* myPlayer)
 {
 
 }
