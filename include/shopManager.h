@@ -18,9 +18,8 @@
 #include <iostream>
 #include <iomanip>
 
-class shopManager
-{
-  public:
+class shopManager {
+public:
     /**
       @brief
       @param[in]
@@ -28,7 +27,7 @@ class shopManager
     shopManager(const int& roomCount, player* customer);
     virtual ~shopManager();
     void startTransaction();
-  private:
+private:
     int gold;
 
     int lastWeapon;

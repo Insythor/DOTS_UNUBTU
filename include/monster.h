@@ -11,17 +11,16 @@
 #include "baseCharacter.h"
 
 
-class monster : public baseCharacter
-{
-  friend std::ostream& operator << (std::ostream& out, monster& toRender);
-  public:
+class monster : public baseCharacter {
+    friend std::ostream& operator << (std::ostream& out, monster& toRender);
+public:
     monster(std::string tName, std::string tRace, int tMaxHP, std::vector<int> tmMStats, int l);
     virtual ~monster();
     /**
       @brief Boss = level % 5 == 0
     */
     bool isBoss;
-  private:
+private:
 
 
 

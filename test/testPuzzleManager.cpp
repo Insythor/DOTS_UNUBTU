@@ -1,7 +1,5 @@
 #include "gtest/gtest.h"
-#include "puzzleManager.h"
+#include "../include/puzzleManager.h"
 
-TEST(testPuzzleManager, constructorTest)
-{
-
+TEST(testPuzzleManager, constructorTest) {
 }

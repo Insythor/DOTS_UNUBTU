@@ -23,8 +23,7 @@
 // Math
 #include <algorithm>
 
-class roomManager
-{
+class roomManager {
 public:
     /**
       @brief

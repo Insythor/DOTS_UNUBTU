@@ -10,9 +10,8 @@
 // User Defined
 #include "inventory.h"
 
-class chest
-{
-  public:
+class chest {
+public:
     /**
       @brief
       @param[in]
@@ -30,7 +29,7 @@ class chest
     */
     inventory* getInventory();
     int getGold();
-  private:
+private:
     int gold;
     inventory* cinventory;
 };

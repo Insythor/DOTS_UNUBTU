@@ -15,9 +15,8 @@
 // I/O
 #include <iostream>
 
-class inventory
-{
-  public:
+class inventory {
+public:
     inventory();
     virtual ~inventory();
     /**
@@ -55,7 +54,7 @@ class inventory
       @param[out]
     */
     std::vector<consumable*> removeConsumables(unsigned int index,
-                                               unsigned int amount);
+            unsigned int amount);
     /**
       @brief
       @param[out]
@@ -116,7 +115,7 @@ class inventory
     bool isEmpty();
 
 
-  private:
+private:
     std::vector<std::vector<consumable*>> consumableStacks;
     std::vector<weapon*> weapons;
     std::vector<ability*> abilities;

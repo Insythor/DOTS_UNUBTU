@@ -21,9 +21,8 @@
 #include <algorithm>
 
 
-class player : public baseCharacter
-{
-  public:
+class player : public baseCharacter {
+public:
 
     /**
       @brief Default constructor. Not used in this program
@@ -37,17 +36,17 @@ class player : public baseCharacter
         @param[in] std::vector<int> [0] str : [1] dex : [2] int : [3] speed
     */
     player(std::string tName, std::string tRace, int tMaxHP,
-                  std::vector<int> tStat);
+           std::vector<int> tStat);
 
-   virtual ~player();
+    virtual ~player();
 
     /**
         @brief Overloaded class operator to add & format player information,
                then add it to the output stream
     */
     friend std::ostream& operator << (std::ostream& out, player& toRender);
-     /**
-      @brief Manage player inventory
+    /**
+     @brief Manage player inventory
     */
     void inventoryManagement();
     /**
@@ -105,7 +104,7 @@ class player : public baseCharacter
     void save();
 
 
-  private:
+private:
     int currentExperience;
     int maxExperience;
 

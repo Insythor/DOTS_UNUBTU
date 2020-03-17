@@ -44,9 +44,8 @@
           i.e. print::str_colour(string toPrint, print::C_WHITE);
 */
 
-class print
-{
-  public:
+class print {
+public:
     // I guess?
     /**
       @brief access with print::C_
@@ -89,7 +88,7 @@ class print
              and increase the speed as it's printed.
     */
     static void vec_time(const std::vector<std::string>& toPrint,
-                                                    const int& maxMillis);
+                         const int& maxMillis);
     /**
       @brief  Set the text colour
       @param[in] int[3] print::C_'colour'
@@ -118,7 +117,7 @@ class print
     static void deathScreen();
     /**  gameManager* myManager = new gameManager;
 
-  myManager->startGame();
+    myManager->startGame();
 
       @brief Call the system command to clear the terminal
     */

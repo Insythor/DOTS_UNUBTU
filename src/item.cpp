@@ -1,25 +1,20 @@
-#include "item.h"
+#include "../include/item.h"
 
-item::item()
-{
-  //ctor
+item::item() {
+    //ctor
 }
 
-item::~item()
-{
-  //dtor
+item::~item() {
+    //dtor
 }
-const std::string& item::getName()
-{
-  return name;
+const std::string& item::getName() {
+    return name;
 }
 
-const int& item::getCost()
-{
-  return cost;
+const int& item::getCost() {
+    return cost;
 }
 
-const int& item::getSellValue()
-{
-  return sellValue;
+const int& item::getSellValue() {
+    return sellValue;
 }

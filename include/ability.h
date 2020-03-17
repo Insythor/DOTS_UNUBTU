@@ -22,10 +22,9 @@
 #include <random>
 
 
-class ability : public item
-{
-  friend std::ostream& operator << (std::ostream& out, ability& toRender);
-  public:
+class ability : public item {
+    friend std::ostream& operator << (std::ostream& out, ability& toRender);
+public:
     /**
       @brief
     */
@@ -45,8 +44,7 @@ class ability : public item
       @brief
     */
     virtual ~ability();
-    struct abilityData
-    {
+    struct abilityData {
         int index;
         std::string name;
         std::vector<int> aStats;
@@ -116,20 +114,20 @@ class ability : public item
     */
     int getIndex();
 
- private:
-   int index;
-   std::string description;
-   int cooldown;
-   int currentCooldown;
-   bool onCooldown;
-   int diceRolls;
-   int diceSize;
-   int cost;
-   int sellValue;
-   //[0] = stattype [1] = amount [2] = level req
-   std::vector<int> statRequirements;
-   std::vector<dice>* abilityDice;
-   std::string formatOutput(unsigned int type, std::string value);
+private:
+    int index;
+    std::string description;
+    int cooldown;
+    int currentCooldown;
+    bool onCooldown;
+    int diceRolls;
+    int diceSize;
+    int cost;
+    int sellValue;
+    //[0] = stattype [1] = amount [2] = level req
+    std::vector<int> statRequirements;
+    std::vector<dice>* abilityDice;
+    std::string formatOutput(unsigned int type, std::string value);
 };
 
 #endif // ABILITY_H

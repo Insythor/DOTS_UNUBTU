@@ -5,32 +5,25 @@
 
 #include "gameManager.h"
 #include "testManager.h"
-int main()
-{
+int main() {
     std::string command;
-    while(true)
-    {
+    while(true) {
         print::clearScreen();
         std::cout << "Type(start) to start game or type(test) to begin testing\n"
-        << "What would you like to do: ";
-                  std::cin >> command;
+                  << "What would you like to do: ";
+        std::cin >> command;
         command = print::toLower(command);
-        if(command == "start")
-        {
+        if(command == "start") {
             gameManager* myGame = new gameManager();
             myGame->startGame();
             delete myGame;
             break;
-        }
-        else if(command == "test")
-        {
+        } else if(command == "test") {
             testManager* myTest = new testManager();
             myTest->startGame();
             delete myTest;
             break;
-        }
-        else
-        {
+        } else {
             print::str("invalid command");
             std::cout << std::endl;
         }

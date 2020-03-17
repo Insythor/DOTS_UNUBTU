@@ -1,13 +1,9 @@
 #include "gtest/gtest.h"
-#include "shopManager.h"
+#include "../include/shopManager.h"
 
-TEST(testShopManager, constructorTest)
-{
-
+TEST(testShopManager, constructorTest) {
 }
 
 
-TEST(testShopManager, overloadedConstructorTest)
-{
-
+TEST(testShopManager, overloadedConstructorTest) {
 }

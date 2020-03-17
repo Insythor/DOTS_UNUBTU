@@ -3,15 +3,14 @@
     @brief
 */
 
-#include "puzzleManager.h"
+#include "../include/puzzleManager.h"
 
 puzzleManager::puzzleManager() {
     for(unsigned int i = 1; i <= numOfPuzzles; ++i)
         puzzlesLeft.push_back(i);
 }
 
-puzzleManager::~puzzleManager()
-{
+puzzleManager::~puzzleManager() {
 
 }
 
@@ -72,8 +71,7 @@ bool puzzleManager::puzzleThree(player* myPlayer) {
         stats.push_back(10); // int
         stats.push_back(0); // speed
         myPlayer->addToStats(stats);
-    }
-    else {
+    } else {
         // player's intellect -10
         std::vector<int> stats;
         stats.push_back(0); // str
@@ -118,23 +116,23 @@ bool puzzleManager::startPuzzle(player* myPlayer) {
     int puzzleIndex = puzzlesLeft.back();
     // redirect to the main game of the puzzles
     switch(puzzleIndex) {
-        case 1:
-            result = puzzleOne(myPlayer);
-            break;
-        case 2:
-            result = puzzleTwo(myPlayer);
-            break;
-        case 3:
-            result = puzzleThree(myPlayer);
-            break;
-        case 4:
-            result = puzzleFour(myPlayer);
-            break;
-        case 5:
-            result = puzzleFive(myPlayer);
-            break;
-        default:
-            break;
+    case 1:
+        result = puzzleOne(myPlayer);
+        break;
+    case 2:
+        result = puzzleTwo(myPlayer);
+        break;
+    case 3:
+        result = puzzleThree(myPlayer);
+        break;
+    case 4:
+        result = puzzleFour(myPlayer);
+        break;
+    case 5:
+        result = puzzleFive(myPlayer);
+        break;
+    default:
+        break;
     }
     // reduce puzzLesLeft
     puzzlesLeft.pop_back();

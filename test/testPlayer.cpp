@@ -1,58 +1,36 @@
 #include "gtest/gtest.h"
-#include "player.h"
+#include "../include/player.h"
 
-TEST(testPlayer, constructorTest)
-{
-
+TEST(testPlayer, constructorTest) {
 }
 
-TEST(testPlayer, overloadedConstructorTest)
-{
-
+TEST(testPlayer, overloadedConstructorTest) {
 }
 
-TEST(testPlayer, swapAbilitiesTest)
-{
-
+TEST(testPlayer, swapAbilitiesTest) {
 }
 
-TEST(testPlayer, swapWeaponTest)
-{
-
+TEST(testPlayer, swapWeaponTest) {
 }
 
-TEST(testPlayer, addExperienceTest)
-{
-
+TEST(testPlayer, addExperienceTest) {
 }
 
-TEST(testPlayer, levelUpTest)
-{
-
+TEST(testPlayer, levelUpTest) {
 }
 
-TEST(testPlayer, addToStatsTest)
-{
-
+TEST(testPlayer, addToStatsTest) {
 }
 
-TEST(testPlayer, applyStatusEffectTest)
-{
-
+TEST(testPlayer, applyStatusEffectTest) {
 }
 
-TEST(testPlayer, useConsumableTest)
-{
-
+TEST(testPlayer, useConsumableTest) {
 }
 
-TEST(testPlayer, getConsumableTest)
-{
-
+TEST(testPlayer, getConsumableTest) {
 }
 
-TEST(testPlayer, saveTest)
-{
-
+TEST(testPlayer, saveTest) {
 }
 

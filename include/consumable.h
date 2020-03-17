@@ -20,9 +20,8 @@
 #include <fstream>
 #include <sstream>
 
-class consumable : public item
-{
-  public:
+class consumable : public item {
+public:
     /**
       @brief Create a random consumable.
     */
@@ -55,7 +54,7 @@ class consumable : public item
     */
     const static int lastIndex = 8;
 
-  private:
+private:
 
 
     int index;

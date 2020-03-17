@@ -42,18 +42,17 @@
 #include <thread>
 #include <time.h>
 
-class gameManager
-{
+class gameManager {
 public:
-  /**
-    @brief
-  */
-	gameManager();
-	virtual ~gameManager();
+    /**
+      @brief
+    */
+    gameManager();
+    virtual ~gameManager();
     /**
         @brief  Main loop of the game
     */
-	void startGame();
+    void startGame();
     /**
         @brief Debugging: Print all weapon names read in the the weaponNames dictionary
     */
@@ -61,42 +60,41 @@ public:
 
 private:
     // Easiest to store all of the race data in a vector<raceData>
-    struct raceData
-    {
+    struct raceData {
         int index;
         std::string race;
         int maxHP;
         std::vector<int> mStats;
         std::string description;
     };
-  player* playerPtr;
-  roomManager* currentRoom;
-  /**
-    @brief Create a character based on user input. Base function
-           is used during main menu
-  */
-  player* characterCreation();
-  void mainMenu();
-  void loadGame();
-  /**
-    @brief Read in and store all the races from docs/DATA/races.csv
-  */
-  void readInRaceData();
-  /**
-    @brief Print all the races in the docs/DATA/races.csv file
-  */
-  void printRaces();
-  /**
-    @brief Debugging: Read in all of the weapon names from docs/DATA/weaponNames
-  */
-  void readInWeapons();
-  /**
-    @brief Read in all of the room names from docs/DATA/roomNames
-  */
-  void readInRooms();
-  /**
-    @brief Read in all of the ability names from docs/DATA/abilitiesNames
-  */
-  void readInAbilities();
+    player* playerPtr;
+    roomManager* currentRoom;
+    /**
+      @brief Create a character based on user input. Base function
+             is used during main menu
+    */
+    player* characterCreation();
+    void mainMenu();
+    void loadGame();
+    /**
+      @brief Read in and store all the races from docs/DATA/races.csv
+    */
+    void readInRaceData();
+    /**
+      @brief Print all the races in the docs/DATA/races.csv file
+    */
+    void printRaces();
+    /**
+      @brief Debugging: Read in all of the weapon names from docs/DATA/weaponNames
+    */
+    void readInWeapons();
+    /**
+      @brief Read in all of the room names from docs/DATA/roomNames
+    */
+    void readInRooms();
+    /**
+      @brief Read in all of the ability names from docs/DATA/abilitiesNames
+    */
+    void readInAbilities();
 };
 #endif // GAMEMANAGER_H

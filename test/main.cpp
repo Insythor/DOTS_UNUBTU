@@ -6,163 +6,163 @@
 
 
 #include "gtest/gtest.h"
-#include "gameManager.h"
+#include "../include/gameManager.h"
 
 
 
 int main(int argc, char **argv) {
 
-  gameManager myManager;
+    gameManager myManager;
 
-  ::testing::InitGoogleTest(&argc, argv);
+    ::testing::InitGoogleTest(&argc, argv);
 
-  return RUN_ALL_TESTS();
+    return RUN_ALL_TESTS();
 
 }
 
-    /** baseCharacter */
+/** baseCharacter */
 
-       /// constructor
+/// constructor
 
-       /// getName
+/// getName
 
-       /// getRace
+/// getRace
 
-       /// current HP
+/// current HP
 
-       /// max HP
+/// max HP
 
-       /// level
+/// level
 
-       /// get statBonuses
+/// get statBonuses
 
-       /// damage power
+/// damage power
 
-       /// setGold
+/// setGold
 
-       /// getGold
+/// getGold
 
-       /// stats
+/// stats
 
-       /// is dead
+/// is dead
 
-       /// Take damage
+/// Take damage
 
-       /** baseCharacter : weapon */
+/** baseCharacter : weapon */
 
-           /// spawnWeapon
+/// spawnWeapon
 
-           /// deal damage
+/// deal damage
 
-       /** baseCharacter : inventory */
+/** baseCharacter : inventory */
 
-           ///
+///
 
-       /** baseCharacter : abilities */
+/** baseCharacter : abilities */
 
-           /// use ability
+/// use ability
 
 
-       /** baseCharacter : abilities */
+/** baseCharacter : abilities */
 
-           ///
+///
 
 
-       /** baseCharacter : Player */
+/** baseCharacter : Player */
 
-           /// Constructor
+/// Constructor
 
-           /// swapAbilities (need to write a new function for it : random is fine)
+/// swapAbilities (need to write a new function for it : random is fine)
 
-           /// addToStats
+/// addToStats
 
-           /// Apply Status Effect
+/// Apply Status Effect
 
-           /// useConsumable
+/// useConsumable
 
-           /// get Experience
+/// get Experience
 
-       /** baseCharacter : Monster */
+/** baseCharacter : Monster */
 
-           /// constructor
+/// constructor
 
-   /** Dice */
+/** Dice */
 
-       /// constructor
+/// constructor
 
-       /// Overloaded Constructor
+/// Overloaded Constructor
 
-       /// roll
+/// roll
 
-       ///  get sides
+///  get sides
 
-   /** Item */
+/** Item */
 
 
 
-       /** Item : Consumable */
+/** Item : Consumable */
 
-           /// constructor
+/// constructor
 
-           /// overloaded constructor [id]
+/// overloaded constructor [id]
 
-           /// get id
+/// get id
 
-           /// is perminant
+/// is perminant
 
-           /// getName
+/// getName
 
-           /// getCost
+/// getCost
 
-           /// getSellValue
+/// getSellValue
 
-       /** Item : Weapon */
+/** Item : Weapon */
 
-           /// Constructor
+/// Constructor
 
-           /// overloadedConstructor(int level)
+/// overloadedConstructor(int level)
 
-           /// overloadedConstructor(vector<int> statRequirements)
+/// overloadedConstructor(vector<int> statRequirements)
 
-           /// overloadedConstructor(std::string name, int dSize, int dRolls, std::vector<int> sReq)
+/// overloadedConstructor(std::string name, int dSize, int dRolls, std::vector<int> sReq)
 
-           /// getName
+/// getName
 
-           /// getDiceRolls
+/// getDiceRolls
 
-           /// getDiceSize
+/// getDiceSize
 
-           /// getStatReq
+/// getStatReq
 
-           /// generateWeapon(int level)
+/// generateWeapon(int level)
 
-           /// dealDamage
+/// dealDamage
 
-   /** Ability */
+/** Ability */
 
-       /// constructor
+/// constructor
 
-       /// overloadedConstructor(int)
+/// overloadedConstructor(int)
 
-       /// overloadedConstructor(int, int)
+/// overloadedConstructor(int, int)
 
-       /// get name
+/// get name
 
-       /// get description
+/// get description
 
-       /// get dice rolls
+/// get dice rolls
 
-       /// get dice size
+/// get dice size
 
-       /// get current cooldown
+/// get current cooldown
 
-       /// get cooldown
+/// get cooldown
 
-       /// get stat requirements
+/// get stat requirements
 
-       /// reduceCooldown + get current cooldown -> should never go bellow 0
+/// reduceCooldown + get current cooldown -> should never go bellow 0
 
-       /// deal damage
+/// deal damage
 
 
 

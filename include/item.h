@@ -10,9 +10,8 @@
 // Containers
 #include <string>
 
-class item
-{
-  public:
+class item {
+public:
     /**
       @brief
       @param[out]
@@ -35,7 +34,7 @@ class item
     */
     const int& getSellValue();
 
-  protected:
+protected:
     std::string name;
     int cost;
     int sellValue;

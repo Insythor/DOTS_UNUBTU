@@ -3,7 +3,7 @@
     @brief
 */
 
-#include "Puzzle.h"
+#include "../include/Puzzle.h"
 
 Puzzle::Puzzle() {}
 

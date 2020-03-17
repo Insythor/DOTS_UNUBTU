@@ -25,17 +25,16 @@
 #include <random>
 #include <memory>
 #include <algorithm>
-class weapon : public item
-{
-/**
-  weapon should be a constant reference, but when it's a constant
-  it gets angry that we're accessing non constant members. So just
-  don't change any variables of the weapon in the print function...
-*/
+class weapon : public item {
+    /**
+      weapon should be a constant reference, but when it's a constant
+      it gets angry that we're accessing non constant members. So just
+      don't change any variables of the weapon in the print function...
+    */
     friend std::ostream& operator << (std::ostream& out, weapon& toRender);
     friend std::ostream& operator >> (std::ostream& out, weapon& readIn);
 
-  public:
+public:
     weapon();
     /**
       @brief Generate a random weapon at a given level
@@ -90,9 +89,9 @@ class weapon : public item
     */
     int dealDamage();
     static std::vector<std::string>* allNames;
-  private:
-     int diceRolls;
-     int diceSize;
+private:
+    int diceRolls;
+    int diceSize;
 
     // stat type, stat amount, level
     std::vector<int> statRequirements;

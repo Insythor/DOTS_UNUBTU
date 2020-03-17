@@ -19,16 +19,15 @@
 #include <iomanip>
 #include <sstream>
 
-class combatManager
-{
-  public:
+class combatManager {
+public:
     combatManager(player* p, monster* m);
     virtual ~combatManager();
 
-  bool startFight();
+    bool startFight();
 
 
-  private:
+private:
     // [0] = monster : [1] = player
     baseCharacter** fightOrder;
     // Because player is always in fightOrder[1], when it is the players turn,
