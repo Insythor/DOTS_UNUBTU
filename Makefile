@@ -56,14 +56,14 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 #	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
 
-tests: $(PROGRAM_TEST)
+tests:	$(PROGRAM_TEST)
 
-game: $(PROGRAM_GAME)
+game:	$(PROGRAM_GAME)
 
-memcheck: $(PROGRAM_TEST)	
+memcheck:	$(PROGRAM_TEST)	
 	$(PROGRAM_TEST) valgrind --tool=memcheck --leak-check=yes	
 
-coverage: tests
+coverage:	$(PROGRAM_TEST)
 	$(PROGRAM_TEST)
 	# Determine code coverage
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
