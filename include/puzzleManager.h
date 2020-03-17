@@ -19,20 +19,15 @@ class puzzleManager
     public:
         puzzleManager();
         virtual ~puzzleManager();
+        void startPuzzle(player* myPlayer);
+        std::vector<puzzle*> getPuzzles();
+    private:
+        std::vector<puzzle*> puzzles;
         void puzzleOne();
         void puzzleTwo();
         void puzzleThree();
         void puzzleFour();
         void puzzleFive();
-        bool checkPuzzleDone();
-        void startPuzzle();
-        void endPuzzle();
-
-    protected:
-
-    private:
-        static std::vector<int> puzzlesLeft;
-
 
 };
 

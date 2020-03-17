@@ -74,3 +74,12 @@ void puzzleManager::puzzleFive() {
     puzzle5->mainGame();
 }
 
+void puzzleManager::startPuzzle(player* myPlayer)
+{
+
+}
+
+std::vector<puzzle*> puzzleManager::getPuzzles()
+{
+    return puzzles;
+}
