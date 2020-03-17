@@ -61,7 +61,7 @@ tests:	$(PROGRAM_TEST)
 game:	$(PROGRAM_GAME)
 
 memcheck:	$(PROGRAM_TEST)	
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes  $(PROGRAM_TEST)
+	valgrind --tool=memcheck --leak-check=yes --track-origins=yes --show-leak=yes $(PROGRAM_TEST)
 
 coverage:	$(PROGRAM_TEST)
 	$(PROGRAM_TEST)
