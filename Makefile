@@ -6,7 +6,7 @@ CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage -Wall
 
 LINKFLAGS= -lgtest
-
+#asdfasdf
 SRC_DIR = src
 GAME_SRC_DIR = src/game
 
