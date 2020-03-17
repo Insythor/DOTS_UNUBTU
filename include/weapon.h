@@ -24,7 +24,7 @@
 #include <time.h>
 #include <random>
 #include <memory>
-
+#include <algorithm>
 class weapon : public item
 {
 /**
