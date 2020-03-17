@@ -91,7 +91,7 @@ bool puzzleManager::puzzleThree(player* myPlayer) {
 // Puzzle 4
 bool puzzleManager::puzzleFour(player* myPlayer) {
     PuzzleFour *puzzle4;
-    puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 15, myPlayer);
+    puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 16, myPlayer);
     puzzle4->mainGame();
     bool result = puzzle4->getResult();
     delete puzzle4;
@@ -102,7 +102,7 @@ bool puzzleManager::puzzleFour(player* myPlayer) {
 // Puzzle 5
 bool puzzleManager::puzzleFive(player* myPlayer) {
     PuzzleFour *puzzle5;
-    puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 11, myPlayer);
+    puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 13, myPlayer);
     puzzle5->mainGame();
     bool result = puzzle5->getResult();
     delete puzzle5;

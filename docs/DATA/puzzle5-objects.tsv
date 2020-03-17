@@ -8,8 +8,6 @@
 1;dyn;0;0;0;0;0;You've found a dynamite. Six jars will be destroyed.
 1;thunder;0;0;0;0;0;Thick clouds formed and releases an electrifying thunder. This will destroy 4 jars.
 -1;landmine;-5;-5;-5;-5;-5;You've just activated a land mine. At most half of the jars will be destroyed. The explosion is so big that it will affect you tremendously unless you have immunity. HEALTH -5, DEXTERITY -5, INTELLIGENCE -5, SPEED -5, GOLD -5
-1;goldMult;0;0;0;0;0;You've found a bag of gold. This doubles the gold you currently have. GOLD x2
-1;healthMult;0;0;0;0;0;You've found a mysterious capsule. You swallowed it. Your body started to act strangely. There's no change in your body but you feel much healthier. HEALTH x2
 1;key;0;0;0;0;0;You've found the key! Congratulations.
 1;heal;3;0;0;0;0;You've found a health potion. HEALTH +3
 1;heal;3;0;0;0;0;You've found a eucalyptus. HEALTH +3

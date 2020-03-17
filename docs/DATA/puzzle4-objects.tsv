@@ -6,7 +6,6 @@
 1;heal;3;0;0;0;0;You've found a eucalyptus. HEALTH +3
 1;intel;0;0;3;0;0;You've found a quill. Wisdom gained. INTELLIGENCE +3
 1;intel;0;0;3;0;0;The spirit of The Great Lord has bestowed you a gift of knowledge. INTELLIGENCE +3
--1;fortune;0;0;0;0;0;A fortune teller appears out of the thin air.
 1;speed;0;0;0;3;0;You've found a speed potion. SPEED +3.
 1;speed;0;0;0;3;0;You've found a speed potion. SPEED +3.
 1;dex;0;3;0;0;0;A section of the wall reveals a wrecking ball. Fortunately, you've managed to dodge it. DEXTERITY +3
