@@ -1,6 +1,6 @@
 PROJECT_DIR = Ref-Automation-MakefileDoxyfile
-PROGRAM_TEST = testDOTS
-PROGRAM_GAME = DisicpleOfTheSpire
+PROGRAM_TEST =	testDOTS
+PROGRAM_GAME =	DisicpleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
