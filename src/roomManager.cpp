@@ -79,9 +79,6 @@ void roomManager::enterRoom() {
         input = formatCommand(command);
         print::setCursor(false);
         switch (input[0]) {
-        case 0:
-            play = false;
-            break;
         case 121:
             myPlayer->inventoryManagement();
             break;
@@ -356,11 +353,7 @@ std::vector<int> roomManager::formatCommand(std::string command) {
             tempCommand[i][c] = tolower(tempCommand[i][c]);
         }
     }
-    // GTFO
-    if (tempCommand[0] == "exit" || tempCommand[0] == "quit"
-            || tempCommand[0] == "e")
-        temp.push_back(0);
-    else if(tempCommand[0] == "i" || tempCommand[0] == "inventory")
+    if(tempCommand[0] == "i" || tempCommand[0] == "inventory")
         temp.push_back(121);
     else if(roomType == 3 && (tempCommand[0] == "shop" || tempCommand[0] == "enter"))
         temp.push_back(151);
