@@ -295,7 +295,7 @@ void roomManager::changeRoom(int nextRoom)
     }
     roomType = nextRooms[nextRoom];
     nextRooms.clear();
-    if((roomLevel + 1) % 5 == 0)
+    if(roomLevel % 5 == 0)
     {
         nextRooms.push_back(0);
         nextRooms.push_back(3);

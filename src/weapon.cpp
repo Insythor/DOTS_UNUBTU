@@ -48,7 +48,9 @@ weapon::weapon(std::vector<int> sReq)
   if(weapon::allNames != nullptr)
   {
     int tempIndex = rand() % allNames->size();
-    name = allNames->at(tempIndex);
+    std::copy_if(allNames->at(tempIndex).begin(), allNames->at(tempIndex).end(),
+     std::back_inserter(name),
+      [] (char c) {return c != '\r' && c != '\n';});
     allNames->erase(allNames->begin() + tempIndex);
     name.append(addType(diceSize, statRequirements[0]));
   }
@@ -102,7 +104,9 @@ void weapon::generateWeapon(int level)
   if(weapon::allNames != nullptr)
   {
     int tempIndex = rand() % allNames->size();
-    name = allNames->at(tempIndex);
+     std::copy_if(allNames->at(tempIndex).begin(), allNames->at(tempIndex).end(),
+     std::back_inserter(name),
+      [] (char c) {return c != '\r' && c != '\n';});
     allNames->erase(allNames->begin() + tempIndex);
     name.append(addType(diceSize, statType));
   }

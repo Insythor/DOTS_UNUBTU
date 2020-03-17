@@ -481,8 +481,7 @@ void player::levelUp()
         currentExperience -= maxExperience;
         // Don't increase the max experience required for level 1 as it is set
         // by default in the constructor
-        maxExperience += ((level + 1) - static_cast<int>(1 + (300 *
-                          pow(2, ((level + 1) - 1) / 7))) / 4);
+        maxExperience *= 1.2;
         availablePoints = 2;
     }
     // stored amount of available points in case the user does not want
@@ -679,13 +678,13 @@ void player::applyStatusEffect(std::vector<int> toApply, bool apply)
 
 void player::useConsumable(unsigned int index)
 {
-    std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
-    if(tempC.size() > 0)
+    if(cInventory->getConsumables()[index].size() > 0)
     {
+        std::vector<consumable*> tempC = cInventory->removeConsumables(index, 1);
         int stat = (tempC.front()->statsToAdd()[0]);
         int amount = (tempC.front()->statsToAdd()[1]);
         std::string s = "+" + std::to_string(amount);
-        if(stat == 4 && !tempC.front()->getIsPerminant() && currentHealth == maxHealth)
+        if(stat == 4 && !tempC.front()->getIsPerminant() && currentHealth >= maxHealth)
         {
             print::str("Sorry adventurer you are currently are topped up");
             std::cout << std::endl;
@@ -751,11 +750,9 @@ void player::useConsumable(unsigned int index)
                 }
             }
             print::str(s);
+            delete tempC.front();
         }
-
-        delete tempC.front();
         tempC.clear();
-
         std::cout << std::endl;
     }
     else

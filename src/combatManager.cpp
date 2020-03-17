@@ -30,6 +30,8 @@ bool combatManager::startFight()
     // Start of combat text formatting
     if (playersTurn)
     {
+    std::cout << std::endl;
+    std::cout << std::endl;
       std::cout
         << "\nCOMBAT HAS BEGUN!!!\n" << fightOrder[playersTurn]->getName() +
             "'s faster than the " + fightOrder[!playersTurn]->getRace()
@@ -38,6 +40,8 @@ bool combatManager::startFight()
     }
     else
     {
+    std::cout << std::endl;
+    std::cout << std::endl;
       std::cout
          << "\nCOMBAT HAS BEGUN!!!\n"
          << "A " + fightOrder[!playersTurn]->getRace()
@@ -61,6 +65,8 @@ bool combatManager::startFight()
             {
               // Print out the players basic hero stats each turn
               // (should probably change)
+              std::cout << std::endl;
+              std::cout << std::endl;
               std::cout
                 << "Type (atk) to attack with weapon or (abl) to use an ability\n"
                 << "What would you like to do adventurer: ";
@@ -310,16 +316,14 @@ bool combatManager::endFight()
                     ->getInventory()->removeAbility(0));
 
 
-                std::cout
-                  << "Victory granted  " << fightOrder[1]->getName()
-                  << " " << monsterXP << " experience.\n"
-                  << "Found " << fightOrder[0]->getGold() << " gold.\n"
-                  << "Picked up\n" << fightOrder[0]->getWeapon()->getName();
-
+                print::str( "Victory granted  " + fightOrder[1]->getName()
+                  + " " + std::to_string(monsterXP) + " experience.\n"
+                  + "Found " + std::to_string(fightOrder[0]->getGold()) + " gold.\n"
+                  +"Picked up\n" + fightOrder[0]->getWeapon()->getName());
+                    std::cout << std::endl;
                 if(dynamic_cast<monster*>(fightOrder[0])->isBoss)
-                  std::cout
-                    << "\n"
-                    << *fightOrder[1]->getInventory()->getAbilities().back();
+                  print::str( "\n"
+                    + fightOrder[1]->getInventory()->getAbilities().back()->getName());
 
                 std::cout << std::endl;
                 monsterLooted = true;
