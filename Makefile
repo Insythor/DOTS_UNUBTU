@@ -64,7 +64,7 @@ memcheck: $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes	$(PROGRAM_TEST)
 
 coverage: $(PROGRAM_TEST)
-
+	$(PROGRAM_TEST)
 	# Determine code coverage
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
 	# Only show code coverage for the source code files (not library files)
@@ -78,7 +78,7 @@ static: ${SRC_DIR} ${TEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
 style: ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE}
-	${STYLE_CHECK} $(SRC_INCLUDE) ${SRC_DIR} ${TEST_DIR}
+	${STYLE_CHECK} $(SRC_INCLUDE)/* ${SRC_DIR}/* ${TEST_DIR}/*
 
 .PHONY: docs
 docs: ${SRC_INCLUDE}
