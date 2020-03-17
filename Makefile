@@ -1,12 +1,12 @@
 PROJECT_DIR = Ref-Automation-MakefileDoxyfile
-PROGRAM_TEST =	testDOTS
-PROGRAM_GAME =	DiscipleOfTheSpire
+PROGRAM_TEST =  testDOTS
+PROGRAM_GAME =  DiscipleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage -Wall
 
 LINKFLAGS= -lgtest
-
+#asdfasdf
 SRC_DIR = src
 GAME_SRC_DIR = src/game
 
@@ -53,18 +53,18 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 # kept this instead of moving it to game because it was in the 
 # example makefiles
 #compile: $(SRC_DIR) $(GAME_SRC_DIR)
-#	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
-	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
+#       $(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
+        $(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
 
-tests:	$(PROGRAM_TEST)
+tests:  $(PROGRAM_TEST)
 
-game:	$(PROGRAM_GAME)
+game:   $(PROGRAM_GAME)
 
-memcheck:	$(PROGRAM_TEST)	
-	valgrind --tool=memcheck --leak-check=yes --track-origins=yes ./$(PROGRAM_TEST)
+memcheck:  $(PROGRAM_TEST)
+	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(PROGRAM_TEST)
 
-coverage:	$(PROGRAM_TEST)
-	./$(PROGRAM_TEST)
+coverage:       $(PROGRAM_TEST)
+	$(PROGRAM_TEST)
 	# Determine code coverage
 	$(LCOV) --capture --gcov-tool $(GCOV) --directory . --output-file $(COVERAGE_RESULTS)
 	# Only show code coverage for the source code files (not library files)
