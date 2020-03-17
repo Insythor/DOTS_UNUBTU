@@ -58,7 +58,7 @@ compile: $(SRC_DIR) $(GAME_SRC_DIR)
 
 tests: $(PROGRAM_TEST)
 
-game: compile
+game: $(PROGRAM_GAME)
 
 memcheck: $(PROGRAM_TEST)
 	valgrind --tool=memcheck --leak-check=yes $(PROGRAM_TEST)
