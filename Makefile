@@ -1,6 +1,6 @@
 PROJECT_DIR = Ref-Automation-MakefileDoxyfile
 PROGRAM_TEST =	testDOTS
-PROGRAM_GAME =	DisicpleOfTheSpire
+PROGRAM_GAME =	DiscipleOfTheSpire
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
@@ -50,6 +50,8 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp $(LINKFLAGS)
 
+# kept this instead of moving it to game because it was in the 
+# example makefiles
 compile: $(SRC_DIR) $(GAME_SRC_DIR)
 	$(CXX) $(CXXFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
 	$(SRC_DIR)/*.cpp $(GAME_SRC_DIR)/*.cpp $(LINKFLAGS)
@@ -77,4 +79,4 @@ static: ${SRC_DIR} ${TEST_DIR}
 	${STATIC_ANALYSIS} --verbose --enable=all ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE} --suppress=missingInclude
 
 style: ${SRC_DIR} ${TEST_DIR} ${SRC_INCLUDE}
-	${STYLE_CHECK} $(SRC_INCLUDE)/* ${
+	${STYLE_CHECK} $(SRC_INCLUDE)/*
