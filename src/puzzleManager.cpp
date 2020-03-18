@@ -16,7 +16,7 @@ puzzleManager::~puzzleManager() {
 
 
 // Puzzle 1: Price Beat Challenge
-bool puzzleManager::puzzleOne(player* myPlayer) {
+void puzzleManager::puzzleOne(player* myPlayer) {
     PuzzleOne *puzzle1 = new PuzzleOne;
     puzzle1->mainGame();
     bool result = puzzle1->getResult();
@@ -26,12 +26,11 @@ bool puzzleManager::puzzleOne(player* myPlayer) {
         myPlayer->setGold(-10);
     }
     delete puzzle1;
-    return result;
 }
 
 
 // Puzzle 2: Matching Card Challenge
-bool puzzleManager::puzzleTwo(player* myPlayer) {
+void puzzleManager::puzzleTwo(player* myPlayer) {
     PuzzleTwo *puzzle2 = new PuzzleTwo;
     puzzle2->mainGame();
     bool result = puzzle2->getResult();
@@ -53,13 +52,12 @@ bool puzzleManager::puzzleTwo(player* myPlayer) {
         myPlayer->addToStats(stats);
     }
     delete puzzle2;
-    return result;
 }
 
 
 
 // Puzzle 3: Decipher the Hidden Message Challenge
-bool puzzleManager::puzzleThree(player* myPlayer) {
+void puzzleManager::puzzleThree(player* myPlayer) {
     PuzzleThree *puzzle3 = new PuzzleThree;
     puzzle3->mainGame();
     bool result = puzzle3->getResult();
@@ -81,35 +79,41 @@ bool puzzleManager::puzzleThree(player* myPlayer) {
         myPlayer->addToStats(stats);
     }
     delete puzzle3;
-    return result;
 }
 
 
 
 // Puzzle 4
+// return false if player has less than 1 health
 bool puzzleManager::puzzleFour(player* myPlayer) {
     PuzzleFour *puzzle4;
     puzzle4 = new PuzzleFour("docs/DATA/puzzle4-objects.tsv", 16, myPlayer);
     puzzle4->mainGame();
-    bool result = puzzle4->getResult();
     delete puzzle4;
-    return result;
+    if (myPlayer->getCurrentHealth() < 1) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 
 // Puzzle 5
+// return false if player has less than 1 health
 bool puzzleManager::puzzleFive(player* myPlayer) {
     PuzzleFour *puzzle5;
     puzzle5 = new PuzzleFour("docs/DATA/puzzle5-objects.tsv", 13, myPlayer);
     puzzle5->mainGame();
-    bool result = puzzle5->getResult();
     delete puzzle5;
-    return result;
+    if (myPlayer->getCurrentHealth() < 1) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
-
 bool puzzleManager::startPuzzle(player* myPlayer) {
-    bool result;
+    bool survive = true;
     // choose a random puzzle index
     srand(time(NULL));
     std::random_shuffle(puzzlesLeft.begin(), puzzlesLeft.end());
@@ -117,27 +121,26 @@ bool puzzleManager::startPuzzle(player* myPlayer) {
     // redirect to the main game of the puzzles
     switch(puzzleIndex) {
     case 1:
-        result = puzzleOne(myPlayer);
+        puzzleOne(myPlayer);
         break;
     case 2:
-        result = puzzleTwo(myPlayer);
+        puzzleTwo(myPlayer);
         break;
     case 3:
-        result = puzzleThree(myPlayer);
+        puzzleThree(myPlayer);
         break;
     case 4:
-        result = puzzleFour(myPlayer);
+        survive = puzzleFour(myPlayer);
         break;
     case 5:
-        result = puzzleFive(myPlayer);
+        survive = puzzleFive(myPlayer);
         break;
     default:
         break;
     }
     // reduce puzzLesLeft
-    puzzlesLeft.pop_back();
-
-    return result;
+    //puzzlesLeft.pop_back();
+    return survive;
 }
 
 std::vector<int> puzzleManager::getPuzzlesLeft() {
