@@ -25,9 +25,9 @@ public:
     std::vector<int> getPuzzlesLeft();
 private:
     //std::vector<Puzzle*> puzzles;
-    bool puzzleOne(player* myPlayer);
-    bool puzzleTwo(player* myPlayer);
-    bool puzzleThree(player* myPlayer);
+    void puzzleOne(player* myPlayer);
+    void puzzleTwo(player* myPlayer);
+    void puzzleThree(player* myPlayer);
     bool puzzleFour(player* myPlayer);
     bool puzzleFive(player* myPlayer);
     std::vector<int> puzzlesLeft;
