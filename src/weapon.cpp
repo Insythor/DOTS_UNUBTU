@@ -1,29 +1,24 @@
 #include "../include/weapon.h"
 
-
-
 weapon::weapon() {
     weaponDice = nullptr;
     diceSize = 0;
     diceRolls = 0;
     name = "not initialized";
-
 }
 
 weapon::weapon(int l) {
     // Check in case we try and spawn a weapon an level 0
-    if(l <= 0)
+    if (l <= 0)
         l = 1;
-
     srand(time(NULL));
-
     weaponDice = new std::vector<dice>;
     generateWeapon(l);
 }
 
 weapon::weapon(std::vector<int> sReq) {
     // Check in case we try and spawn a weapon an level 0
-    if(sReq[2] <= 0)
+    if (sReq[2] <= 0)
         sReq[2] = 1;
 
     srand(time(NULL));
@@ -34,16 +29,17 @@ weapon::weapon(std::vector<int> sReq) {
 
     int diceSize = statRequirements[2]/2 + 4 + (rand() % 5);
     // Add one dice of the randomly chosen size to the weaponDice vector
-    for(int i = 0; i < statRequirements[2]; i++) {
+    for (int i = 0; i < statRequirements[2]; i++) {
         weaponDice->push_back(dice(diceSize));
     }
     // Optimize!
     weaponDice->shrink_to_fit();
     // If the weapon names dictionary was read in, select a random name
     // Then delete that name from the dictionary
-    if(weapon::allNames != nullptr) {
+    if (weapon::allNames != nullptr) {
         int tempIndex = rand() % allNames->size();
-        std::copy_if(allNames->at(tempIndex).begin(), allNames->at(tempIndex).end(),
+        std::copy_if(allNames->at(tempIndex).begin(), 
+                                            allNames->at(tempIndex).end(),
                      std::back_inserter(name),
         [] (char c) {
             return c != '\r' && c != '\n';
@@ -93,7 +89,8 @@ void weapon::generateWeapon(int level) {
     // Then delete that name from the dictionary
     if(weapon::allNames != nullptr) {
         int tempIndex = rand() % allNames->size();
-        std::copy_if(allNames->at(tempIndex).begin(), allNames->at(tempIndex).end(),
+        std::copy_if(allNames->at(tempIndex).begin(), 
+                                        allNames->at(tempIndex).end(),
                      std::back_inserter(name),
         [] (char c) {
             return c != '\r' && c != '\n';
