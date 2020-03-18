@@ -1,5 +1,8 @@
 #include "../include/print.h"
 
+#include <vector>
+#include <string>
+
 int print::C_WHITE[3] = {255, 255, 255};
 int print::C_BLACK[3] = {0, 0, 0};
 int print::C_RED[3] = {255, 0, 0};
@@ -85,6 +88,7 @@ void print::textColour(const int colour[3]) {
     bgColour.append(std::to_string(colour[1]) + ";");
     bgColour.append(std::to_string(colour[2]) + "m'");
 
+    /// Style ERROR: variable length array
     int tempSize = bgColour.length();
     char textColour[tempSize];
     strcpy(textColour, bgColour.c_str());
@@ -119,7 +123,7 @@ void print::deathScreen() {
         strcpy(sysCommand, bgColour.c_str());
         system(sysCommand);
 
-        for(int f = 0; f < 31; f++)
+        for (int f = 0; f < 31; f++)
             std::cout << "\n";
 
         std::this_thread::sleep_for(std::chrono::microseconds(2000));
@@ -137,12 +141,9 @@ void print::deathScreen() {
         strcpy(sysCommand, bgColour.c_str());
         system(sysCommand);
 
-        for(int f = 0; f < 31; f++)
+        for (int f = 0; f < 31; f++)
             std::cout << "\n";
-
-        std::this_thread::sleep_for(std::chrono::microseconds(2000));
-    }
-
+        std::this_thread::sleep_for(std::chrono::microseconds(2000)); }
 }
 
 void print::clearScreen() {
