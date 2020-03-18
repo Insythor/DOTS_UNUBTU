@@ -106,7 +106,6 @@ std::ostream& operator << (std::ostream& out, player& toRender) {
 
 
     if (!toRender.getActiveAbilities().empty()) {
-
         int index = 0;
         out << "Active Abilities\n"
             << "| Index |        Name         |   CD   |  Stat Req | "
