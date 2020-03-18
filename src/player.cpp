@@ -125,17 +125,18 @@ void player::inventoryManagement() {
     std::string command;
     int index = 0;
     bool done = false;
-    if ((cInventory->getAbilities().size() + cInventory->getConsumables().size()
+    if ((cInventory->getAbilities().size()
+     + cInventory->getConsumables().size()
      + cInventory->getWeapons().size()) > 0) {
         while (!done) {
             std::cout << name << "'s Inventory" << std::endl;
             cInventory->viewInventory();
-            std::cout <<"Choose the index of the item you want to manage, or \n"
+            std::cout <<"Choose the index of the item you want to manage, or\n"
                       << "type(m) to see player menu or type(e) to exit\n"
                       << "Choose index: ";
             print::setCursor(true);
             command.clear();
-            while(command[0] == '\n' || command.empty())
+            while (command[0] == '\n' || command.empty())
                 getline(std::cin, command);
             print::setCursor(false);
             if (print::toLower(command) == "e"
@@ -161,8 +162,10 @@ void player::inventoryManagement() {
                                 while (!done) {
                                     print::setCursor(true);
                                     command.clear();
-                                    while (command[0] == '\n' || command.empty())
+                                    while (command[0] == '\n'
+                                           || command.empty()) {
                                         getline(std::cin, command);
+                                    }
                                     print::setCursor(false);
                                     std::string c = print::toLower(command);
                                     if (c == "yes" || c == "y") {
@@ -172,7 +175,8 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("That is a yes or no "
+                                                   "question adventurer! ");
                                         print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
                                         std::cout << std::endl;
@@ -201,7 +205,8 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("That is a yes or no "
+                                                   "question adventurer! ");
                                         print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
                                         std::cout << std::endl;
@@ -230,7 +235,8 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("That is a yes or no "
+                                                   "question adventurer! ");
                                         print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
                                         std::cout << std::endl;
