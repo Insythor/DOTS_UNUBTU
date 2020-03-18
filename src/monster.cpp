@@ -1,11 +1,14 @@
 #include "../include/monster.h"
 
+#include <vector>
+#include <string>
+
 monster::monster(std::string tName, std::string tRace, int tMaxHP,
                  std::vector<int> tMStats, int rl) {
     int spawnLevel = rl / 5;
-    if(spawnLevel < 1)
+    if (spawnLevel < 1)
         spawnLevel = 1;
-    else if(spawnLevel > 5)
+    else if (spawnLevel > 5)
         spawnLevel = 5;
     level = spawnLevel;
     if (rl % 5 == 0)
@@ -19,9 +22,7 @@ monster::monster(std::string tName, std::string tRace, int tMaxHP,
     mainStats = tMStats;
     initMonster();
 }
-
 monster::~monster() {
-
 }
 
 std::ostream& operator << (std::ostream& out, monster& toRender) {
@@ -32,13 +33,6 @@ std::ostream& operator << (std::ostream& out, monster& toRender) {
     std::string strBonus;
     std::string dexBonus;
     std::string intBonus;
-
-//    std::string dmgBonusSign;
-//    // Change the operation after the weapon damage to +/- based on the players stats
-//    if (toRender.getDamagePower() >= 0)
-//        dmgBonusSign = " + ";
-//    else
-//        dmgBonusSign = " - ";
 
     if (toRender.getStatBonuses()[0] >= 0)
         strBonus = " + ";
@@ -74,16 +68,15 @@ std::ostream& operator << (std::ostream& out, monster& toRender) {
         // reset the fill back to empty space
         << std::setfill(' ') << "\n";
 
-    if(!toRender.getActiveAbilities().empty()) {
+    if (!toRender.getActiveAbilities().empty()) {
         int index = 0;
         out << "Active Abilities:\n";
-        for(auto i : toRender.getActiveAbilities())
+        for (auto i : toRender.getActiveAbilities())
             out
                     << std::setw(4) << ++index
                     << std::setw(10 + i->getName().length() / 2)
                     << *i << std::endl;
     }
-
     out << std::endl;
 
     return out;
@@ -109,35 +102,31 @@ void monster::initMonster() {
     // and double its level
     dice* lvlDice = new dice;
 
-    if(isBoss) {
+    if (isBoss) {
         delete lvlDice;
         lvlDice = new dice(10);
         level *= 2;
     }
 
-
-    // Balancing comes into play here because the player gets 4 extra points at level 0
     // And the monsters points are all random
     for (int i = 0; i < level; i++) {
         int tIndex = lvlDice->roll();
         // Print out the dice roll for debugging
         // std::cout << tIndex << std::endl;
         // Roll 5 or 6, gain +2 to the main stat
-        if (tIndex >= 5)
+        if (tIndex >= 5) {
             mainStats[tMainStatIndex] += 2;
         // Roll 3 or 4, gain +1 to main stat, and + 1 to a random stat
-        else if (tIndex >= 3) {
+        } else if (tIndex >= 3) {
             mainStats[tMainStatIndex] += 1;
             mainStats[lvlDice->roll() % 3] += 1;
-        }
         // Roll 2, gain 2 random stats
-        else if (tIndex == 2) {
+        } else if (tIndex == 2) {
             mainStats[lvlDice->roll() % 3] += 1;
             mainStats[lvlDice->roll() % 3] += 1;
-        }
         // Roll 1 gain +2 random stats, neither can be the monsters main stat
         // Ciritcal fail
-        else {
+        } else {
             int availablePoints = 2;
 
             while (availablePoints != 0) {
@@ -156,7 +145,7 @@ void monster::initMonster() {
 
     delete lvlDice;
 
-    if(isBoss) {
+    if (isBoss) {
         std::vector<int> tempStatReq;
         tempStatReq.push_back(tMainStatIndex);
         tempStatReq.push_back(0);
