@@ -3,7 +3,7 @@ shopManager::shopManager(const int& roomCount, player* myPlayer) {
     int level = (roomCount / 5);
     customer = myPlayer;
 
-    if(level > 0)
+    if (level > 0)
         gold = 200 * level;
     else
         gold = 200;
@@ -11,7 +11,7 @@ shopManager::shopManager(const int& roomCount, player* myPlayer) {
     sinventory = new inventory;
     /// Give the shop 5 of the current level of healing consumable
     std::vector<consumable*> tempCon;
-    for(int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)
         tempCon.push_back(new consumable(level));
 
     sinventory->addConsumables(tempCon);
@@ -60,7 +60,7 @@ void shopManager::startTransaction() {
     int lastPlayerWeapon;
     int lastPlayerConsumable;
     int lastPlayerIndex;
-    while(stillShoping) {
+    while (stillShoping) {
         std::string command;
         // Temp
         int cost;
@@ -72,11 +72,11 @@ void shopManager::startTransaction() {
                   << "What would you like to do adventurer: ";
         print::setCursor(true);
         command.clear();
-        while(command[0] == '\n' || command.empty())
+        while (command[0] == '\n' || command.empty())
             getline(std::cin, command);
         print::setCursor(false);
         /** Main command switch */
-        switch(formatCommand(command)) {
+        switch (formatCommand(command)) {
         /** Buy */
         case 1:
             print::str_time("Let me know if you see something you like.", 20);
@@ -90,7 +90,7 @@ void shopManager::startTransaction() {
             print::str_time("What would you like to see?: ", 20);
             print::setCursor(true);
             command.clear();
-            while(command[0] == '\n' || command.empty())
+            while (command[0] == '\n' || command.empty())
                 getline(std::cin, command);
             print::setCursor(false);
             std::cout << std::endl;
@@ -100,12 +100,15 @@ void shopManager::startTransaction() {
                 itemIndex--;
 
                 /** If the selected item is a weapon */
-                if(itemIndex < lastWeapon && lastWeapon != 0 && checkIndex(itemIndex)) {
-                    /// Reusing the command variable for printing
-                    command = "Are you use that you would like to purchase the " +
-                              sinventory->getWeapons().at(itemIndex)->getName() + "?  (y/n)\nIt's only " +
-                              std::to_string(sinventory->getWeapons().at(itemIndex)->getSellValue()) +
-                              " gold!\nSpecial price for my special friend!!!";
+                if(itemIndex < lastWeapon && lastWeapon != 0 && 
+                                                    checkIndex(itemIndex)) {
+                /// Reusing the command variable for printing
+                command = "Are you use that you would like to purchase the " +
+                            sinventory->getWeapons().at(itemIndex)->getName() +
+                             "?  (y/n)\nIt's only " +
+                            std::to_string(sinventory->getWeapons().
+                                            at(itemIndex)->getSellValue()) +
+                            " gold!\nSpecial price for my special friend!!!";
                     print::str(command);
                     std::cout << std::endl;
                     /// Enter purchase confirmation
@@ -116,14 +119,15 @@ void shopManager::startTransaction() {
                     switch(formatCommand(command)) {
                     case 1:
                         /// Set the cost as a dummy variable
-                        cost = sinventory->getWeapons().at(itemIndex)->getSellValue();
+                        cost = sinventory->getWeapons().at(itemIndex)
+                                                            ->getSellValue();
 
                         if(playerAfford(cost)) {
                             /// Make the customer pay for their goods
                             customer->setGold(-cost);
                             /// Give the shop their money
                             gold += cost;
-                            /// Add the purchased weapon to the players inventory
+                            /// Add  purchased weapon to the players inventory
                             customer->getInventory()->
                             addWeapon(sinventory->removeWeapon(itemIndex));
                             /// Reduce the stock amount
@@ -140,16 +144,18 @@ void shopManager::startTransaction() {
                     }
                 }
                 /** If the selected item is a consumable */
-                else if(itemIndex < lastConsumable && lastConsumable != 0
+                else if (itemIndex < lastConsumable && lastConsumable != 0
                         && checkIndex(itemIndex)) {
                     /// Adjust the index to account for the weapons
                     itemIndex -= lastWeapon;
                     /// Reusing the command variable for printing
-                    command = "Are you use that you would like to purchase a " +
-                              sinventory->getConsumables().at(itemIndex).front()->getName() +
-                              "? (y/n)\nIt's only " +
-                              std::to_string(sinventory->getConsumables().at(itemIndex).front()
-                                             ->getSellValue()) + " gold!";
+                    command =
+                     "Are you use that you would like to purchase a " +
+                        sinventory->getConsumables()
+                                    .at(itemIndex).front()->getName() +
+                        "? (y/n)\nIt's only " +
+                        std::to_string(sinventory->getConsumables().at(itemIndex).front()
+                                        ->getSellValue()) + " gold!";
 
                     print::str(command);
                     std::cout << std::endl;
@@ -159,21 +165,23 @@ void shopManager::startTransaction() {
                     std::cin >> command;
                     print::setCursor(false);
 
-                    switch(formatCommand(command)) {
+                    switch (formatCommand(command)) {
                     case 1:
                         /// Set the cost as a dummy variable
-                        cost = sinventory->getConsumables().at(itemIndex).front()
+                        cost = 
+                        sinventory->getConsumables().at(itemIndex).front()
                                ->getSellValue();
                         if(playerAfford(cost)) {
                             /// Make the customer pay for their goods
                             customer->setGold(-cost);
                             /// Give the shop their money
                             gold += cost;
-                            /// Add the purchased weapon to the players inventory
+                            /// Add  purchased weapon to the players inventory
                             customer->getInventory()->addConsumables(
                                 sinventory->removeConsumables(itemIndex, 1));
-                            /// Reduce the stock amount if there is no more left
-                            if(sinventory->getConsumables().at(itemIndex).empty()) {
+                            /// Reduce  stock amount if there is no more left
+                            if (sinventory->
+                                     getConsumables().at(itemIndex).empty()) {
                                 lastConsumable--;
                                 lastIndex--;
                             }
@@ -189,13 +197,14 @@ void shopManager::startTransaction() {
 
                 }
                 /** If the selected item is an ability */
-                else if(checkIndex(itemIndex) && hasAbility) {
+                else if (checkIndex(itemIndex) && hasAbility) {
 
                     /// Reusing the command variable for printing
                     command = "Are you use that you would like to purchase a " +
                               sinventory->getAbilities().front()->getName() +
                               "? (y/n)\nIt's only " +
-                              std::to_string(sinventory->getAbilities().front()->getSellValue())
+                              std::to_string(sinventory->getAbilities().front()
+                                                            ->getSellValue())
                               + " gold!";
 
                     print::str(command);
@@ -206,17 +215,19 @@ void shopManager::startTransaction() {
                     std::cin >> command;
                     print::setCursor(false);
 
-                    switch(formatCommand(command)) {
+                    switch (formatCommand(command)) {
                     case 1:
                         /// Set the cost as a dummy variable
-                        cost = sinventory->getAbilities().front()->getSellValue();
-                        if(playerAfford(cost)) {
+                        cost = sinventory->getAbilities().front()
+                                                            ->getSellValue();
+                        if (playerAfford(cost)) {
                             /// Make the customer pay for their goods
                             customer->setGold(-cost);
                             /// Give the shop their money
                             gold += cost;
-                            /// Add the purchased weapon to the players inventory
-                            customer->getInventory()->addAbility(sinventory->removeAbility(0));
+                            /// Add the  weapon to the players inventory
+                            customer->getInventory()->addAbility(sinventory
+                                                ->removeAbility(0));
                             /// Reduce the stock amount
                             lastIndex--;
                             hasAbility = false;
@@ -243,7 +254,7 @@ void shopManager::startTransaction() {
         /** sell, s */
         case 2:
             /// If the players inventory is empty
-            if(customer->getInventory()->isEmpty()) {
+            if (customer->getInventory()->isEmpty()) {
                 print::str
                 ("What do you want to sell me?! The lint in your pockets?!");
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -256,11 +267,12 @@ void shopManager::startTransaction() {
             }
             /// Initialize the lastPlayer[inventory] index, this is cleaner
             lastPlayerWeapon = customer->getInventory()->getWeapons().size();
-            lastPlayerConsumable = customer->getInventory()->getConsumables().size()
-                                   + lastPlayerWeapon;
+            lastPlayerConsumable = customer->
+                    getInventory()->getConsumables().size() + lastPlayerWeapon;
 
             if(!customer->getInventory()->getAbilities().empty()) {
-                lastPlayerIndex = customer->getInventory()->getAbilities().size()
+                lastPlayerIndex = 
+                            customer->getInventory()->getAbilities().size()
                                   + lastPlayerWeapon + lastPlayerConsumable;
             } else
                 lastPlayerIndex = lastPlayerWeapon + lastPlayerConsumable;
@@ -288,8 +300,8 @@ void shopManager::startTransaction() {
                 if(itemIndex < lastPlayerWeapon && lastPlayerWeapon != 0
                         && checkIndex(itemIndex)) {
                     command =
-                        "Sure you want to let this sweet baby go?! (y/n)\nI haven't seen a "
-                        + customer->getInventory()->getWeapons().at(itemIndex)->getName()
+            "Sure you want to let this sweet baby go?! (y/n)\nI haven't seen a "
+            + customer->getInventory()->getWeapons().at(itemIndex)->getName()
                         + " in a good while.";
                     /// Confirmation on selling message
                     print::str(command);
@@ -308,10 +320,11 @@ void shopManager::startTransaction() {
                                ->getWeapons().at(itemIndex)->getSellValue();
                         if(shopAfford(cost)) {
                             print::str("Sold " +
-                                       customer->getInventory()->getWeapons().at(itemIndex)->getName()
+                                       customer->getInventory()->getWeapons()
+                                                    .at(itemIndex)->getName()
                                        + " for " + std::to_string(cost));
                             std::cout << std::endl;
-                            /// Remove the item from the player, and give it to the shop
+                            /// Remove  item from the player, give to the shop
                             sinventory->addWeapon
                             (customer->getInventory()->removeWeapon(itemIndex));
                             /// Give the player their money for the item
@@ -334,7 +347,8 @@ void shopManager::startTransaction() {
                 }
 
                 /** Sell consumables */
-                else if (itemIndex < lastPlayerConsumable && lastPlayerConsumable != 0
+                else if (itemIndex < lastPlayerConsumable 
+                        && lastPlayerConsumable != 0
                          && checkIndex(itemIndex)) {
                     command = "I always to have extra of those kicking around! "
                               "I'll take it if you're sure. (y/n)";
@@ -357,13 +371,15 @@ void shopManager::startTransaction() {
 
                         if(shopAfford(cost)) {
                             print::str("Sold " +
-                                       customer->getInventory()->getConsumables().at(itemIndex).front()
-                                       ->getName() + " for " + std::to_string(cost));
+                                       customer->getInventory()
+                                       ->getConsumables().at(itemIndex).front()
+                                       ->getName() + " for " + 
+                                       std::to_string(cost));
                             std::cout << std::endl;
 
-                            /// Remove the item from the player, and give it to the shop
+                            /// Remove item from the player, give  to the shop
                             sinventory->addConsumables(customer->getInventory()
-                                                       ->removeConsumables(itemIndex, 1));
+                                            ->removeConsumables(itemIndex, 1));
                             /// Give the player their money for the item
                             customer->setGold(cost);
                             /// Remove that gold from the shop
@@ -388,8 +404,9 @@ void shopManager::startTransaction() {
                     itemIndex -= lastPlayerConsumable;
 
                     command = "No way... You know how to use the " +
-                              customer->getInventory()->getAbilities().at(itemIndex)->getName()
-                              + " ability!\nAre you sure I can take that off your hands! (y/n)";
+                              customer->getInventory()->
+                              getAbilities().at(itemIndex)->getName()
+            + " ability!\nAre you sure I can take that off your hands! (y/n)";
                     print::str(command);
                     std::cout << std::endl;
 
@@ -406,11 +423,12 @@ void shopManager::startTransaction() {
 
                         if(shopAfford(cost)) {
                             print::str("Sold " +
-                                       customer->getInventory()->getAbilities().at(itemIndex)->getName()
+                                       customer->getInventory()->getAbilities().
+                                                        at(itemIndex)->getName()
                                        + " for " + std::to_string(cost));
                             std::cout << std::endl;
 
-                            /// Remove the item from the player, and give it to the shop
+                            /// Remove item from the player, give to the shop
                             sinventory->addAbility(customer->getInventory()
                                                    ->removeAbility(itemIndex));
                             /// Give the player their money for the item
@@ -446,7 +464,8 @@ void shopManager::startTransaction() {
         /** Exit and player management */
         /// vi, view the players inventory
         case 121:
-            print::str(customer->getName() + " has " + std::to_string(customer->getGold()) + " gold.\n");
+            print::str(customer->getName() + " has " + 
+                std::to_string(customer->getGold()) + " gold.\n");
             customer->inventoryManagement();
             break;
         /// exit, ex
@@ -471,7 +490,7 @@ void shopManager::startTransaction() {
             std::cout << std::endl;
             print::textColour(print::C_DEFAULT);
             std::cout
-                    << "Type 'buy' or 'sell' to access the different shop menus\n"
+                << "Type 'buy' or 'sell' to access the different shop menus\n"
                     <<  "'inventory' ('i') or 'exit' ('e')"
                     << std::endl << std::endl;
             break;
@@ -495,7 +514,8 @@ int shopManager::formatCommand(std::string command) {
     else if(command == "ag")
         return 99;
 
-    else if (command == "exit" || command == "leave" || command == "ex" || command == "e")
+    else if (command == "exit" || command == "leave" 
+          || command == "ex" || command == "e")
         return 0;
 
     return -1;
@@ -523,8 +543,8 @@ void shopManager::tooExpensive(const int& cost) {
     case 1:
         toPrint = "Some monster slayer... can't afford " + std::to_string(cost)
                   +" coins for some clearly needed supplies.\n" +
-                  "\nMaybe there's something here you actually can afford...\n" +
-                  "Take another look around kid.";
+                  "\nMaybe there's something here you actually can afford...\n" 
+                  + "Take another look around kid.";
         print::str(toPrint);
         std::cout << std::endl;
         break;
@@ -533,8 +553,8 @@ void shopManager::tooExpensive(const int& cost) {
         toPrint = "O.K. You have " + std::to_string(customer->getGold())
                   +" gold.\n"
                   "What you want costs " + std::to_string(cost) + " gold.\n" +
-                  "See how that first number is smaller than the second one.\n" +
-                  "That means you can't have it, until the first number is bigger.";
+                "See how that first number is smaller than the second one.\n" +
+            "That means you can't have it, until the first number is bigger.";
         print::str(toPrint);
         std::cout << std::endl;
         break;
@@ -606,7 +626,7 @@ void shopManager::confirmPurchase() {
 void shopManager::shopCantAfford() {
     switch(rand() % 4) {
     case 0:
-        print::str("That's too steep for what I can afford right now adventurer");
+    print::str("That's too steep for what I can afford right now adventurer");
         std::cout << std::endl;
         break;
     case 1:
@@ -621,16 +641,8 @@ void shopManager::shopCantAfford() {
         break;
     case 3:
         print::str
-        ("Oh sorry! Must have dropped my purse somewhere, I don't have enough!");
+    ("Oh sorry! Must have dropped my purse somewhere, I don't have enough!");
         std::cout << std::endl;
         break;
     }
 }
-
-
-
-
-
-
-
-

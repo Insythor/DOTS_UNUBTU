@@ -18,7 +18,8 @@ ability::ability(int lev) {
 
     int rStat = rand() % ability::allAbilities->at(lev - 1).size();
     int rAbility = rand() % ability::allAbilities->at(lev - 1)[rStat].size();
-    ability::abilityData ad = ability::allAbilities->at(lev - 1)[rStat][rAbility];
+    ability::abilityData ad = ability::allAbilities->at(lev - 1)
+                                                          [rStat][rAbility];
 
     name = ad.name;
 
@@ -46,7 +47,7 @@ ability::ability(int lev) {
       commented this out to prevent seg faults
     */
 //  ability::allAbilities->at(lev - 1)[rStat].erase
-//                (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
+//             (ability::allAbilities->at(lev - 1)[rStat].begin() + rAbility);
 }
 
 ability::ability(int lev, int sType) {
@@ -57,7 +58,8 @@ ability::ability(int lev, int sType) {
 
     srand(time(NULL));
     int rAbility = rand() % ability::allAbilities->at(lev - 1)[sType].size();
-    ability::abilityData ad = ability::allAbilities->at(lev - 1)[sType][rAbility];
+    ability::abilityData ad = ability::allAbilities->at(lev - 1)
+                                                        [sType][rAbility];
     name = ad.name;
     cooldown = ad.cooldown;
     currentCooldown = 0;
@@ -116,7 +118,8 @@ ability::~ability() {
 
 std::ostream& operator << (std::ostream& out, ability& toRender) {
     std::string tempType = "";
-    std::string aDamage = std::to_string(toRender.getDiceRolls()) + " * D" + std::to_string(toRender.getDiceSize());
+    std::string aDamage = std::to_string(toRender.getDiceRolls()) + " * D" + 
+                                        std::to_string(toRender.getDiceSize());
     switch(toRender.getStatRequirements()[0]) {
     case 0:
         tempType = "Str: " + std::to_string(toRender.getStatRequirements()[1]);
@@ -131,11 +134,14 @@ std::ostream& operator << (std::ostream& out, ability& toRender) {
         tempType = "Spd: " + std::to_string(toRender.getStatRequirements()[1]);
     }
     out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
-        << toRender.formatOutput(1, std::to_string(toRender.getCooldown())) << "|"
+        << toRender.formatOutput(1, std::to_string
+                                    (toRender.getCooldown())) << "|"
         << toRender.formatOutput(2, tempType) << "|"
-        << toRender.formatOutput(3, std::to_string(toRender.getStatRequirements()[2])) << "|"
+        << toRender.formatOutput(3, std::to_string
+                                    (toRender.getStatRequirements()[2])) << "|"
         << toRender.formatOutput(4, aDamage) << "|"
-        << toRender.formatOutput(5, std::to_string(toRender.getSellValue()) + "g") << "|";
+        << toRender.formatOutput(5, std::to_string
+                                (toRender.getSellValue()) + "g") << "|";
     return out;
 }
 
