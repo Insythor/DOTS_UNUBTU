@@ -266,7 +266,7 @@ void shopManager::startTransaction() {
                     getInventory()->getConsumables().size() + lastPlayerWeapon;
 
             if (!customer->getInventory()->getAbilities().empty()) {
-                lastPlayerIndex = 
+                lastPlayerIndex =
                             customer->getInventory()->getAbilities().size()
                                   + lastPlayerWeapon + lastPlayerConsumable;
             } else {lastPlayerIndex = lastPlayerWeapon + lastPlayerConsumable;}
@@ -286,7 +286,7 @@ void shopManager::startTransaction() {
             if (print::is_number(command)) {
                 itemIndex = std::stoi(command);
                 itemIndex--;
-                /// Decrement so that it starts counting at 
+                /// Decrement so that it starts counting at
                 /**  Sell Weapons */
                 if (itemIndex < lastPlayerWeapon && lastPlayerWeapon != 0
                         && checkIndex(itemIndex)) {
@@ -371,8 +371,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastConsumable++;
                             lastIndex++;
-                        } else /// If the shop does not have enough money
-                            shopCantAfford();
+                        } else {shopCantAfford();}
                         break;
                     /// Cancel sale
                     case 2:
@@ -415,8 +414,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastIndex++;
                             hasAbility = true;
-                        } else /// If the shop does not have enough money
-                            shopCantAfford();
+                        } else {shopCantAfford();}
                         break;
                     /// Cancel sale
                     case 2:
@@ -559,7 +557,7 @@ void shopManager::displayGold() {
 }
 
 void shopManager::confirmPurchase() {
-    switch(rand() % 6) {
+    switch (rand() % 6) {
     case 0:
         print::str("GREAT choice hero! This'll set you apart "
                    "from the rest of those\nchicken chasers out there!!!");
