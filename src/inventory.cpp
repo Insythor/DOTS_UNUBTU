@@ -83,7 +83,6 @@ void inventory::viewInventory() {
                       << std::endl;
         }
     }
-
 }
 
 std::vector<std::vector<consumable*>> inventory::removeAllConsumables() {
