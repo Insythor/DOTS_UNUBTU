@@ -104,7 +104,7 @@ void shopManager::startTransaction() {
                 itemIndex--;
 
                 /** If the selected item is a weapon */
-                if (itemIndex < lastWeapon && lastWeapon != 0 && 
+                if (itemIndex < lastWeapon && lastWeapon != 0 &&
                                                     checkIndex(itemIndex)) {
                 /// Reusing the command variable for printing
                 command = "Are you use that you would like to purchase the " +
@@ -126,7 +126,7 @@ void shopManager::startTransaction() {
                         cost = sinventory->getWeapons().at(itemIndex)
                                                             ->getSellValue();
 
-                        if(playerAfford(cost)) {
+                        if (playerAfford(cost)) {
                             /// Make the customer pay for their goods
                             customer->setGold(-cost);
                             /// Give the shop their money
@@ -147,7 +147,6 @@ void shopManager::startTransaction() {
                     }
                 /** If the selected item is a consumable */
                 } else if (itemIndex < lastConsumable && lastConsumable != 0
-                
                         && checkIndex(itemIndex)) {
                     /// Adjust the index to account for the weapons
                     itemIndex -= lastWeapon;
@@ -171,7 +170,7 @@ void shopManager::startTransaction() {
                     switch (formatCommand(command)) {
                     case 1:
                         /// Set the cost as a dummy variable
-                        cost = 
+                        cost =
                         sinventory->getConsumables().at(itemIndex).front()
                                ->getSellValue();
                         if (playerAfford(cost)) {
@@ -189,8 +188,7 @@ void shopManager::startTransaction() {
                                 lastIndex--;
                             }
                             confirmPurchase();
-                        } else
-                            tooExpensive(cost);
+                        } else {tooExpensive(cost);}
                         break;
                     /// Stop the transaction
                     case 2:
@@ -232,8 +230,7 @@ void shopManager::startTransaction() {
                             lastIndex--;
                             hasAbility = false;
                             confirmPurchase();
-                        } else
-                            tooExpensive(cost);
+                        } else {tooExpensive(cost);}
                         break;
                     /// Stop the transaction
                     case 2:
@@ -272,9 +269,7 @@ void shopManager::startTransaction() {
                 lastPlayerIndex = 
                             customer->getInventory()->getAbilities().size()
                                   + lastPlayerWeapon + lastPlayerConsumable;
-            } else
-                lastPlayerIndex = lastPlayerWeapon + lastPlayerConsumable;
-
+            } else {lastPlayerIndex = lastPlayerWeapon + lastPlayerConsumable;}
             /// Show how much money then shop and player have
             displayGold();
             ///  Display the customers (players) inventory
@@ -330,8 +325,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastWeapon++;
                             lastIndex++;
-                        } else /// If the shop does not have enough money
-                            shopCantAfford();
+                        } else {shopCantAfford();}
                         break;
                     /// Cancel sale
                     case 2:
