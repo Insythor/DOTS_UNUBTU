@@ -94,13 +94,13 @@ void shopManager::startTransaction() {
                 getline(std::cin, command);
             print::setCursor(false);
             std::cout << std::endl;
-            if(print::is_number(command)) {
+            if (print::is_number(command)) {
                 itemIndex = std::stoi(command);
                 /// Decrement so that it starts counting at 0
                 itemIndex--;
 
                 /** If the selected item is a weapon */
-                if(itemIndex < lastWeapon && lastWeapon != 0 && 
+                if (itemIndex < lastWeapon && lastWeapon != 0 && 
                                                     checkIndex(itemIndex)) {
                 /// Reusing the command variable for printing
                 command = "Are you use that you would like to purchase the " +
@@ -116,7 +116,7 @@ void shopManager::startTransaction() {
                     std::cout << ">>> ";
                     std::cin >> command;
                     print::setCursor(false);
-                    switch(formatCommand(command)) {
+                    switch (formatCommand(command)) {
                     case 1:
                         /// Set the cost as a dummy variable
                         cost = sinventory->getWeapons().at(itemIndex)
@@ -134,17 +134,16 @@ void shopManager::startTransaction() {
                             lastWeapon--;
                             lastIndex--;
                             confirmPurchase();
-                        } else
-                            tooExpensive(cost);
+                        } else { tooExpensive(cost); }
                         break;
 
                     case 2:
                         somethingElse();
                         break;
                     }
-                }
                 /** If the selected item is a consumable */
-                else if (itemIndex < lastConsumable && lastConsumable != 0
+                } else if (itemIndex < lastConsumable && lastConsumable != 0
+                
                         && checkIndex(itemIndex)) {
                     /// Adjust the index to account for the weapons
                     itemIndex -= lastWeapon;
@@ -154,9 +153,9 @@ void shopManager::startTransaction() {
                         sinventory->getConsumables()
                                     .at(itemIndex).front()->getName() +
                         "? (y/n)\nIt's only " +
-                        std::to_string(sinventory->getConsumables().at(itemIndex).front()
-                                        ->getSellValue()) + " gold!";
-
+                        std::to_string(sinventory->getConsumables().
+                                                    at(itemIndex).front()
+                                                ->getSellValue()) + " gold!";
                     print::str(command);
                     std::cout << std::endl;
                     /// Enter purchase confirmation
@@ -194,13 +193,10 @@ void shopManager::startTransaction() {
                         somethingElse();
                         break;
                     }
-
-                }
                 /** If the selected item is an ability */
-                else if (checkIndex(itemIndex) && hasAbility) {
-
+                } else if (checkIndex(itemIndex) && hasAbility) {
                     /// Reusing the command variable for printing
-                    command = "Are you use that you would like to purchase a " +
+                    command = "Are you use that you would like to purchase a "+
                               sinventory->getAbilities().front()->getName() +
                               "? (y/n)\nIt's only " +
                               std::to_string(sinventory->getAbilities().front()
@@ -334,9 +330,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastWeapon++;
                             lastIndex++;
-                        }
-                        /// If the shop does not have enough money
-                        else
+                        } else /// If the shop does not have enough money
                             shopCantAfford();
                         break;
                     /// Cancel sale
@@ -344,10 +338,8 @@ void shopManager::startTransaction() {
                         somethingElse();
                         break;
                     }
-                }
-
                 /** Sell consumables */
-                else if (itemIndex < lastPlayerConsumable 
+                } else if (itemIndex < lastPlayerConsumable 
                         && lastPlayerConsumable != 0
                          && checkIndex(itemIndex)) {
                     command = "I always to have extra of those kicking around! "
@@ -387,9 +379,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastConsumable++;
                             lastIndex++;
-                        }
-                        /// If the shop does not have enough money
-                        else
+                        } else /// If the shop does not have enough money
                             shopCantAfford();
                         break;
                     /// Cancel sale
@@ -397,9 +387,8 @@ void shopManager::startTransaction() {
                         somethingElse();
                         break;
                     }
-                }
                 /** Sell abilities */
-                else if (itemIndex < lastPlayerIndex && checkIndex(itemIndex)) {
+            } else if (itemIndex < lastPlayerIndex && checkIndex(itemIndex)) {
                     /// Account for the weapons in the list
                     itemIndex -= lastPlayerConsumable;
 
@@ -415,7 +404,7 @@ void shopManager::startTransaction() {
                     print::setCursor(true);
                     std::cin >> command;
                     print::setCursor(false);
-                    switch(formatCommand(command)) {
+                    switch (formatCommand(command)) {
                     /// Sell item
                     case 1:
                         cost = customer->getInventory()
@@ -438,9 +427,7 @@ void shopManager::startTransaction() {
                             /// Adjust the shops stock numbers
                             lastIndex++;
                             hasAbility = true;
-                        }
-                        /// If the shop does not have enough money
-                        else
+                        } else /// If the shop does not have enough money
                             shopCantAfford();
 
                         break;
@@ -450,17 +437,13 @@ void shopManager::startTransaction() {
                         break;
                     }
                 }
-            }
-
-            else {
+            } else {
                 print::textColour(print::C_RED);
                 print::str("Invalid Index");
                 std::cout << std::endl;
                 print::textColour(print::C_DEFAULT);
             }
             break;
-
-
         /** Exit and player management */
         /// vi, view the players inventory
         case 121:
@@ -499,19 +482,21 @@ void shopManager::startTransaction() {
 }
 
 int shopManager::formatCommand(std::string command) {
-    for(unsigned int i = 0; i < command.length(); i++)
+    for (unsigned int i = 0; i < command.length(); i++)
         command[i] = std::tolower(command[i]);
 
-    if(command == "buy" || command == "b" || command == "yes" || command == "y")
+    if (command == "buy" || command == "b" 
+     || command == "yes" || command == "y")
         return 1;
 
     else if (command == "sell" || command == "s"
              || command == "no" || command == "n")
         return 2;
+
     else if (command == "inventory" || command == "i")
         return 121;
     // give the player money for testing
-    else if(command == "ag")
+    else if (command == "ag")
         return 99;
 
     else if (command == "exit" || command == "leave" 
