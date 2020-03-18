@@ -85,7 +85,8 @@ void print::textColour(const int colour[3]) {
     bgColour.append(std::to_string(colour[1]) + ";");
     bgColour.append(std::to_string(colour[2]) + "m'");
 
-    char textColour[bgColour.length()];
+    int tempSize = bgColour.length();
+    char textColour[tempSize];
     strcpy(textColour, bgColour.c_str());
     system(textColour);
     std::cout.flush();
