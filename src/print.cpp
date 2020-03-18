@@ -1,16 +1,16 @@
 #include "../include/print.h"
 
-int print::C_WHITE [3] = {255, 255, 255};
-int print::C_BLACK [3] = {0, 0, 0};
-int print::C_RED [3] = {255, 0, 0};
-int print::C_GREEN [3] = {0, 255, 0};
-int print::C_GREEN_D [3] = {0, 175, 0};
-int print::C_BLUE [3] = {75, 75, 255};
-int print::C_PURPLE [3] = {150, 75, 255};
-int print::C_BROWN [3] = {153, 76, 0};
-int print::C_PINK [3] = {255, 102, 255};
+int print::C_WHITE[3] = {255, 255, 255};
+int print::C_BLACK[3] = {0, 0, 0};
+int print::C_RED[3] = {255, 0, 0};
+int print::C_GREEN[3] = {0, 255, 0};
+int print::C_GREEN_D[3] = {0, 175, 0};
+int print::C_BLUE[3] = {75, 75, 255};
+int print::C_PURPLE[3] = {150, 75, 255};
+int print::C_BROWN[3] = {153, 76, 0};
+int print::C_PINK[3] = {255, 102, 255};
 
-int print::C_DEFAULT [3] = {200, 200, 200};
+int print::C_DEFAULT[3] = {200, 200, 200};
 
 void print::str(const std::string& toPrint) {
     for (auto c : toPrint) {
