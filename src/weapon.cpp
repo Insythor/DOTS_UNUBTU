@@ -118,7 +118,6 @@ void weapon::generateWeapon(int level) {
     // Sort of like trying it out in the shop.. idk
     cost = (level * 50) + dealDamage();
     sellValue = (cost / 2);
-
 }
 
 std::string weapon::addType(int dSize, int sType) {
