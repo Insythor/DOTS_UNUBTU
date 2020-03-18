@@ -1,5 +1,8 @@
 #include "../include/weapon.h"
 
+#include <vector>
+#include <string>
+
 weapon::weapon() {
     weaponDice = nullptr;
     diceSize = 0;
@@ -38,7 +41,7 @@ weapon::weapon(std::vector<int> sReq) {
     // Then delete that name from the dictionary
     if (weapon::allNames != nullptr) {
         int tempIndex = rand() % allNames->size();
-        std::copy_if(allNames->at(tempIndex).begin(), 
+        std::copy_if(allNames->at(tempIndex).begin(),
                                             allNames->at(tempIndex).end(),
                      std::back_inserter(name),
         [] (char c) {
@@ -62,11 +65,9 @@ weapon::weapon(std::string nam, int dSize, int dRolls, std::vector<int> sReq) {
     diceRolls = dRolls;
     statRequirements = sReq;
     weaponDice = new std::vector<dice>;
-
     for (int i = 0; i < diceRolls; i++) {
         weaponDice->push_back(diceSize);
     }
-
     weaponDice->shrink_to_fit();
 }
 
@@ -80,19 +81,18 @@ void weapon::generateWeapon(int level) {
     int diceSize = level/2 + 4 + (rand() % 5);
 
     // Add one dice of the randomly chosen size to the weaponDice vector
-    for(int i = 0; i < level; i++) {
+    for (int i = 0; i < level; i++) {
         weaponDice->push_back(dice(diceSize));
     }
     // Optimize!
     weaponDice->shrink_to_fit();
     // If the weapon names dictionary was read in, select a random name
     // Then delete that name from the dictionary
-    if(weapon::allNames != nullptr) {
+    if (weapon::allNames != nullptr) {
         int tempIndex = rand() % allNames->size();
-        std::copy_if(allNames->at(tempIndex).begin(), 
+        std::copy_if(allNames->at(tempIndex).begin(),
                                         allNames->at(tempIndex).end(),
-                     std::back_inserter(name),
-        [] (char c) {
+                                std::back_inserter(name), [] (char c) {
             return c != '\r' && c != '\n';
         });
         allNames->erase(allNames->begin() + tempIndex);
@@ -106,7 +106,7 @@ void weapon::generateWeapon(int level) {
     // NEEDS TO BE BALANCED
     statRequirements.push_back(level * 2);
     // If the weapon does max damage, increase the required level by 1
-    if(diceSize >= 12) {
+    if (diceSize >= 12) {
         statRequirements.push_back(level + 1);
     } else {
         statRequirements.push_back(level);
@@ -122,10 +122,10 @@ void weapon::generateWeapon(int level) {
 }
 
 std::string weapon::addType(int dSize, int sType) {
-    switch(sType) {
+    switch (sType) {
     //  Strength
     case 0:
-        if(dSize == 4)
+        if (dSize == 4)
             return " Club";
         else if (dSize == 5)
             return " Spiked-Club";
@@ -143,11 +143,10 @@ std::string weapon::addType(int dSize, int sType) {
             return " Maul";
         else if (dSize >= 12)
             return " Scythe";
-
         break;
     //  Dexterity
     case 1:
-        if(dSize == 4)
+        if (dSize == 4)
             return " Dagger";
         else if (dSize == 5)
             return " Scimitar";
@@ -165,11 +164,10 @@ std::string weapon::addType(int dSize, int sType) {
             return " Morning-Star";
         else if (dSize >= 12)
             return " Bat'leth";
-
         break;
     // Int
     case 2:
-        if(dSize == 4)
+        if (dSize == 4)
             return " Magic-Rock";
         else if (dSize < 7)
             return " Wand";
@@ -180,7 +178,6 @@ std::string weapon::addType(int dSize, int sType) {
         else if (dSize >= 12)
             return " Grand-Staff";
         break;
-
     default:
         break;
     }
@@ -189,8 +186,9 @@ std::string weapon::addType(int dSize, int sType) {
 
 std::ostream& operator << (std::ostream &out, weapon &toRender) {
     std::string tempType = "";
-    std::string wDamage = std::to_string(toRender.getDiceRolls()) + " * D" + std::to_string(toRender.getDiceSize());
-    switch(toRender.getStatRequirements()[0]) {
+    std::string wDamage = std::to_string(toRender.getDiceRolls()) + " * D" +
+                                        std::to_string(toRender.getDiceSize());
+    switch (toRender.getStatRequirements()[0]) {
     case 0:
         tempType = "Str: " + std::to_string(toRender.getStatRequirements()[1]);
         break;
@@ -201,51 +199,55 @@ std::ostream& operator << (std::ostream &out, weapon &toRender) {
         tempType = "Int: " + std::to_string(toRender.getStatRequirements()[1]);
         break;
     }
-    out << "|" << toRender.formatOutput(0, toRender.getName()) << "|" << toRender.formatOutput(1, tempType) << "|"
-        << toRender.formatOutput(2, std::to_string(toRender.getStatRequirements()[2])) << "|" << toRender.formatOutput(3, wDamage) << "|"
-        << toRender.formatOutput(4, std::to_string(toRender.getSellValue()) + "g") << "|";
+    out << "|" << toRender.formatOutput(0, toRender.getName()) << "|"
+        << toRender.formatOutput(1, tempType) << "|"
+        << toRender.formatOutput(2, std::to_string(toRender.
+                                            getStatRequirements()[2]))
+        << "|" << toRender.formatOutput(3, wDamage) << "|"
+        << toRender.formatOutput(4, std::to_string(toRender.getSellValue())
+            + "g") << "|";
     return out;
 }
 
 std::string weapon::formatOutput(int type, std::string value) {
-    switch(type) {
+    switch (type) {
     case 0:
-        while(value.length() < 31) {
-            if(value.length() < 31)
+        while (value.length() < 31) {
+            if (value.length() < 31)
                 value = " " + value;
-            if(value.length() < 31)
+            if (value.length() < 31)
                 value = value + " ";
         }
         break;
     case 1:
-        while(value.length() < 11) {
-            if(value.length() < 11)
+        while (value.length() < 11) {
+            if (value.length() < 11)
                 value = " " + value;
-            if(value.length() < 11)
+            if (value.length() < 11)
                 value = value + " ";
         }
         break;
     case 2:
-        while(value.length() < 9) {
-            if(value.length() < 9)
+        while (value.length() < 9) {
+            if (value.length() < 9)
                 value = " " + value;
-            if(value.length() < 9)
+            if (value.length() < 9)
                 value = value + " ";
         }
         break;
     case 3:
-        while(value.length() < 8) {
-            if(value.length() < 8)
+        while (value.length() < 8) {
+            if (value.length() < 8)
                 value = " " + value;
-            if(value.length() < 8)
+            if (value.length() < 8)
                 value = value + " ";
         }
         break;
     case 4:
-        while(value.length() < 7) {
-            if(value.length() < 7)
+        while (value.length() < 7) {
+            if (value.length() < 7)
                 value = " " + value;
-            if(value.length() < 7)
+            if (value.length() < 7)
                 value = value + " ";
         }
         break;
@@ -255,13 +257,11 @@ std::string weapon::formatOutput(int type, std::string value) {
 
 int weapon::dealDamage() {
     int tempDamage = 0;
-    for(auto i : *weaponDice) {
+    for (auto i : *weaponDice) {
         tempDamage += i.roll();
     }
-
     return tempDamage;
 }
-
 
 /** *****************  Getters *****************  */
 int weapon::getDiceRolls() {
@@ -279,6 +279,3 @@ std::vector<int> weapon::getStatRequirements() {
 std::string weapon::getName() {
     return name;
 }
-
-
-
