@@ -13,15 +13,16 @@ int print::C_PINK [3] = {255, 102, 255};
 int print::C_DEFAULT [3] = {200, 200, 200};
 
 void print::str(const std::string& toPrint) {
-    for(auto c : toPrint) {
+    for (auto c : toPrint) {
         std::cout << c;
         std::cout.flush();
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
+        std::this_thread::sleep_for
+                            (std::chrono::milliseconds(rand() % DEFAULT_MOD));
     }
 }
 
 void print::str_time(const std::string& toPrint, const int& maxMillis) {
-    for(auto c : toPrint) {
+    for (auto c : toPrint) {
         std::cout.flush() << c;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(maxMillis));
@@ -30,11 +31,12 @@ void print::str_time(const std::string& toPrint, const int& maxMillis) {
 
 
 void print::vec(const std::vector<std::string>& toPrint) {
-    for(auto l : toPrint) {
-        for(auto c : l) {
+    for (auto l : toPrint) {
+        for (auto c : l) {
             std::cout << c;
             std::cout.flush();
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % DEFAULT_MOD));
+            std::this_thread::sleep_for
+                            (std::chrono::milliseconds(rand() % DEFAULT_MOD));
         }
         std::cout << std::endl;
     }
@@ -43,14 +45,15 @@ void print::vec(const std::vector<std::string>& toPrint) {
 void print::vec_faster(const std::vector<std::string>& toPrint) {
     int mod = DEFAULT_MOD;
     int lineCounter = -1;
-    for(auto l : toPrint) {
+    for (auto l : toPrint) {
         lineCounter++;
-        if(lineCounter % (toPrint.size() /5) == 0)
+        if (lineCounter % (toPrint.size() /5) == 0)
             mod *= 0.8;
-        for(auto c : l) {
+        for (auto c : l) {
             std::cout.flush() << c;
-            if(c != ' ')
-                std::this_thread::sleep_for(std::chrono::milliseconds(rand() % mod));
+            if (c != ' ')
+                std::this_thread::sleep_for
+                                    (std::chrono::milliseconds(rand() % mod));
         }
         std::cout << std::endl;
     }
@@ -58,9 +61,10 @@ void print::vec_faster(const std::vector<std::string>& toPrint) {
 
 void print::vec_time(const std::vector<std::string>& toPrint,
                      const int& maxMillis) {
-    for(auto l : toPrint) {
+    for (auto l : toPrint) {
         std::cout << l << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(rand() % maxMillis));
+                std::this_thread::sleep_for
+                                (std::chrono::milliseconds(rand() % maxMillis));
     }
 }
 
@@ -88,7 +92,7 @@ void print::textColour(const int colour[3]) {
 }
 
 void print::setCursor(const bool& box) {
-    if(box)
+    if (box)
         system("printf '\e[0 q';");
     else
         system("printf '\e[4 q';");
@@ -104,7 +108,7 @@ bool print::is_number(const std::string& s) {
 }
 
 void print::deathScreen() {
-    for(int i = 0; i < 255; i += 2) {
+    for (int i = 0; i < 255; i += 2) {
         std::string bgColour = "printf '\e[48;2;";
         bgColour.append(std::to_string(i) + ";");
         bgColour.append(std::to_string(0) + ";");
@@ -122,7 +126,7 @@ void print::deathScreen() {
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
 
-    for(int i = 255; i > 0 ; i -= 2) {
+    for (int i = 255; i > 0 ; i -= 2) {
         std::string bgColour = "printf '\e[48;2;";
         bgColour.append(std::to_string(i) + ";");
         bgColour.append(std::to_string(0) + ";");
