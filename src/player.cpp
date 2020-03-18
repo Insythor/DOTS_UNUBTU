@@ -173,10 +173,10 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        std::cout 
-                                        << "That is a yes or no question " +
-                                        "adventurer! Try again" << std::endl;
+                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
+                                        std::cout << std::endl;
                                     }
                                 }
                                 break;
@@ -202,10 +202,10 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        std::cout << "That is a yes or no " +
-                                            "question adventurer! Try again"
-                                            << std::endl;
+                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
+                                        std::cout << std::endl;
                                     }
                                 }
                                 break;
@@ -231,10 +231,10 @@ void player::inventoryManagement() {
                                         break;
                                     else {
                                         print::textColour(print::C_RED);
-                                        std::cout
-                                        << "That is a yes or no question " +
-                                        "adventurer! Try again" << std::endl;
+                                        print::str("That is a yes or no question adventurer! ");
+                                        print::str("Try again");
                                         print::textColour(print::C_DEFAULT);
+                                        std::cout << std::endl;
                                     }
                                 }
                                 break;
@@ -242,15 +242,15 @@ void player::inventoryManagement() {
                         }
                     } else {
                         print::textColour(print::C_RED);
-                        print::str("What are you doing adventurer that's not" +
-                        " a valid index?! Try again!");
+                        print::str("What are you doing adventurer that's not");
+                        print::str(" a valid index?! Try again!");
                         print::textColour(print::C_DEFAULT);
                         std::cout << std::endl;
                     }
                 } else {
                     print::textColour(print::C_RED);
-                    print::str("What are you doing adventurer that's not " +
-                    "an index?! Try again!");
+                    print::str("What are you doing adventurer that's not ");
+                    print::str("an index?! Try again!");
                     print::textColour(print::C_DEFAULT);
                     std::cout << std::endl;
                 }
@@ -331,29 +331,33 @@ void player::swapAbilities(unsigned int index) {
                             break;
                         else {
                             print::textColour(print::C_RED);
-                            std::cout << "That is a yes or no question " +
-                            "adventurer! Try again" << std::endl;
+                            print::str("That is a yes or no question adventurer! ");
+                            print::str("Try again");
                             print::textColour(print::C_DEFAULT);
+                            std::cout << std::endl;
                         }
                     }
                 } else {
                     print::textColour(print::C_RED);
-                    print::str("What are you doing adventurer that's not " +
-                    "a valid index?! Try again!");
+                    print::str("What are you doing adventurer that's not ");
+                    print::str("a valid index?! Try again!");
                     print::textColour(print::C_DEFAULT);
                     std::cout << std::endl;
                 }
             } else {
                 print::textColour(print::C_RED);
-                print::str("What are you doing adventurer that's not an " +
-                "index?! Try again!");
+                print::str("What are you doing adventurer that's not an ");
+                print::str("index?! Try again!");
                 print::textColour(print::C_DEFAULT);
                 std::cout << std::endl;
             }
         }
     } else {
-        if (activeAbilities.empty())
-            std::cout << "Currently you have no active abilities." << std::endl;
+        if (activeAbilities.empty()) {
+            print::str("Currently you have no active abilities.");
+            std::cout << std::endl;
+        }
+
         else
             std::cout << "Seems you have room to add this ability."<< std::endl;
         std::cout << "Would you like to add "
@@ -377,7 +381,8 @@ void player::swapAbilities(unsigned int index) {
                 break;
             else {
                 print::textColour(print::C_RED);
-               print::str("That is a yes or no question adventurer! Try again");
+                print::str("That is a yes or no question adventurer! ");
+                print::str("Try again");
                 std::cout << std::endl;
                 print::textColour(print::C_DEFAULT);
             }
@@ -403,8 +408,7 @@ void player::swapWeapon(unsigned int index) {
     } else if (index < cInventory->getWeapons().size()) {
         print::textColour(print::C_RED);
         print::str("You do not meet the requirements for this weapon");
-        std::cout
-                << std::endl;
+        std::cout << std::endl;
         print::textColour(print::C_DEFAULT);
     } else {
         print::textColour(print::C_RED);
@@ -485,7 +489,7 @@ void player::levelUp() {
                 }
             } else {std::cout << "\nInvalid stat type" << std::endl;}
         }
-        // Check that the amount of stats input does not exceed the amount 
+        // Check that the amount of stats input does not exceed the amount
         //of available points
         if (statIn < 3 && availablePoints - statAmountIn >= 0) {
             // Add the stats input by the player to the tempStats vector
@@ -562,8 +566,8 @@ void player::levelUp() {
                     break;
                 } else {
                     print::textColour(print::C_RED);
-                    print::str("That is a yes or no question adventurer! " +
-                                                                   "Try again");
+                    print::str("That is a yes or no question adventurer! ");
+                    print::str("Try again");
                     print::textColour(print::C_DEFAULT);
                     std::cout << std::endl;
                 }
