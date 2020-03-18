@@ -53,7 +53,7 @@ void gameManager::readInRooms() {
     toRead.close();
     for(int i = 0; i < 5; i++)
         roomManager::roomData->push_back(std::vector<std::string>());
-    for(int i = 0; i < 11; i++) {
+    for(int i = 0; i < 12; i++) {
         int type = std::stoi(tempData[0]);
         roomManager::roomData->at(type).push_back(tempData[1]);
         tempData.erase(tempData.begin(), tempData.begin() + 2);

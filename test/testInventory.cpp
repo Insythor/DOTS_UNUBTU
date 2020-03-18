@@ -1,3 +1,4 @@
+#include <vector>
 #include "gtest/gtest.h"
 #include "../include/inventory.h"
 
@@ -23,11 +24,11 @@ TEST(testInventory, getConsumablesTest) {
     std::vector<consumable*> c;
     consumable con;
 
-    for(int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         c.push_back(new consumable(i));
     i.addConsumables(c);
 
-    for(int n = 0; n < c.size(); n++) {
+    for (int n = 0; n < c.size(); n++) {
         con =  *i.getConsumables()[0][n];
         EXPECT_EQ(c[n]->getName(), con.getName());
     }
@@ -39,7 +40,7 @@ TEST(testInventory, getAbilitiesTest) {
     ability* a;
     std::vector<ability*> atest;
 
-    for(int n = 1; n < 6; n++) {
+    for (int n = 1; n < 6; n++) {
         a = new ability(n);
         ab.push_back(a);
         i.addAbility(a);
@@ -47,18 +48,20 @@ TEST(testInventory, getAbilitiesTest) {
 
     atest =  i.getAbilities();
 
-    for(int n = 0; n < ab.size(); n++) {
+    for (int n = 0; n < ab.size(); n++) {
         EXPECT_EQ(ab[n]->getName(), atest[n]->getName());
         EXPECT_EQ(ab[n]->getDescription(), atest[n]->getDescription());
         EXPECT_EQ(ab[n]->getDiceRolls(), atest[n]->getDiceRolls());
         EXPECT_EQ(ab[n]->getDiceSize(), atest[n]->getDiceSize());
         EXPECT_EQ(ab[n]->getCurrentCooldown(), atest[n]->getCurrentCooldown());
         EXPECT_EQ(ab[n]->getCooldown(), atest[n]->getCooldown());
-        EXPECT_EQ(ab[n]->getStatRequirements()[0], atest[n]->getStatRequirements()[0]);
-        EXPECT_EQ(ab[n]->getStatRequirements()[1], atest[n]->getStatRequirements()[1]);
-        EXPECT_EQ(ab[n]->getStatRequirements()[2], atest[n]->getStatRequirements()[2]);
+        EXPECT_EQ(ab[n]->getStatRequirements()[0],
+        atest[n]->getStatRequirements()[0]);
+        EXPECT_EQ(ab[n]->getStatRequirements()[1],
+        atest[n]->getStatRequirements()[1]);
+        EXPECT_EQ(ab[n]->getStatRequirements()[2],
+        atest[n]->getStatRequirements()[2]);
     }
-
 }
 
 TEST(testInventory, getWeaponsTest) {
@@ -67,7 +70,7 @@ TEST(testInventory, getWeaponsTest) {
     weapon* w;
     std::vector<weapon*> wtest;
 
-    for(int n = 1; n < 6; n++) {
+    for (int n = 1; n < 6; n++) {
         w = new weapon(n);
         wb.push_back(w);
         i.addWeapon(w);
@@ -75,15 +78,17 @@ TEST(testInventory, getWeaponsTest) {
 
     wtest =  i.getWeapons();
 
-    for(int n = 0; n < wb.size(); n++) {
+    for (int n = 0; n < wb.size(); n++) {
         EXPECT_EQ(wb[n]->getName(), wtest[n]->getName());
         EXPECT_EQ(wb[n]->getDiceRolls(), wtest[n]->getDiceRolls());
         EXPECT_EQ(wb[n]->getDiceSize(), wtest[n]->getDiceSize());
-        EXPECT_EQ(wb[n]->getStatRequirements()[0], wtest[n]->getStatRequirements()[0]);
-        EXPECT_EQ(wb[n]->getStatRequirements()[1], wtest[n]->getStatRequirements()[1]);
-        EXPECT_EQ(wb[n]->getStatRequirements()[2], wtest[n]->getStatRequirements()[2]);
+        EXPECT_EQ(wb[n]->getStatRequirements()[0],
+        wtest[n]->getStatRequirements()[0]);
+        EXPECT_EQ(wb[n]->getStatRequirements()[1],
+        wtest[n]->getStatRequirements()[1]);
+        EXPECT_EQ(wb[n]->getStatRequirements()[2],
+        wtest[n]->getStatRequirements()[2]);
     }
-
 }
 
 TEST(testInventory, addConsumablesTest) {
@@ -92,7 +97,7 @@ TEST(testInventory, addConsumablesTest) {
     consumable con;
     std::vector<consumable*> ctest;
 
-    for(int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)
         c.push_back(new consumable(i));
 
     EXPECT_TRUE(i.isEmpty());
@@ -100,7 +105,7 @@ TEST(testInventory, addConsumablesTest) {
     EXPECT_FALSE(i.isEmpty());
 
     //makes sure it adds consumables specifically
-    for(int n = 0; n < c.size(); n++) {
+    for (int n = 0; n < c.size(); n++) {
         ctest.push_back(i.getConsumables()[0][n]);
     }
 
@@ -115,7 +120,7 @@ TEST(testInventory, addAbilityTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         a = new ability(n);
         ab.push_back(a);
         i.addAbility(a);
@@ -137,7 +142,7 @@ TEST(testInventory, addWeaponTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         w = new weapon(n);
         wb.push_back(w);
         i.addWeapon(w);
@@ -157,39 +162,38 @@ TEST(testInventory, deleteConsumablesTest) {
     consumable con;
     std::vector<consumable*> ctest;
 
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         c.push_back(new consumable(1));
 
     i.addConsumables(c);
-    EXPECT_TRUE(i.deleteConsumables(0,3));
-    i.removeConsumables(0,2);
-    EXPECT_TRUE(i.deleteConsumables(0,2));
-    i.removeConsumables(0,2);
-    EXPECT_FALSE(i.deleteConsumables(0,2));
+    EXPECT_TRUE(i.deleteConsumables(0, 3));
+    i.removeConsumables(0, 2);
+    EXPECT_TRUE(i.deleteConsumables(0, 2));
+    i.removeConsumables(0, 2);
+    EXPECT_FALSE(i.deleteConsumables(0, 2));
 }
 
 TEST(testInventory, removeConsumablesTest) {
     inventory i;
     std::vector<consumable*> c;
 
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         c.push_back(new consumable(1));
 
     EXPECT_TRUE(i.isEmpty());
     i.addConsumables(c);
     EXPECT_FALSE(i.isEmpty());
-    i.removeConsumables(0,2);
+    i.removeConsumables(0, 2);
     EXPECT_FALSE(i.isEmpty());
-    i.removeConsumables(0,2);
+    i.removeConsumables(0, 2);
     EXPECT_TRUE(i.isEmpty());
-
 }
 
 TEST(testInventory, removeAllConsumablesTest) {
     inventory i;
     std::vector<consumable*> c;
 
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         c.push_back(new consumable(i));
 
     EXPECT_TRUE(i.isEmpty());
@@ -205,7 +209,7 @@ TEST(testInventory, removeAbilityTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 1; n < 3; n++) {
+    for (int n = 1; n < 3; n++) {
         a = new ability(n);
         i.addAbility(a);
     }
@@ -225,7 +229,7 @@ TEST(testInventory, deleteWeaponTest) {
     inventory i;
     weapon* w;
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         w = new weapon(n);
         i.addWeapon(w);
     }
@@ -247,7 +251,7 @@ TEST(testInventory, removeWeaponTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         w = new weapon(n);
         i.addWeapon(w);
     }
@@ -269,7 +273,7 @@ TEST(testInventory, removeAllWeaponsTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         w = new weapon(n);
         i.addWeapon(w);
     }
@@ -287,17 +291,17 @@ TEST(testInventory, isEmptyTest) {
 
     EXPECT_TRUE(i.isEmpty());
 
-    for(int n = 0; n < 4; n++)
+    for (int n = 0; n < 4; n++)
         c.push_back(new consumable(n));
 
     i.addConsumables(c);
 
-    for(int n = 1; n < 3; n++) {
+    for (int n = 1; n < 3; n++) {
         a = new ability(n);
         i.addAbility(a);
     }
 
-    for(int n = 1; n < 4; n++) {
+    for (int n = 1; n < 4; n++) {
         w = new weapon(n);
         i.addWeapon(w);
     }
@@ -306,7 +310,7 @@ TEST(testInventory, isEmptyTest) {
     i.removeAllConsumables();
     i.removeAllWeapons();
 
-    for(int n = 0; n < 2; n++)
+    for (int n = 0; n < 2; n++)
         i.removeAbility(0);
 
     EXPECT_TRUE(i.isEmpty());

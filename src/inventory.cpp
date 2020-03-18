@@ -1,5 +1,8 @@
 #include "../include/inventory.h"
 
+#include <vector>
+#include <string>
+
 inventory::inventory() {
     //inventorySize = 10;
 }
@@ -41,44 +44,45 @@ void inventory::viewInventory() {
         std::cout << "\nWeapon's\n"
                   << "| Index |             Name              |  Stat Req | "
                   << "Lvl Req | Damage | Price |\n"
-                  << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+                  << std::setw(80) << std::setfill('-') << ' '
+                  << std::setfill(' ')
                   << std::endl;
         for (weapon* i : weapons) {
             index++;
-            std::cout << "|" << formatIndex(std::to_string(index)) << *i << std::endl;
+            std::cout << "|" << formatIndex(std::to_string(index)) << *i
+            << std::endl;
         }
     }
     if (!consumableStacks.empty()) {
         std::cout
-                << "Consumable's\n"
-                << "| Index |         Name          |  Type  | Price | Amount|\n"
-                << std::setw(59) << std::setfill('-') << ' ' << std::setfill(' ')
-                << std::endl;
+            << "Consumable's\n"
+            << "| Index |         Name          |  Type  | Price | Amount|\n"
+            << std::setw(59) << std::setfill('-') << ' ' << std::setfill(' ')
+            << std::endl;
 
         for (std::vector<consumable*> j : consumableStacks) {
             if (!j.empty()) {
                 index++;
                 consumable* c = j.front();
                 std::cout << "|" << formatIndex(std::to_string(index)) << *c
-                          << formatIndex(std::to_string(static_cast<int>(j.size())))
-                          << "|" << std::endl;
+                    << formatIndex(std::to_string(static_cast<int>(j.size())))
+                    << "|" << std::endl;
             }
         }
     }
     if (!abilities.empty()) {
         std::cout
-                << "Stored Abilities\n"
-                << "| Index |        Name         |   CD   |  Stat Req | "
-                << "Lvl Req | Damage | Price |\n"
-                << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
-                << std::endl;
+            << "Stored Abilities\n"
+            << "| Index |        Name         |   CD   |  Stat Req | "
+            << "Lvl Req | Damage | Price |\n"
+            << std::setw(80) << std::setfill('-') << ' ' << std::setfill(' ')
+            << std::endl;
         for (ability* k : abilities) {
             index++;
             std::cout << "|" << formatIndex(std::to_string(index)) << *k
                       << std::endl;
         }
     }
-
 }
 
 std::vector<std::vector<consumable*>> inventory::removeAllConsumables() {
@@ -119,7 +123,7 @@ bool inventory::deleteConsumables(unsigned int index, unsigned int amount) {
             delete consumableStacks[index].front();
             consumableStacks[index].erase(consumableStacks[index].begin());
         }
-        if(consumableStacks[index].empty())
+        if (consumableStacks[index].empty())
             consumableStacks.erase(consumableStacks.begin() + index);
         return true;
     }
@@ -165,7 +169,7 @@ std::vector<consumable*> inventory::removeConsumables(unsigned int index,
             tempvector.push_back(consumableStacks[index].front());
             consumableStacks[index].erase(consumableStacks[index].begin());
         }
-        if(consumableStacks[index].empty())
+        if (consumableStacks[index].empty())
             consumableStacks.erase(consumableStacks.begin() + index);
     }
     return tempvector;
